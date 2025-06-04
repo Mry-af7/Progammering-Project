@@ -1,0 +1,15 @@
+{
+  "name": "progammering-project",
+  "version": "1.0.0",
+  "description": "📌 Projectbeschrijving\r Deze webapplicatie is ontwikkeld voor de Career Launch beurs aan de Erasmushogeschool Brussel. Het platform brengt studenten en bedrijven digitaal samen en biedt een overzicht van beschikbare stageplaatsen, vacatures, bedrijfsprofielen en beursdetails.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
