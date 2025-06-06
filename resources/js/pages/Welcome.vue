@@ -301,5 +301,5 @@ export default {
         Head,
         Link,
     },
-}
+  }
 </script>
