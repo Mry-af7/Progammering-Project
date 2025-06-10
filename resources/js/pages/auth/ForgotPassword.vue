@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/AuthLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, Link } from '@inertiajs/vue3'; // ✅ Link geïmporteerd
 import { LoaderCircle } from 'lucide-vue-next';
 
 defineProps<{
@@ -24,7 +24,7 @@ const submit = () => {
 <template>
 
     <!-- Navigation -->
-    <nav class="bg-orange-50 py-4 pb-0">
+    <nav class="bg-orange-50 py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center">
                 <!-- Logo -->
@@ -41,11 +41,13 @@ const submit = () => {
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden md:flex items-center space-x-2">
-                    <button
+                <div class="hidden md:flex justify-center items-center space-x-2">
+                    <!-- ✅ Home knop met Inertia Link -->
+                    <Link href="/home"
                         class="bg-orange-500 text-white px-6 py-2 rounded-full font-medium hover:bg-orange-600 transition-colors">
                         Home
-                    </button>
+                    </Link>
+
                     <button
                         class="bg-orange-500 text-white px-6 py-2 rounded-full font-medium hover:bg-orange-600 transition-colors">
                         Info

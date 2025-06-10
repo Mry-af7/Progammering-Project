@@ -13,6 +13,10 @@ Route::get('/contact', function () {
     return Inertia::render('Contact'); // 'Contact' verwijst naar Contact.vue
 });
 
+Route::get('/home', function () {
+    return Inertia::render('Welcome');
+});
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
