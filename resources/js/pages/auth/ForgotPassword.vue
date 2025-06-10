@@ -23,6 +23,10 @@ const submit = () => {
 
 <template>
     <AuthLayout title="Forgot password" description="Enter your email to receive a password reset link">
+        <h1 class="text-lg font-semibold border-b border-gray-300 pb-2 mb-6 text-center">
+  Wachtwoord vergeten
+</h1>
+
         <Head title="Forgot password" />
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
