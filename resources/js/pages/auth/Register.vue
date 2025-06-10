@@ -2,8 +2,9 @@
 
 import { usePage, useForm } from '@inertiajs/vue3';
 
-const { props } = usePage();
-const roleType = props.ziggy.query?.type ?? 'student';
+const { url } = usePage();
+const roleType = url.includes('type=bedrijf') ? 'bedrijf' : 'student';
+
 
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
