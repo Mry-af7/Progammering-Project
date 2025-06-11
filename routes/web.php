@@ -41,7 +41,4 @@ Route::get('/register-bedrijf', function () {
 //profiel bedrijf;
 Route::post('/bedrijf/profiel/update', [CompanyController::class, 'update'])->name('company.profile.update');
 
-// Bedrijfsprofielpagina tonen
-Route::get('/bedrijf/profiel', function () {
-    return Inertia::render('profielpaginabedrijf');
-})->name('company.profile');
+
