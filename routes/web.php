@@ -37,3 +37,11 @@ Route::get('/register', [RegisteredUserController::class, 'create'])->name('regi
 Route::get('/register-bedrijf', function () {
     return Inertia::render('auth/Register-bedrijf');
 })->name('register.bedrijf');
+
+//profiel bedrijf;
+Route::post('/bedrijf/profiel/update', [CompanyController::class, 'update'])->name('company.profile.update');
+
+// Bedrijfsprofielpagina tonen
+Route::get('/bedrijf/profiel', function () {
+    return Inertia::render('profielpaginabedrijf');
+})->name('company.profile');
