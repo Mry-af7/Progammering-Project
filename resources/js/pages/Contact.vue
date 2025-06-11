@@ -58,8 +58,11 @@
       </div>
       <div>
         <h3>Hulp</h3>
-        <p>*FAQ</p>
+        <Link href="/faq" class="hover:text-white transition-colors">
+        *FAQ
+        </Link>
       </div>
+
       <div>
         <h3>Over Ons</h3>
         <p>*Wie zijn we?</p>
@@ -71,6 +74,9 @@
 <script setup lang="ts">
 // Voor router ondersteuning (optioneel later)
 // const route = useRoute();
+
+import { Link } from '@inertiajs/vue3'
+
 
 function isActive(page: string) {
   return page === 'contact'; // Simuleer actieve pagina

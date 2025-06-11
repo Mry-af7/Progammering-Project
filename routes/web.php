@@ -37,3 +37,8 @@ Route::get('/register', [RegisteredUserController::class, 'create'])->name('regi
 Route::get('/register-bedrijf', function () {
     return Inertia::render('auth/Register-bedrijf');
 })->name('register.bedrijf');
+
+Route::get('/faq', function () {
+    return Inertia::render('Faq');
+});
+
