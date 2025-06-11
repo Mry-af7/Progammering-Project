@@ -18,8 +18,10 @@ Route::get('/home', function () {
 });
 
 Route::get('/profielpagina', function () {
-    return Inertia::render('Profielpagina');
-});
+    return Inertia::render('Profielpagina', [
+        'user' => Auth::user(),
+    ]);
+})->middleware('auth');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
