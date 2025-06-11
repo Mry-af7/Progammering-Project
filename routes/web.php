@@ -115,4 +115,25 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/settings.php';
+<<<<<<< profiel-bedrijf
 require __DIR__.'/auth.php';
+
+//voor registratie bedrijf;
+use App\Http\Controllers\Auth\RegisteredUserController;
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+
+// AL DEDICATED ROUTE VOOR BEDRIJVEN
+Route::get('/register-bedrijf', function () {
+    return Inertia::render('auth/Register-bedrijf');
+})->name('register.bedrijf');
+
+//profiel bedrijf;
+Route::post('/bedrijf/profiel/update', [CompanyController::class, 'update'])->name('company.profile.update');
+
+// Bedrijfsprofielpagina tonen
+Route::get('/bedrijf/profiel', function () {
+    return Inertia::render('profielpaginabedrijf');
+})->name('company.profile');
+=======
+require __DIR__.'/auth.php';
+>>>>>>> main
