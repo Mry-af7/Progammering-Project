@@ -7,11 +7,6 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
-<<<<<<< HEAD
-
-
-Route::get('dashboard', function () {
-=======
 // Info route toevoegen
 Route::get('/info', function () {
     return Inertia::render('Info');
@@ -116,10 +111,8 @@ Route::get('/berichten/nieuw', function () {
 })->name('messages.create');
 
 Route::get('/dashboard', function () {
->>>>>>> 1d5321b4edd4559d3eda39ed4a923714f1369a55
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

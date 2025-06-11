@@ -29,9 +29,8 @@
                     <!-- Desktop Navigation Links -->
                     <div class="hidden md:flex items-center space-x-1">
                         <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Home</Link>
-                        <Link href="/students" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Student Profiles</Link>
-                        <Link href="/companies" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Voor Bedrijven</Link>
-                        <Link href="/events" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Speeddate Events</Link>
+                        <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Info</Link>
+                        <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Favorieten</Link>
                         <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</Link>
                         
                         <div class="flex items-center ml-6">
