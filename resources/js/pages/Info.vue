@@ -1,385 +1,218 @@
 <template>
-    <div class="info-page">
-      <!-- Header -->
-      <header class="header">
-        <div class="header-container">
-          <img src="/images/erasmus-logo.png" alt="Erasmus" class="logo" />
-          <nav class="nav-tabs">
-            <button v-for="item in navItems" :key="item.key" 
-                    :class="['nav-tab', { active: item.key === 'info' }]" 
-                    @click="navigate(item.key)">
-              {{ item.label }}
+    <div class="min-h-screen bg-orange-50">
+        <Head title="Info" />
+        
+        <!-- Navigation -->
+        <nav class="bg-orange-50/90 backdrop-blur-sm shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Logo -->
+                    <Link href="/" class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <span class="text-white font-bold text-lg">E</span>
+                        </div>
+                        <div>
+                            <div class="text-gray-900 font-bold text-xl">erasmus</div>
+                            <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
+                        </div>
+                    </Link>
+                    
+                    <!-- Mobile menu button -->
+                    <div class="md:hidden">
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg text-gray-700 hover:bg-orange-100">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Desktop Navigation Links -->
+                    <div class="hidden md:flex items-center space-x-1">
+                        <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Home</Link>
+                        <Link href="/info" class="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg font-medium">Info</Link>
+                        <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Favorieten</Link>
+                        <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</Link>
+                        
+                        <div class="flex items-center ml-6">
+                            <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Inloggen</Link>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu -->
+                <div v-show="mobileMenuOpen" class="md:hidden mt-4 pb-4 border-t border-orange-200">
+                    <div class="flex flex-col space-y-2 pt-4">
+                        <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Home</Link>
+                        <Link href="/info" class="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg font-medium">Info</Link>
+                        <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Favorieten</Link>
+                        <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Contact</Link>
+                        <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Inloggen</Link>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <!-- Page Header -->
+            <div class="mb-12">
+                <div class="bg-white rounded-3xl p-8 shadow-sm">
+                    <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Info</h1>
+                    <div class="w-20 h-1 bg-gradient-to-r from-orange-500 to-red-500 rounded-full"></div>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="bg-white rounded-3xl shadow-sm overflow-hidden">
+                <div class="p-8 lg:p-12">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-8 leading-tight">
+                        Career Launch 2025: Ontmoet de toekomst van technologie en design!
+                    </h2>
+                    
+                    <div class="prose prose-lg max-w-none">
+                        <div class="mb-8">
+                            <h3 class="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
+                                <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center mr-3">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                                    </svg>
+                                </div>
+                                Voor studenten:
+                            </h3>
+                            
+                            <div class="space-y-6 text-gray-600 text-lg leading-relaxed">
+                                <p>Op zoek naar een nieuw job om je technische en IT-vaardigheden te versterken? Grijp dan de kans om deel te nemen aan de Career Launch 2025, georganiseerd door het departement Design & Technologie van de Erasmushogeschool Brussel.</p>
+                                
+                                <p>Op DD-MM-YYYY komen de beste bedrijven samen voor het netwerkevent van de design & technologie opleidingen. Dit is jouw kans om de beste bedrijven uit topopleidingen zoals Multimedia & Creatieve Technologie, Toegepaste Informatica, en Internet of Things te ontmoeten.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-8 mb-8">
+                            <h4 class="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                                <div class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center mr-3">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                Waarom je erbij moet zijn:
+                            </h4>
+                            <ul class="space-y-4 text-gray-600">
+                                <li class="flex items-start">
+                                    <div class="w-2 h-2 bg-orange-500 rounded-full mt-3 mr-4 flex-shrink-0"></div>
+                                    <span>Ontmoet getalenteerde studenten die klaar zijn om jouw bedrijf te versterken.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="w-2 h-2 bg-orange-500 rounded-full mt-3 mr-4 flex-shrink-0"></div>
+                                    <span>Presenteer jouw organisatie aan potentiële stagiairs, bachelorproefpartners en toekomstige medewerkers.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="w-2 h-2 bg-orange-500 rounded-full mt-3 mr-4 flex-shrink-0"></div>
+                                    <span>Breid je netwerk uit en leg waardevolle contacten met de volgende generatie professionals.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-white border-l-4 border-orange-500 pl-6 py-4">
+                            <p class="text-gray-600 text-lg">Mis deze kans zeker niet en zet DD-MM-YYYY alvast in je agenda. Schrijf je hieronder in om op de hoogte te blijven!</p>
+                        </div>
+                    </div>
+
+                    <!-- CTA Section -->
+                    <div class="mt-12 text-center">
+                        <div class="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-8 text-white">
+                            <h3 class="text-2xl font-bold mb-4">Klaar om deel te nemen?</h3>
+                            <p class="text-orange-100 mb-6">Registreer je nu voor Career Launch 2025</p>
+                            <button class="bg-white text-orange-600 px-8 py-3 rounded-xl font-semibold hover:bg-orange-50 transition-colors">
+                                Schrijf je nu in
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-orange-500 text-white py-16 mt-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center">
+                                <span class="text-white font-bold text-lg">E</span>
+                            </div>
+                            <div class="text-white font-bold text-xl">erasmus</div>
+                        </div>
+                        <p class="text-orange-100 text-sm mb-4">
+                            Hogeschool Brussel<br>
+                            Connecting talent with opportunity
+                        </p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-orange-200 hover:text-white transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="text-orange-200 hover:text-white transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Section -->
+                    <div>
+                        <h3 class="font-semibold mb-4">Contact</h3>
+                        <ul class="space-y-2 text-orange-100 text-sm">
+                            <li>*E-mail</li>
+                            <li>*Telefoon</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Hulp Section -->
+                    <div>
+                        <h3 class="font-semibold mb-4">Hulp</h3>
+                        <ul class="space-y-2 text-orange-100 text-sm">
+                            <li>*FAQ</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Over Ons Section -->
+                    <div>
+                        <h3 class="font-semibold mb-4">Over Ons</h3>
+                        <ul class="space-y-2 text-orange-100 text-sm">
+                            <li>*Wie zijn we?</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="border-t border-orange-400 mt-12 pt-8 text-center text-orange-100 text-sm">
+                    <p>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden.</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Toast -->
+        <div v-if="toast.show" :class="['fixed top-4 right-4 bg-white rounded-xl shadow-lg p-4 z-50 flex items-center max-w-sm border-l-4', toast.type === 'success' ? 'border-green-500' : 'border-blue-500']">
+            <span class="flex-1">{{ toast.message }}</span>
+            <button @click="toast.show = false" class="ml-4 text-gray-400 hover:text-gray-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
             </button>
-          </nav>
-          <div class="search-container">
-            <input type="search" placeholder="Search" v-model="searchTerm" class="search-input" />
-            <span class="search-icon">🔍</span>
-          </div>
         </div>
-      </header>
-  
-      <!-- Main Content -->
-      <main class="main">
-        <div class="container">
-          <div class="page-header">
-            <h1 class="title">Info</h1>
-            <div class="underline"></div>
-          </div>
-  
-          <!-- Content -->
-          <div class="content">
-            <h2 class="event-title">Career Launch 2025: Ontmoet de toekomst van technologie en design!</h2>
-            
-            <div class="section">
-              <h3>Voor studenten:</h3>
-              
-              <p>Op zoek naar een nieuw job om je technische en IT-vaardigheden te versterken? Grijp dan de kans om deel te nemen aan de Career Launch 2025, georganiseerd door het departement Design & Technologie van de Erasmushogeschool Brussel.</p>
-              
-              <p>Op DD-MM-YYYY komen de beste bedrijven samen voor het netwerkevent van de design & technologie opleidingen. Dit is jouw kans om de beste bedrijven uit topopleidingen zoals Multimedia & Creatieve Technologie, Toegepaste Informatica, en Internet of Things te ontmoeten.</p>
-              
-              <div class="benefits">
-                <h4>Waarom je erbij moet zijn:</h4>
-                <ul>
-                  <li>Ontmoet getalenteerde studenten die klaar zijn om jouw bedrijf te versterken.</li>
-                  <li>Presenteer jouw organisatie aan potentiële stagiairs, bachelorproefpartners en toekomstige medewerkers.</li>
-                  <li>Breid je netwerk uit en leg waardevolle contacten met de volgende generatie professionals.</li>
-                </ul>
-              </div>
-              
-              <p>Mis deze kans zeker niet en zet DD-MM-YYYY alvast in je agenda. Schrijf je hieronder in om op de hoogte te blijven!</p>
-            </div>
-          </div>
-        </div>
-      </main>
-  
-      <!-- Footer -->
-      <footer class="footer">
-        <div class="footer-container">
-          <!-- Contact Section -->
-          <div class="footer-section contact">
-            <h3>Contact</h3>
-            <div class="contact-item">
-              <span class="label">*E-mail</span>
-            </div>
-            <div class="contact-item">
-              <span class="label">*Telefoon</span>
-            </div>
-          </div>
-  
-          <!-- Help Section -->
-          <div class="footer-section help">
-            <h3>Hulp</h3>
-            <div class="help-item">
-              <span class="label">*FAQ</span>
-            </div>
-          </div>
-  
-          <!-- Over Ons Section -->
-          <div class="footer-section about">
-            <h3>Over Ons</h3>
-            <div class="about-item">
-              <span class="label">*Wie zijn we?</span>
-            </div>
-          </div>
-  
-          <!-- Right Contact Section -->
-          <div class="footer-section contact-right">
-            <h3>Contact</h3>
-            <div class="contact-item">
-              <span class="label">*E-mail</span>
-            </div>
-            <div class="contact-item">
-              <span class="label">*Telefoon</span>
-            </div>
-          </div>
-        </div>
-      </footer>
-  
-      <!-- Toast -->
-      <div v-if="toast.show" :class="['toast', `toast-${toast.type}`]">
-        {{ toast.message }}
-        <button @click="toast.show = false">×</button>
-      </div>
     </div>
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue'
-  import { router } from '@inertiajs/vue3'
-  
-  const searchTerm = ref('')
-  const toast = ref({ show: false, message: '', type: 'info' })
-  
-  const navItems = [
-    { key: 'home', label: 'Home' },
-    { key: 'info', label: 'Info' },
-    { key: 'favorieten', label: 'Favorieten' },
-    { key: 'contact', label: 'Contact' }
-  ]
-  
-  function navigate(page) {
-    const routes = { 
-      home: '/', 
-      info: '/info', 
-      favorieten: '/favorieten', 
-      contact: '/contact' 
-    }
-    router.visit(routes[page])
-  }
-  
-  function showToast(message, type = 'info') {
+</template>
+
+<script setup>
+import { Head, Link } from '@inertiajs/vue3'
+import { ref } from 'vue'
+
+const mobileMenuOpen = ref(false)
+const toast = ref({ show: false, message: '', type: 'info' })
+
+function showToast(message, type = 'info') {
     toast.value = { show: true, message, type }
     setTimeout(() => toast.value.show = false, 3000)
-  }
-  </script>
-  
-  <style scoped>
-  .info-page {
-    min-height: 100vh;
-    background: #f8fafc;
-    font-family: system-ui, sans-serif;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Header */
-  .header {
-    background: white;
-    border-bottom: 1px solid #e2e8f0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  
-  .header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    height: 64px;
-    gap: 48px;
-  }
-  
-  .logo { height: 32px; }
-  
-  .nav-tabs {
-    display: flex;
-    gap: 8px;
-    flex: 1;
-  }
-  
-  .nav-tab {
-    padding: 8px 16px;
-    border: none;
-    background: transparent;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    color: #64748b;
-    transition: all 0.2s;
-  }
-  
-  .nav-tab:hover { background: #f1f5f9; color: #334155; }
-  .nav-tab.active { background: #dc5a41; color: white; }
-  
-  .search-container { position: relative; }
-  
-  .search-input {
-    width: 240px;
-    padding: 8px 12px 8px 36px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    font-size: 14px;
-    background: #f9fafb;
-  }
-  
-  .search-input:focus {
-    outline: none;
-    border-color: #dc5a41;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(220, 90, 65, 0.1);
-  }
-  
-  .search-icon {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #9ca3af;
-  }
-  
-  /* Main */
-  .main { 
-    flex: 1;
-    background: white;
-  }
-  
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 32px 24px;
-  }
-  
-  .page-header { 
-    margin-bottom: 32px;
-    border-bottom: 2px solid #e5e7eb;
-    padding-bottom: 16px;
-  }
-  
-  .title {
-    font-size: 28px;
-    font-weight: 700;
-    color: #1e293b;
-    margin: 0;
-  }
-  
-  .underline {
-    width: 60px;
-    height: 3px;
-    background: #dc5a41;
-    margin-top: 8px;
-    border-radius: 2px;
-  }
-  
-  /* Content */
-  .content {
-    max-width: 800px;
-    line-height: 1.6;
-  }
-  
-  .event-title {
-    font-size: 24px;
-    font-weight: 600;
-    color: #1e293b;
-    margin: 0 0 24px 0;
-    line-height: 1.3;
-  }
-  
-  .section h3 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #1e293b;
-    margin: 0 0 16px 0;
-  }
-  
-  .content p {
-    color: #374151;
-    margin: 0 0 16px 0;
-    font-size: 16px;
-  }
-  
-  .benefits {
-    margin: 24px 0;
-  }
-  
-  .benefits h4 {
-    font-size: 18px;
-    font-weight: 600;
-    color: #1e293b;
-    margin: 0 0 12px 0;
-  }
-  
-  .benefits ul {
-    list-style: disc;
-    margin-left: 20px;
-    color: #374151;
-  }
-  
-  .benefits li {
-    margin-bottom: 8px;
-  }
-  
-  /* Footer */
-  .footer {
-    background: #dc5a41;
-    color: white;
-    margin-top: auto;
-  }
-  
-  .footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 48px 24px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 48px;
-  }
-  
-  .footer-section h3 {
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0 0 24px 0;
-    color: white;
-  }
-  
-  .contact-item, .help-item, .about-item {
-    margin-bottom: 16px;
-  }
-  
-  .label {
-    color: #fed7aa;
-    font-size: 14px;
-  }
-  
-  /* Toast */
-  .toast {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    display: flex;
-    align-items: center;
-    padding: 16px;
-    max-width: 400px;
-    z-index: 1000;
-    border-left: 4px solid;
-  }
-  
-  .toast-success { border-left-color: #10b981; }
-  .toast-info { border-left-color: #3b82f6; }
-  
-  .toast button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    color: #9ca3af;
-    margin-left: 12px;
-  }
-  
-  /* Responsive */
-  @media (max-width: 1024px) {
-    .footer-container {
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .header-container { 
-      flex-wrap: wrap; 
-      height: auto; 
-      padding: 16px; 
-      gap: 16px; 
-    }
-    
-    .nav-tabs { 
-      order: 3; 
-      width: 100%; 
-      justify-content: center; 
-    }
-    
-    .search-input { width: 200px; }
-    .container { padding: 20px 16px; }
-    .event-title { font-size: 20px; }
-    
-    .footer-container {
-      grid-template-columns: 1fr;
-      gap: 24px;
-      text-align: center;
-    }
-  }
-  </style>
+}
+</script>
