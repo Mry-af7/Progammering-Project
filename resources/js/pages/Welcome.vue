@@ -55,6 +55,7 @@
                       </div>
                       
                       <!-- Profile Icon -->
+                       <Link href="/profielpagina">
                       <div class="ml-4">
                           <div class="w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center">
                               <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -62,6 +63,7 @@
                               </svg>
                           </div>
                       </div>
+                      </Link>
                   </div>
               </div>
           </div>

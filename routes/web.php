@@ -20,6 +20,11 @@ Route::get('/home', function () {
     return Inertia::render('Welcome');
 });
 
+Route::get('/profielpagina', function () {
+    return Inertia::render('Profielpagina', [
+        'user' => Auth::user(),
+    ]);
+})->middleware('auth');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
