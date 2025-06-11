@@ -199,7 +199,13 @@ const submit = () => {
 
 <div class="text-center text-sm text-muted-foreground">
   Don't have an account?
- <TextLink :href="route('register')" :tabindex="5">Sign up</TextLink>
+ <!--$<TextLink :href="route('register')" :tabindex="5">Sign up</TextLink> VERVANG DIT MET;-->
+ <TextLink
+  :href="activeTab === 'bedrijf' ? route('register.bedrijf') : route('register')"
+  :tabindex="5">
+  Sign up
+</TextLink>
+
 </div>
 </form>
 </main>
