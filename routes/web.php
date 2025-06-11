@@ -7,6 +7,9 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
+Route::get('/favorieten', function () {
+    return Inertia::render('Favorieten'); // 'Contact' verwijst naar Contact.vue
+});
 
 
 Route::get('/contact', function () {
