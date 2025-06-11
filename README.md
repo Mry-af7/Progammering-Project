@@ -1,35 +1,45 @@
 # Progammering-Project
-📌 Projectbeschrijving
-Deze webapplicatie is ontwikkeld voor de Career Launch beurs aan de Erasmushogeschool Brussel. Het platform brengt studenten en bedrijven digitaal samen en biedt een overzicht van beschikbare stageplaatsen, vacatures, bedrijfsprofielen en beursdetails.
+**📌 Projectbeschrijving**
 
-🎯 Functionaliteiten
+Voor de Career Launch beurs aan de Erasmushogeschool Brussel hebben wij een webapplicatie ontwikkeld die studenten en bedrijven op een digitale manier met elkaar in contact brengt. Op het platform vinden gebruikers een overzicht van stageplaatsen, vacatures, informatie over bedrijven en praktische details over de beurs zelf. 
 
-🔐 Login- en registratiepagina: Studenten en bedrijven kunnen zich veilig registreren en inloggen om toegang te krijgen tot het platform.
+** **
+**Functionaliteiten**
 
-🏠 Duidelijke homepage: De homepage biedt snelle toegang tot belangrijke secties zoals sectoren, beursinformatie, locatie en extra uitleg.
+- Inlog- en registratiepagina:    
+Studenten en bedrijven kunnen zich registreren en veilig inloggen om toegang te krijgen tot de website.
 
-📣 Interactie via sociale media: Klikbare iconen van sociale media zorgen voor meer bereik en verbinding.
+- Overzichtelijke homepage:  
+De homepage biedt snelle en gemakkelijke toegang tot belangrijke onderdelen zoals de navigatiebalk, een afspraakknop, informatie over bedrijven,...
 
-📍 Google Maps integratie: De exacte locatie van de beurs wordt weergegeven via een interactieve kaart.
+- Interactie met bedrijven:  
+Klik op een bedrijf voor meer info en een link naar de website.
 
-🆘 Vast hulpicoon: Een statisch zichtbaar icoon biedt directe toegang tot hulp of ondersteuning tijdens het browsen.
+- Google Maps integratie:  
+De exacte locatie van de beurs wordt weergegeven op een interactieve kaart.
 
-❓ FAQ-pagina: Veelgestelde vragen worden gebundeld en overzichtelijk beantwoord.
+- Vast hulppictogram:  
+Een zichtbaar statisch pictogram biedt directe toegang tot hulp of assistentie tijdens het browsen.
 
-📰 Bedrijfsposts / digitale flyers: Bedrijven kunnen korte aankondigingen of promoties plaatsen, vergelijkbaar met flyers.
+- FAQ-pagina:  
+Veelgestelde vragen worden gegroepeerd en voorzien van duidelijke antwoorden.
 
-🗓️ Beursinformatie: Alle praktische details over de datum, locatie en tijdstip van het evenement zijn duidelijk weergegeven.
+- Beursinformatie:  
+Alle praktische details over de datum, plaats en tijd van het evenement worden duidelijk weergegeven.
 
-🛠️ Technologieën
+** **
+**Technologieën**
 
-Frontend: HTML, CSS, JavaScript (eventueel gebruik van React voor meer dynamiek)
+Frontend: HTML, CSS, JavaScript 
 
 Backend: PHP
 
-Database: MySQL
+Database: SQL Lite
 
-👨‍💻 Team
-Dit project werd gerealiseerd door studenten van het eerste jaar Toegepaste Informatica aan de Erasmushogeschool Brussel:
+** **
+**Team**
+
+Dit project werd gerealiseerd door een groep van 6 studenten van het eerste jaar Toegepaste Informatica aan de Erasmushogeschool Brussel:
 
 ZANNOU Jawad
 
@@ -43,12 +53,10 @@ M'BARKI Asma
 
 Zerouali Amine
 
-📆 Deadline
-Het project moet volledig afgewerkt en gepresenteerd worden tegen het einde van het semester (de exacte datum wordt bepaald door de docent).
+** **
+**Bronnen**
 
-📁 Structuur
-...
-
-Bronnen
-
-ChatGPT
+- ChatGPT
+- Figma
+- Laravel
+- YouTube 
