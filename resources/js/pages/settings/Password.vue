@@ -55,7 +55,7 @@ const updatePassword = () => {
         <Head title="Wachtwoordinstellingen" />
 
         <SettingsLayout>
-            <div class="space-y-6">
+            <div class="bg-orange-50 space-y-6">
                 <HeadingSmall title="Wachtwoord bijwerken" description="Zorg ervoor dat uw account een lang, willekeurig wachtwoord gebruikt om veilig te blijven" />
 
                 <form @submit.prevent="updatePassword" class="space-y-6">
@@ -101,7 +101,7 @@ const updatePassword = () => {
                     </div>
 
                     <div class="flex items-center gap-4">
-                        <Button :disabled="form.processing">Wachtwoord opslaan</Button>
+                        <Button :disabled="form.processing" class="bg-orange-500 hover:bg-orange-600">Wachtwoord opslaan</Button>
 
                         <Transition
                             enter-active-class="transition ease-in-out"
