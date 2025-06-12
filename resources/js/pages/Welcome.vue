@@ -371,18 +371,13 @@
                         <span class="text-xs font-medium text-gray-600">Engineering opportunities</span>
                     </div>
                 </div>
-
-                <!-- Company CTA -->
-                <div class="bg-white rounded-2xl p-8 max-w-2xl mx-auto">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Ben je een bedrijf?</h3>
-                    <p class="text-gray-600 mb-6">Ontdek getalenteerde Erasmus studenten voor stages, studentjobs en graduate posities.</p>
-                    <Link href="/companies" class="inline-flex items-center bg-orange-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-orange-600 transition-colors">
-                        Bekijk student talent
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                        </svg>
-                    </Link>
-                </div>
+            </div>
+            <div class="mt-4 flex justify-center">
+            <Link
+                 href="/companies"
+                 class="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-red-600 hover:shadow-lg transition-all transform hover:scale-105">
+                 Ontdek hier alle bedrijven!
+            </Link>
             </div>
         </section>
 
