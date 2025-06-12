@@ -438,9 +438,7 @@
                         <h4 class="font-semibold mb-4">Voor studenten</h4>
                         <ul class="space-y-2 text-orange-100 text-sm">
                             <li><Link href="/register?type=student" class="hover:text-white transition-colors">Maak je profiel</Link></li>
-                            <li><Link href="/students" class="hover:text-white transition-colors">Browse profielen</Link></li>
-                            <li><Link href="/events" class="hover:text-white transition-colors">Speeddate events</Link></li>
-                            <li><Link href="/tips" class="hover:text-white transition-colors">Profiel tips</Link></li>
+                            <li><Link href="/afspraak" class="hover:text-white transition-colors">Speeddate events</Link></li>
                         </ul>
                     </div>
                     
@@ -448,19 +446,15 @@
                         <h4 class="font-semibold mb-4">Voor bedrijven</h4>
                         <ul class="space-y-2 text-orange-100 text-sm">
                             <li><Link href="/companies" class="hover:text-white transition-colors">Browse studenten</Link></li>
-                            <li><Link href="/pricing" class="hover:text-white transition-colors">Prijzen</Link></li>
-                            <li><Link href="/events" class="hover:text-white transition-colors">Speeddate events</Link></li>
-                            <li><Link href="/contact" class="hover:text-white transition-colors">Partnership</Link></li>
                         </ul>
                     </div>
                     
                     <div>
                         <h4 class="font-semibold mb-4">Support</h4>
                         <ul class="space-y-2 text-orange-100 text-sm">
-                            <li><Link href="/help" class="hover:text-white transition-colors">Help centrum</Link></li>
                             <li><Link href="/contact" class="hover:text-white transition-colors">Contact</Link></li>
-                            <li><Link href="/privacy" class="hover:text-white transition-colors">Privacy beleid</Link></li>
-                            <li><Link href="/terms" class="hover:text-white transition-colors">Voorwaarden</Link></li>
+                            <!--<li><Link href="/privacy" class="hover:text-white transition-colors">Privacy beleid</Link></li> Misschien als extra toevoegen-->
+                            <!--<li><Link href="/terms" class="hover:text-white transition-colors">Voorwaarden</Link></li> Misschien als extra toevoegen-->
                         </ul>
                     </div>
                 </div>

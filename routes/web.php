@@ -197,6 +197,10 @@ Route::get('/home', function () {
     return Inertia::render('Welcome');
 })->name('home.alt');
 
+Route::get('/afspraak', function () {
+    return Inertia::render('Afspraak');
+})->name('afspraak');
+
 // API routes voor favorieten functionaliteit
 Route::delete('/favorites/{id}', function ($id) {
     // Simuleer het verwijderen van een favoriet
