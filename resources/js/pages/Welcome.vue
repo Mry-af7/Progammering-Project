@@ -4,11 +4,94 @@
         <Navigation />
         
         <!-- Hero Section -->
-        <section class="bg-orange-50 py-16">
-            <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-5xl font-bold mb-4 text-orange-600">Welkom bij Career Launch 2025</h1>
-                <p class="text-lg mb-8 text-gray-700">Dé plek waar studenten en bedrijven elkaar vinden voor stages, jobs en meer!</p>
-                <Link href="/register" class="bg-orange-500 text-white px-8 py-3 rounded text-lg font-semibold hover:bg-orange-600">Registreer nu</Link>
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <div class="mb-6">
+                        <span class="bg-orange-100 text-orange-700 px-4 py-2 rounded-full text-sm font-semibold">
+                            🔥 247 studenten ontdekt deze maand
+                        </span>
+                    </div>
+                    
+                    <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                        Showcase je talent.
+                        <span class="text-orange-500">
+                            Laat bedrijven jou vinden
+                        </span>
+                    </h1>
+                    
+                    <p class="text-gray-600 text-xl mb-10 max-w-lg leading-relaxed">
+                        Stop met eindeloos solliciteren. Bouw één keer je profiel en laat stage- en jobkansen naar jou toe komen.
+                    </p>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                        <Link href="/register" class="bg-orange-500 text-white px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-600 hover:shadow-lg transition-all">
+                            Ik ben een student
+                        </Link>
+                        <Link href="/register?type=bedrijf" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
+                            Ik ben een bedrijf
+                        </Link>
+                    </div>
+                    
+                    <!-- Trust indicators -->
+                    <div class="flex items-center gap-6 text-sm text-gray-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Altijd gratis voor studenten</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Directe contact met werkgevers</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Login link for existing users -->
+                    <p class="text-gray-500 text-sm text-center sm:text-left mt-6">
+                        Heb je al een profiel? 
+                        <Link href="/login" class="text-orange-600 hover:text-orange-700 font-medium">Log hier in</Link>
+                    </p>
+                </div>
+                
+                <!-- Hero Illustration -->
+                <div class="flex justify-center lg:justify-end">
+                    <div class="relative">
+                        <div class="w-80 h-80 bg-gradient-to-br from-orange-100 to-red-100 rounded-3xl flex items-center justify-center relative overflow-hidden shadow-2xl">
+                            <!-- Profile cards floating -->
+                            <div class="absolute top-6 left-6 bg-white rounded-xl p-3 shadow-lg transform rotate-12 animate-pulse">
+                                <div class="w-8 h-8 bg-orange-400 rounded-full mb-2"></div>
+                                <div class="w-16 h-2 bg-gray-200 rounded"></div>
+                                <div class="w-12 h-1 bg-gray-100 rounded mt-1"></div>
+                            </div>
+                            
+                            <div class="absolute top-8 right-6 bg-white rounded-xl p-3 shadow-lg transform -rotate-6 animate-bounce">
+                                <div class="w-8 h-8 bg-red-400 rounded-full mb-2"></div>
+                                <div class="w-16 h-2 bg-gray-200 rounded"></div>
+                                <div class="w-12 h-1 bg-gray-100 rounded mt-1"></div>
+                            </div>
+                            
+                            <div class="absolute bottom-8 left-8 bg-white rounded-xl p-3 shadow-lg transform rotate-6">
+                                <div class="w-8 h-8 bg-orange-300 rounded-full mb-2"></div>
+                                <div class="w-16 h-2 bg-gray-200 rounded"></div>
+                                <div class="w-12 h-1 bg-gray-100 rounded mt-1"></div>
+                            </div>
+                            
+                            <!-- Central connection visual -->
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                </div>
+                                <div class="text-gray-700 font-semibold text-sm">Instant Match</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -150,21 +233,21 @@
                     <!-- Company logos with hover effects -->
                     <div class="flex flex-col items-center space-y-3 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100">
                         <div class="flex items-center justify-center h-16 w-32 bg-white rounded-lg shadow-sm p-4">
-                            <img src="/images/logos/accenture-logo.svg" alt="Accenture" class="h-8 w-auto max-w-24">
+                            <img src="/images/logos/accenture-logo.png" alt="Accenture" class="h-8 w-auto max-w-24">
                         </div>
                         <span class="text-xs font-medium text-gray-600">12 stages deze maand</span>
                     </div>
 
                     <div class="flex flex-col items-center space-y-3 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100">
                         <div class="flex items-center justify-center h-16 w-32 bg-white rounded-lg shadow-sm p-4">
-                            <img src="/images/logos/capgemini-logo.svg" alt="Capgemini" class="h-8 w-auto max-w-24">
+                            <img src="/images/logos/capgemini-logo.png" alt="Capgemini" class="h-8 w-auto max-w-24">
                         </div>
                         <span class="text-xs font-medium text-gray-600">8 studentjobs open</span>
                     </div>
 
                     <div class="flex flex-col items-center space-y-3 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100">
                         <div class="flex items-center justify-center h-16 w-32 bg-white rounded-lg shadow-sm p-4">
-                            <img src="/images/logos/delaware-logo.svg" alt="delaware" class="h-8 w-auto max-w-24">
+                            <img src="/images/logos/delaware-logo.png" alt="Delaware" class="h-8 w-auto max-w-24">
                         </div>
                         <span class="text-xs font-medium text-gray-600">Actief recruiterend</span>
                     </div>
@@ -204,14 +287,19 @@
                         <span class="text-xs font-medium text-gray-600">Engineering opportunities</span>
                     </div>
                 </div>
-            </div>
-            <div class="mt-4 flex justify-center">
-            <Link
-  href="/alle-bedrijven"
-  class="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-red-600 hover:shadow-lg transition-all transform hover:scale-105"
-> Ontdek hier alle bedrijven!
-</Link>
 
+                <!-- Bedrijven sectie -->
+                <div class="bg-orange-50 py-16">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-4">Ben je een bedrijf?</h2>
+                            <p class="text-lg text-gray-600 mb-8">Ontdek getalenteerde Erasmus studenten voor stages, studentjobs en graduate posities.</p>
+                            <Link href="/alle-bedrijven" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">
+                                Ontdek hier alle bedrijven
+                            </Link>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -238,6 +326,20 @@
                 </div>
             </div>
         </section>
+
+        <!-- CTA sectie -->
+        <div class="bg-orange-600 py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold text-white mb-4">Klaar om deel te nemen?</h2>
+                <p class="text-xl text-orange-100 mb-8">Registreer je nu voor Career Launch 2025</p>
+                <Link href="/register" class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-orange-600 bg-white hover:bg-orange-50 transition-colors">
+                    Schrijf je nu in
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </Link>
+            </div>
+        </div>
 
         <!-- Footer -->
         <footer class="bg-orange-500 text-white py-16">

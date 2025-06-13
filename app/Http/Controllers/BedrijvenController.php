@@ -10,20 +10,20 @@ class BedrijvenController extends Controller
 {
     public function index()
     {
-        $companies = Company::where('is_active', true)
+        $bedrijven = Company::where('is_active', true)
             ->select(['id', 'name', 'logo_path', 'website', 'specialisatie', 'beschrijving', 'adres', 'telefoon', 'email'])
             ->get();
 
         return Inertia::render('Bedrijven', [
-            'bedrijven' => $companies
+            'bedrijven' => $bedrijven
         ]);
     }
 
     public function show($id)
     {
-        $company = Company::findOrFail($id);
+        $bedrijf = Company::findOrFail($id);
         return Inertia::render('BedrijfDetail', [
-            'company' => $company
+            'bedrijf' => $bedrijf
         ]);
     }
 } 

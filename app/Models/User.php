@@ -75,7 +75,7 @@ class User extends Authenticatable
      */
     public function favorites()
     {
-        return $this->morphMany(\App\Models\Favorite::class, 'favoritable');
+        return $this->hasMany(Favorite::class);
     }
 
     public function company()
