@@ -374,10 +374,11 @@
             </div>
             <div class="mt-4 flex justify-center">
             <Link
-                 href="/companies"
-                 class="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-red-600 hover:shadow-lg transition-all transform hover:scale-105">
-                 Ontdek hier alle bedrijven!
-            </Link>
+  href="/alle-bedrijven"
+  class="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-red-600 hover:shadow-lg transition-all transform hover:scale-105"
+> Ontdek hier alle bedrijven!
+</Link>
+
             </div>
         </section>
 
