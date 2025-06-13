@@ -257,3 +257,8 @@ Route::get('/bedrijf/profiel', function () {
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+
+
+Route::get('/alle-bedrijven', function () {
+    return Inertia::render('Bedrijven');
+})->name('bedrijven.index');
