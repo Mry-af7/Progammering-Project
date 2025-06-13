@@ -19,9 +19,8 @@ return new class extends Migration
             // Voorkom dubbele favorieten
             $table->unique(['user_id', 'favoritable_id', 'favoritable_type'], 'unique_favorite');
 
-            // Indexes voor sneller zoeken
+            // Index voor sneller zoeken
             $table->index('created_at');
-            $table->index(['favoritable_type', 'favoritable_id']);
         });
     }
 
