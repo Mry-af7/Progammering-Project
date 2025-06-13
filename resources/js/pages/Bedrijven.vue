@@ -24,14 +24,14 @@
       <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-6 justify-items-center">
         <div
           v-for="bedrijf in bedrijven"
-          :key="bedrijf.name"
+          :key="bedrijf.id"
           class="relative bg-white rounded-xl p-4 shadow-sm w-full h-24 flex items-center justify-center"
         >
           <!-- ⭐ Sterretje rechtsboven -->
           <button
             @click="toggleFavorite(bedrijf)"
             class="absolute top-2 right-2"
-            :class="{ 'text-red-500': bedrijf.isFavorite }"
+            :class="{ 'text-red-500': bedrijf.is_favorite }"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +45,7 @@
 
           <!-- Bedrijfslogo (klikbaar om modal te openen) -->
           <img
-            :src="bedrijf.src"
+            :src="bedrijf.logo_path"
             :alt="bedrijf.name"
             class="h-10 object-contain cursor-pointer"
             @click="openModal(bedrijf)"/>
@@ -68,7 +68,7 @@
         <!-- Header met logo en naam -->
         <div class="flex items-center space-x-4 mb-6">
           <div class="w-14 h-14 bg-white rounded-xl shadow-md flex items-center justify-center">
-            <img :src="geselecteerdBedrijf.src" :alt="geselecteerdBedrijf.name" class="w-10 h-10 object-contain" />
+            <img :src="geselecteerdBedrijf.logo_path" :alt="geselecteerdBedrijf.name" class="w-10 h-10 object-contain" />
           </div>
           <h2 class="text-2xl font-bold text-orange-800">{{ geselecteerdBedrijf.name }}</h2>
         </div>
@@ -113,68 +113,11 @@ import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 import NavMain from '@/components/NavMain.vue'
 
+const props = defineProps(['bedrijven'])
+
 const mobileMenuOpen = ref(false)
 const message = ref('')
 const error = ref('')
-
-const bedrijven = ref([
-  {
-    id: 1,
-    name: 'Accenture',
-    description: 'Global professional services company with leading capabilities in digital, cloud and security.',
-    src: '/images/logos/accenture-logo.svg',
-    website: 'https://www.accenture.com',
-    isFavorite: false
-  },
-  {
-    id: 2,
-    name: 'Capgemini',
-    description: 'A global leader in consulting, technology services and digital transformation.',
-    src: '/images/logos/capgemini-logo.svg',
-    website: 'https://www.capgemini.com',
-    isFavorite: false
-  },
-  {
-    id: 3,
-    name: 'Delaware',
-    description: 'A fast-growing, global company that delivers advanced solutions and services.',
-    src: '/images/logos/delaware-logo.svg',
-    website: 'https://www.delaware.pro',
-    isFavorite: false
-  },
-  {
-    id: 4,
-    name: 'Flexso',
-    description: 'Digital transformation and business consulting services.',
-    src: '/images/logos/flexo-logo.svg',
-    website: 'https://www.flexso.be',
-    isFavorite: false
-  },
-  {
-    id: 5,
-    name: 'BNP Paribas Fortis',
-    description: 'Leading Belgian bank and financial services provider.',
-    src: '/images/logos/bnp-paribas-fortis-logo.svg',
-    website: 'https://www.bnpparibasfortis.be',
-    isFavorite: false
-  },
-  {
-    id: 6,
-    name: 'Colruyt Group',
-    description: 'Belgian retail company with a focus on sustainability.',
-    src: '/images/logos/colruyt-group-logo.svg',
-    website: 'https://www.colruytgroup.com',
-    isFavorite: false
-  },
-  {
-    id: 7,
-    name: 'Inetum-Realdolmen',
-    description: 'IT services and digital transformation company.',
-    src: '/images/logos/inetum-realdolmen-logo.svg',
-    website: 'https://www.inetum-realdolmen.com',
-    isFavorite: false
-  }
-])
 
 const geselecteerdBedrijf = ref(null)
 const showModal = ref(false)
