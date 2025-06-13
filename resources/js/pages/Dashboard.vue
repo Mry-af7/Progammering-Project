@@ -375,6 +375,10 @@
                             <div class="text-2xl mb-1">📊</div>
                             <div class="text-sm font-medium text-gray-900 dark:text-white">Analytics</div>
                         </button>
+                        <a href="https://github.com/Mry-af7/Progammering-Project.git" target="_blank" class="bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all text-left">
+                            <div class="text-2xl mb-1">🐙</div>
+                            <div class="text-sm font-medium text-gray-900 dark:text-white">GitHub Repo</div>
+                        </a>
                     </div>
                 </div>
             </div>
