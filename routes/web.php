@@ -14,6 +14,7 @@ use App\Http\Controllers\NotificationController;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BedrijvenController;
 
 // === PUBLIC ROUTES ===
 
@@ -41,18 +42,22 @@ Route::post('/afspraak', [AfspraakController::class, 'store'])->name('afspraak.s
 Route::get('/api/afspraak/tijdslots', [AfspraakController::class, 'getTimeSlots'])->name('api.afspraak.tijdslots');
 
 // === FAVORIETEN ROUTES ===
-Route::get('/favorieten', [FavorietenController::class, 'index'])->name('favorieten');
-Route::post('/favorites', [FavorietenController::class, 'store'])->name('favorites.store');
-Route::delete('/favorites/{id}', [FavorietenController::class, 'destroy'])->name('favorites.destroy');
+Route::middleware(['auth', 'web'])->group(function () {
+    Route::get('/favorieten', [FavorietenController::class, 'index'])->name('favorieten.index');
+    Route::post('/favorites', [FavorietenController::class, 'store'])->name('favorites.store');
+    Route::delete('/favorites/{id}', [FavorietenController::class, 'destroy'])->name('favorites.destroy');
+});
 
 // === PROFILE ROUTES ===
 Route::get('/studenten/{id}', function ($id) {
     return Inertia::render('StudentProfile', ['studentId' => $id]);
 })->name('student.show');
 
-Route::get('/bedrijven/{id}', function ($id) {
-    return Inertia::render('CompanyProfile', ['companyId' => $id]);
-})->name('company.show');
+Route::get('/bedrijven', function () {
+    return Inertia::render('Bedrijven');
+})->name('bedrijven.index');
+
+Route::get('/bedrijven/{id}', [BedrijvenController::class, 'show'])->name('bedrijven.show');
 
 Route::get('/profielen/{id}', function ($id) {
     return Inertia::render('Profile', ['profileId' => $id]);
@@ -131,12 +136,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     // === SEARCH & BROWSE ===
     Route::get('/studenten', function () {
-        return Inertia::render('StudentsIndex');
-    })->name('students.index');
+        return Inertia::render('Studenten');
+    })->name('studenten.index');
     
     Route::get('/bedrijven', function () {
-        return Inertia::render('CompaniesIndex');
-    })->name('companies.index');
+        return Inertia::render('Bedrijven');
+    })->name('bedrijven.index');
     
     // === EVENTS ===
     Route::get('/events', function () {
@@ -423,3 +428,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         return Inertia::render('AdminDashboard');
     })->name('admin.dashboard');
 });
+
+Route::get('/alle-bedrijven', function () {
+    return Inertia::render('Bedrijven');
+})->name('bedrijven.index');

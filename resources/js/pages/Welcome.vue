@@ -76,11 +76,11 @@
                     
                     <!-- CTA Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 mb-8">
-                        <Link href="/register?type=student" class="bg-orange-500 text-white px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-600 hover:shadow-lg transition-all">
+                        <Link href="/register" class="bg-orange-500 text-white px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-600 hover:shadow-lg transition-all">
                             Ik ben een student
                         </Link>
-                        <Link href="/students" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
-                            Ik ben een bedrijf 
+                        <Link href="/register?type=bedrijf" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
+                            Ik ben een bedrijf
                         </Link>
                     </div>
                     
@@ -317,21 +317,21 @@
                     <!-- Company logos with hover effects -->
                     <div class="flex flex-col items-center space-y-3 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100">
                         <div class="flex items-center justify-center h-16 w-32 bg-white rounded-lg shadow-sm p-4">
-                            <img src="/images/logos/accenture-logo.svg" alt="Accenture" class="h-8 w-auto max-w-24">
+                            <img src="/images/logos/accenture-logo.png" alt="Accenture" class="h-8 w-auto max-w-24">
                         </div>
                         <span class="text-xs font-medium text-gray-600">12 stages deze maand</span>
                     </div>
 
                     <div class="flex flex-col items-center space-y-3 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100">
                         <div class="flex items-center justify-center h-16 w-32 bg-white rounded-lg shadow-sm p-4">
-                            <img src="/images/logos/capgemini-logo.svg" alt="Capgemini" class="h-8 w-auto max-w-24">
+                            <img src="/images/logos/capgemini-logo.png" alt="Capgemini" class="h-8 w-auto max-w-24">
                         </div>
                         <span class="text-xs font-medium text-gray-600">8 studentjobs open</span>
                     </div>
 
                     <div class="flex flex-col items-center space-y-3 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100">
                         <div class="flex items-center justify-center h-16 w-32 bg-white rounded-lg shadow-sm p-4">
-                            <img src="/images/logos/delaware-logo.svg" alt="delaware" class="h-8 w-auto max-w-24">
+                            <img src="/images/logos/delaware-logo.png" alt="Delaware" class="h-8 w-auto max-w-24">
                         </div>
                         <span class="text-xs font-medium text-gray-600">Actief recruiterend</span>
                     </div>
@@ -372,16 +372,17 @@
                     </div>
                 </div>
 
-                <!-- Company CTA -->
-                <div class="bg-white rounded-2xl p-8 max-w-2xl mx-auto">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Ben je een bedrijf?</h3>
-                    <p class="text-gray-600 mb-6">Ontdek getalenteerde Erasmus studenten voor stages, studentjobs en graduate posities.</p>
-                    <Link href="/companies" class="inline-flex items-center bg-orange-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-orange-600 transition-colors">
-                        Bekijk student talent
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                        </svg>
-                    </Link>
+                <!-- Bedrijven sectie -->
+                <div class="bg-orange-50 py-16">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-4">Ben je een bedrijf?</h2>
+                            <p class="text-lg text-gray-600 mb-8">Ontdek getalenteerde Erasmus studenten voor stages, studentjobs en graduate posities.</p>
+                            <Link href="/alle-bedrijven" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">
+                                Ontdek hier alle bedrijven
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -409,6 +410,20 @@
                 </div>
             </div>
         </section>
+
+        <!-- CTA sectie -->
+        <div class="bg-orange-600 py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold text-white mb-4">Klaar om deel te nemen?</h2>
+                <p class="text-xl text-orange-100 mb-8">Registreer je nu voor Career Launch 2025</p>
+                <Link href="/register" class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-orange-600 bg-white hover:bg-orange-50 transition-colors">
+                    Schrijf je nu in
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </Link>
+            </div>
+        </div>
 
         <!-- Footer -->
         <footer class="bg-orange-500 text-white py-16">
