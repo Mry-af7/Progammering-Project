@@ -15,15 +15,17 @@ import { ref } from 'vue';
 const mobileMenuOpen = ref(false);
 
 const form = useForm({
-  company_name: '',
+  name: '',
   email: '',
   password: '',
   password_confirmation: '',
-  role: 'bedrijf',
+  industry: '',
+  description: '',
+  location: '',
 });
 
 const submitCompany = () => {
-  form.post(route('register'), {
+  form.post(route('register.bedrijf'), {
     onFinish: () => form.reset('password', 'password_confirmation'),
   });
 };
@@ -141,18 +143,18 @@ const submitCompany = () => {
                     <form @submit.prevent="submitCompany" class="space-y-6">
                         <!-- Company Name Field -->
                         <div>
-                            <Label for="company_name" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <Label for="name" class="block text-sm font-semibold text-gray-700 mb-2">
                                 Bedrijfsnaam
                             </Label>
                             <Input
-                                id="company_name"
-                                v-model="form.company_name"
+                                id="name"
+                                v-model="form.name"
                                 type="text"
                                 required
                                 placeholder="Bijv. Microsoft"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                             />
-                            <InputError :message="form.errors.company_name" class="mt-2" />
+                            <InputError :message="form.errors.name" class="mt-2" />
                         </div>
 
                         <!-- Email Field -->

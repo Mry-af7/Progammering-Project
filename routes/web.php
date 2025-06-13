@@ -14,6 +14,7 @@ use App\Http\Controllers\NotificationController;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BedrijvenController;
 
 // === PUBLIC ROUTES ===
 
@@ -33,10 +34,16 @@ Route::get('/home', function () {
     return Inertia::render('Welcome');
 })->name('home.alt');
 
+// === BEDRIJVEN ROUTES ===
+Route::get('/bedrijven', [BedrijvenController::class, 'index'])->name('bedrijven.index');
+Route::get('/bedrijven/{id}', [BedrijvenController::class, 'show'])->name('bedrijven.show');
+
 // === AUTH ROUTES ===
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::get('register/bedrijf', [RegisteredUserController::class, 'createBedrijf'])->name('register.bedrijf');
+    Route::post('register/bedrijf', [RegisteredUserController::class, 'storeBedrijf']);
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 });
@@ -61,10 +68,6 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/studenten/{id}', function ($id) {
     return Inertia::render('StudentProfile', ['studentId' => $id]);
 })->name('student.show');
-
-Route::get('/bedrijven/{id}', function ($id) {
-    return Inertia::render('CompanyProfile', ['companyId' => $id]);
-})->name('company.show');
 
 Route::get('/profielen/{id}', function ($id) {
     return Inertia::render('Profile', ['profileId' => $id]);
