@@ -51,7 +51,7 @@
                 </div>
             </div>
         </nav>
-
+ 
         <!-- Main Content -->
         <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <!-- Page Header -->
@@ -61,7 +61,7 @@
                     <div class="w-20 h-1 bg-gradient-to-r from-orange-500 to-red-500 rounded-full"></div>
                 </div>
             </div>
-
+ 
             <!-- Content Section -->
             <div class="bg-white rounded-3xl shadow-sm overflow-hidden">
                 <div class="p-8 lg:p-12">
@@ -116,7 +116,7 @@
                             <p class="text-gray-600 text-lg">Mis deze kans zeker niet en zet DD-MM-YYYY alvast in je agenda. Schrijf je hieronder in om op de hoogte te blijven!</p>
                         </div>
                     </div>
-
+ 
                     <!-- CTA Section -->
                     <div class="mt-12 text-center">
                         <div class="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-8 text-white">
@@ -130,7 +130,7 @@
                 </div>
             </div>
         </main>
-
+ 
         <!-- Footer -->
         <footer class="bg-orange-500 text-white py-16 mt-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -191,7 +191,7 @@
                 </div>
             </div>
         </footer>
-
+ 
         <!-- Toast -->
         <div v-if="toast.show" :class="['fixed top-4 right-4 bg-white rounded-xl shadow-lg p-4 z-50 flex items-center max-w-sm border-l-4', toast.type === 'success' ? 'border-green-500' : 'border-blue-500']">
             <span class="flex-1">{{ toast.message }}</span>
@@ -203,16 +203,17 @@
         </div>
     </div>
 </template>
-
+ 
 <script setup>
 import { Head, Link } from '@inertiajs/vue3'
 import { ref } from 'vue'
-
+ 
 const mobileMenuOpen = ref(false)
 const toast = ref({ show: false, message: '', type: 'info' })
-
+ 
 function showToast(message, type = 'info') {
     toast.value = { show: true, message, type }
     setTimeout(() => toast.value.show = false, 3000)
 }
 </script>
+ 

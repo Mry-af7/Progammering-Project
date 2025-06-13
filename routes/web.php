@@ -217,3 +217,15 @@ Route::redirect('/booking', '/afspraak', 301);
 // Load other route files
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+
+//voor registratie bedrijf;
+use App\Http\Controllers\Auth\RegisteredUserController;
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+
+// AL DEDICATED ROUTE VOOR BEDRIJVEN
+Route::get('/register-bedrijf', function () {
+    return Inertia::render('auth/Register-bedrijf');
+})->name('register.bedrijf');
+Route::get('/faq', function () {
+    return Inertia::render('Faq');
+});
