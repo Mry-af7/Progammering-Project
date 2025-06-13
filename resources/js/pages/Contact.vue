@@ -1,202 +1,235 @@
 <template>
-  <div class="contact-wrapper">
-    <!-- Navigatie -->
-    <header class="nav">
-      <img src="/images/erasmus-logo.png" alt="Logo" class="logo" />
+    <div class="min-h-screen bg-orange-50">
+        <Head title="Contact" />
+        
+        <!-- Navigation -->
+        <nav class="bg-orange-50/90 backdrop-blur-sm shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Logo -->
+                    <Link href="/" class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <span class="text-white font-bold text-lg">E</span>
+                        </div>
+                        <div>
+                            <div class="text-gray-900 font-bold text-xl">erasmus</div>
+                            <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
+                        </div>
+                    </Link>
+                    
+                    <!-- Mobile menu button -->
+                    <div class="md:hidden">
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg text-gray-700 hover:bg-orange-100">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Desktop Navigation Links -->
+                    <div class="hidden md:flex items-center space-x-1">
+                        <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Home</Link>
+                        <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Info</Link>
+                        <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Favorieten</Link>
+                        <Link href="/contact" class="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg font-medium">Contact</Link>
+                        
+                        <div class="flex items-center ml-6">
+                            <div class="relative">
+                                <input type="search" placeholder="Zoek..." v-model="searchTerm" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white">
+                                <svg class="w-4 h-4 text-gray-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu -->
+                <div v-show="mobileMenuOpen" class="md:hidden mt-4 pb-4 border-t border-orange-200">
+                    <div class="flex flex-col space-y-2 pt-4">
+                        <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Home</Link>
+                        <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Info</Link>
+                        <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Favorieten</Link>
+                        <Link href="/contact" class="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg font-medium">Contact</Link>
+                        <div class="px-4 py-2">
+                            <input type="search" placeholder="Zoek..." v-model="searchTerm" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
 
-      <nav class="nav-menu">
-        <button :class="{ active: isActive('home') }">Home</button>
-        <button :class="{ active: isActive('info') }">Info</button>
-        <button :class="{ active: isActive('fav') }">Favorieten</button>
-        <button :class="{ active: isActive('contact') }">Contact</button>
-        <input type="search" placeholder="Zoek..." class="search" />
-      </nav>
-    </header>
+        <!-- Main Content -->
+        <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <!-- Page Header -->
+            <div class="mb-12">
+                <div class="bg-white rounded-3xl p-8 shadow-sm">
+                    <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Contacteer ons</h1>
+                    <div class="w-20 h-1 bg-gradient-to-r from-orange-500 to-red-500 rounded-full"></div>
+                </div>
+            </div>
 
-    <!-- Inhoud -->
-    <main class="main">
-      <h1>Contacteer ons</h1>
-      <hr />
+            <!-- Contact Sections -->
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Mail Section -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900">Mail</h2>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex flex-col sm:flex-row sm:items-center">
+                            <strong class="text-gray-900 mb-1 sm:mb-0 sm:mr-2">Mail EhB:</strong> 
+                            <a href="mailto:gdt.kaai.student@ehb.be" class="text-orange-600 hover:text-orange-700 font-medium transition-colors">gdt.kaai.student@ehb.be</a>
+                        </li>
+                        <li class="flex flex-col sm:flex-row sm:items-center">
+                            <strong class="text-gray-900 mb-1 sm:mb-0 sm:mr-2">Algemeen:</strong> 
+                            <a href="mailto:info@ehb.be" class="text-orange-600 hover:text-orange-700 font-medium transition-colors">info@ehb.be</a>
+                        </li>
+                    </ul>
+                </div>
 
-      <section>
-        <h2>Mail</h2>
-        <ul>
-          <li><strong>Mail EhB:</strong> <a href="mailto:gdt.kaai.student@ehb.be">gdt.kaai.student@ehb.be</a></li>
-          <li><strong>Algemeen:</strong> <a href="mailto:info@ehb.be">info@ehb.be</a></li>
-        </ul>
-      </section>
+                <!-- Phone Section -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900">Telefoonnummer</h2>
+                    </div>
+                    <p>
+                        <a href="tel:+3225233737" class="text-2xl font-semibold text-orange-600 hover:text-orange-700 transition-colors">02 523 37 37</a>
+                    </p>
+                </div>
+            </div>
 
-      <section>
-        <h2>Telefoonnummer</h2>
-        <p><a href="tel:+3225233737">02 523 37 37</a></p>
-      </section>
+            <!-- Address & Map Section -->
+            <div class="mt-8">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+                    <div class="p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center mr-4">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-900">Adres</h2>
+                        </div>
+                        <p class="text-lg text-gray-600 mb-6">Nijverheidskaai 170, 1070 Anderlecht</p>
+                    </div>
+                    
+                    <!-- Map -->
+                    <div class="relative">
+                        <iframe
+                            class="w-full h-80 lg:h-96"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2519.039912671353!2d4.322273015745595!3d50.8365139795281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3c37b41d22fd3%3A0xe6b6b5f9b8f7e94!2sErasmushogeschool%20Brussel!5e0!3m2!1snl!2sbe!4v1687361774367!5m2!1snl!2sbe"
+                            style="border:0;"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            allowfullscreen
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
 
-      <section>
-        <h2>Adres</h2>
-        <p>Nijverheidskaai 170, 1070 Anderlecht</p>
-        <iframe
-  class="map"
-  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2519.039912671353!2d4.322273015745595!3d50.8365139795281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3c37b41d22fd3%3A0xe6b6b5f9b8f7e94!2sErasmushogeschool%20Brussel!5e0!3m2!1snl!2sbe!4v1687361774367!5m2!1snl!2sbe"
-  width="100%"
-  height="300"
-  style="border:0;"
-  loading="lazy"
-  referrerpolicy="no-referrer-when-downgrade"
-  :allowfullscreen="true"
->
+            <!-- Quick Contact CTA -->
+            <div class="mt-12">
+                <div class="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-8 text-white text-center">
+                    <div class="flex items-center justify-center mb-4">
+                        <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Heb je vragen?</h3>
+                    <p class="text-orange-100 mb-6">Neem gerust contact met ons op. We helpen je graag verder!</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="mailto:gdt.kaai.student@ehb.be" class="bg-white text-orange-600 px-6 py-3 rounded-xl font-semibold hover:bg-orange-50 transition-colors">
+                            Stuur een e-mail
+                        </a>
+                        <a href="tel:+3225233737" class="bg-white/10 text-white border border-white/20 px-6 py-3 rounded-xl font-semibold hover:bg-white/20 transition-colors">
+                            Bel ons nu
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
 
-        ></iframe>
-      </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div>
-        <h3>Contact</h3>
-        <p>E-mail: <a href="mailto:gdt.kaai.student@ehb.be">gdt.kaai.student@ehb.be</a></p>
-        <p>Tel: <a href="tel:+3225233737">02 523 37 37</a></p>
-      </div>
-      <div>
-        <h3>Hulp</h3>
-        <Link href="/faq" class="hover:text-white transition-colors">
-        *FAQ
-        </Link>
-      </div>
-
-      <div>
-        <h3>Over Ons</h3>
-        <p>*Wie zijn we?</p>
-      </div>
-    </footer>
-  </div>
+        <!-- Footer -->
+        <footer class="bg-orange-500 text-white py-16 mt-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center">
+                                <span class="text-white font-bold text-lg">E</span>
+                            </div>
+                            <div class="text-white font-bold text-xl">erasmus</div>
+                        </div>
+                        <p class="text-orange-100 text-sm mb-4">
+                            Hogeschool Brussel<br>
+                            Connecting talent with opportunity
+                        </p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-orange-200 hover:text-white transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="text-orange-200 hover:text-white transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Section -->
+                    <div>
+                        <h3 class="font-semibold mb-4">Contact</h3>
+                        <ul class="space-y-2 text-orange-100 text-sm">
+                            <li>E-mail: <a href="mailto:gdt.kaai.student@ehb.be" class="hover:text-white transition-colors">gdt.kaai.student@ehb.be</a></li>
+                            <li>Tel: <a href="tel:+3225233737" class="hover:text-white transition-colors">02 523 37 37</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Hulp Section -->
+                    <div>
+                        <h3 class="font-semibold mb-4">Hulp</h3>
+                        <ul class="space-y-2 text-orange-100 text-sm">
+                            <li>*FAQ</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Over Ons Section -->
+                    <div>
+                        <h3 class="font-semibold mb-4">Over Ons</h3>
+                        <ul class="space-y-2 text-orange-100 text-sm">
+                            <li>*Wie zijn we?</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="border-t border-orange-400 mt-12 pt-8 text-center text-orange-100 text-sm">
+                    <p>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
 </template>
 
-<script setup lang="ts">
-// Voor router ondersteuning (optioneel later)
-// const route = useRoute();
+<script setup>
+import { Head, Link } from '@inertiajs/vue3'
+import { ref } from 'vue'
 
-import { Link } from '@inertiajs/vue3'
-
-
-function isActive(page: string) {
-  return page === 'contact'; // Simuleer actieve pagina
-}
+const mobileMenuOpen = ref(false)
+const searchTerm = ref('')
 </script>
-
-<style scoped>
-/* Algemene layout */
-.contact-wrapper {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #fceee6;
-  color: #000;
-  line-height: 1.6;
-}
-
-/* Navigatie */
-.nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: white;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.logo {
-  height: 50px;
-}
-
-.nav-menu {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  flex-wrap: wrap;
-}
-
-.nav-menu button {
-  background-color: #ffb195;
-  border: none;
-  padding: 0.4rem 0.9rem;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s;
-}
-
-.nav-menu button.active,
-.nav-menu button:hover {
-  background-color: #e95c2a;
-  color: white;
-}
-
-.search {
-  padding: 0.4rem 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Inhoud */
-.main {
-  max-width: 800px;
-  margin: auto;
-  padding: 2rem 1rem;
-}
-
-h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-section {
-  margin-top: 1.5rem;
-}
-
-.map {
-  margin-top: 1rem;
-  border-radius: 8px;
-}
-
-/* Footer */
-.footer {
-  background-color: #e95c2a;
-  color: white;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  padding: 2rem 1rem;
-  text-align: left;
-}
-
-.footer div {
-  min-width: 200px;
-  margin-bottom: 1rem;
-}
-
-.footer h3 {
-  text-decoration: underline;
-}
-
-a {
-  color: inherit;
-  text-decoration: underline;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .nav {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .footer {
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-  }
-}
-</style>

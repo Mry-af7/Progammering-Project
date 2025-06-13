@@ -1,4 +1,3 @@
-
 <template>
   <div class="favorites-page">
     <!-- Header Navigation -->
@@ -71,12 +70,13 @@
           <!-- Favorites Grid -->
           <div v-else class="favorites-grid">
             <div v-for="favorite in filteredFavorites" :key="favorite.id" 
-                 class="favorite-card">
+                 class="favorite-card"
+                 :data-favorite-id="favorite.id">
               <div class="card-header">
                 <div class="avatar-container">
-                  <img :src="favorite.image_url || '/images/default-avatar.png'" 
+                  <img :src="favorite.image_url || getDefaultAvatar(favorite.item_type)" 
                        :alt="favorite.title" 
-                       @error="$event.target.src='/images/default-avatar.png'"
+                       @error="handleImageError"
                        class="avatar" />
                 </div>
                 <button @click="removeFavorite(favorite.id)" 
@@ -189,7 +189,16 @@ function navigate(page) {
 function removeFavorite(id) {
   if (confirm('Weet je zeker dat je dit favoriet wilt verwijderen?')) {
     router.delete(`/favorites/${id}`, {
-      onSuccess: () => showToast('Favoriet succesvol verwijderd', 'success'),
+      preserveState: true,
+      preserveScroll: true,
+      onSuccess: () => {
+        showToast('Favoriet succesvol verwijderd', 'success')
+        // Verwijder item uit lokale state
+        const index = props.favorites.findIndex(f => f.id === id)
+        if (index > -1) {
+          props.favorites.splice(index, 1)
+        }
+      },
       onError: () => showToast('Er is een fout opgetreden', 'error')
     })
   }
@@ -242,6 +251,16 @@ function truncateText(text, maxLength) {
 function showToast(message, type = 'info') {
   toast.value = { show: true, message, type }
   setTimeout(() => toast.value.show = false, 4000)
+}
+
+function getDefaultAvatar(type) {
+  // Use placeholder service or emoji-based avatars
+  const avatars = {
+    student: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiM2NzY2ZWEiLz4KPGF4dCB4PSIyMCIgeT0iMTQiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjE2Ij7wn5GljwvdGV4dD4KPC9zdmc+',
+    bedrijf: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNkYzVhNDEiLz4KPGF4dCB4PSIyMCIgeT0iMTQiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjE2Ij7wn5OfywvdGV4dD4KPC9zdmc+',
+    profiel: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMxMGI5ODEiLz4KPGF4dCB4PSIyMCIgeT0iMTQiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjE2Ij7wn5SLIX0vdGV4dD4KPC9zdmc+'
+  }
+  return avatars[type] || avatars.profiel
 }
 
 function getToastIcon(type) {

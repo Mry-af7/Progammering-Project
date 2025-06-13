@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +19,17 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'firstname',
+        'lastname',
         'email',
         'password',
+        'age',
+        'gender',
+        'field_of_study',
+        'role',
+        'user_type',
+        'is_active',
+        'profile_completed'
     ];
 
     /**
@@ -44,5 +53,39 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the user's activities.
+     */
+    public function activities()
+    {
+        return $this->hasMany(UserActivity::class);
+    }
+
+    /**
+     * Get the user's tasks.
+     */
+    public function tasks()
+    {
+        return $this->hasMany(UserTask::class);
+    }
+
+    /**
+     * Get the user's favorites.
+     */
+    public function favorites()
+    {
+        return $this->morphMany(\App\Models\Favorite::class, 'favoritable');
+    }
+
+    public function company()
+    {
+        return $this->hasOne(Company::class);
+    }
+
+    public function studentProfile()
+    {
+        return $this->hasOne(StudentProfile::class);
     }
 }

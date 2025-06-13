@@ -45,7 +45,7 @@ const submit = () => {
         <Head title="Profielinstellingen" />
 
         <SettingsLayout>
-            <div class="flex flex-col space-y-6">
+            <div class="bg-orange-50 flex flex-col space-y-6 h-screen">
                 <HeadingSmall title="Profielinformatie" description="Uw naam en e-mailadres bijwerken" />
 
                 <form @submit.prevent="submit" class="space-y-6">
@@ -88,7 +88,7 @@ const submit = () => {
                     </div>
 
                     <div class="flex items-center gap-4">
-                        <Button :disabled="form.processing">Opslaan</Button>
+                        <Button :disabled="form.processing" class="bg-orange-500 hover:bg-orange-600 cursor-pointer">Opslaan</Button>
 
                         <Transition
                             enter-active-class="transition ease-in-out"
