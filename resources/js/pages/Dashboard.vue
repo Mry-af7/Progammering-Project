@@ -419,7 +419,13 @@
 import AppLayout from '@/layouts/AppLayout.vue'
 import { Head, Link } from '@inertiajs/vue3'
 
-const breadcrumbs = [{ title: 'Dashboard', href: '/dashboard' }]
+const breadcrumbs = [
+    { title: 'Home', href: '/' },
+    { title: 'Info', href: '/info' },
+    { title: 'Bedrijven', href: '/bedrijven' },
+    { title: 'Afspraak', href: '/afspraak' },
+    { title: 'Contact', href: '/contact' },
+];
 
 // Application stages for pipeline visualization
 const applicationStages = [

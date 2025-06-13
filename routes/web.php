@@ -15,9 +15,13 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BedrijvenController;
+use App\Http\Controllers\PositionController;
+
+// Load other route files first
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';
 
 // === PUBLIC ROUTES ===
-
 Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
@@ -34,16 +38,36 @@ Route::get('/home', function () {
     return Inertia::render('Welcome');
 })->name('home.alt');
 
+Route::get('/faq', function () {
+    return Inertia::render('Faq');
+})->name('faq');
+
 // === BEDRIJVEN ROUTES ===
 Route::get('/bedrijven', [BedrijvenController::class, 'index'])->name('bedrijven.index');
 Route::get('/bedrijven/{id}', [BedrijvenController::class, 'show'])->name('bedrijven.show');
 
+// === POSITIES ROUTES ===
+Route::get('/posities/{id}', [PositionController::class, 'show'])->name('positions.show');
+
+// === SOLLICITATIES ROUTES ===
+Route::middleware(['auth'])->group(function () {
+    Route::get('/sollicitaties', [ApplicationController::class, 'index'])->name('applications.index');
+    Route::get('/sollicitaties/nieuw', [ApplicationController::class, 'create'])->name('applications.create');
+    Route::post('/sollicitaties', [ApplicationController::class, 'store'])->name('applications.store');
+    Route::get('/sollicitaties/{id}', [ApplicationController::class, 'show'])->name('applications.show');
+});
+
 // === AUTH ROUTES ===
 Route::middleware('guest')->group(function () {
+    // Student registration
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
+    
+    // Company registration
     Route::get('register/bedrijf', [RegisteredUserController::class, 'createBedrijf'])->name('register.bedrijf');
     Route::post('register/bedrijf', [RegisteredUserController::class, 'storeBedrijf']);
+    
+    // Login
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 });
@@ -216,15 +240,3 @@ Route::get('/sitemap.xml', function () {
 Route::redirect('/appointment', '/afspraak', 301);
 Route::redirect('/appointments', '/afspraken', 301);
 Route::redirect('/booking', '/afspraak', 301);
-
-// Load other route files
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
-
-// AL DEDICATED ROUTE VOOR BEDRIJVEN
-Route::get('/register-bedrijf', function () {
-    return Inertia::render('auth/Register-bedrijf');
-})->name('register.bedrijf');
-Route::get('/faq', function () {
-    return Inertia::render('Faq');
-});

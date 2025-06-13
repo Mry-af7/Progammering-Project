@@ -10,31 +10,23 @@ class Company extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'name',
-        'industry',
-        'description',
-        'location',
-        'logo',
+        'logo_path',
         'website',
-        'linkedin',
-        'twitter',
-        'facebook',
-        'instagram',
+        'specialisatie',
+        'beschrijving',
+        'adres',
+        'telefoon',
+        'email',
+        'is_active'
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
 
     public function positions()
     {
         return $this->hasMany(Position::class);
-    }
-
-    public function appointments()
-    {
-        return $this->hasMany(Appointment::class);
     }
 } 

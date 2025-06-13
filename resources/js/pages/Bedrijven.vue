@@ -1,13 +1,19 @@
 <script setup>
-import { Head } from '@inertiajs/vue3'
+import { Head, Link } from '@inertiajs/vue3'
 import { ref, computed } from 'vue'
+import Navigation from '../components/Navigation.vue'
+
+const mobileMenuOpen = ref(false)
 
 const props = defineProps({
-  companies: {
+  bedrijven: {
     type: Array,
     required: true
   }
 })
+
+const geselecteerdBedrijf = ref(null)
+const showModal = ref(false)
 
 const filters = ref({
   search: '',
@@ -41,13 +47,13 @@ const currentPage = ref(1)
 const itemsPerPage = 9
 
 const filteredCompanies = computed(() => {
-  let filtered = props.companies
+  let filtered = props.bedrijven
 
   if (filters.value.search) {
     const search = filters.value.search.toLowerCase()
     filtered = filtered.filter(company => 
       company.name.toLowerCase().includes(search) ||
-      company.description.toLowerCase().includes(search) ||
+      company.beschrijving.toLowerCase().includes(search) ||
       company.location.toLowerCase().includes(search)
     )
   }
@@ -66,13 +72,13 @@ const filteredCompanies = computed(() => {
 })
 
 const totalCompanies = computed(() => {
-  let filtered = props.companies
+  let filtered = props.bedrijven
 
   if (filters.value.search) {
     const search = filters.value.search.toLowerCase()
     filtered = filtered.filter(company => 
       company.name.toLowerCase().includes(search) ||
-      company.description.toLowerCase().includes(search) ||
+      company.beschrijving.toLowerCase().includes(search) ||
       company.location.toLowerCase().includes(search)
     )
   }
@@ -111,8 +117,23 @@ const displayedPages = computed(() => {
   return pages
 })
 
+function openModal(bedrijf) {
+  geselecteerdBedrijf.value = bedrijf
+  showModal.value = true
+}
+
+function closeModal() {
+  showModal.value = false
+  geselecteerdBedrijf.value = null
+}
+
+function toggleFavoriet(bedrijf) {
+  // TODO: Implementeer favorieten functionaliteit met backend
+  bedrijf.favoriet = !bedrijf.favoriet
+}
+
 function viewCompany(id) {
-  window.location.href = `/bedrijven/${id}`
+  return `/bedrijven/${id}`
 }
 
 function previousPage() {
@@ -133,119 +154,61 @@ function goToPage(page) {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-100">
-    <Head title="Bedrijven" />
-
-    <!-- Header -->
-    <div class="bg-white shadow">
-      <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold text-gray-900">Bedrijven</h1>
+  <div class="min-h-screen bg-orange-50">
+    <Head title="Alle Bedrijven" />
+    <Navigation />
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-8">Bedrijven</h1>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div v-for="bedrijf in bedrijven" :key="bedrijf.id" class="bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="p-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-2">{{ bedrijf.name }}</h2>
+            <p class="text-gray-600 mb-4">{{ bedrijf.beschrijving }}</p>
+            <Link :href="'/bedrijven/' + bedrijf.id" class="text-orange-600 hover:text-orange-700 font-medium">Bekijk details</Link>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <!-- Filters -->
-      <div class="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6 mb-6">
-        <div class="md:flex md:items-center md:justify-between">
-          <div class="flex-1 min-w-0">
-            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Filters</h2>
-          </div>
-        </div>
-        <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-          <div class="sm:col-span-2">
-            <label for="search" class="block text-sm font-medium text-gray-700">Zoeken</label>
-            <div class="mt-1">
-              <input type="text" name="search" id="search" v-model="filters.search" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Zoek op naam, locatie...">
-            </div>
-          </div>
+    <!-- Modal overlay -->
+    <div
+      v-if="geselecteerdBedrijf"
+      class="fixed inset-0 z-50 bg-black/10 flex items-center justify-center px-4"
+    >
+      <!-- Modal venster -->
+      <div class="bg-gradient-to-br from-orange-100 to-orange-200 rounded-2xl shadow-xl max-w-xl w-full p-8 relative border border-orange-300">
+        <!-- Sluitknop -->
+        <button @click="closeModal" class="absolute top-4 right-4 text-orange-500 hover:text-orange-600 text-2xl font-bold">
+          &times;
+        </button>
 
-          <div class="sm:col-span-2">
-            <label for="industry" class="block text-sm font-medium text-gray-700">Industrie</label>
-            <select id="industry" name="industry" v-model="filters.industry" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-              <option value="">Alle industrieën</option>
-              <option v-for="industry in industries" :key="industry" :value="industry">{{ industry }}</option>
-            </select>
+        <!-- Header met logo en naam -->
+        <div class="flex items-center space-x-4 mb-6">
+          <!-- Logo met aparte achtergrondkleur -->
+          <div class="w-14 h-14 bg-white rounded-xl shadow-md flex items-center justify-center">
+            <img :src="geselecteerdBedrijf.logo_path" :alt="geselecteerdBedrijf.name" class="w-10 h-10 object-contain" />
           </div>
-
-          <div class="sm:col-span-2">
-            <label for="location" class="block text-sm font-medium text-gray-700">Locatie</label>
-            <select id="location" name="location" v-model="filters.location" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-              <option value="">Alle locaties</option>
-              <option v-for="location in locations" :key="location" :value="location">{{ location }}</option>
-            </select>
-          </div>
+          <h2 class="text-2xl font-bold text-orange-800">{{ geselecteerdBedrijf.name }}</h2>
         </div>
-      </div>
 
-      <!-- Companies Grid -->
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div v-for="company in filteredCompanies" :key="company.id" class="bg-white overflow-hidden shadow rounded-lg">
-          <div class="p-6">
-            <div class="flex items-center">
-              <div class="flex-shrink-0 h-12 w-12">
-                <img class="h-12 w-12 rounded-full" :src="company.logo" :alt="company.name">
-              </div>
-              <div class="ml-4">
-                <h3 class="text-lg font-medium text-gray-900">{{ company.name }}</h3>
-                <p class="text-sm text-gray-500">{{ company.industry }}</p>
-              </div>
-            </div>
-            <div class="mt-4">
-              <p class="text-sm text-gray-500">{{ company.description }}</p>
-            </div>
-            <div class="mt-4">
-              <div class="flex items-center text-sm text-gray-500">
-                <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-                </svg>
-                {{ company.location }}
-              </div>
-            </div>
-            <div class="mt-6">
-              <button @click="viewCompany(company.id)" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Bekijk profiel
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+        <!-- Bedrijfsinformatie -->
+        <ul class="space-y-2 text-sm text-orange-900">
+          <li><strong>Specialisatie:</strong> {{ geselecteerdBedrijf.specialisatie || '—' }}</li>
+          <li><strong>Beschrijving:</strong> {{ geselecteerdBedrijf.beschrijving || '—' }}</li>
+          <li><strong>Adres:</strong> {{ geselecteerdBedrijf.adres || '—' }}</li>
+          <li><strong>Telefoonnummer:</strong> {{ geselecteerdBedrijf.telefoon || '—' }}</li>
+          <li><strong>Email-adres:</strong> {{ geselecteerdBedrijf.email || '—' }}</li>
+        </ul>
 
-      <!-- Pagination -->
-      <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 mt-6">
-        <div class="flex-1 flex justify-between sm:hidden">
-          <button @click="previousPage" :disabled="currentPage === 1" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-            Vorige
-          </button>
-          <button @click="nextPage" :disabled="currentPage === totalPages" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-            Volgende
-          </button>
-        </div>
-        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-          <div>
-            <p class="text-sm text-gray-700">
-              Toont <span class="font-medium">{{ paginationStart }}</span> tot <span class="font-medium">{{ paginationEnd }}</span> van <span class="font-medium">{{ totalCompanies }}</span> bedrijven
-            </p>
-          </div>
-          <div>
-            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-              <button @click="previousPage" :disabled="currentPage === 1" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                <span class="sr-only">Vorige</span>
-                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-              </button>
-              <button v-for="page in displayedPages" :key="page" @click="goToPage(page)" :class="[page === currentPage ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600' : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50', 'relative inline-flex items-center px-4 py-2 border text-sm font-medium']">
-                {{ page }}
-              </button>
-              <button @click="nextPage" :disabled="currentPage === totalPages" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                <span class="sr-only">Volgende</span>
-                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                </svg>
-              </button>
-            </nav>
-          </div>
+        <!-- Website-link rechts onderaan -->
+        <div class="flex justify-end mt-8">
+          <a
+            v-if="geselecteerdBedrijf.website"
+            :href="geselecteerdBedrijf.website"
+            class="text-orange-600 hover:text-orange-700 font-semibold underline text-sm"
+            target="_blank">
+            🌐 Ga naar website
+          </a>
         </div>
       </div>
     </div>

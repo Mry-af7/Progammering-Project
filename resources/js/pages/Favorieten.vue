@@ -1,5 +1,20 @@
 <template>
   <div class="favorites-page">
+    <Navigation />
+    <section class="max-w-4xl mx-auto py-16">
+      <h1 class="text-4xl font-bold mb-6 text-orange-600">Mijn Favorieten</h1>
+      <div v-if="favorites && favorites.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div v-for="fav in favorites" :key="fav.id" class="bg-white rounded shadow p-6">
+          <h2 class="text-2xl font-semibold mb-2">{{ fav.favoritable?.name || fav.favoritable?.naam }}</h2>
+          <p class="text-gray-700 mb-2">{{ fav.favoritable?.beschrijving || fav.favoritable?.description }}</p>
+          <div v-if="fav.favoritable?.website">
+            <a :href="fav.favoritable.website" target="_blank" class="text-orange-600 hover:underline">Website</a>
+          </div>
+        </div>
+      </div>
+      <div v-else class="text-gray-500 text-lg">Je hebt nog geen favorieten toegevoegd.</div>
+    </section>
+
     <!-- Header Navigation -->
     <header class="header">
       <div class="header-container">
@@ -130,6 +145,10 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { router } from '@inertiajs/vue3'
+import Navigation from '@/components/Navigation.vue'
+import { usePage } from '@inertiajs/vue3'
+
+const favorites = computed(() => usePage().props.favorites || [])
 
 const props = defineProps({ 
   favorites: {

@@ -11,32 +11,26 @@ class Application extends Model
     use HasFactory;
 
     protected $fillable = [
-        'student_id',
-        'job_id',
+        'user_id',
+        'position_id',
         'status',
         'cover_letter',
-        'resume_url',
-        'portfolio_url',
-        'additional_documents',
-        'notes',
-        'interview_date',
-        'interview_type',
-        'interview_location',
-        'interview_notes',
+        'cv_path',
+        'portfolio_url'
     ];
 
     protected $casts = [
-        'additional_documents' => 'array',
-        'interview_date' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
 
-    public function student(): BelongsTo
+    public function user()
     {
-        return $this->belongsTo(StudentProfile::class, 'student_id');
+        return $this->belongsTo(User::class);
     }
 
-    public function job(): BelongsTo
+    public function position()
     {
-        return $this->belongsTo(Job::class);
+        return $this->belongsTo(Position::class);
     }
 } 

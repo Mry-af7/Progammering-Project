@@ -30,8 +30,8 @@
                     <div class="hidden md:flex items-center space-x-1">
                         <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Home</Link>
                         <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Info</Link>
-                        <Link href="/afspraak" class="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg font-medium transition-colors">Afspraak</Link>
-                        <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Favorieten</Link>
+                        <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Bedrijven</Link>
+                        <Link href="/afspraak" class="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg font-medium">Afspraak</Link>
                         <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</Link>
                         
                         <div class="flex items-center ml-6">
@@ -49,8 +49,8 @@
                     <div class="flex flex-col space-y-2 pt-4">
                         <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Home</Link>
                         <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Info</Link>
-                        <Link href="/afspraak" class="px-4 py-2 text-orange-600 font-medium">Afspraak</Link>
-                        <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Favorieten</Link>
+                        <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Bedrijven</Link>
+                        <Link href="/afspraak" class="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg font-medium">Afspraak</Link>
                         <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Contact</Link>
                         <Link v-if="!$page.props.auth.user" href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Inloggen</Link>
                         <Link v-else href="/dashboard" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Dashboard</Link>
