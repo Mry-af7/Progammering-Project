@@ -35,7 +35,11 @@
                         <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</Link>
                         
                         <div class="flex items-center ml-6">
-                            <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Inloggen</Link>
+                            <Link v-if="!$page.props.auth.user" href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Inloggen</Link>
+                            <div v-else class="flex items-center space-x-4">
+                                <span class="text-sm text-gray-600">Welkom, {{ $page.props.auth.user.firstname }}!</span>
+                                <Link href="/dashboard" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Dashboard</Link>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -48,7 +52,8 @@
                         <Link href="/afspraak" class="px-4 py-2 text-orange-600 font-medium">Afspraak</Link>
                         <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Favorieten</Link>
                         <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Contact</Link>
-                        <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Inloggen</Link>
+                        <Link v-if="!$page.props.auth.user" href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Inloggen</Link>
+                        <Link v-else href="/dashboard" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Dashboard</Link>
                     </div>
                 </div>
             </div>
@@ -70,6 +75,20 @@
                 <p class="text-gray-600 text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
                     Plan een persoonlijke speeddate met jouw droombedrijf om je carrière te versnellen.
                 </p>
+
+                <!-- Auth Check Warning -->
+                <div v-if="!$page.props.auth.user" class="max-w-md mx-auto mb-8 p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 text-yellow-600 mt-0.5">⚠️</div>
+                        <div class="text-left">
+                            <p class="text-yellow-800 font-medium text-sm mb-1">Inloggen vereist</p>
+                            <p class="text-yellow-700 text-sm">Je moet ingelogd zijn om een afspraak te maken.</p>
+                            <Link href="/login" class="inline-block mt-2 text-yellow-800 hover:text-yellow-900 font-medium text-sm underline">
+                                Nu inloggen →
+                            </Link>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -84,158 +103,193 @@
                             <p class="text-gray-600">Vul onderstaande gegevens in om een persoonlijke speeddate in te plannen.</p>
                         </div>
 
-                        <!-- Bedrijf Selection -->
-                        <div class="mb-8">
-                            <label class="block text-sm font-semibold text-gray-900 mb-3">
-                                Bedrijf <span class="text-red-500">*</span>
-                            </label>
-                            <div class="relative">
-                                <select v-model="selectedBedrijf" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors appearance-none bg-white">
-                                    <option value="">Selecteer een bedrijf</option>
-                                    <option v-for="bedrijf in bedrijven" :key="bedrijf.id" :value="bedrijf.id">
-                                        {{ bedrijf.naam }}
-                                    </option>
-                                </select>
-                                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                    </svg>
+                        <!-- Error Alert -->
+                        <div v-if="formErrors.length > 0" class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-6 h-6 text-red-600 mt-0.5">❌</div>
+                                <div>
+                                    <h4 class="text-red-800 font-medium mb-2">Er zijn fouten gevonden:</h4>
+                                    <ul class="text-red-700 text-sm space-y-1">
+                                        <li v-for="error in formErrors" :key="error">• {{ error }}</li>
+                                    </ul>
                                 </div>
                             </div>
-                            
-                            <!-- Bedrijf Info Card -->
-                            <div v-if="selectedBedrijfInfo" class="mt-4 bg-orange-50 rounded-xl p-4 border border-orange-100">
-                                <div class="flex items-start space-x-4">
-                                    <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                                        {{ selectedBedrijfInfo.naam.charAt(0) }}
+                        </div>
+
+                        <form @submit.prevent="submitAfspraak">
+                            <!-- Bedrijf Selection -->
+                            <div class="mb-8">
+                                <label class="block text-sm font-semibold text-gray-900 mb-3">
+                                    Bedrijf <span class="text-red-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <select v-model="selectedBedrijf" 
+                                            @change="onBedrijfChange"
+                                            :class="['w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors appearance-none bg-white',
+                                                   formErrors.includes('Selecteer een bedrijf') ? 'border-red-300' : 'border-gray-200']">
+                                        <option value="">Selecteer een bedrijf</option>
+                                        <option v-for="bedrijf in bedrijven" :key="bedrijf.id" :value="bedrijf.id">
+                                            {{ bedrijf.naam }}
+                                        </option>
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
                                     </div>
-                                    <div class="flex-1">
-                                        <h4 class="font-bold text-gray-900 mb-1">{{ selectedBedrijfInfo.naam }}</h4>
-                                        <p class="text-gray-600 text-sm mb-3">{{ selectedBedrijfInfo.beschrijving }}</p>
-                                        <div class="flex flex-wrap gap-2">
-                                            <span v-for="tag in selectedBedrijfInfo.tags" :key="tag" class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-medium">
-                                                {{ tag }}
-                                            </span>
+                                </div>
+                                
+                                <!-- Bedrijf Info Card -->
+                                <div v-if="selectedBedrijfInfo" class="mt-4 bg-orange-50 rounded-xl p-4 border border-orange-100 transition-all duration-300">
+                                    <div class="flex items-start space-x-4">
+                                        <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                                            {{ selectedBedrijfInfo.naam.charAt(0) }}
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="font-bold text-gray-900 mb-1">{{ selectedBedrijfInfo.naam }}</h4>
+                                            <p class="text-gray-600 text-sm mb-3">{{ selectedBedrijfInfo.beschrijving }}</p>
+                                            <div class="flex flex-wrap gap-2">
+                                                <span v-for="tag in selectedBedrijfInfo.tags" :key="tag" class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-medium">
+                                                    {{ tag }}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Tijdslot Selection -->
-                        <div class="mb-8">
-                            <label class="block text-sm font-semibold text-gray-900 mb-3">
-                                Beschikbare tijdsloten <span class="text-red-500">*</span>
-                            </label>
-                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                                <div v-for="slot in beschikbareTijdslots" :key="slot.id" 
-                                     :class="[
-                                        'border-2 rounded-xl p-4 cursor-pointer transition-all text-center',
-                                        selectedTijdslot === slot.id 
-                                            ? 'border-orange-500 bg-orange-50 shadow-lg' 
-                                            : slot.beschikbaar 
-                                                ? 'border-gray-200 hover:border-orange-300 hover:bg-orange-50' 
-                                                : 'border-gray-100 bg-gray-50 cursor-not-allowed opacity-50'
-                                     ]"
-                                     @click="selectTijdslot(slot.id, slot.beschikbaar)">
-                                    <div class="font-semibold text-gray-900 text-sm mb-1">{{ slot.tijd }}</div>
-                                    <div class="text-xs text-gray-600">{{ slot.info }}</div>
-                                    <div v-if="!slot.beschikbaar" class="text-xs text-red-500 font-medium mt-1">Bezet</div>
-                                    <div v-else-if="selectedTijdslot === slot.id" class="text-xs text-orange-600 font-medium mt-1">✓ Geselecteerd</div>
+                            <!-- Tijdslot Selection -->
+                            <div class="mb-8">
+                                <label class="block text-sm font-semibold text-gray-900 mb-3">
+                                    Beschikbare tijdsloten <span class="text-red-500">*</span>
+                                    <button type="button" @click="refreshTimeSlots" 
+                                            class="ml-2 text-orange-600 hover:text-orange-700 text-xs font-normal underline"
+                                            :disabled="refreshingSlots">
+                                        {{ refreshingSlots ? 'Vernieuwen...' : 'Vernieuwen' }}
+                                    </button>
+                                </label>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                    <div v-for="slot in beschikbareTijdslots" :key="slot.id" 
+                                         :class="[
+                                            'border-2 rounded-xl p-4 cursor-pointer transition-all text-center transform hover:scale-105',
+                                            selectedTijdslot === slot.id 
+                                                ? 'border-orange-500 bg-orange-50 shadow-lg' 
+                                                : slot.beschikbaar 
+                                                    ? 'border-gray-200 hover:border-orange-300 hover:bg-orange-50' 
+                                                    : 'border-gray-100 bg-gray-50 cursor-not-allowed opacity-50'
+                                         ]"
+                                         @click="selectTijdslot(slot.id, slot.beschikbaar)">
+                                        <div class="font-semibold text-gray-900 text-sm mb-1">{{ slot.tijd }}</div>
+                                        <div class="text-xs text-gray-600">{{ slot.info }}</div>
+                                        <div v-if="!slot.beschikbaar" class="text-xs text-red-500 font-medium mt-1">Bezet</div>
+                                        <div v-else-if="selectedTijdslot === slot.id" class="text-xs text-orange-600 font-medium mt-1">✓ Geselecteerd</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Personal Info -->
-                        <div class="grid md:grid-cols-2 gap-6 mb-6">
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-900 mb-2">
-                                    Voornaam <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" v-model="formData.voornaam" 
-                                       class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" 
-                                       placeholder="Je voornaam" />
+                            <!-- Personal Info -->
+                            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                        Voornaam <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" v-model="formData.voornaam" 
+                                           :class="['w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors',
+                                                  formErrors.includes('Voornaam is verplicht') ? 'border-red-300' : 'border-gray-200']"
+                                           placeholder="Je voornaam" 
+                                           @input="clearFieldError('voornaam')" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                        Achternaam <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" v-model="formData.achternaam" 
+                                           :class="['w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors',
+                                                  formErrors.includes('Achternaam is verplicht') ? 'border-red-300' : 'border-gray-200']"
+                                           placeholder="Je achternaam" 
+                                           @input="clearFieldError('achternaam')" />
+                                </div>
                             </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-900 mb-2">
-                                    Achternaam <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" v-model="formData.achternaam" 
-                                       class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" 
-                                       placeholder="Je achternaam" />
-                            </div>
-                        </div>
 
-                        <div class="grid md:grid-cols-2 gap-6 mb-6">
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-900 mb-2">
-                                    E-mailadres <span class="text-red-500">*</span>
-                                </label>
-                                <input type="email" v-model="formData.email" 
-                                       class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" 
-                                       placeholder="je.email@student.ehb.be" />
+                            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                        E-mailadres <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="email" v-model="formData.email" 
+                                           :class="['w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors',
+                                                  formErrors.some(e => e.includes('E-mail')) ? 'border-red-300' : 'border-gray-200']"
+                                           placeholder="je.email@student.ehb.be" 
+                                           @input="clearFieldError('email')" />
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                        Telefoon
+                                    </label>
+                                    <input type="tel" v-model="formData.telefoon" 
+                                           class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" 
+                                           placeholder="+32 xxx xx xx xx" />
+                                </div>
                             </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-900 mb-2">
-                                    Telefoon
-                                </label>
-                                <input type="tel" v-model="formData.telefoon" 
-                                       class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors" 
-                                       placeholder="+32 xxx xx xx xx" />
-                            </div>
-                        </div>
 
-                        <!-- Study Program -->
-                        <div class="mb-6">
-                            <label class="block text-sm font-semibold text-gray-900 mb-2">
-                                Studierichting <span class="text-red-500">*</span>
-                            </label>
-                            <div class="relative">
-                                <select v-model="formData.studierichting" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors appearance-none bg-white">
-                                    <option value="">Selecteer je studierichting</option>
-                                    <option v-for="richting in studierichtingen" :key="richting" :value="richting">
-                                        {{ richting }}
-                                    </option>
-                                </select>
-                                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            <!-- Study Program -->
+                            <div class="mb-6">
+                                <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                    Studierichting <span class="text-red-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <select v-model="formData.studierichting" 
+                                            :class="['w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors appearance-none bg-white',
+                                                   formErrors.includes('Selecteer een studierichting') ? 'border-red-300' : 'border-gray-200']"
+                                            @change="clearFieldError('studierichting')">
+                                        <option value="">Selecteer je studierichting</option>
+                                        <option v-for="richting in studierichtingen" :key="richting" :value="richting">
+                                            {{ richting }}
+                                        </option>
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Notes -->
+                            <div class="mb-8">
+                                <label class="block text-sm font-semibold text-gray-900 mb-2">
+                                    Extra informatie
+                                </label>
+                                <textarea v-model="formData.notities" 
+                                          class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors resize-none" 
+                                          rows="4"
+                                          placeholder="Zijn er specifieke onderwerpen die je wilt bespreken? Heb je vragen over stages, jobs of de bedrijfscultuur?"></textarea>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit"
+                                    :disabled="!isFormValid || isSubmitting || !$page.props.auth.user"
+                                    :class="[
+                                        'w-full px-8 py-4 rounded-xl font-semibold text-lg transition-all transform',
+                                        isFormValid && !isSubmitting && $page.props.auth.user
+                                            ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600 hover:shadow-lg hover:scale-105'
+                                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    ]">
+                                <span v-if="isSubmitting" class="inline-flex items-center">
+                                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Additional Notes -->
-                        <div class="mb-8">
-                            <label class="block text-sm font-semibold text-gray-900 mb-2">
-                                Extra informatie
-                            </label>
-                            <textarea v-model="formData.notities" 
-                                      class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors resize-none" 
-                                      rows="4"
-                                      placeholder="Zijn er specifieke onderwerpen die je wilt bespreken? Heb je vragen over stages, jobs of de bedrijfscultuur?"></textarea>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <button @click="submitAfspraak" 
-                                :disabled="!isFormValid || isSubmitting"
-                                :class="[
-                                    'w-full px-8 py-4 rounded-xl font-semibold text-lg transition-all transform',
-                                    isFormValid && !isSubmitting
-                                        ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600 hover:shadow-lg hover:scale-105'
-                                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                ]">
-                            <span v-if="isSubmitting" class="inline-flex items-center">
-                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Bevestigen...
-                            </span>
-                            <span v-else class="inline-flex items-center">
-                                📅 Afspraak bevestigen
-                            </span>
-                        </button>
+                                    Bevestigen...
+                                </span>
+                                <span v-else-if="!$page.props.auth.user" class="inline-flex items-center">
+                                    🔒 Login om af te spreken
+                                </span>
+                                <span v-else class="inline-flex items-center">
+                                    📅 Afspraak bevestigen
+                                </span>
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -331,6 +385,25 @@
                         </div>
                     </div>
 
+                    <!-- Current Appointments (if user is logged in) -->
+                    <div v-if="$page.props.auth.user && userAppointments.length > 0" class="bg-white rounded-2xl shadow-sm border border-orange-100 p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                            📋 Jouw afspraken
+                        </h3>
+                        <div class="space-y-3">
+                            <div v-for="appointment in userAppointments" :key="appointment.id" 
+                                 class="p-3 bg-gray-50 rounded-lg">
+                                <div class="font-medium text-gray-900 text-sm">{{ appointment.company_name }}</div>
+                                <div class="text-gray-600 text-xs">{{ appointment.time_slot }} - {{ appointment.date }}</div>
+                                <div :class="['text-xs font-medium mt-1',
+                                            appointment.status === 'confirmed' ? 'text-green-600' : 
+                                            appointment.status === 'cancelled' ? 'text-red-600' : 'text-yellow-600']">
+                                    {{ getStatusText(appointment.status) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Contact Card -->
                     <div class="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 border border-orange-100">
                         <h3 class="text-xl font-bold text-gray-900 mb-3">💬 Hulp nodig?</h3>
@@ -365,8 +438,8 @@
                     
                     <div class="bg-gray-50 rounded-xl p-4 mb-6 text-left">
                         <div class="text-sm space-y-2">
-                            <div><strong>Bedrijf:</strong> {{ getSelectedBedrijfNaam() }}</div>
-                            <div><strong>Tijdstip:</strong> {{ getSelectedTijdslotInfo() }}</div>
+                            <div><strong>Bedrijf:</strong> {{ successData.company_name }}</div>
+                            <div><strong>Tijdstip:</strong> {{ successData.time_slot }}</div>
                             <div><strong>Naam:</strong> {{ formData.voornaam }} {{ formData.achternaam }}</div>
                         </div>
                     </div>
@@ -457,14 +530,29 @@
 </template>
 
 <script setup>
-import { Head, Link } from '@inertiajs/vue3'
-import { ref, computed } from 'vue'
+import { Head, Link, router } from '@inertiajs/vue3'
+import { ref, computed, onMounted } from 'vue'
 
+// Props from controller
+const props = defineProps({
+    bedrijven: Array,
+    beschikbareTijdslots: Array,
+    studierichtingen: Array,
+    eventInfo: Object,
+    userAppointments: {
+        type: Array,
+        default: () => []
+    }
+})
+
+// Reactive data
 const mobileMenuOpen = ref(false)
 const selectedBedrijf = ref('')
 const selectedTijdslot = ref('')
 const isSubmitting = ref(false)
 const showSuccessModal = ref(false)
+const refreshingSlots = ref(false)
+const formErrors = ref([])
 const toast = ref({ show: false, message: '', type: 'info', icon: 'ℹ️' })
 
 const formData = ref({
@@ -476,63 +564,19 @@ const formData = ref({
     notities: ''
 })
 
-const bedrijven = ref([
-    {
-        id: 'microsoft',
-        naam: 'Microsoft Belgium',
-        beschrijving: 'Tech giant met focus op cloud computing, AI en enterprise solutions.',
-        tags: ['Cloud', 'AI', 'Enterprise']
-    },
-    {
-        id: 'accenture',
-        naam: 'Accenture',
-        beschrijving: 'Global consultancy diensten in technologie en digitale transformatie.',
-        tags: ['Consulting', 'Digital', 'Innovation']
-    },
-    {
-        id: 'deloitte',
-        naam: 'Deloitte Digital',
-        beschrijving: 'Digitale innovatie en consultancy voor enterprise klanten.',
-        tags: ['Digital', 'Strategy', 'Tech']
-    },
-    {
-        id: 'proximus',
-        naam: 'Proximus',
-        beschrijving: 'Telecom leader met focus op 5G, IoT en digitale services.',
-        tags: ['Telecom', '5G', 'IoT']
-    },
-    {
-        id: 'colruyt',
-        naam: 'Colruyt Group IT',
-        beschrijving: 'Retail technologie en e-commerce innovaties.',
-        tags: ['Retail', 'E-commerce', 'Innovation']
-    }
-])
+const successData = ref({
+    company_name: '',
+    time_slot: '',
+    date: ''
+})
 
-const beschikbareTijdslots = ref([
-    { id: '1', tijd: '09:00 - 09:15', info: '25 maart 2025', beschikbaar: true },
-    { id: '2', tijd: '09:20 - 09:35', info: '25 maart 2025', beschikbaar: true },
-    { id: '3', tijd: '09:40 - 09:55', info: '25 maart 2025', beschikbaar: false },
-    { id: '4', tijd: '10:00 - 10:15', info: '25 maart 2025', beschikbaar: true },
-    { id: '5', tijd: '10:20 - 10:35', info: '25 maart 2025', beschikbaar: true },
-    { id: '6', tijd: '10:40 - 10:55', info: '25 maart 2025', beschikbaar: false },
-    { id: '7', tijd: '11:00 - 11:15', info: '25 maart 2025', beschikbaar: true },
-    { id: '8', tijd: '11:20 - 11:35', info: '25 maart 2025', beschikbaar: true },
-    { id: '9', tijd: '13:00 - 13:15', info: '25 maart 2025', beschikbaar: true },
-    { id: '10', tijd: '13:20 - 13:35', info: '25 maart 2025', beschikbaar: false },
-    { id: '11', tijd: '13:40 - 13:55', info: '25 maart 2025', beschikbaar: true },
-    { id: '12', tijd: '14:00 - 14:15', info: '25 maart 2025', beschikbaar: true }
-])
+// Load initial data
+const bedrijven = ref(props.bedrijven || [])
+const beschikbareTijdslots = ref(props.beschikbareTijdslots || [])
+const studierichtingen = ref(props.studierichtingen || [])
+const userAppointments = ref(props.userAppointments || [])
 
-const studierichtingen = ref([
-    'Multimedia & Creatieve Technologie',
-    'Toegepaste Informatica',
-    'Internet of Things',
-    'Industrieel Ingenieur',
-    'Grafische en Digitale Media',
-    'Anders'
-])
-
+// Computed properties
 const selectedBedrijfInfo = computed(() => {
     return bedrijven.value.find(b => b.id === selectedBedrijf.value)
 })
@@ -543,31 +587,150 @@ const isFormValid = computed(() => {
            formData.value.voornaam.trim() && 
            formData.value.achternaam.trim() && 
            formData.value.email.trim() && 
-           formData.value.studierichting
+           formData.value.studierichting &&
+           validateEmail(formData.value.email)
 })
+
+// Methods
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return re.test(email)
+}
+
+function validateForm() {
+    formErrors.value = []
+    
+    if (!selectedBedrijf.value) {
+        formErrors.value.push('Selecteer een bedrijf')
+    }
+    
+    if (!selectedTijdslot.value) {
+        formErrors.value.push('Selecteer een tijdslot')
+    }
+    
+    if (!formData.value.voornaam.trim()) {
+        formErrors.value.push('Voornaam is verplicht')
+    }
+    
+    if (!formData.value.achternaam.trim()) {
+        formErrors.value.push('Achternaam is verplicht')
+    }
+    
+    if (!formData.value.email.trim()) {
+        formErrors.value.push('E-mailadres is verplicht')
+    } else if (!validateEmail(formData.value.email)) {
+        formErrors.value.push('E-mailadres is niet geldig')
+    }
+    
+    if (!formData.value.studierichting) {
+        formErrors.value.push('Selecteer een studierichting')
+    }
+    
+    return formErrors.value.length === 0
+}
+
+function clearFieldError(field) {
+    const errorMessages = {
+        voornaam: 'Voornaam is verplicht',
+        achternaam: 'Achternaam is verplicht',
+        email: ['E-mailadres is verplicht', 'E-mailadres is niet geldig'],
+        studierichting: 'Selecteer een studierichting'
+    }
+    
+    const errors = Array.isArray(errorMessages[field]) ? errorMessages[field] : [errorMessages[field]]
+    errors.forEach(error => {
+        const index = formErrors.value.indexOf(error)
+        if (index > -1) {
+            formErrors.value.splice(index, 1)
+        }
+    })
+}
 
 function selectTijdslot(slotId, beschikbaar) {
     if (beschikbaar) {
         selectedTijdslot.value = slotId
+        clearFieldError('tijdslot')
+    }
+}
+
+function onBedrijfChange() {
+    clearFieldError('bedrijf')
+    // Optionally refresh time slots when company changes
+    refreshTimeSlots()
+}
+
+async function refreshTimeSlots() {
+    refreshingSlots.value = true
+    try {
+        const response = await fetch('/api/afspraak/tijdslots')
+        const data = await response.json()
+        beschikbareTijdslots.value = data.tijdslots
+    } catch (error) {
+        showToast('Kon tijdslots niet vernieuwen', 'error', '❌')
+    } finally {
+        refreshingSlots.value = false
     }
 }
 
 async function submitAfspraak() {
+    if (!validateForm()) {
+        showToast('Vul alle verplichte velden correct in', 'error', '❌')
+        return
+    }
+
     if (!isFormValid.value) return
 
     isSubmitting.value = true
 
     try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500))
-        
-        showSuccessModal.value = true
-        resetForm()
-        showToast('Afspraak succesvol ingepland!', 'success', '✅')
+        const response = await fetch('/afspraak', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                selectedBedrijf: selectedBedrijf.value,
+                selectedTijdslot: selectedTijdslot.value,
+                formData: formData.value
+            })
+        })
+
+        const data = await response.json()
+
+        if (response.ok) {
+            successData.value = data.appointment
+            showSuccessModal.value = true
+            resetForm()
+            showToast('Afspraak succesvol ingepland!', 'success', '✅')
+            
+            // Refresh time slots to reflect the new booking
+            await refreshTimeSlots()
+            
+            // Refresh user appointments
+            await loadUserAppointments()
+        } else {
+            if (data.errors) {
+                formErrors.value = Object.values(data.errors).flat()
+            } else {
+                showToast(data.error || 'Er is een fout opgetreden', 'error', '❌')
+            }
+        }
     } catch (error) {
-        showToast('Er is een fout opgetreden. Probeer opnieuw.', 'error', '❌')
+        console.error('Error submitting appointment:', error)
+        showToast('Er is een onverwachte fout opgetreden. Probeer opnieuw.', 'error', '❌')
     } finally {
         isSubmitting.value = false
+    }
+}
+
+async function loadUserAppointments() {
+    try {
+        const response = await fetch('/api/afspraak/user-appointments')
+        const data = await response.json()
+        userAppointments.value = data.appointments || []
+    } catch (error) {
+        console.error('Error loading user appointments:', error)
     }
 }
 
@@ -582,25 +745,25 @@ function resetForm() {
         studierichting: '',
         notities: ''
     }
+    formErrors.value = []
 }
 
 function closeSuccessModal() {
     showSuccessModal.value = false
 }
 
-function getSelectedBedrijfNaam() {
-    const bedrijf = bedrijven.value.find(b => b.id === selectedBedrijf.value)
-    return bedrijf ? bedrijf.naam : ''
-}
-
-function getSelectedTijdslotInfo() {
-    const slot = beschikbareTijdslots.value.find(s => s.id === selectedTijdslot.value)
-    return slot ? `${slot.tijd} - ${slot.info}` : ''
+function getStatusText(status) {
+    const statusMap = {
+        'confirmed': 'Bevestigd',
+        'cancelled': 'Geannuleerd',
+        'pending': 'In behandeling'
+    }
+    return statusMap[status] || status
 }
 
 function downloadCalendar() {
-    const bedrijfNaam = getSelectedBedrijfNaam()
-    const tijdInfo = getSelectedTijdslotInfo()
+    const bedrijfNaam = successData.value.company_name
+    const tijdInfo = successData.value.time_slot
     
     const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
@@ -632,4 +795,14 @@ function showToast(message, type = 'info', icon = 'ℹ️') {
 function hideToast() {
     toast.value.show = false
 }
+
+// Load user data if authenticated
+onMounted(() => {
+    const user = window.Laravel?.user || {}
+    if (user.firstname) formData.value.voornaam = user.firstname
+    if (user.lastname) formData.value.achternaam = user.lastname
+    if (user.email) formData.value.email = user.email
+    if (user.phone) formData.value.telefoon = user.phone
+    if (user.study_program) formData.value.studierichting = user.study_program
+})
 </script>

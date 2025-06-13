@@ -77,10 +77,10 @@
                     <!-- CTA Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 mb-8">
                         <Link href="/register?type=student" class="bg-orange-500 text-white px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-600 hover:shadow-lg transition-all">
-                            Start mijn profiel (gratis)
+                            Ik ben een student
                         </Link>
                         <Link href="/students" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
-                            Bekijk student profielen
+                            Ik ben een bedrijf 
                         </Link>
                     </div>
                     
