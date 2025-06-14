@@ -4,37 +4,36 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Company extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'name',
-        'industry',
         'description',
-        'location',
-        'logo',
+        'logo_path',
         'website',
-        'linkedin',
-        'twitter',
-        'facebook',
-        'instagram',
+        'email',
+        'phone',
+        'address',
+        'city',
+        'postal_code',
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function positions()
-    {
-        return $this->hasMany(Position::class);
-    }
-
-    public function appointments()
+    public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function isFavoritedBy(User $user): bool
+    {
+        return $this->favorites()->where('user_id', $user->id)->exists();
     }
 } 

@@ -98,8 +98,8 @@
                 <!-- Left Column - Form -->
                 <div class="lg:col-span-2">
                     <AppointmentForm
-                        :companies="companies"
-                        :time-slots="timeSlots"
+                        :companies="localCompanies"
+                        :time-slots="localTimeSlots"
                         @submit="handleSubmit"
                         @bedrijf-change="handleBedrijfChange"
                         @refresh-slots="refreshTimeSlots"
@@ -112,7 +112,7 @@
                         <h3 class="text-xl font-bold text-gray-900 mb-4">ℹ️ Informatie</h3>
                         
                         <div class="space-y-6">
-                            <div>
+                                <div>
                                 <h4 class="font-semibold text-gray-900 mb-2">Wat is een speeddate?</h4>
                                 <p class="text-gray-600 text-sm">
                                     Een speeddate is een kort gesprek van 15 minuten met een recruiter of HR-manager van een bedrijf. 
@@ -120,7 +120,7 @@
                                 </p>
                             </div>
 
-                            <div>
+                                <div>
                                 <h4 class="font-semibold text-gray-900 mb-2">Voorbereiding</h4>
                                 <ul class="text-gray-600 text-sm space-y-2">
                                     <li class="flex items-start">
@@ -138,17 +138,17 @@
                                 </ul>
                             </div>
 
-                            <div>
+                                <div>
                                 <h4 class="font-semibold text-gray-900 mb-2">Locatie</h4>
                                 <p class="text-gray-600 text-sm">
                                     De speeddates vinden plaats op de campus van Erasmushogeschool Brussel.
                                     Je ontvangt de exacte locatie na bevestiging van je afspraak.
                                 </p>
                             </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
             <!-- Appointments List -->
             <div class="mt-8" v-if="$page.props.auth.user">
@@ -159,15 +159,25 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import axios from 'axios';
-import AppointmentForm from '@/Components/Appointments/AppointmentForm.vue';
-import AppointmentList from '@/Components/Appointments/AppointmentList.vue';
+import AppointmentForm from '@/components/Appointments/AppointmentForm.vue';
+import AppointmentList from '@/components/Appointments/AppointmentList.vue';
 
 const mobileMenuOpen = ref(false);
 const companies = ref([]);
 const timeSlots = ref([]);
+
+const localCompanies = computed({
+    get: () => companies.value,
+    set: (val) => { companies.value = val; }
+});
+
+const localTimeSlots = computed({
+    get: () => timeSlots.value,
+    set: (val) => { timeSlots.value = val; }
+});
 
 onMounted(async () => {
     await loadCompanies();
@@ -177,7 +187,8 @@ onMounted(async () => {
 const loadCompanies = async () => {
     try {
         const response = await fetch('/api/companies');
-        companies.value = await response.json();
+        const data = await response.json();
+        localCompanies.value = data.companies;
     } catch (error) {
         console.error('Error loading companies:', error);
     }
@@ -186,7 +197,8 @@ const loadCompanies = async () => {
 const loadTimeSlots = async () => {
     try {
         const response = await fetch('/api/time-slots');
-        timeSlots.value = await response.json();
+        const data = await response.json();
+        localTimeSlots.value = data.time_slots;
     } catch (error) {
         console.error('Error loading time slots:', error);
     }

@@ -44,7 +44,7 @@
                     <div class="flex flex-col space-y-2 pt-4">
                         <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Home</Link>
                         <Link href="/students" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Student Profiles</Link>
-                        <Link href="/companies" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Voor Bedrijven</Link>
+                        <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Voor Bedrijven</Link>
                         <Link href="/events" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Speeddate Events</Link>
                         <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Contact</Link>
                         <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Inloggen</Link>
@@ -79,7 +79,7 @@
                         <Link href="/register?type=student" class="bg-orange-500 text-white px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-600 hover:shadow-lg transition-all">
                             Ik ben een student
                         </Link>
-                        <Link href="/students" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
+                        <Link href="/register/bedrijf" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
                             Ik ben een bedrijf 
                         </Link>
                     </div>
@@ -374,7 +374,7 @@
             </div>
             <div class="mt-4 flex justify-center">
             <Link
-  href="/alle-bedrijven"
+  href="/bedrijven"
   class="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-red-600 hover:shadow-lg transition-all transform hover:scale-105"
 > Ontdek hier alle bedrijven!
 </Link>
@@ -446,7 +446,7 @@
                     <div>
                         <h4 class="font-semibold mb-4">Voor bedrijven</h4>
                         <ul class="space-y-2 text-orange-100 text-sm">
-                            <li><Link href="/companies" class="hover:text-white transition-colors">Browse studenten</Link></li>
+                            <li><Link href="/bedrijven" class="hover:text-white transition-colors">Browse studenten</Link></li>
                         </ul>
                     </div>
                     
