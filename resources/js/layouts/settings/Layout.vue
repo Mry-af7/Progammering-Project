@@ -26,7 +26,7 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
 </script>
 
 <template>
-    <div class="bg-orange-50 px-4 py-6">
+    <div class="bg-orange-50 px-4 py-6 dark:bg-neutral-800 rounded-b-xl">
         <Heading title="Instellingen" description="Beheer uw profiel en accountinstellingen" />
 
         <div class="flex flex-col space-y-8 md:space-y-0 lg:flex-row lg:space-x-12 lg:space-y-0">
@@ -36,8 +36,8 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
                     :class="[
                         'w-full justify-start text-left px-4 py-2 rounded-md transition-colors',
                         currentPath === item.href
-                            ? 'bg-orange-500 text-white hover:bg-orange-300'    //Kleur van geselecteerde knop
-                            : 'bg-orange-200 text-orange-900 hover:bg-orange-300'  //Kleur van niet geselecteerde knop
+                            ? 'bg-orange-500 text-white hover:bg-transparent dark:bg-[color:#b25400]'    //Kleur van geselecteerde knop
+                            : 'bg-orange-200 text-orange-900 hover:bg-transparent dark:bg-[color:#db6a00]'  //Kleur van niet geselecteerde knop
                     ]">
                         <Link :href="item.href">
                         {{ item.title }}
