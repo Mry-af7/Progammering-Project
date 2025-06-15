@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Company extends Model
 {
@@ -11,22 +12,28 @@ class Company extends Model
 
     protected $fillable = [
         'name',
+        'description',
         'logo_path',
         'website',
-        'specialisatie',
-        'beschrijving',
-        'adres',
-        'telefoon',
         'email',
-        'is_active'
+        'phone',
+        'address',
+        'city',
+        'postal_code',
     ];
 
-    protected $casts = [
-        'is_active' => 'boolean',
-    ];
-
-    public function positions()
+    public function appointments(): HasMany
     {
-        return $this->hasMany(Position::class);
+        return $this->hasMany(Appointment::class);
+    }
+
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function isFavoritedBy(User $user): bool
+    {
+        return $this->favorites()->where('user_id', $user->id)->exists();
     }
 } 

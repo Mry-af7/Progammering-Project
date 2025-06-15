@@ -3,6 +3,58 @@
         <Head title="Welcome" />
         <Navigation />
         
+        
+        <!-- Navigation -->
+        <nav class="bg-orange-50/90 backdrop-blur-sm shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Logo -->
+                    <Link href="/" class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <span class="text-white font-bold text-lg">E</span>
+                        </div>
+                        <div>
+                            <div class="text-gray-900 font-bold text-xl">erasmus</div>
+                            <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
+                        </div>
+                    </Link>
+                    
+                    <!-- Mobile menu button -->
+                    <div class="md:hidden">
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg text-gray-700 hover:bg-orange-100">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Desktop Navigation Links -->
+                    <div class="hidden md:flex items-center space-x-1">
+                        <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Home</Link>
+                        <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Info</Link>
+                        <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Favorieten</Link>
+                        <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</Link>
+                        
+                        <div class="flex items-center ml-6">
+                            <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Inloggen</Link>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu -->
+                <div v-show="mobileMenuOpen" class="md:hidden mt-4 pb-4 border-t border-orange-200">
+                    <div class="flex flex-col space-y-2 pt-4">
+                        <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Home</Link>
+                        <Link href="/students" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Student Profiles</Link>
+                        <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Voor Bedrijven</Link>
+                        <Link href="/events" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Speeddate Events</Link>
+                        <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Contact</Link>
+                        <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Inloggen</Link>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
         <!-- Hero Section -->
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
@@ -31,6 +83,8 @@
                         </Link>
                         <Link href="/register?type=bedrijf" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
                             Ik ben een bedrijf
+                        <Link href="/register/bedrijf" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
+                            Ik ben een bedrijf 
                         </Link>
                     </div>
                     
@@ -300,6 +354,16 @@
                         </div>
                     </div>
                 </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-center">
+            <Link
+  href="/bedrijven"
+  class="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-red-600 hover:shadow-lg transition-all transform hover:scale-105"
+> Ontdek hier alle bedrijven!
+</Link>
+
             </div>
         </section>
 
@@ -381,6 +445,7 @@
                     <div>
                         <h4 class="font-semibold mb-4">Voor bedrijven</h4>
                         <ul class="space-y-2 text-orange-100 text-sm">
+                            <li><Link href="/bedrijven" class="hover:text-white transition-colors">Browse studenten</Link></li>
                             <li><Link href="/bedrijven" class="hover:text-white transition-colors">Browse studenten</Link></li>
                         </ul>
                     </div>

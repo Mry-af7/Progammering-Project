@@ -48,18 +48,18 @@ const submit = () => {
                         Home
                     </Link>
 
-                    <button
+                    <Link href="/info"
                         class="bg-orange-500 text-white px-6 py-2 rounded-full font-medium hover:bg-orange-600 transition-colors">
                         Info
-                    </button>
-                    <button
+                    </Link>
+                    <Link href="/favorieten"
                         class="bg-orange-500 text-white px-6 py-2 rounded-full font-medium hover:bg-orange-600 transition-colors">
                         Favorieten
-                    </button>
-                    <button
+                    </Link>
+                    <Link href="/contact"
                         class="bg-orange-500 text-white px-6 py-2 rounded-full font-medium hover:bg-orange-600 transition-colors">
                         Contact
-                    </button>
+                    </Link>
 
                     <!-- Search -->
                     <div class="relative ml-4">
