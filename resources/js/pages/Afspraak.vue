@@ -1,792 +1,797 @@
 <template>
-    <div class="appointment-booking">
-      <div class="container mx-auto px-4 py-8">
-        <div class="max-w-4xl mx-auto">
-          <!-- Header -->
-          <div class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">Maak een afspraak</h1>
-            <p class="text-gray-600">Plan een gesprek met jouw favoriete bedrijf</p>
-          </div>
-  
-          <!-- Progress Steps -->
-          <div class="mb-8">
-            <div class="flex items-center justify-center">
-              <div v-for="(step, index) in steps" :key="index" class="flex items-center">
-                <div class="flex items-center">
-                  <div 
-                    :class="[
-                      'w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium',
-                      currentStep > index 
-                        ? 'bg-orange-500 text-white' 
-                        : currentStep === index 
-                          ? 'bg-orange-100 text-orange-600 border-2 border-orange-500'
-                          : 'bg-gray-200 text-gray-500'
-                    ]"
-                  >
-                    {{ index + 1 }}
-                  </div>
-                  <span :class="['ml-2 text-sm font-medium', currentStep >= index ? 'text-gray-900' : 'text-gray-500']">
-                    {{ step }}
-                  </span>
-                </div>
-                <div v-if="index < steps.length - 1" class="w-12 h-px bg-gray-300 mx-4"></div>
-              </div>
-            </div>
-          </div>
-  
-          <!-- Form Card -->
-          <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-            <form @submit.prevent="submitAppointment" class="p-6">
-              
-              <!-- Step 0: Bedrijf Selectie -->
-              <div v-show="currentStep === 0" class="space-y-6">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">Selecteer een bedrijf</h2>
-                
-                <!-- Search Bar -->
-                <div class="relative">
-                  <input
-                    v-model="companySearch"
-                    type="text"
-                    placeholder="Zoek naar een bedrijf..."
-                    class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                  >
-                  <svg class="absolute left-3 top-3.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                  </svg>
-                </div>
-  
-                <!-- Company Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div
-                    v-for="company in filteredCompanies"
-                    :key="company.id"
-                    @click="selectCompany(company)"
-                    :class="[
-                      'p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md',
-                      selectedCompany?.id === company.id 
-                        ? 'border-orange-500 bg-orange-50' 
-                        : 'border-gray-200 hover:border-orange-300'
-                    ]"
-                  >
-                    <div class="flex items-center space-x-3">
-                      <div class="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-lg flex items-center justify-center text-white font-bold">
-                        {{ company.name.charAt(0) }}
-                      </div>
-                      <div>
-                        <h3 class="font-medium text-gray-900">{{ company.name }}</h3>
-                        <p class="text-sm text-gray-500">{{ company.type }}</p>
-                        <div class="flex items-center mt-1">
-                          <div class="flex text-yellow-400">
-                            <svg v-for="i in 5" :key="i" class="w-3 h-3 fill-current" viewBox="0 0 20 20">
-                              <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
-                            </svg>
-                          </div>
-                          <span class="text-xs text-gray-500 ml-1">({{ company.rating }})</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-  
-              <!-- Step 1: Datum & Tijd Selectie -->
-              <div v-show="currentStep === 1" class="space-y-6">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">Selecteer datum en tijd</h2>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  <!-- Calendar -->
-                  <div>
-                    <h3 class="font-medium text-gray-900 mb-3">Kies een datum</h3>
-                    <div class="bg-gray-50 rounded-lg p-4">
-                      <!-- Calendar Header -->
-                      <div class="flex items-center justify-between mb-4">
-                        <button 
-                          type="button"
-                          @click="previousMonth"
-                          class="p-1 hover:bg-gray-200 rounded"
-                        >
-                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                          </svg>
-                        </button>
-                        <h4 class="text-lg font-medium">{{ currentMonthYear }}</h4>
-                        <button 
-                          type="button"
-                          @click="nextMonth"
-                          class="p-1 hover:bg-gray-200 rounded"
-                        >
-                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                          </svg>
-                        </button>
-                      </div>
-  
-                      <!-- Days of Week -->
-                      <div class="grid grid-cols-7 gap-1 mb-2">
-                        <div v-for="day in daysOfWeek" :key="day" class="text-center text-sm font-medium text-gray-500 py-2">
-                          {{ day }}
-                        </div>
-                      </div>
-  
-                      <!-- Calendar Days -->
-                      <div class="grid grid-cols-7 gap-1">
-                        <button
-                          v-for="date in calendarDays"
-                          :key="date.date"
-                          type="button"
-                          @click="selectDate(date)"
-                          :disabled="!date.available || date.isPast"
-                          :class="[
-                            'h-10 w-10 text-sm rounded-lg transition-colors duration-200',
-                            date.isToday ? 'bg-blue-100 text-blue-600' : '',
-                            selectedDate === date.date && date.available 
-                              ? 'bg-orange-500 text-white' 
-                              : date.available && !date.isPast
-                                ? 'hover:bg-orange-100 text-gray-900'
-                                : 'text-gray-400 cursor-not-allowed',
-                            !date.inCurrentMonth ? 'text-gray-300' : ''
-                          ]"
-                        >
-                          {{ date.day }}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-  
-                  <!-- Time Slots -->
-                  <div>
-                    <h3 class="font-medium text-gray-900 mb-3">Beschikbare tijdsloten</h3>
-                    <div v-if="selectedDate" class="space-y-3">
-                      <div v-for="period in timePeriods" :key="period.name" class="space-y-2">
-                        <h4 class="text-sm font-medium text-gray-700">{{ period.name }}</h4>
-                        <div class="grid grid-cols-2 gap-2">
-                          <button
-                            v-for="slot in period.slots"
-                            :key="slot.time"
-                            type="button"
-                            @click="selectTimeSlot(slot)"
-                            :disabled="!slot.available"
-                            :class="[
-                              'p-3 text-sm border rounded-lg transition-all duration-200',
-                              selectedTimeSlot?.time === slot.time
-                                ? 'border-orange-500 bg-orange-50 text-orange-700'
-                                : slot.available
-                                  ? 'border-gray-300 hover:border-orange-300 hover:bg-orange-50'
-                                  : 'border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed'
-                            ]"
-                          >
-                            {{ slot.time }}
-                            <span v-if="!slot.available" class="block text-xs">Bezet</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div v-else class="text-gray-500 text-center py-8">
-                      Selecteer eerst een datum
-                    </div>
-                  </div>
-                </div>
-              </div>
-  
-              <!-- Step 2: Persoonlijke Gegevens -->
-              <div v-show="currentStep === 2" class="space-y-6">
-                <div class="flex justify-between items-center mb-4">
-                  <h2 class="text-xl font-semibold text-gray-900">Persoonlijke gegevens</h2>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Voornaam *</label>
-                    <input
-                      v-model="personalInfo.firstName"
-                      type="text"
-                      required
-                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      :class="{ 'border-red-500': errors.firstName }"
-                    >
-                    <p v-if="errors.firstName" class="mt-1 text-sm text-red-600">{{ errors.firstName }}</p>
-                  </div>
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Achternaam *</label>
-                    <input
-                      v-model="personalInfo.lastName"
-                      type="text"
-                      required
-                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      :class="{ 'border-red-500': errors.lastName }"
-                    >
-                    <p v-if="errors.lastName" class="mt-1 text-sm text-red-600">{{ errors.lastName }}</p>
-                  </div>
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">E-mail *</label>
-                    <input
-                      v-model="personalInfo.email"
-                      type="email"
-                      required
-                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      :class="{ 'border-red-500': errors.email }"
-                    >
-                    <p v-if="errors.email" class="mt-1 text-sm text-red-600">{{ errors.email }}</p>
-                  </div>
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Telefoonnummer *</label>
-                    <input
-                      v-model="personalInfo.phone"
-                      type="tel"
-                      required
-                      pattern="[0-9+\s-()]{10,}"
-                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      :class="{ 'border-red-500': errors.phone }"
-                      placeholder="+32 4XX XX XX XX"
-                    >
-                    <p v-if="errors.phone" class="mt-1 text-sm text-red-600">{{ errors.phone }}</p>
-                  </div>
-                </div>
+  <div class="favorites-page">
+    <!-- Header Navigation -->
+    <header class="header">
+      <div class="header-container">
+        <div class="logo-section">
+          <img src="/images/erasmus-logo.png" alt="Erasmus" class="logo" />
+        </div>
+        
+        <nav class="nav-tabs">
+          <button v-for="item in navItems" :key="item.key" 
+                  :class="['nav-tab', { active: item.key === 'fav' }]" 
+                  @click="navigate(item.key)">
+            {{ item.label }}
+          </button>
+        </nav>
 
-                <!-- Studie Informatie -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Studierichting *</label>
-                    <select
-                      v-model="personalInfo.studyField"
-                      required
-                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      :class="{ 'border-red-500': errors.studyField }"
-                    >
-                      <option value="">Selecteer je studierichting</option>
-                      <option value="computer_science">Computer Science</option>
-                      <option value="business">Business</option>
-                      <option value="engineering">Engineering</option>
-                      <option value="design">Design</option>
-                      <option value="other">Andere</option>
-                    </select>
-                    <p v-if="errors.studyField" class="mt-1 text-sm text-red-600">{{ errors.studyField }}</p>
-                  </div>
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Studiejaar *</label>
-                    <select
-                      v-model="personalInfo.studyYear"
-                      required
-                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      :class="{ 'border-red-500': errors.studyYear }"
-                    >
-                      <option value="">Selecteer je studiejaar</option>
-                      <option value="1">1e Bachelor</option>
-                      <option value="2">2e Bachelor</option>
-                      <option value="3">3e Bachelor</option>
-                      <option value="4">1e Master</option>
-                      <option value="5">2e Master</option>
-                    </select>
-                    <p v-if="errors.studyYear" class="mt-1 text-sm text-red-600">{{ errors.studyYear }}</p>
-                  </div>
-                </div>
-
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Onderwerp gesprek *</label>
-                  <select
-                    v-model="personalInfo.subject"
-                    required
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                    :class="{ 'border-red-500': errors.subject }"
-                  >
-                    <option value="">Selecteer een onderwerp</option>
-                    <option value="stage">Stage mogelijkheden</option>
-                    <option value="thesis">Thesis begeleiding</option>
-                    <option value="job">Vacature bespreking</option>
-                    <option value="collaboration">Samenwerking</option>
-                    <option value="other">Anders</option>
-                  </select>
-                  <p v-if="errors.subject" class="mt-1 text-sm text-red-600">{{ errors.subject }}</p>
-                </div>
-
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Extra informatie</label>
-                  <textarea
-                    v-model="personalInfo.notes"
-                    rows="4"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                    placeholder="Vertel ons meer over wat je wilt bespreken..."
-                  ></textarea>
-                </div>
-              </div>
-  
-              <!-- Step 3: Bevestiging -->
-              <div v-show="currentStep === 3" class="space-y-6">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">Bevestig uw afspraak</h2>
-                
-                <div class="bg-gray-50 rounded-lg p-6">
-                  <div class="space-y-4">
-                    <div class="flex justify-between">
-                      <span class="font-medium text-gray-700">Bedrijf:</span>
-                      <span>{{ selectedCompany?.name }}</span>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="font-medium text-gray-700">Datum:</span>
-                      <span>{{ formatDate(selectedDate) }}</span>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="font-medium text-gray-700">Tijd:</span>
-                      <span>{{ selectedTimeSlot?.time }}</span>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="font-medium text-gray-700">Naam:</span>
-                      <span>{{ personalInfo.firstName }} {{ personalInfo.lastName }}</span>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="font-medium text-gray-700">E-mail:</span>
-                      <span>{{ personalInfo.email }}</span>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="font-medium text-gray-700">Onderwerp:</span>
-                      <span>{{ getSubjectLabel(personalInfo.subject) }}</span>
-                    </div>
-                  </div>
-                </div>
-  
-                <!-- Login Section -->
-                <div v-if="!isLoggedIn" class="bg-blue-50 border border-blue-200 rounded-lg p-6">
-                  <div class="text-center">
-                    <h3 class="text-lg font-medium text-blue-900 mb-2">Account vereist voor bevestiging</h3>
-                    <p class="text-blue-700 mb-4">
-                      Om uw afspraak te bevestigen heeft u een account nodig. U kunt inloggen met een bestaand account of als gast doorgaan.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                      <button
-                        type="button"
-                        @click="redirectToLogin"
-                        class="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors duration-200"
-                      >
-                        Inloggen / Registreren
-                      </button>
-                      <button
-                        type="button"
-                        @click="continueAsGuest"
-                        class="border border-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-                      >
-                        Doorgaan als gast
-                      </button>
-                    </div>
-                  </div>
-                </div>
-  
-                <!-- Logged in confirmation -->
-                <div v-else class="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <div class="flex">
-                    <svg class="w-5 h-5 text-green-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                    </svg>
-                    <div class="ml-3">
-                      <h3 class="text-sm font-medium text-green-800">Ingelogd</h3>
-                      <p class="text-sm text-green-700 mt-1">
-                        Welkom terug, {{ currentUser?.firstName }}! Uw afspraak wordt gekoppeld aan uw account.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-  
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <div class="flex">
-                    <svg class="w-5 h-5 text-blue-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-                    </svg>
-                    <div class="ml-3">
-                      <h3 class="text-sm font-medium text-blue-800">Belangrijk</h3>
-                      <p class="text-sm text-blue-700 mt-1">
-                        U ontvangt een bevestigingsmail met alle details en eventuele voorbereiding voor het gesprek.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-  
-              <!-- Navigation Buttons -->
-              <div class="flex justify-between mt-8">
-                <button
-                  v-if="currentStep > 0"
-                  type="button"
-                  @click="previousStep"
-                  class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                >
-                  Vorige
-                </button>
-                <div class="flex-1"></div>
-                <button
-                  v-if="currentStep < steps.length - 1"
-                  type="button"
-                  @click="nextStep"
-                  class="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  :disabled="!canProceed"
-                >
-                  Volgende
-                </button>
-                <button
-                  v-else
-                  type="submit"
-                  class="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  :disabled="!isFormValid"
-                >
-                  Afspraak Bevestigen
-                </button>
-              </div>
-            </form>
+        <div class="header-actions">
+          <div class="search-container">
+            <input type="search" 
+                   placeholder="Search" 
+                   v-model="searchTerm" 
+                   class="search-input" />
+            <span class="search-icon">🔍</span>
           </div>
         </div>
       </div>
-  
-      <!-- Success Modal -->
-      <div v-if="showSuccessModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-lg p-8 max-w-md mx-4">
-          <div class="text-center">
-            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-            </div>
-            <h3 class="text-lg font-medium text-gray-900 mb-2">Afspraak bevestigd!</h3>
-            <p class="text-gray-600 mb-6">Uw afspraak is succesvol geboekt. U ontvangt binnenkort een bevestigingsmail.</p>
-            <button
-              @click="resetForm"
-              class="w-full bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors duration-200"
-            >
-              Nieuwe afspraak maken
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <!-- Page Header -->
+        <div class="page-header">
+          <h1 class="page-title">Mijn favorieten</h1>
+          <div class="title-underline"></div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+          <div class="filter-tabs">
+            <button v-for="filter in filterOptions" :key="filter.value"
+                    :class="['filter-btn', { active: activeFilter === filter.value }]"
+                    @click="activeFilter = filter.value">
+              <span class="filter-icon">{{ filter.icon }}</span>
+              {{ filter.label }}
             </button>
           </div>
+          <div class="results-count">
+            {{ filteredFavorites.length }} {{ filteredFavorites.length === 1 ? 'resultaat' : 'resultaten' }}
+          </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+          <!-- Empty State -->
+          <div v-if="filteredFavorites.length === 0" class="empty-state">
+            <div class="empty-illustration">
+              <div class="empty-icon">💝</div>
+              <h2 class="empty-title">Nog geen favorieten</h2>
+              <p class="empty-description" v-if="!searchTerm">
+                Voeg favorieten toe door op het hartje te klikken bij profielen die je interessant vindt.
+              </p>
+              <p class="empty-description" v-else>
+                Geen resultaten gevonden voor "{{ searchTerm }}"
+              </p>
+            </div>
+          </div>
+
+          <!-- Favorites Grid -->
+          <div v-else class="favorites-grid">
+            <div v-for="favorite in filteredFavorites" :key="favorite.id" 
+                 class="favorite-card"
+                 :data-favorite-id="favorite.id">
+              <div class="card-header">
+                <div class="avatar-container">
+                  <img :src="favorite.image_url || getDefaultAvatar(favorite.item_type)" 
+                       :alt="favorite.title" 
+                       @error="handleImageError"
+                       class="avatar" />
+                </div>
+                <button @click="removeFavorite(favorite.id)" 
+                        class="favorite-toggle active" 
+                        title="Verwijder uit favorieten">
+                  ❤️
+                </button>
+              </div>
+              
+              <div class="card-body">
+                <h3 class="card-title">{{ favorite.title }}</h3>
+                <div class="card-meta">
+                  <span class="type-badge" :class="`type-${favorite.item_type}`">
+                    {{ getTypeLabel(favorite.item_type) }}
+                  </span>
+                  <span class="date-added">{{ formatDate(favorite.created_at) }}</span>
+                </div>
+                
+                <p v-if="favorite.description" class="card-description">
+                  {{ truncateText(favorite.description, 120) }}
+                </p>
+
+                <div class="card-actions">
+                  <button class="btn-primary" @click="viewProfile(favorite)">
+                    Bekijk profiel
+                  </button>
+                  <button class="btn-secondary" @click="sendMessage(favorite)">
+                    Bericht
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'AppointmentBooking',
-    data() {
-      return {
-        currentStep: 0,
-        steps: ['Bedrijf', 'Datum & Tijd', 'Persoonlijke gegevens', 'Bevestiging'],
-        
-        // Authentication (moved to end)
-        isLoggedIn: false,
-        currentUser: null,
-        showLoginPrompt: false,
-        
-        // Company selection
-        companySearch: '',
-        selectedCompany: null,
-        companies: [
-          { id: 1, name: 'TechCorp Belgium', type: 'Software Development', rating: 4.8 },
-          { id: 2, name: 'Digital Solutions', type: 'IT Consulting', rating: 4.6 },
-          { id: 3, name: 'InnovateLab', type: 'Startup Incubator', rating: 4.9 },
-          { id: 4, name: 'DataDriven Analytics', type: 'Data Science', rating: 4.7 },
-          { id: 5, name: 'CloudTech Services', type: 'Cloud Computing', rating: 4.5 },
-          { id: 6, name: 'CyberSec Pro', type: 'Cybersecurity', rating: 4.8 }
-        ],
-  
-        // Date & time selection
-        currentDate: new Date(),
-        selectedDate: null,
-        selectedTimeSlot: null,
-        daysOfWeek: ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'],
-  
-        // Personal information
-        personalInfo: {
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          studyField: '',
-          studyYear: '',
-          subject: '',
-          notes: ''
-        },
-  
-        // Form state
-        isSubmitting: false,
-        showSuccessModal: false,
-        errors: {}
-      }
-    },
-  
-    computed: {
-      filteredCompanies() {
-        if (!this.companySearch) return this.companies;
-        return this.companies.filter(company => 
-          company.name.toLowerCase().includes(this.companySearch.toLowerCase()) ||
-          company.type.toLowerCase().includes(this.companySearch.toLowerCase())
-        );
-      },
-  
-      currentMonthYear() {
-        return this.currentDate.toLocaleDateString('nl-BE', { 
-          month: 'long', 
-          year: 'numeric' 
-        });
-      },
-  
-      calendarDays() {
-        const year = this.currentDate.getFullYear();
-        const month = this.currentDate.getMonth();
-        const firstDay = new Date(year, month, 1);
-        const lastDay = new Date(year, month + 1, 0);
-        const startDate = new Date(firstDay);
-        startDate.setDate(startDate.getDate() - ((firstDay.getDay() + 6) % 7));
-        
-        const days = [];
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-  
-        for (let i = 0; i < 42; i++) {
-          const date = new Date(startDate);
-          date.setDate(startDate.getDate() + i);
-          
-          const isToday = date.getTime() === today.getTime();
-          const isPast = date < today;
-          const inCurrentMonth = date.getMonth() === month;
-          const available = inCurrentMonth && !isPast && date.getDay() !== 0 && date.getDay() !== 6; // Exclude weekends
-  
-          days.push({
-            date: date.toISOString().split('T')[0],
-            day: date.getDate(),
-            isToday,
-            isPast,
-            inCurrentMonth,
-            available
-          });
-        }
-  
-        return days;
-      },
-  
-      timePeriods() {
-        if (!this.selectedDate) return [];
-        
-        return [
-          {
-            name: 'Ochtend',
-            slots: [
-              { time: '09:00', available: true },
-              { time: '09:30', available: true },
-              { time: '10:00', available: false },
-              { time: '10:30', available: true },
-              { time: '11:00', available: true },
-              { time: '11:30', available: true }
-            ]
-          },
-          {
-            name: 'Middag',
-            slots: [
-              { time: '13:00', available: true },
-              { time: '13:30', available: true },
-              { time: '14:00', available: true },
-              { time: '14:30', available: false },
-              { time: '15:00', available: true },
-              { time: '15:30', available: true }
-            ]
-          },
-          {
-            name: 'Namiddag',
-            slots: [
-              { time: '16:00', available: true },
-              { time: '16:30', available: true },
-              { time: '17:00', available: false },
-              { time: '17:30', available: true }
-            ]
-          }
-        ];
-      },
-  
-      canProceed() {
-        switch (this.currentStep) {
-          case 0: return this.selectedCompany !== null;
-          case 1: return this.selectedDate && this.selectedTimeSlot;
-          case 2: return this.personalInfo.firstName && this.personalInfo.lastName && 
-                        this.personalInfo.email && this.personalInfo.subject;
-          case 3: return this.isLoggedIn || this.showLoginPrompt;
-          default: return true;
-        }
-      },
-  
-      isFormValid() {
-        return (
-          this.personalInfo.firstName &&
-          this.personalInfo.lastName &&
-          this.personalInfo.email &&
-          this.personalInfo.phone &&
-          this.personalInfo.studyField &&
-          this.personalInfo.studyYear &&
-          this.personalInfo.subject
-        );
-      }
-    },
-  
-    methods: {
-      // Company selection
-      selectCompany(company) {
-        this.selectedCompany = company;
-      },
-  
-      // Authentication with existing login page
-      redirectToLogin() {
-        // Save current appointment data in sessionStorage before redirect
-        const appointmentData = {
-          company: this.selectedCompany,
-          date: this.selectedDate,
-          timeSlot: this.selectedTimeSlot,
-          personalInfo: this.personalInfo
-        };
-        sessionStorage.setItem('pendingAppointment', JSON.stringify(appointmentData));
-        
-        // Redirect to existing login page
-        window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
-      },
-  
-      continueAsGuest() {
-        this.showLoginPrompt = true;
-      },
-  
-      // Check if user returned from login
-      checkLoginStatus() {
-        // This method would check if user is logged in (from Laravel session/JWT)
-        // For demo purposes, we'll check URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('logged_in') === 'true') {
-          this.isLoggedIn = true;
-          this.currentUser = {
-            firstName: urlParams.get('firstName') || 'John',
-            lastName: urlParams.get('lastName') || 'Doe',
-            email: urlParams.get('email') || 'john@example.com'
-          };
-          
-          // Restore appointment data if available
-          const savedData = sessionStorage.getItem('pendingAppointment');
-          if (savedData) {
-            const data = JSON.parse(savedData);
-            this.selectedCompany = data.company;
-            this.selectedDate = data.date;
-            this.selectedTimeSlot = data.timeSlot;
-            this.personalInfo = data.personalInfo;
-            sessionStorage.removeItem('pendingAppointment');
-            this.currentStep = 3; // Go to confirmation step
-          }
-        }
-      },
-  
-      // Navigation
-      nextStep() {
-        if (this.canProceed && this.currentStep < 3) {
-          this.currentStep++;
-        }
-      },
-  
-      previousStep() {
-        if (this.currentStep > 0) {
-          this.currentStep--;
-        }
-      },
-  
-      // Calendar navigation
-      previousMonth() {
-        this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1);
-      },
-  
-      nextMonth() {
-        this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
-      },
-  
-      // Date & time selection
-      selectDate(date) {
-        if (date.available && !date.isPast) {
-          this.selectedDate = date.date;
-          this.selectedTimeSlot = null; // Reset time slot when date changes
-        }
-      },
-  
-      selectTimeSlot(slot) {
-        if (slot.available) {
-          this.selectedTimeSlot = slot;
-        }
-      },
-  
-      // Utility methods
-      formatDate(dateStr) {
-        if (!dateStr) return '';
-        const date = new Date(dateStr);
-        return date.toLocaleDateString('nl-BE', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        });
-      },
-  
-      getSubjectLabel(value) {
-        const subjects = {
-          stage: 'Stage mogelijkheden',
-          thesis: 'Thesis begeleiding',
-          job: 'Vacature bespreking',
-          collaboration: 'Samenwerking',
-          other: 'Anders'
-        };
-        return subjects[value] || value;
-      },
-  
-      // Form submission
-      async submitAppointment() {
-        this.isSubmitting = true;
-        
-        const appointmentData = {
-          company: this.selectedCompany,
-          date: this.selectedDate,
-          time: this.selectedTimeSlot.time,
-          personalInfo: this.personalInfo
-        };
-  
-        try {
-          // Simulate API call
-          await new Promise(resolve => setTimeout(resolve, 2000));
-          
-          // Here you would normally send data to your Laravel backend
-          console.log('Appointment data:', appointmentData);
-          
-          this.showSuccessModal = true;
-        } catch (error) {
-          console.error('Error submitting appointment:', error);
-          // Handle error (show error message, etc.)
-        } finally {
-          this.isSubmitting = false;
-        }
-      },
-  
-      resetForm() {
-        this.currentStep = 0;
-        this.selectedCompany = null;
-        this.selectedDate = null;
-        this.selectedTimeSlot = null;
-        this.personalInfo = {
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          studyField: '',
-          studyYear: '',
-          subject: '',
-          notes: ''
-        };
-        this.showSuccessModal = false;
-        this.showLoginPrompt = false;
-        this.errors = {};
-      }
-    },
-  
-    mounted() {
-      // Check if user is returning from login
-      this.checkLoginStatus();
-    }
+    </main>
+
+    <!-- Toast Notifications -->
+    <transition name="toast">
+      <div v-if="toast.show" :class="['toast', `toast-${toast.type}`]">
+        <div class="toast-content">
+          <span class="toast-icon">{{ getToastIcon(toast.type) }}</span>
+          <span class="toast-message">{{ toast.message }}</span>
+        </div>
+        <button @click="toast.show = false" class="toast-close">×</button>
+      </div>
+    </transition>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue'
+import { router } from '@inertiajs/vue3'
+
+const props = defineProps({ 
+  favorites: {
+    type: Array,
+    default: () => []
   }
-  </script>
+})
+
+const searchTerm = ref('')
+const activeFilter = ref('all')
+const toast = ref({ show: false, message: '', type: 'info' })
+
+const navItems = [
+  { key: 'home', label: 'Home' },
+  { key: 'info', label: 'Info' },
+  { key: 'fav', label: 'Favorieten' },
+  { key: 'contact', label: 'Contact' }
+]
+
+const filterOptions = [
+  { value: 'all', label: 'Alle', icon: '📋' },
+  { value: 'bedrijf', label: 'Bedrijven', icon: '🏢' },
+  { value: 'student', label: 'Studenten', icon: '👥' },
+  { value: 'profiel', label: 'Profielen', icon: '👤' }
+]
+
+const filteredFavorites = computed(() => {
+  let filtered = props.favorites || []
   
-  <style scoped>
-  .appointment-booking {
-    min-height: 100vh;
-    background-color: #f9fafb;
+  // Apply search filter
+  if (searchTerm.value) {
+    const search = searchTerm.value.toLowerCase().trim()
+    filtered = filtered.filter(f => 
+      f.title.toLowerCase().includes(search) || 
+      (f.description && f.description.toLowerCase().includes(search))
+    )
   }
-  </style>
+  
+  // Apply type filter
+  if (activeFilter.value !== 'all') {
+    filtered = filtered.filter(f => f.item_type === activeFilter.value)
+  }
+  
+  return filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+})
+
+function navigate(page) {
+  const routes = { 
+    home: '/', 
+    info: '/info', 
+    fav: '/favorieten', 
+    contact: '/contact' 
+  }
+  router.visit(routes[page])
+}
+
+function removeFavorite(id) {
+  if (confirm('Weet je zeker dat je dit favoriet wilt verwijderen?')) {
+    router.delete(`/favorites/${id}`, {
+      preserveState: true,
+      preserveScroll: true,
+      onSuccess: () => {
+        showToast('Favoriet succesvol verwijderd', 'success')
+        // Verwijder item uit lokale state
+        const index = props.favorites.findIndex(f => f.id === id)
+        if (index > -1) {
+          props.favorites.splice(index, 1)
+        }
+      },
+      onError: () => showToast('Er is een fout opgetreden', 'error')
+    })
+  }
+}
+
+function viewProfile(favorite) {
+  const routes = {
+    bedrijf: `/bedrijven/${favorite.item_id}`,
+    student: `/studenten/${favorite.item_id}`,
+    profiel: `/profielen/${favorite.item_id}`
+  }
+  router.visit(routes[favorite.item_type] || '/')
+}
+
+function sendMessage(favorite) {
+  router.visit(`/berichten/nieuw?to=${favorite.item_id}&type=${favorite.item_type}`)
+}
+
+function getTypeLabel(type) {
+  const labels = { 
+    bedrijf: 'Bedrijf', 
+    student: 'Student', 
+    profiel: 'Profiel' 
+  }
+  return labels[type] || type
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffDays = Math.ceil((now - date) / (1000 * 60 * 60 * 24))
+  
+  if (diffDays === 0) return 'Vandaag'
+  if (diffDays === 1) return 'Gisteren'
+  if (diffDays < 7) return `${diffDays} dagen geleden`
+  if (diffDays < 30) return `${Math.ceil(diffDays / 7)} weken geleden`
+  
+  return date.toLocaleDateString('nl-NL', { 
+    day: 'numeric', 
+    month: 'short',
+    year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+  })
+}
+
+function truncateText(text, maxLength) {
+  if (text.length <= maxLength) return text
+  return text.substring(0, maxLength).trim() + '...'
+}
+
+function showToast(message, type = 'info') {
+  toast.value = { show: true, message, type }
+  setTimeout(() => toast.value.show = false, 4000)
+}
+
+function getDefaultAvatar(type) {
+  // Use placeholder service or emoji-based avatars
+  const avatars = {
+    student: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiM2NzY2ZWEiLz4KPGF4dCB4PSIyMCIgeT0iMTQiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjE2Ij7wn5GljwvdGV4dD4KPC9zdmc+',
+    bedrijf: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNkYzVhNDEiLz4KPGF4dCB4PSIyMCIgeT0iMTQiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjE2Ij7wn5OfywvdGV4dD4KPC9zdmc+',
+    profiel: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMxMGI5ODEiLz4KPGF4dCB4PSIyMCIgeT0iMTQiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjE2Ij7wn5SLIX0vdGV4dD4KPC9zdmc+'
+  }
+  return avatars[type] || avatars.profiel
+}
+
+function getToastIcon(type) {
+  const icons = {
+    success: '✅',
+    error: '❌',
+    warning: '⚠️',
+    info: 'ℹ️'
+  }
+  return icons[type] || icons.info
+}
+</script>
+
+<style scoped>
+* {
+  box-sizing: border-box;
+}
+
+.favorites-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Header Styles */
+.header {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  height: 64px;
+}
+
+.logo-section {
+  margin-right: 48px;
+}
+
+.logo {
+  height: 32px;
+  width: auto;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.nav-tab {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.nav-tab:hover {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.nav-tab.active {
+  background: #dc5a41;
+  color: white;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-input {
+  width: 240px;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #f9fafb;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #dc5a41;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(220, 90, 65, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+}
+
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.page-header {
+  margin-bottom: 32px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.title-underline {
+  width: 60px;
+  height: 3px;
+  background: #dc5a41;
+  margin-top: 8px;
+  border-radius: 2px;
+}
+
+/* Filter Section */
+.filter-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 4px;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #64748b;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.filter-btn:hover {
+  color: #334155;
+}
+
+.filter-btn.active {
+  background: white;
+  color: #dc5a41;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filter-icon {
+  font-size: 16px;
+}
+
+.results-count {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Content Area */
+.content-area {
+  min-height: 400px;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 64px 24px;
+}
+
+.empty-illustration {
+  text-align: center;
+  max-width: 400px;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.empty-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 8px 0;
+}
+
+.empty-description {
+  color: #6b7280;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Favorites Grid */
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.favorite-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.favorite-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 20px 0 20px;
+}
+
+.avatar-container {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.favorite-toggle {
+  background: #fef2f2;
+  border: none;
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.favorite-toggle:hover {
+  background: #fee2e2;
+  transform: scale(1.1);
+}
+
+.favorite-toggle.active {
+  background: #dc5a41;
+  color: white;
+}
+
+.card-body {
+  padding: 16px 20px 20px 20px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.type-badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.type-bedrijf {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.type-student {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.type-profiel {
+  background: #fde68a;
+  color: #92400e;
+}
+
+.date-added {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.card-description {
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-primary, .btn-secondary {
+  flex: 1;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid;
+}
+
+.btn-primary {
+  background: #dc5a41;
+  color: white;
+  border-color: #dc5a41;
+}
+
+.btn-primary:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+.btn-secondary {
+  background: white;
+  color: #374151;
+  border-color: #d1d5db;
+}
+
+.btn-secondary:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+/* Toast Notifications */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  max-width: 400px;
+  z-index: 1000;
+  border-left: 4px solid;
+}
+
+.toast-success {
+  border-left-color: #10b981;
+}
+
+.toast-error {
+  border-left-color: #ef4444;
+}
+
+.toast-warning {
+  border-left-color: #f59e0b;
+}
+
+.toast-info {
+  border-left-color: #3b82f6;
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.toast-icon {
+  font-size: 16px;
+}
+
+.toast-message {
+  font-size: 14px;
+  color: #374151;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #9ca3af;
+  padding: 0;
+  margin-left: 12px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-close:hover {
+  color: #374151;
+}
+
+/* Toast Animations */
+.toast-enter-active, .toast-leave-active {
+  transition: all 0.3s ease;
+}
+
+.toast-enter-from {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.toast-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-container {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .nav-tabs {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .search-input {
+    width: 200px;
+  }
+  
+  .content-container {
+    padding: 20px 16px;
+  }
+  
+  .filter-section {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+  
+  .filter-tabs {
+    justify-content: center;
+  }
+  
+  .results-count {
+    text-align: center;
+  }
+  
+  .favorites-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .toast {
+    left: 16px;
+    right: 16px;
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 24px;
+  }
+  
+  .filter-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .card-actions {
+    flex-direction: column;
+  }
+}
+</style>

@@ -1,35 +1,36 @@
 <template>
-  <div class="favorites-page">
-    <Navigation />
+  <div class="min-h-screen bg-orange-50">
+    <!-- Navigation -->
+    <nav class="bg-orange-50/90 backdrop-blur-sm shadow-sm sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Logo -->
+          <Link href="/" class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-lg">
+              <span class="text-white font-bold text-lg">E</span>
+            </div>
+            <div>
+              <div class="text-gray-900 font-bold text-xl">erasmus</div>
+              <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
+            </div>
+          </Link>
 
-    <!-- Header Navigation (bovenaan, volle breedte) -->
-    <header class="header w-full bg-white shadow mb-8">
-      <div class="header-container max-w-6xl mx-auto flex items-center justify-between py-4 px-6">
-        <div class="logo-section flex items-center">
-          <img src="/images/erasmus-logo.png" alt="Erasmus" class="logo h-10 mr-4" />
-          <span class="font-bold text-lg text-gray-700">Mijn favorieten</span>
-        </div>
-        <nav class="nav-tabs flex space-x-4">
-          <button v-for="item in navItems" :key="item.key"
-                  :class="['nav-tab px-4 py-2 rounded', { 'bg-orange-100 text-orange-600': item.key === 'fav', 'text-gray-600 hover:bg-orange-50': item.key !== 'fav' }]"
-                  @click="navigate(item.key)">
-            {{ item.label }}
-          </button>
-        </nav>
-        <div class="header-actions flex items-center">
-          <div class="search-container relative">
-            <input type="search"
-                   placeholder="Search"
-                   v-model="searchTerm"
-                   class="search-input border rounded px-3 py-1 pl-8" />
-            <span class="search-icon absolute left-2 top-1.5 text-gray-400">🔍</span>
+          <!-- Desktop Navigation Links -->
+          <div class="hidden md:flex items-center space-x-1">
+            <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Home</Link>
+            <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Info</Link>
+            <Link href="/favorieten" class="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg font-medium transition-colors">Favorieten</Link>
+            <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</Link>
+            <div class="flex items-center ml-6">
+              <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Inloggen</Link>
+            </div>
           </div>
         </div>
       </div>
-    </header>
+    </nav>
 
     <!-- Main Content (gecentreerd) -->
-    <main class="main-content bg-gray-50 min-h-screen">
+    <main class="main-content bg-orange-50 min-h-screen">
       <div class="content-container max-w-4xl mx-auto py-12 px-4">
         <h1 class="text-4xl font-bold mb-2 text-orange-600">Mijn Favorieten</h1>
         <div class="text-gray-500 mb-8">Je hebt nog geen favorieten toegevoegd.</div>
@@ -122,8 +123,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { router } from '@inertiajs/vue3'
-import Navigation from '@/components/Navigation.vue'
+import { router, Link } from '@inertiajs/vue3'
 import { usePage } from '@inertiajs/vue3'
 
 const favorites = computed(() => usePage().props.favorites || [])
