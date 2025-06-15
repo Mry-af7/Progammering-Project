@@ -11,26 +11,78 @@ class Appointment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'company_id',
-        'start_time',
-        'end_time',
+        'time_slot_id',
+        'student_firstname',
+        'student_lastname',
+        'student_email',
+        'student_phone',
+        'study_field',
+        'study_year',
+        'student_notes',
         'status',
-        'notes',
+        'rating',
+        'feedback',
+        'follow_up_requested',
+        'follow_up_notes'
     ];
 
     protected $casts = [
-        'start_time' => 'datetime',
-        'end_time' => 'datetime',
+        'follow_up_requested' => 'boolean',
+        'study_year' => 'integer',
+        'rating' => 'integer'
     ];
 
-    public function user(): BelongsTo
+    public function timeSlot()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(TimeSlot::class);
     }
 
-    public function company(): BelongsTo
+    public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->hasOneThrough(Company::class, TimeSlot::class);
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('status', 'pending');
+    }
+
+    public function scopeConfirmed($query)
+    {
+        return $query->where('status', 'confirmed');
+    }
+
+    public function scopeCancelled($query)
+    {
+        return $query->where('status', 'cancelled');
+    }
+
+    public function scopeCompleted($query)
+    {
+        return $query->where('status', 'completed');
+    }
+
+    public function confirm()
+    {
+        $this->update(['status' => 'confirmed']);
+    }
+
+    public function cancel()
+    {
+        $this->update(['status' => 'cancelled']);
+        $this->timeSlot->update(['status' => 'available']);
+    }
+
+    public function complete()
+    {
+        $this->update(['status' => 'completed']);
+    }
+
+    public function requestFollowUp($notes = null)
+    {
+        $this->update([
+            'follow_up_requested' => true,
+            'follow_up_notes' => $notes
+        ]);
     }
 } 

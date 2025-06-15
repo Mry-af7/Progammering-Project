@@ -34,8 +34,8 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'bedrijf_id' => 'required|exists:companies,id',
-            'tijdslot_id' => 'required|exists:time_slots,id',
+            'company_id' => 'required|exists:companies,id',
+            'time_slot_id' => 'required|exists:time_slots,id',
             'voornaam' => 'required|string|max:255',
             'achternaam' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -48,7 +48,7 @@ class AppointmentController extends Controller
         }
 
         // Check if time slot is still available
-        $timeSlot = TimeSlot::findOrFail($request->tijdslot_id);
+        $timeSlot = TimeSlot::findOrFail($request->time_slot_id);
         if (!$timeSlot->is_available) {
             return response()->json(['error' => 'Dit tijdslot is niet meer beschikbaar'], 422);
         }
@@ -56,8 +56,8 @@ class AppointmentController extends Controller
         // Create appointment
         $appointment = Appointment::create([
             'student_id' => Auth::id(),
-            'company_id' => $request->bedrijf_id,
-            'time_slot_id' => $request->tijdslot_id,
+            'company_id' => $request->company_id,
+            'time_slot_id' => $request->time_slot_id,
             'status' => 'pending',
             'notes' => $request->motivatie
         ]);
@@ -113,44 +113,10 @@ class AppointmentController extends Controller
 
     public function getAvailableTimeSlots(Company $company)
     {
-        $startDate = Carbon::now()->startOfDay();
-        $endDate = Carbon::now()->addDays(14)->endOfDay();
-        
-        $bookedSlots = Appointment::where('company_id', $company->id)
-            ->whereBetween('start_time', [$startDate, $endDate])
-            ->get()
-            ->map(function ($appointment) {
-                return [
-                    'start' => $appointment->start_time,
-                    'end' => $appointment->end_time
-                ];
-            });
-
-        $availableSlots = [];
-        $currentDate = $startDate->copy();
-
-        while ($currentDate <= $endDate) {
-            if ($currentDate->isWeekday()) {
-                for ($hour = 9; $hour < 17; $hour++) {
-                    $slotStart = $currentDate->copy()->setHour($hour)->setMinute(0);
-                    $slotEnd = $slotStart->copy()->addHour();
-
-                    $isBooked = $bookedSlots->contains(function ($slot) use ($slotStart, $slotEnd) {
-                        return $slotStart->between($slot['start'], $slot['end']) ||
-                               $slotEnd->between($slot['start'], $slot['end']);
-                    });
-
-                    if (!$isBooked) {
-                        $availableSlots[] = [
-                            'start' => $slotStart->format('Y-m-d H:i:s'),
-                            'end' => $slotEnd->format('Y-m-d H:i:s')
-                        ];
-                    }
-                }
-            }
-            $currentDate->addDay();
-        }
-
-        return $availableSlots;
+        return TimeSlot::where('company_id', $company->id)
+            ->where('is_available', true)
+            ->whereBetween('start_time', [Carbon::now()->startOfDay(), Carbon::now()->addDays(14)->endOfDay()])
+            ->orderBy('start_time')
+            ->get();
     }
 } 

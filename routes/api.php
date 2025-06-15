@@ -2,8 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\TimeSlotController;
+use App\Http\Controllers\AfspraakController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Public routes
-Route::get('/companies', [CompanyController::class, 'index']);
-Route::get('/time-slots', [TimeSlotController::class, 'index']);
+// Public API routes
+Route::get('/companies', [AfspraakController::class, 'getBedrijven']);
+Route::get('/time-slots', [AfspraakController::class, 'getBeschikbareTijdslots']);
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
@@ -38,4 +37,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/time-slots', [TimeSlotController::class, 'store']);
     Route::put('/time-slots/{timeSlot}', [TimeSlotController::class, 'update']);
     Route::delete('/time-slots/{timeSlot}', [TimeSlotController::class, 'destroy']);
+});
+
+Route::get('/test-api', function () {
+    return response()->json(['status' => 'ok']);
 }); 
