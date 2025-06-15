@@ -44,7 +44,7 @@
                     <div class="flex flex-col space-y-2 pt-4">
                         <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Home</Link>
                         <Link href="/students" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Student Profiles</Link>
-                        <Link href="/companies" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Voor Bedrijven</Link>
+                        <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Voor Bedrijven</Link>
                         <Link href="/events" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Speeddate Events</Link>
                         <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Contact</Link>
                         <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Inloggen</Link>
@@ -77,10 +77,10 @@
                     <!-- CTA Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 mb-8">
                         <Link href="/register?type=student" class="bg-orange-500 text-white px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-600 hover:shadow-lg transition-all">
-                            Start mijn profiel (gratis)
+                            Ik ben een student
                         </Link>
-                        <Link href="/students" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
-                            Bekijk student profielen
+                        <Link href="/register/bedrijf" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
+                            Ik ben een bedrijf 
                         </Link>
                     </div>
                     
@@ -267,12 +267,12 @@
                     </p>
                     
                     <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
-                        <Link href="/events" class="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-red-600 hover:shadow-lg transition-all transform hover:scale-105">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                            </svg>
-                            Bekijk komende events
-                        </Link>
+                        <Link href="/afspraak" class="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-red-600 hover:shadow-lg transition-all transform hover:scale-105">
+    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    Plan je afspraak
+</Link>
                         
                         <div class="text-sm text-gray-600">
                             <strong class="text-orange-600">Volgende event:</strong> 15 maart 2025
@@ -371,18 +371,14 @@
                         <span class="text-xs font-medium text-gray-600">Engineering opportunities</span>
                     </div>
                 </div>
+            </div>
+            <div class="mt-4 flex justify-center">
+            <Link
+  href="/bedrijven"
+  class="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-red-600 hover:shadow-lg transition-all transform hover:scale-105"
+> Ontdek hier alle bedrijven!
+</Link>
 
-                <!-- Company CTA -->
-                <div class="bg-white rounded-2xl p-8 max-w-2xl mx-auto">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Ben je een bedrijf?</h3>
-                    <p class="text-gray-600 mb-6">Ontdek getalenteerde Erasmus studenten voor stages, studentjobs en graduate posities.</p>
-                    <Link href="/companies" class="inline-flex items-center bg-orange-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-orange-600 transition-colors">
-                        Bekijk student talent
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                        </svg>
-                    </Link>
-                </div>
             </div>
         </section>
 
@@ -443,29 +439,23 @@
                         <h4 class="font-semibold mb-4">Voor studenten</h4>
                         <ul class="space-y-2 text-orange-100 text-sm">
                             <li><Link href="/register?type=student" class="hover:text-white transition-colors">Maak je profiel</Link></li>
-                            <li><Link href="/students" class="hover:text-white transition-colors">Browse profielen</Link></li>
-                            <li><Link href="/events" class="hover:text-white transition-colors">Speeddate events</Link></li>
-                            <li><Link href="/tips" class="hover:text-white transition-colors">Profiel tips</Link></li>
+                            <li><Link href="/afspraak" class="hover:text-white transition-colors">Speeddate events</Link></li>
                         </ul>
                     </div>
                     
                     <div>
                         <h4 class="font-semibold mb-4">Voor bedrijven</h4>
                         <ul class="space-y-2 text-orange-100 text-sm">
-                            <li><Link href="/companies" class="hover:text-white transition-colors">Browse studenten</Link></li>
-                            <li><Link href="/pricing" class="hover:text-white transition-colors">Prijzen</Link></li>
-                            <li><Link href="/events" class="hover:text-white transition-colors">Speeddate events</Link></li>
-                            <li><Link href="/contact" class="hover:text-white transition-colors">Partnership</Link></li>
+                            <li><Link href="/bedrijven" class="hover:text-white transition-colors">Browse studenten</Link></li>
                         </ul>
                     </div>
                     
                     <div>
                         <h4 class="font-semibold mb-4">Support</h4>
                         <ul class="space-y-2 text-orange-100 text-sm">
-                            <li><Link href="/help" class="hover:text-white transition-colors">Help centrum</Link></li>
                             <li><Link href="/contact" class="hover:text-white transition-colors">Contact</Link></li>
-                            <li><Link href="/privacy" class="hover:text-white transition-colors">Privacy beleid</Link></li>
-                            <li><Link href="/terms" class="hover:text-white transition-colors">Voorwaarden</Link></li>
+                            <!--<li><Link href="/privacy" class="hover:text-white transition-colors">Privacy beleid</Link></li> Misschien als extra toevoegen-->
+                            <!--<li><Link href="/terms" class="hover:text-white transition-colors">Voorwaarden</Link></li> Misschien als extra toevoegen-->
                         </ul>
                     </div>
                 </div>

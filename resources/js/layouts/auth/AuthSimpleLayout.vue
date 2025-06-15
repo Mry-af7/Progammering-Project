@@ -12,7 +12,7 @@ defineProps<{
         <div class="w-full max-w-sm">
             <div class="flex flex-col gap-8">
                 <div class="flex flex-col items-center">
-                    <Link :href="route('home')" class="flex flex-col items-center gap-2 font-medium">
+                    <Link href="/" class="flex flex-col items-center gap-2 font-medium">
                         <span class="sr-only">{{ title }}</span>
                     </Link>
                     <div class="text-center">

@@ -15,15 +15,17 @@ import { ref } from 'vue';
 const mobileMenuOpen = ref(false);
 
 const form = useForm({
-  company_name: '',
+  name: '',
   email: '',
   password: '',
   password_confirmation: '',
-  role: 'bedrijf',
+  industry: '',
+  description: '',
+  location: '',
 });
 
 const submitCompany = () => {
-  form.post(route('register'), {
+  form.post(route('register.bedrijf'), {
     onFinish: () => form.reset('password', 'password_confirmation'),
   });
 };
@@ -61,17 +63,12 @@ const submitCompany = () => {
                     <div class="hidden md:flex items-center space-x-1">
                         <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Home</Link>
                         <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Info</Link>
-                        <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Favorieten</Link>
+                        <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Bedrijven</Link>
+                        <Link href="/afspraak" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Afspraak</Link>
                         <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</Link>
                         
-                        <div class="flex items-center ml-6 space-x-4">
-                            <div class="relative">
-                                <input type="search" placeholder="Search" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white">
-                                <Search class="w-4 h-4 text-gray-400 absolute left-3 top-3" />
-                            </div>
-                            <div class="w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center">
-                                <User class="w-5 h-5 text-white" />
-                            </div>
+                        <div class="flex items-center ml-6">
+                            <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Inloggen</Link>
                         </div>
                     </div>
                 </div>
@@ -81,8 +78,10 @@ const submitCompany = () => {
                     <div class="flex flex-col space-y-2 pt-4">
                         <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Home</Link>
                         <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Info</Link>
-                        <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Favorieten</Link>
+                        <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Bedrijven</Link>
+                        <Link href="/afspraak" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Afspraak</Link>
                         <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Contact</Link>
+                        <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Inloggen</Link>
                     </div>
                 </div>
             </div>
@@ -141,18 +140,18 @@ const submitCompany = () => {
                     <form @submit.prevent="submitCompany" class="space-y-6">
                         <!-- Company Name Field -->
                         <div>
-                            <Label for="company_name" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <Label for="name" class="block text-sm font-semibold text-gray-700 mb-2">
                                 Bedrijfsnaam
                             </Label>
                             <Input
-                                id="company_name"
-                                v-model="form.company_name"
+                                id="name"
+                                v-model="form.name"
                                 type="text"
                                 required
                                 placeholder="Bijv. Microsoft"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                             />
-                            <InputError :message="form.errors.company_name" class="mt-2" />
+                            <InputError :message="form.errors.name" class="mt-2" />
                         </div>
 
                         <!-- Email Field -->

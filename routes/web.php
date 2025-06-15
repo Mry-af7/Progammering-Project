@@ -3,134 +3,112 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StudentController;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
 
+// Public routes
 Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name('home');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
 
-// Info route toevoegen
 Route::get('/info', function () {
     return Inertia::render('Info');
 })->name('info');
 
-// Favorieten route met mock data
+Route::get('/contact', function () {
+    return Inertia::render('Contact');
+})->name('contact');
+
+Route::get('/afspraak', function () {
+    return Inertia::render('Afspraak');
+})->name('afspraak');
+
 Route::get('/favorieten', function () {
-    // Mock favorieten data - vervang later met database
-    $favorites = [
-        [
-            'id' => 1,
-            'title' => 'Emma Janssens',
-            'item_type' => 'student',
-            'description' => 'Multimedia & Creatieve Technologie student met focus op UX/UI design en frontend development.',
-            'image_url' => 'https://i.pravatar.cc/150?img=1',
-            'item_id' => 1,
-            'created_at' => now()->subDays(1)->toISOString()
-        ],
-        [
-            'id' => 2,
-            'title' => 'TechStartup Brussels',
-            'item_type' => 'bedrijf',
-            'description' => 'Innovatief fintech bedrijf op zoek naar getalenteerde developers en designers voor ons groeiende team.',
-            'image_url' => 'https://i.pravatar.cc/150?img=2',
-            'item_id' => 2,
-            'created_at' => now()->subDays(3)->toISOString()
-        ],
-        [
-            'id' => 3,
-            'title' => 'Lars Van Der Berg',
-            'item_type' => 'student',
-            'description' => 'Internet of Things student gespecialiseerd in embedded systems en IoT architectuur.',
-            'image_url' => 'https://i.pravatar.cc/150?img=3',
-            'item_id' => 3,
-            'created_at' => now()->subDays(5)->toISOString()
-        ],
-        [
-            'id' => 4,
-            'title' => 'Digital Agency Antwerp',
-            'item_type' => 'bedrijf',
-            'description' => 'Creatief digitaal bureau dat merken helpt groeien door middel van design en technologie.',
-            'image_url' => 'https://i.pravatar.cc/150?img=4',
-            'item_id' => 4,
-            'created_at' => now()->subWeek()->toISOString()
-        ],
-        [
-            'id' => 5,
-            'title' => 'Sofia Rodriguez',
-            'item_type' => 'student',
-            'description' => 'Toegepaste Informatica student met passie voor AI, machine learning en data science.',
-            'image_url' => 'https://i.pravatar.cc/150?img=5',
-            'item_id' => 5,
-            'created_at' => now()->subWeeks(2)->toISOString()
-        ]
-    ];
-    
-    return Inertia::render('Favorieten', [
-        'favorites' => $favorites
-    ]);
+    return Inertia::render('Favorieten');
 })->name('favorieten');
 
-Route::get('/contact', function () {
-    return Inertia::render('Contact'); // 'Contact' verwijst naar Contact.vue
+Route::get('/bedrijven', function () {
+    return Inertia::render('Bedrijven');
+})->name('bedrijven');
+
+// Auth routes
+Route::middleware('guest')->group(function () {
+    // Student registration
+    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('register', [RegisteredUserController::class, 'store']);
+    
+    // Company registration
+    Route::get('register/bedrijf', [RegisteredUserController::class, 'createBedrijf'])->name('register.bedrijf');
+    Route::post('register/bedrijf', [RegisteredUserController::class, 'storeBedrijf']);
+    
+    // Login
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // Companies
+    Route::get('/companies', function () {
+        return Inertia::render('Bedrijven');
+    })->name('companies.index');
+    Route::get('/companies/{company}', [CompanyController::class, 'show'])->name('companies.show');
+    Route::get('/alle-bedrijven', [CompanyController::class, 'index'])->name('companies.alle');
+    
+    // Company management (company users only)
+    Route::middleware('company')->group(function () {
+        Route::post('/companies', [CompanyController::class, 'store'])->name('companies.store');
+        Route::put('/companies/{company}', [CompanyController::class, 'update'])->name('companies.update');
+        Route::delete('/companies/{company}', [CompanyController::class, 'destroy'])->name('companies.destroy');
+    });
+    
+    // Appointments
+    Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
+    Route::get('/appointments/{appointment}', [AppointmentController::class, 'show'])->name('appointments.show');
+    
+    // Appointment management (students only)
+    Route::middleware('student')->group(function () {
+        Route::get('/appointments/create/{company}', [AppointmentController::class, 'create'])->name('appointments.create');
+        Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+        Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
+        Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
+    });
+    
+    // Favorites (students only)
+    Route::middleware('student')->group(function () {
+        Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+        Route::post('/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
+        Route::delete('/favorites/{company}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+        Route::post('/favorites/{company}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+    });
+
+    // Student routes
+    Route::get('/students', [StudentController::class, 'index'])->name('students.index');
+    Route::get('/students/{student}', [StudentController::class, 'show'])->name('students.show');
+    Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
+    Route::put('/students/{student}', [StudentController::class, 'update'])->name('students.update');
 });
 
 Route::get('/home', function () {
-    return Inertia::render('Welcome');
-});
-
-// API routes voor favorieten functionaliteit
-Route::delete('/favorites/{id}', function ($id) {
-    // Simuleer het verwijderen van een favoriet
-    // In een echte app zou je dit uit de database verwijderen
-    return response()->json(['message' => 'Favoriet verwijderd'], 200);
-})->name('favorites.destroy');
-
-Route::post('/favorites', function () {
-    // Simuleer het toevoegen van een favoriet
-    // In een echte app zou je dit opslaan in de database
-    return response()->json(['message' => 'Favoriet toegevoegd'], 201);
-})->name('favorites.store');
-
-// Routes voor profiel bekijken (voor de buttons in favorieten cards)
-Route::get('/studenten/{id}', function ($id) {
-    return Inertia::render('StudentProfile', ['studentId' => $id]);
-})->name('student.show');
-
-Route::get('/bedrijven/{id}', function ($id) {
-    return Inertia::render('CompanyProfile', ['companyId' => $id]);
-})->name('company.show');
-
-Route::get('/profielen/{id}', function ($id) {
-    return Inertia::render('Profile', ['profileId' => $id]);
-})->name('profile.show');
-
-// Route voor berichten (voor bericht button)
-Route::get('/berichten/nieuw', function () {
-    return Inertia::render('NewMessage', [
-        'to' => request('to'),
-        'type' => request('type')
-    ]);
-})->name('messages.create');
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-// Registration routes
-Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
-
-// Dedicated route voor bedrijven registratie
-Route::get('/register-bedrijf', function () {
-    return Inertia::render('auth/Register-bedrijf');
-})->name('register.bedrijf');
-
-// Company profile routes
-Route::post('/bedrijf/profiel/update', [CompanyController::class, 'update'])->name('company.profile.update');
-
-// Bedrijfsprofielpagina tonen
-Route::get('/bedrijf/profiel', function () {
-    return Inertia::render('profielpaginabedrijf');
-})->name('company.profile');
-
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+    return redirect('/');
+})->name('home');

@@ -18,7 +18,8 @@ const mobileMenuOpen = ref(false);
 const navItems = [
   { label: 'Home', href: '/' },
   { label: 'Info', href: '/info' },
-  { label: 'Favorieten', href: '/favorieten' },
+  { label: 'Bedrijven', href: '/bedrijven' },
+  { label: 'Afspraak', href: '/afspraak' },
   { label: 'Contact', href: '/contact' },
 ];
 
@@ -72,17 +73,12 @@ const submit = () => {
                     <div class="hidden md:flex items-center space-x-1">
                         <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Home</Link>
                         <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Info</Link>
-                        <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Favorieten</Link>
+                        <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Bedrijven</Link>
+                        <Link href="/afspraak" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Afspraak</Link>
                         <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</Link>
                         
-                        <div class="flex items-center ml-6 space-x-4">
-                            <div class="relative">
-                                <input type="search" placeholder="Search" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white">
-                                <Search class="w-4 h-4 text-gray-400 absolute left-3 top-3" />
-                            </div>
-                            <div class="w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center">
-                                <User class="w-5 h-5 text-white" />
-                            </div>
+                        <div class="flex items-center ml-6">
+                            <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Inloggen</Link>
                         </div>
                     </div>
                 </div>
@@ -92,8 +88,10 @@ const submit = () => {
                     <div class="flex flex-col space-y-2 pt-4">
                         <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Home</Link>
                         <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Info</Link>
-                        <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Favorieten</Link>
+                        <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Bedrijven</Link>
+                        <Link href="/afspraak" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Afspraak</Link>
                         <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Contact</Link>
+                        <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Inloggen</Link>
                     </div>
                 </div>
             </div>
