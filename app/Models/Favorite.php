@@ -2,29 +2,26 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Favorite extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
-        'favoritable_id',
-        'favoritable_type',
-        'notes',
-        'tags',
+        'company_id',
     ];
 
-    protected $casts = [
-        'tags' => 'array',
-    ];
-
-    public function user()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault();
     }
 
-    public function favoritable()
+    public function company(): BelongsTo
     {
-        return $this->morphTo();
+        return $this->belongsTo(Company::class);
     }
 } 

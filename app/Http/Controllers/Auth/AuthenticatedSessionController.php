@@ -33,7 +33,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $redirectUrl = request('redirect', '/afspraak');
+        $redirectUrl .= '?logged_in=true';
+        $redirectUrl .= '&firstName=' . auth()->user()->first_name;
+        $redirectUrl .= '&lastName=' . auth()->user()->last_name;
+        $redirectUrl .= '&email=' . auth()->user()->email;
+
+        return redirect($redirectUrl);
     }
 
     /**

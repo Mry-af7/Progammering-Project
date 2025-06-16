@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/AuthLayout.vue';
-import { Head, useForm, Link } from '@inertiajs/vue3'; // ✅ Link geïmporteerd
+import { Head, useForm, Link } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
+import { ref } from 'vue'
 
 defineProps<{
     status?: string;
@@ -19,68 +20,73 @@ const form = useForm({
 const submit = () => {
     form.post(route('password.email'));
 };
+
+const mobileMenuOpen = ref(false)
 </script>
 
 <template>
 
     <!-- Navigation -->
-    <nav class="bg-orange-50 py-4">
+    <nav class="bg-orange-50/90 backdrop-blur-sm shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
-                <div class="flex items-center">
-                    <div class="flex items-center space-x-2">
-                        <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
-                            <span class="text-white font-bold text-sm">E</span>
-                        </div>
-                        <div>
-                            <div class="text-black font-bold text-lg">erasmus</div>
-                            <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
-                        </div>
-                    </div>
+                <Link href="/" class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <span class="text-white font-bold text-lg">E</span>
+                </div>
+                <div>
+                    <div class="text-gray-900 font-bold text-xl">erasmus</div>
+                    <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
+                </div>
+                </Link>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen"
+                        class="p-2 rounded-lg text-gray-700 hover:bg-orange-100">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden md:flex justify-center items-center space-x-2">
-                    <!-- ✅ Home knop met Inertia Link -->
-                    <Link href="/home"
-                        class="bg-orange-500 text-white px-6 py-2 rounded-full font-medium hover:bg-orange-600 transition-colors">
-                        Home
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">
+                    Home</Link>
+                    <Link href="/info"
+                        class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Info</Link>
+                    <Link href="/favorieten"
+                        class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Favorieten
+                    </Link>
+                    <Link href="/contact"
+                        class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact
                     </Link>
 
-                    <button
-                        class="bg-orange-500 text-white px-6 py-2 rounded-full font-medium hover:bg-orange-600 transition-colors">
-                        Info
-                    </button>
-                    <button
-                        class="bg-orange-500 text-white px-6 py-2 rounded-full font-medium hover:bg-orange-600 transition-colors">
-                        Favorieten
-                    </button>
-                    <button
-                        class="bg-orange-500 text-white px-6 py-2 rounded-full font-medium hover:bg-orange-600 transition-colors">
-                        Contact
-                    </button>
-
-                    <!-- Search -->
-                    <div class="relative ml-4">
-                        <input type="text" placeholder="Search"
-                            class="bg-gray-300 text-gray-700 px-4 py-2 rounded-full pl-10 w-40 focus:outline-none focus:ring-2 focus:ring-orange-500">
-                        <svg class="w-4 h-4 text-gray-600 absolute left-3 top-3" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
+                    <div class="flex items-center ml-6">
+                        <Link href="/login"
+                            class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">
+                        Inloggen</Link>
                     </div>
+                </div>
+            </div>
 
-                    <!-- Profile Icon -->
-                    <div class="ml-4">
-                        <div class="w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center">
-                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                            </svg>
-                        </div>
-                    </div>
+            <!-- Mobile menu -->
+            <div v-show="mobileMenuOpen" class="md:hidden mt-4 pb-4 border-t border-orange-200">
+                <div class="flex flex-col space-y-2 pt-4">
+                    <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Home</Link>
+                    <Link href="/students" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Student
+                    Profiles</Link>
+                    <Link href="/companies" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Voor
+                    Bedrijven</Link>
+                    <Link href="/events" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Speeddate
+                    Events</Link>
+                    <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Contact
+                    </Link>
+                    <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Inloggen
+                    </Link>
                 </div>
             </div>
         </div>
@@ -88,87 +94,126 @@ const submit = () => {
 
     <AuthLayout class="bg-orange-50 text-black">
 
-        <Head title="Forgot password" />
+        <!-- Login Card -->
+        <div class="bg-white rounded-3xl shadow-sm overflow-hidden -mt-10">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-orange-500 to-red-500 px-8 py-6 text-center">
+                <h1 class="text-2xl lg:text-3xl font-bold text-white mb-2">
+                    Wachtwoord vergeten?
+                </h1>
+                <p class="text-orange-100">Vul je e-mailadres in om een verificatiecode te ontvangen</p>
+            </div>
 
-        <h1 class="bg-orange-50 text-lg font-semibold border-b border-gray-300 pb-2 text-center text-black pt-0">
-            Wachtwoord vergeten
-        </h1>
+            <!-- Form Content -->
+            <div class="p-8">
 
-        <p class="text-center text-sm text-muted-foreground mb-6">
-            Voer je e-mailadres in om een link te ontvangen om je wachtwoord te resetten
-        </p>
+                <!-- Login Form -->
+                <form @submit.prevent="submit" class="space-y-6">
+                    <!-- Email Field -->
+                    <div>
+                        <Label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                            E-mailadres
+                        </Label>
+                        <Input id="email" type="email"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                            required autofocus :tabindex="1" autocomplete="email" v-model="form.email"
+                            placeholder="email@example.com" />
+                        <InputError :message="form.errors.email" class="mt-2" />
+                    </div>
 
-        <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
-            {{ status }}
-        </div>
+                    <div v-if="status" class="mb-4 text-center text-sm font-medium text-orange-600">
+                        {{ status }}
+                    </div>
 
-        <div class="space-y-6">
-            <form @submit.prevent="submit">
-                <div class="grid gap-2">
-                    <Label for="email">E-mailadres</Label>
-                    <Input id="email" type="email" name="email" autocomplete="off" v-model="form.email" autofocus
-                        placeholder="email@example.com" />
-                    <InputError :message="form.errors.email" />
-                </div>
-
-                <div class="my-6 flex items-center justify-start">
-                    <Button class="w-full bg-orange-500 text-white hover:bg-orange-600" :disabled="form.processing">
-                        <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
+                    <!-- Submit Button -->
+                    <Button type="submit"
+                        class="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold py-4 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
+                        :tabindex="4" :disabled="form.processing">
+                        <LoaderCircle v-if="form.processing" class="h-5 w-5 animate-spin mr-2" />
+                        <svg v-else class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
+                            </path>
+                        </svg>
                         Stuur resetlink
                     </Button>
-                </div>
-            </form>
 
-            <div class="space-x-1 text-center text-sm text-muted-foreground mb-16">
-                <span>Of, ga terug naar</span>
-                <TextLink :href="route('login')" class="!text-black">log in</TextLink>
+                    <!-- Sign Up Link -->
+                    <div class="text-center pt-4 border-t border-gray-100">
+                        <span>Of, ga terug naar </span>
+                        <TextLink :href="route('login')" class="!text-black">log in</TextLink>
+                    </div>
+                </form>
             </div>
         </div>
     </AuthLayout>
 
     <!-- Footer -->
-    <footer class="bg-orange-500 text-white py-12">
+    <footer class="bg-orange-500 text-white py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-4 gap-8">
-                <!-- Company Info -->
                 <div>
-                    <h3 class="font-bold text-lg mb-4">Erasmus</h3>
-                    <p class="text-orange-100 text-sm">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">E</span>
+                        </div>
+                        <div class="text-white font-bold text-xl">erasmus</div>
+                    </div>
+                    <p class="text-orange-100 text-sm mb-4">
                         Hogeschool Brussel<br>
                         Connecting talent with opportunity
                     </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-orange-200 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-orange-200 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
 
-                <!-- Links Columns -->
                 <div>
                     <h4 class="font-semibold mb-4">Voor studenten</h4>
                     <ul class="space-y-2 text-orange-100 text-sm">
-                        <li><a href="#" class="hover:text-white transition-colors">Vind vacatures</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">CV tips</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Interview tips</a></li>
+                        <li>
+                            <Link href="/register?type=student" class="hover:text-white transition-colors">Maak je
+                            profiel</Link>
+                        </li>
+                        <li>
+                            <Link href="/afspraak" class="hover:text-white transition-colors">Speeddate events</Link>
+                        </li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="font-semibold mb-4">Voor bedrijven</h4>
                     <ul class="space-y-2 text-orange-100 text-sm">
-                        <li><a href="#" class="hover:text-white transition-colors">Plaats vacature</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Zoek talent</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Prijzen</a></li>
+                        <li>
+                            <Link href="/companies" class="hover:text-white transition-colors">Browse studenten</Link>
+                        </li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4 class="font-semibold mb-4">Over ons</h4>
+                    <h4 class="font-semibold mb-4">Support</h4>
                     <ul class="space-y-2 text-orange-100 text-sm">
-                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Privacy</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Voorwaarden</a></li>
+                        <li>
+                            <Link href="/contact" class="hover:text-white transition-colors">Contact</Link>
+                        </li>
+                        <!--<li><Link href="/privacy" class="hover:text-white transition-colors">Privacy beleid</Link></li> Misschien als extra toevoegen-->
+                        <!--<li><Link href="/terms" class="hover:text-white transition-colors">Voorwaarden</Link></li> Misschien als extra toevoegen-->
                     </ul>
                 </div>
             </div>
 
-            <div class="border-t border-orange-400 mt-8 pt-8 text-center text-orange-100 text-sm">
+            <div class="border-t border-orange-400 mt-12 pt-8 text-center text-orange-100 text-sm">
                 <p>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden.</p>
             </div>
         </div>

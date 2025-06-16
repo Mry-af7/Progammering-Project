@@ -20,10 +20,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            StudyFieldSeeder::class,
             UserSeeder::class,
+            CompanySeeder::class,
+            StudyFieldSeeder::class,
             AdminSeeder::class,
             DashboardDataSeeder::class,
+            TestUserSeeder::class,
         ]);
 
         // Create study fields

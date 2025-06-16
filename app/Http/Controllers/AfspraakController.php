@@ -16,6 +16,7 @@ use App\Models\TimeSlot;
 use App\Models\User;
 use Carbon\Carbon;
 use Inertia\Inertia;
+use App\Mail\AppointmentConfirmation;
 
 class AfspraakController extends Controller
 {
@@ -36,14 +37,16 @@ class AfspraakController extends Controller
             'beschikbareTijdslots' => $this->getBeschikbareTijdslots(),
             'studierichtingen' => $this->getStudierichtingen(),
             'eventInfo' => $this->getCurrentEvent(),
-            'userAppointments' => $userAppointments
+            'userAppointments' => $userAppointments,
+            'allCompanies' => \App\Models\Company::select(['id', 'name', 'description', 'logo'])->get(),
+            'allTimeSlots' => \App\Models\TimeSlot::where('is_available', true)->get(),
         ]);
     }
 
     /**
      * Get companies data in the format expected by Vue
      */
-    private function getBedrijven()
+    public function getBedrijven()
     {
         // Try to get from database first, fallback to static data
         try {
@@ -63,14 +66,14 @@ class AfspraakController extends Controller
                 ->toArray();
 
             if (count($companies) > 0) {
-                return $companies;
+                return response()->json($companies);
             }
         } catch (\Exception $e) {
             Log::warning('Could not fetch companies from database, using static data: ' . $e->getMessage());
         }
 
         // Fallback to static data
-        return [
+        $staticCompanies = [
             [
                 'id' => 'microsoft',
                 'naam' => 'Microsoft Belgium',
@@ -114,12 +117,14 @@ class AfspraakController extends Controller
                 'tags' => ['Telecom', 'Media', 'Digital']
             ]
         ];
+
+        return response()->json($staticCompanies);
     }
 
     /**
      * Get available time slots in the format expected by Vue
      */
-    private function getBeschikbareTijdslots()
+    public function getBeschikbareTijdslots()
     {
         $eventDate = '2025-03-25';
         
@@ -160,12 +165,14 @@ class AfspraakController extends Controller
             ['id' => '16', 'tijd' => '15:20 - 15:35', 'info' => '25 maart 2025']
         ];
 
-        return array_map(function ($slot) use ($appointmentCounts, $maxParticipantsPerSlot) {
+        $formattedSlots = array_map(function ($slot) use ($appointmentCounts, $maxParticipantsPerSlot) {
             $currentCount = $appointmentCounts[$slot['id']] ?? 0;
             $slot['beschikbaar'] = $currentCount < $maxParticipantsPerSlot;
             $slot['remaining_spots'] = max(0, $maxParticipantsPerSlot - $currentCount);
             return $slot;
         }, $timeSlots);
+
+        return response()->json(['tijdslots' => $formattedSlots]);
     }
 
     /**
@@ -246,194 +253,54 @@ class AfspraakController extends Controller
      */
     public function store(Request $request)
     {
-        // Check authentication
-        if (!Auth::check()) {
-            return response()->json([
-                'error' => 'Je moet ingelogd zijn om een afspraak te maken.',
-                'redirect' => route('login')
-            ], 401);
-        }
-
-        // Enhanced validation
-        $validator = Validator::make($request->all(), [
-            'selectedBedrijf' => 'required|string',
-            'selectedTijdslot' => 'required|string',
-            'formData' => 'required|array',
-            'formData.voornaam' => 'required|string|max:255|min:2',
-            'formData.achternaam' => 'required|string|max:255|min:2',
-            'formData.email' => 'required|email:rfc,dns|max:255',
-            'formData.telefoon' => 'nullable|string|max:20|regex:/^[\+\d\s\-\(\)]+$/',
-            'formData.studierichting' => 'required|string|in:' . implode(',', $this->getStudierichtingen()),
-            'formData.notities' => 'nullable|string|max:1000'
-        ], [
-            'selectedBedrijf.required' => 'Selecteer een bedrijf',
-            'selectedTijdslot.required' => 'Selecteer een tijdslot',
-            'formData.voornaam.required' => 'Voornaam is verplicht',
-            'formData.voornaam.min' => 'Voornaam moet minstens 2 karakters lang zijn',
-            'formData.achternaam.required' => 'Achternaam is verplicht',
-            'formData.achternaam.min' => 'Achternaam moet minstens 2 karakters lang zijn',
-            'formData.email.required' => 'E-mailadres is verplicht',
-            'formData.email.email' => 'E-mailadres is niet geldig',
-            'formData.telefoon.regex' => 'Telefoonnummer is niet geldig',
-            'formData.studierichting.required' => 'Selecteer een studierichting',
-            'formData.studierichting.in' => 'Ongeldige studierichting geselecteerd',
-            'formData.notities.max' => 'Extra informatie mag maximaal 1000 karakters bevatten'
+        $validated = $request->validate([
+            'company_id' => 'required|exists:companies,id',
+            'time_slot_id' => 'required|exists:time_slots,id',
+            'student_firstname' => 'required|string|max:255',
+            'student_lastname' => 'required|string|max:255',
+            'student_email' => 'required|email|max:255',
+            'student_phone' => 'required|string|max:20|regex:/^[0-9+\s-()]{10,}$/',
+            'study_field' => 'required|string|max:255',
+            'study_year' => 'required|integer|between:1,5',
+            'student_notes' => 'nullable|string|max:1000',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => 'Validatiefouten gevonden',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        $validated = $validator->validated();
-        
-        DB::beginTransaction();
-        
         try {
-            // Check if the time slot is still available
-            $appointmentCount = DB::table('appointments')
-                ->where('time_slot_id', $validated['selectedTijdslot'])
-                ->whereDate('appointment_date', '2025-03-25')
-                ->where('status', '!=', 'cancelled')
-                ->count();
+            DB::beginTransaction();
 
-            if ($appointmentCount >= 20) { // Max participants per slot
-                return response()->json([
-                    'error' => 'Dit tijdslot is vol. Kies een ander tijdslot.'
-                ], 422);
+            // Check if time slot is still available
+            $timeSlot = TimeSlot::findOrFail($validated['time_slot_id']);
+            if (!$timeSlot->isAvailable()) {
+                throw new \Exception('Deze tijdslot is niet meer beschikbaar.');
             }
 
-            // Check if user already has an appointment with this company on this date
-            $existingAppointment = DB::table('appointments')
-                ->where('student_id', Auth::id())
-                ->where('company_id', $validated['selectedBedrijf'])
-                ->whereDate('appointment_date', '2025-03-25')
-                ->where('status', '!=', 'cancelled')
-                ->exists();
-
-            if ($existingAppointment) {
-                return response()->json([
-                    'error' => 'Je hebt al een afspraak met dit bedrijf voor deze datum.'
-                ], 422);
-            }
-
-            // Check if user already has an appointment in this time slot
-            $conflictingAppointment = DB::table('appointments')
-                ->where('student_id', Auth::id())
-                ->where('time_slot_id', $validated['selectedTijdslot'])
-                ->whereDate('appointment_date', '2025-03-25')
-                ->where('status', '!=', 'cancelled')
-                ->exists();
-
-            if ($conflictingAppointment) {
-                return response()->json([
-                    'error' => 'Je hebt al een afspraak in dit tijdslot.'
-                ], 422);
-            }
-
-            // Validate company exists
-            $bedrijven = collect($this->getBedrijven())->keyBy('id');
-            if (!$bedrijven->has($validated['selectedBedrijf'])) {
-                return response()->json([
-                    'error' => 'Geselecteerd bedrijf is niet geldig.'
-                ], 422);
-            }
-
-            // Validate time slot exists
-            $tijdslots = collect($this->getBeschikbareTijdslots())->keyBy('id');
-            if (!$tijdslots->has($validated['selectedTijdslot'])) {
-                return response()->json([
-                    'error' => 'Geselecteerd tijdslot is niet geldig.'
-                ], 422);
-            }
-
-            // Create the appointment
-            $appointmentId = DB::table('appointments')->insertGetId([
-                'student_id' => Auth::id(),
-                'company_id' => $validated['selectedBedrijf'],
-                'time_slot_id' => $validated['selectedTijdslot'],
-                'appointment_date' => '2025-03-25',
-                'student_notes' => $validated['formData']['notities'] ?? null,
-                'status' => 'confirmed',
-                'created_at' => now(),
-                'updated_at' => now()
+            // Create appointment
+            $appointment = Appointment::create([
+                'time_slot_id' => $validated['time_slot_id'],
+                'student_firstname' => $validated['student_firstname'],
+                'student_lastname' => $validated['student_lastname'],
+                'student_email' => $validated['student_email'],
+                'student_phone' => $validated['student_phone'],
+                'study_field' => $validated['study_field'],
+                'study_year' => $validated['study_year'],
+                'student_notes' => $validated['student_notes'],
+                'status' => 'pending',
             ]);
 
-            // Update user profile with form data if needed
-            $this->updateUserProfile($validated['formData']);
-
-            // Get appointment details for response
-            $selectedCompany = $bedrijven->get($validated['selectedBedrijf']);
-            $selectedTimeSlot = $tijdslots->get($validated['selectedTijdslot']);
-
-            $appointmentData = [
-                'id' => $appointmentId,
-                'company_name' => $selectedCompany['naam'],
-                'time_slot' => $selectedTimeSlot['tijd'],
-                'date' => '25 maart 2025',
-                'location' => 'Erasmushogeschool Brussel - Campus Kaai'
-            ];
+            // Update time slot availability
+            $timeSlot->update(['status' => 'booked']);
 
             // Send confirmation email
-            $this->sendConfirmationEmail(Auth::user(), $selectedCompany, $selectedTimeSlot, $appointmentData);
-
-            // Log the appointment creation
-            Log::info('Appointment created', [
-                'appointment_id' => $appointmentId,
-                'student_id' => Auth::id(),
-                'company_id' => $validated['selectedBedrijf'],
-                'time_slot_id' => $validated['selectedTijdslot']
-            ]);
+            Mail::to($validated['student_email'])->send(new AppointmentConfirmation($appointment));
 
             DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Afspraak succesvol ingepland!',
-                'appointment' => $appointmentData
-            ], 201);
+            return redirect()->route('appointments.show', $appointment)
+                ->with('success', 'Je afspraak is succesvol ingepland!');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error creating appointment: ' . $e->getMessage(), [
-                'student_id' => Auth::id(),
-                'company_id' => $validated['selectedBedrijf'] ?? null,
-                'time_slot_id' => $validated['selectedTijdslot'] ?? null,
-                'exception' => $e
-            ]);
-            
-            return response()->json([
-                'error' => 'Er is een onverwachte fout opgetreden. Probeer het later opnieuw.'
-            ], 500);
-        }
-    }
-
-    /**
-     * Update user profile with form data if needed
-     */
-    private function updateUserProfile($formData)
-    {
-        $user = Auth::user();
-        $updateData = [];
-        
-        if (empty($user->firstname) || $user->firstname !== $formData['voornaam']) {
-            $updateData['firstname'] = $formData['voornaam'];
-        }
-        if (empty($user->lastname) || $user->lastname !== $formData['achternaam']) {
-            $updateData['lastname'] = $formData['achternaam'];
-        }
-        if (!empty($formData['telefoon']) && (empty($user->phone) || $user->phone !== $formData['telefoon'])) {
-            $updateData['phone'] = $formData['telefoon'];
-        }
-        if (empty($user->study_program) || $user->study_program !== $formData['studierichting']) {
-            $updateData['study_program'] = $formData['studierichting'];
-        }
-
-        if (!empty($updateData)) {
-            $updateData['updated_at'] = now();
-            DB::table('users')->where('id', Auth::id())->update($updateData);
+            return back()->withErrors(['error' => 'Er is een fout opgetreden bij het inplannen van je afspraak. Probeer het later opnieuw.']);
         }
     }
 
@@ -554,41 +421,6 @@ class AfspraakController extends Controller
         ];
 
         return response()->json($stats);
-    }
-
-    /**
-     * Send confirmation email to student
-     */
-    private function sendConfirmationEmail($user, $company, $timeSlot, $appointmentData)
-    {
-        try {
-            $subject = 'Bevestiging speeddate - ' . ($company['naam'] ?? 'Career Launch');
-            
-            $emailData = [
-                'user' => $user,
-                'company' => $company,
-                'timeSlot' => $timeSlot,
-                'appointment' => $appointmentData,
-                'eventInfo' => $this->getCurrentEvent()
-            ];
-
-            // You can create a mail class for this
-            // Mail::to($user->email)->send(new AppointmentConfirmation($emailData));
-            
-            // For now, just log that we would send an email
-            Log::info('Confirmation email would be sent', [
-                'to' => $user->email,
-                'subject' => $subject,
-                'appointment_id' => $appointmentData['id']
-            ]);
-
-        } catch (\Exception $e) {
-            Log::error('Error sending confirmation email: ' . $e->getMessage(), [
-                'user_id' => $user->id,
-                'appointment_id' => $appointmentData['id'] ?? null
-            ]);
-            // Don't fail the appointment creation if email fails
-        }
     }
 
     /**
