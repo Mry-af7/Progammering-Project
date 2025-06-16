@@ -13,7 +13,7 @@ import { type BreadcrumbItem } from '@/types';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
-        title: 'Password settings',
+        title: 'Wachtwoordinstellingen',
         href: '/settings/password',
     },
 ];
@@ -55,7 +55,7 @@ const updatePassword = () => {
         <Head title="Wachtwoordinstellingen" />
 
         <SettingsLayout>
-            <div class="bg-orange-50 space-y-6">
+            <div class="bg-orange-50 space-y-6 dark:text-orange-500 p-2 dark:bg-neutral-700 dark:rounded-xl">
                 <HeadingSmall title="Wachtwoord bijwerken" description="Zorg ervoor dat uw account een lang, willekeurig wachtwoord gebruikt om veilig te blijven" />
 
                 <form @submit.prevent="updatePassword" class="space-y-6">
@@ -66,7 +66,7 @@ const updatePassword = () => {
                             ref="currentPasswordInput"
                             v-model="form.current_password"
                             type="password"
-                            class="mt-1 block w-full"
+                            class="mt-1 block w-full text-neutral-400"
                             autocomplete="current-password"
                             placeholder="Huidige wachtwoord"
                         />
@@ -80,7 +80,7 @@ const updatePassword = () => {
                             ref="passwordInput"
                             v-model="form.password"
                             type="password"
-                            class="mt-1 block w-full"
+                            class="mt-1 block w-full text-neutral-400"
                             autocomplete="new-password"
                             placeholder="Nieuwe wachtwoord"
                         />
@@ -93,7 +93,7 @@ const updatePassword = () => {
                             id="password_confirmation"
                             v-model="form.password_confirmation"
                             type="password"
-                            class="mt-1 block w-full"
+                            class="mt-1 block w-full text-neutral-400"
                             autocomplete="new-password"
                             placeholder="Wachtwoord bevestigen"
                         />

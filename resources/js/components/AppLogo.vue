@@ -3,10 +3,13 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
 </script>
 
 <template>
-    <div class="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-        <AppLogoIcon class="size-5 fill-current text-white dark:text-black" />
+    <Link href="/" class="flex items-center space-x-3 hover:bg-transparent">
+    <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-lg">
+        <span class="text-white font-bold text-lg">E</span>
     </div>
-    <div class="ml-1 grid flex-1 text-left text-sm">
-        <span class="mb-0.5 truncate font-semibold leading-none">Laravel Starter Kit</span>
+    <div>
+        <div class="text-gray-900 font-bold text-xl">erasmus</div>
+        <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
     </div>
+    </Link>
 </template>

@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             StudyFieldSeeder::class,
             AdminSeeder::class,
             DashboardDataSeeder::class,
+            TestUserSeeder::class,
         ]);
 
         // Create study fields

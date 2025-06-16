@@ -21,8 +21,8 @@ const breadcrumbItems: BreadcrumbItem[] = [
         <Head title="Verschijningsinstellingen" />
 
         <SettingsLayout>
-            <div class="bg-orange-50 space-y-6">
-                <HeadingSmall title="Verschijningsinstellingen" description="De weergave-instellingen van je account bijwerken" />
+            <div class="space-y-6 h-screen">
+                <HeadingSmall title="Verschijningsinstellingen" description="De weergave-instellingen van je account bijwerken" class="dark:text-orange-500 p-2 dark:bg-neutral-700 dark:rounded-xl"/>
                 <AppearanceTabs />
             </div>
         </SettingsLayout>

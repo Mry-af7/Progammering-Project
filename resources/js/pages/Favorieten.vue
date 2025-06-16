@@ -1,148 +1,129 @@
 <template>
-  <div class="favorites-page">
-    <Navigation />
-    <section class="max-w-4xl mx-auto py-16">
-      <h1 class="text-4xl font-bold mb-6 text-orange-600">Mijn Favorieten</h1>
-      <div v-if="favorites && favorites.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div v-for="fav in favorites" :key="fav.id" class="bg-white rounded shadow p-6">
-          <h2 class="text-2xl font-semibold mb-2">{{ fav.favoritable?.name || fav.favoritable?.naam }}</h2>
-          <p class="text-gray-700 mb-2">{{ fav.favoritable?.beschrijving || fav.favoritable?.description }}</p>
-          <div v-if="fav.favoritable?.website">
-            <a :href="fav.favoritable.website" target="_blank" class="text-orange-600 hover:underline">Website</a>
+  <div class="min-h-screen bg-orange-50">
+    <!-- Navigation -->
+    <nav class="bg-orange-50/90 backdrop-blur-sm shadow-sm sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Logo -->
+          <Link href="/" class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-lg">
+              <span class="text-white font-bold text-lg">E</span>
+            </div>
+            <div>
+              <div class="text-gray-900 font-bold text-xl">erasmus</div>
+              <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
+            </div>
+          </Link>
+
+          <!-- Desktop Navigation Links -->
+          <div class="hidden md:flex items-center space-x-1">
+            <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Home</Link>
+            <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Info</Link>
+            <Link href="/favorieten" class="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg font-medium transition-colors">Favorieten</Link>
+            <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</Link>
+            <div class="flex items-center ml-6">
+              <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Inloggen</Link>
+            </div>
           </div>
         </div>
       </div>
-      <div v-else class="text-gray-500 text-lg">Je hebt nog geen favorieten toegevoegd.</div>
-    </section>
+    </nav>
 
-    <!-- Header Navigation -->
-    <header class="header">
-      <div class="header-container">
-        <div class="logo-section">
-          <img src="/images/erasmus-logo.png" alt="Erasmus" class="logo" />
-        </div>
-        
-        <nav class="nav-tabs">
-          <button v-for="item in navItems" :key="item.key" 
-                  :class="['nav-tab', { active: item.key === 'fav' }]" 
-                  @click="navigate(item.key)">
-            {{ item.label }}
-          </button>
-        </nav>
+    <!-- Main Content (gecentreerd) -->
+    <main class="main-content bg-orange-50 min-h-screen">
+      <div class="content-container max-w-4xl mx-auto py-12 px-4">
+        <h1 class="text-4xl font-bold mb-2 text-orange-600">Mijn Favorieten</h1>
+        <div class="text-gray-500 mb-8">Je hebt nog geen favorieten toegevoegd.</div>
 
-        <div class="header-actions">
-          <div class="search-container">
-            <input type="search" 
-                   placeholder="Search" 
-                   v-model="searchTerm" 
-                   class="search-input" />
-            <span class="search-icon">🔍</span>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main-content">
-      <div class="content-container">
-        <!-- Page Header -->
-        <div class="page-header">
-          <h1 class="page-title">Mijn favorieten</h1>
-          <div class="title-underline"></div>
-        </div>
-
-      <!-- Filter Section -->
-      <div class="filter-section mb-6">
-        <div class="flex items-center justify-between">
-          <div class="filter-tabs flex space-x-4">
-            <button v-for="filter in filterOptions" :key="filter.value"
-                    :class="['filter-btn px-4 py-2 rounded-lg transition-colors', 
-                            activeFilter === filter.value ? 'bg-orange-100 text-orange-600' : 'text-gray-600 hover:bg-orange-50']"
-                    @click="activeFilter = filter.value">
-              <span class="filter-icon mr-2">{{ filter.icon }}</span>
-              {{ filter.label }}
-            </button>
-          </div>
-          <div class="results-count text-sm text-gray-500">
-            {{ filteredFavorites.length }} {{ filteredFavorites.length === 1 ? 'resultaat' : 'resultaten' }}
-          </div>
-        </div>
-      </div>
-
-      <!-- Content Area -->
-      <div class="content-area">
-        <!-- Empty State -->
-        <div v-if="filteredFavorites.length === 0" class="empty-state text-center py-12">
-          <div class="empty-illustration">
-            <div class="empty-icon text-6xl mb-4">💝</div>
-            <h2 class="empty-title text-2xl font-semibold text-gray-900 mb-2">Nog geen favorieten</h2>
-            <p class="empty-description text-gray-600" v-if="!searchTerm">
-              Voeg favorieten toe door op het hartje te klikken bij profielen die je interessant vindt.
-            </p>
-            <p class="empty-description text-gray-600" v-else>
-              Geen resultaten gevonden voor "{{ searchTerm }}"
-            </p>
+        <!-- Filter Section -->
+        <div class="filter-section mb-6">
+          <div class="flex items-center justify-between">
+            <div class="filter-tabs flex space-x-4">
+              <button v-for="filter in filterOptions" :key="filter.value"
+                      :class="['filter-btn px-4 py-2 rounded-lg transition-colors', 
+                              activeFilter === filter.value ? 'bg-orange-100 text-orange-600' : 'text-gray-600 hover:bg-orange-50']"
+                      @click="activeFilter = filter.value">
+                <span class="filter-icon mr-2">{{ filter.icon }}</span>
+                {{ filter.label }}
+              </button>
+            </div>
+            <div class="results-count text-sm text-gray-500">
+              {{ filteredFavorites.length }} {{ filteredFavorites.length === 1 ? 'resultaat' : 'resultaten' }}
+            </div>
           </div>
         </div>
 
-        <!-- Favorites Grid -->
-        <div v-else class="favorites-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div v-for="favorite in filteredFavorites" :key="favorite.id" 
-               class="favorite-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-            <div class="p-6">
-              <div class="flex justify-between items-start mb-4">
-                <div class="avatar-container w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
-                  <img :src="favorite.image_url || getDefaultAvatar(favorite.item_type)" 
-                       :alt="favorite.title" 
-                       class="w-full h-full object-cover"
-                       @error="handleImageError" />
-                </div>
-                <button @click="removeFavorite(favorite.id)" 
-                        class="favorite-toggle text-red-500 hover:text-red-600 transition-colors"
-                        title="Verwijder uit favorieten">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                  </svg>
-                </button>
-              </div>
-              
-              <div class="card-body">
-                <h3 class="card-title text-xl font-semibold text-gray-900 mb-2">{{ favorite.title }}</h3>
-                <div class="card-meta flex justify-between items-center mb-3">
-                  <span class="type-badge px-3 py-1 rounded-full text-sm"
-                        :class="getTypeClass(favorite.item_type)">
-                    {{ getTypeLabel(favorite.item_type) }}
-                  </span>
-                  <span class="date-added text-sm text-gray-500">{{ formatDate(favorite.created_at) }}</span>
-                </div>
-                
-                <p v-if="favorite.description" class="card-description text-gray-600 mb-4">
-                  {{ truncateText(favorite.description, 120) }}
-                </p>
+        <!-- Content Area -->
+        <div class="content-area">
+          <!-- Empty State -->
+          <div v-if="filteredFavorites.length === 0" class="empty-state text-center py-12">
+            <div class="empty-illustration">
+              <div class="empty-icon text-6xl mb-4">💝</div>
+              <h2 class="empty-title text-2xl font-semibold text-gray-900 mb-2">Nog geen favorieten</h2>
+              <p class="empty-description text-gray-600" v-if="!searchTerm">
+                Voeg favorieten toe door op het hartje te klikken bij profielen die je interessant vindt.
+              </p>
+              <p class="empty-description text-gray-600" v-else>
+                Geen resultaten gevonden voor "{{ searchTerm }}"
+              </p>
+            </div>
+          </div>
 
-                <div class="card-actions flex space-x-3">
-                  <button class="btn-primary bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
-                          @click="viewProfile(favorite)">
-                    Bekijk profiel
+          <!-- Favorites Grid -->
+          <div v-else class="favorites-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div v-for="favorite in filteredFavorites" :key="favorite.id" 
+                 class="favorite-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+              <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                  <div class="avatar-container w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
+                    <img :src="favorite.image_url || getDefaultAvatar(favorite.item_type)" 
+                         :alt="favorite.title" 
+                         class="w-full h-full object-cover"
+                         @error="handleImageError" />
+                  </div>
+                  <button @click="removeFavorite(favorite.id)" 
+                          class="favorite-toggle text-red-500 hover:text-red-600 transition-colors"
+                          title="Verwijder uit favorieten">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
                   </button>
-                  <button class="btn-secondary border border-orange-500 text-orange-500 px-4 py-2 rounded-lg hover:bg-orange-50 transition-colors"
-                          @click="sendMessage(favorite)">
-                    Bericht
-                  </button>
+                </div>
+                <div class="card-body">
+                  <h3 class="card-title text-xl font-semibold text-gray-900 mb-2">{{ favorite.title }}</h3>
+                  <div class="card-meta flex justify-between items-center mb-3">
+                    <span class="type-badge px-3 py-1 rounded-full text-sm"
+                          :class="getTypeClass(favorite.item_type)">
+                      {{ getTypeLabel(favorite.item_type) }}
+                    </span>
+                    <span class="date-added text-sm text-gray-500">{{ formatDate(favorite.created_at) }}</span>
+                  </div>
+                  <p v-if="favorite.description" class="card-description text-gray-600 mb-4">
+                    {{ truncateText(favorite.description, 120) }}
+                  </p>
+                  <div class="card-actions flex space-x-3">
+                    <button class="btn-primary bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
+                            @click="viewProfile(favorite)">
+                      Bekijk profiel
+                    </button>
+                    <button class="btn-secondary border border-orange-500 text-orange-500 px-4 py-2 rounded-lg hover:bg-orange-50 transition-colors"
+                            @click="sendMessage(favorite)">
+                      Bericht
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
-import { router } from '@inertiajs/vue3'
-import Navigation from '@/components/Navigation.vue'
+import { router, Link } from '@inertiajs/vue3'
 import { usePage } from '@inertiajs/vue3'
 
 const favorites = computed(() => usePage().props.favorites || [])

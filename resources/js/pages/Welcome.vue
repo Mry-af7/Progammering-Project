@@ -1,8 +1,58 @@
 <template>
     <div class="min-h-screen bg-orange-50">
         <Head title="Welcome" />
-        <Navigation />
         
+        <!-- Navigation -->
+        <nav class="bg-orange-50/90 backdrop-blur-sm shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Logo -->
+                    <Link href="/" class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <span class="text-white font-bold text-lg">E</span>
+                        </div>
+                        <div>
+                            <div class="text-gray-900 font-bold text-xl">erasmus</div>
+                            <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
+                        </div>
+                    </Link>
+                    
+                    <!-- Mobile menu button -->
+                    <div class="md:hidden">
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg text-gray-700 hover:bg-orange-100">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Desktop Navigation Links -->
+                    <div class="hidden md:flex items-center space-x-1">
+                        <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Home</Link>
+                        <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Info</Link>
+                        <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Favorieten</Link>
+                        <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</Link>
+                        
+                        <div class="flex items-center ml-6">
+                            <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Inloggen</Link>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu -->
+                <div v-show="mobileMenuOpen" class="md:hidden mt-4 pb-4 border-t border-orange-200">
+                    <div class="flex flex-col space-y-2 pt-4">
+                        <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Home</Link>
+                        <Link href="/students" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Student Profiles</Link>
+                        <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Voor Bedrijven</Link>
+                        <Link href="/events" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Speeddate Events</Link>
+                        <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Contact</Link>
+                        <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Inloggen</Link>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
         <!-- Hero Section -->
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
@@ -26,11 +76,11 @@
                     
                     <!-- CTA Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 mb-8">
-                        <Link href="/register" class="bg-orange-500 text-white px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-600 hover:shadow-lg transition-all">
+                        <Link href="/register?type=student" class="bg-orange-500 text-white px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-600 hover:shadow-lg transition-all">
                             Ik ben een student
                         </Link>
-                        <Link href="/register?type=bedrijf" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
-                            Ik ben een bedrijf
+                        <Link href="/register/bedrijf" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
+                            Ik ben een bedrijf 
                         </Link>
                     </div>
                     
@@ -96,14 +146,48 @@
         </section>
 
         <!-- How it Works Section -->
-        <section class="max-w-4xl mx-auto py-12">
-            <h2 class="text-3xl font-bold mb-6 text-gray-800">Hoe werkt het?</h2>
-            <ol class="list-decimal list-inside text-lg text-gray-700 space-y-2">
-                <li>Maak een gratis profiel aan als student of bedrijf.</li>
-                <li>Bekijk interessante bedrijven of studenten.</li>
-                <li>Voeg favorieten toe en plan afspraken in.</li>
-                <li>Beheer alles eenvoudig via je persoonlijke dashboard.</li>
-            </ol>
+        <section class="bg-white py-20">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-4">Hoe het werkt</h2>
+                    <p class="text-gray-600 text-lg">Van profiel tot droomjob in 3 stappen</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8 relative">
+                    <!-- Connection lines -->
+                    <div class="hidden md:block absolute top-8 left-1/3 right-1/3 h-0.5 bg-gradient-to-r from-orange-200 via-orange-300 to-orange-200"></div>
+                    
+                    <div class="text-center group relative">
+                        <div class="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform relative z-10">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">1. Bouw je profiel</h3>
+                        <p class="text-gray-600">Showcase je skills, projecten en ambities. Vertel je verhaal en laat zien wat je uniek maakt.</p>
+                    </div>
+
+                    <div class="text-center group relative">
+                        <div class="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform relative z-10">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">2. Word ontdekt</h3>
+                        <p class="text-gray-600">Bedrijven browsen door profielen en voegen interessante studenten toe aan hun favorieten.</p>
+                    </div>
+
+                    <div class="text-center group relative">
+                        <div class="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform relative z-10">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">3. Maak contact</h3>
+                        <p class="text-gray-600">Chat met geïnteresseerde bedrijven en plan speeddate sessies voor persoonlijk contact.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Student Success Stories -->
@@ -233,21 +317,21 @@
                     <!-- Company logos with hover effects -->
                     <div class="flex flex-col items-center space-y-3 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100">
                         <div class="flex items-center justify-center h-16 w-32 bg-white rounded-lg shadow-sm p-4">
-                            <img src="/images/logos/accenture-logo.png" alt="Accenture" class="h-8 w-auto max-w-24">
+                            <img src="/images/logos/accenture-logo.svg" alt="Accenture" class="h-8 w-auto max-w-24">
                         </div>
                         <span class="text-xs font-medium text-gray-600">12 stages deze maand</span>
                     </div>
 
                     <div class="flex flex-col items-center space-y-3 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100">
                         <div class="flex items-center justify-center h-16 w-32 bg-white rounded-lg shadow-sm p-4">
-                            <img src="/images/logos/capgemini-logo.png" alt="Capgemini" class="h-8 w-auto max-w-24">
+                            <img src="/images/logos/capgemini-logo.svg" alt="Capgemini" class="h-8 w-auto max-w-24">
                         </div>
                         <span class="text-xs font-medium text-gray-600">8 studentjobs open</span>
                     </div>
 
                     <div class="flex flex-col items-center space-y-3 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100">
                         <div class="flex items-center justify-center h-16 w-32 bg-white rounded-lg shadow-sm p-4">
-                            <img src="/images/logos/delaware-logo.png" alt="Delaware" class="h-8 w-auto max-w-24">
+                            <img src="/images/logos/delaware-logo.svg" alt="delaware" class="h-8 w-auto max-w-24">
                         </div>
                         <span class="text-xs font-medium text-gray-600">Actief recruiterend</span>
                     </div>
@@ -287,19 +371,14 @@
                         <span class="text-xs font-medium text-gray-600">Engineering opportunities</span>
                     </div>
                 </div>
+            </div>
+            <div class="mt-4 flex justify-center">
+            <Link
+  href="/bedrijven"
+  class="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-red-600 hover:shadow-lg transition-all transform hover:scale-105"
+> Ontdek hier alle bedrijven!
+</Link>
 
-                <!-- Bedrijven sectie -->
-                <div class="bg-orange-50 py-16">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div class="text-center">
-                            <h2 class="text-3xl font-bold text-gray-900 mb-4">Ben je een bedrijf?</h2>
-                            <p class="text-lg text-gray-600 mb-8">Ontdek getalenteerde Erasmus studenten voor stages, studentjobs en graduate posities.</p>
-                            <Link href="/alle-bedrijven" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">
-                                Ontdek hier alle bedrijven
-                            </Link>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -326,20 +405,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- CTA sectie -->
-        <div class="bg-orange-600 py-16">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl font-bold text-white mb-4">Klaar om deel te nemen?</h2>
-                <p class="text-xl text-orange-100 mb-8">Registreer je nu voor Career Launch 2025</p>
-                <Link href="/register" class="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl text-orange-600 bg-white hover:bg-orange-50 transition-colors">
-                    Schrijf je nu in
-                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                    </svg>
-                </Link>
-            </div>
-        </div>
 
         <!-- Footer -->
         <footer class="bg-orange-500 text-white py-16">
@@ -373,7 +438,7 @@
                     <div>
                         <h4 class="font-semibold mb-4">Voor studenten</h4>
                         <ul class="space-y-2 text-orange-100 text-sm">
-                            <li><Link href="/register" class="hover:text-white transition-colors">Maak je profiel</Link></li>
+                            <li><Link href="/register?type=student" class="hover:text-white transition-colors">Maak je profiel</Link></li>
                             <li><Link href="/afspraak" class="hover:text-white transition-colors">Speeddate events</Link></li>
                         </ul>
                     </div>
@@ -405,5 +470,7 @@
 
 <script setup>
 import { Head, Link } from '@inertiajs/vue3'
-import Navigation from '@/components/Navigation.vue'
+import { ref } from 'vue'
+
+const mobileMenuOpen = ref(false)
 </script>

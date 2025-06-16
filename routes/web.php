@@ -3,23 +3,25 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\AfspraakController;
-use App\Http\Controllers\FavorietenController;
-use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\UserActivityController;
-use App\Http\Controllers\NotificationController;
-use App\Models\User;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\BedrijvenController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StudentController;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
 
-// === PUBLIC ROUTES ===
+// Public routes
 Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name('home');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
 
 Route::get('/info', function () {
     return Inertia::render('Info');
@@ -29,30 +31,19 @@ Route::get('/contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
 
-Route::get('/home', function () {
-    return Inertia::render('Welcome');
-})->name('home.alt');
+Route::get('/afspraak', function () {
+    return Inertia::render('Afspraak');
+})->name('afspraak');
 
-Route::get('/faq', function () {
-    return Inertia::render('Faq');
-})->name('faq');
+Route::get('/favorieten', function () {
+    return Inertia::render('Favorieten');
+})->name('favorieten');
 
-// === BEDRIJVEN ROUTES ===
-Route::get('/bedrijven', [BedrijvenController::class, 'index'])->name('bedrijven.index');
-Route::get('/bedrijven/{id}', [BedrijvenController::class, 'show'])->name('bedrijven.show');
+Route::get('/bedrijven', function () {
+    return Inertia::render('Bedrijven');
+})->name('bedrijven');
 
-// === POSITIES ROUTES ===
-Route::get('/posities/{id}', [PositionController::class, 'show'])->name('positions.show');
-
-// === SOLLICITATIES ROUTES ===
-Route::middleware(['auth'])->group(function () {
-    Route::get('/sollicitaties', [ApplicationController::class, 'index'])->name('applications.index');
-    Route::get('/sollicitaties/nieuw', [ApplicationController::class, 'create'])->name('applications.create');
-    Route::post('/sollicitaties', [ApplicationController::class, 'store'])->name('applications.store');
-    Route::get('/sollicitaties/{id}', [ApplicationController::class, 'show'])->name('applications.show');
-});
-
-// === AUTH ROUTES ===
+// Auth routes
 Route::middleware('guest')->group(function () {
     // Student registration
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
@@ -65,274 +56,57 @@ Route::middleware('guest')->group(function () {
     // Login
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update');
 });
 
 Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
-});
-
-// === AFSPRAAK ROUTES ===
-Route::get('/afspraak', [AfspraakController::class, 'index'])->name('afspraak');
-Route::post('/afspraak', [AfspraakController::class, 'store'])->name('afspraak.store');
-Route::get('/api/afspraak/tijdslots', [AfspraakController::class, 'getTimeSlots'])->name('api.afspraak.tijdslots');
-
-// === FAVORIETEN ROUTES ===
-Route::middleware(['auth', 'web'])->group(function () {
-    Route::get('/favorieten', [FavorietenController::class, 'index'])->name('favorieten.index');
-    Route::post('/favorites', [FavorietenController::class, 'store'])->name('favorites.store');
-    Route::delete('/favorites/{id}', [FavorietenController::class, 'destroy'])->name('favorites.destroy');
-});
-
-// === PROFILE ROUTES ===
-Route::get('/studenten/{id}', function ($id) {
-    return Inertia::render('StudentProfile', ['studentId' => $id]);
-})->name('student.show');
-
-Route::get('/bedrijven', function () {
-    return Inertia::render('Bedrijven');
-})->name('bedrijven.index');
-
-Route::get('/bedrijven/{id}', [BedrijvenController::class, 'show'])->name('bedrijven.show');
-
-Route::get('/profielen/{id}', function ($id) {
-    return Inertia::render('Profile', ['profileId' => $id]);
-})->name('profile.show');
-
-// === MESSAGES ROUTES ===
-Route::get('/berichten/nieuw', function () {
-    return Inertia::render('NewMessage', [
-        'to' => request('to'),
-        'type' => request('type')
-    ]);
-})->name('messages.create');
-
-// === PROTECTED ROUTES ===
-Route::middleware(['auth'])->group(function () {
+    
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    // Profile Management
-    Route::get('/profile', function () {
-        return Inertia::render('Profile/Edit');
-    })->name('profile.edit');
-    
-    Route::patch('/profile', function () {
-        // Handle profile update
-    })->name('profile.update');
-    
-    // === SEARCH & BROWSE ===
-    Route::get('/studenten', function () {
-        return Inertia::render('Studenten');
-    })->name('studenten.index');
-    
-    Route::get('/bedrijven', function () {
-        return Inertia::render('Bedrijven');
-    })->name('bedrijven.index');
-    
-    // === EVENTS ===
-    Route::get('/events', function () {
-        return Inertia::render('EventsIndex');
-    })->name('events.index');
-    
-    Route::get('/events/{event}', function ($event) {
-        return Inertia::render('EventShow', ['eventId' => $event]);
-    })->name('events.show');
-    
-    // === API ROUTES FOR AJAX CALLS ===
-    Route::prefix('api')->name('api.')->group(function () {
-        
-        // === AFSPRAAK API ROUTES ===
-        Route::prefix('afspraak')->name('afspraak.')->group(function () {
-            Route::get('/user-appointments', [AfspraakController::class, 'getUserAppointmentsApi'])->name('user-appointments');
-            Route::get('/stats', [AfspraakController::class, 'getStats'])->name('stats');
-            Route::get('/companies', function () {
-                $controller = new AfspraakController();
-                return response()->json([
-                    'companies' => $controller->getBedrijven()
-                ]);
-            })->name('companies');
-            Route::get('/study-programs', function () {
-                $controller = new AfspraakController();
-                return response()->json([
-                    'programs' => $controller->getStudierichtingen()
-                ]);
-            })->name('study-programs');
-        });
-        
-        // Dashboard Data
-        Route::get('/dashboard/stats', [DashboardController::class, 'getStats'])->name('dashboard.stats');
-        Route::get('/dashboard/activities', [DashboardController::class, 'getActivities'])->name('dashboard.activities');
-        Route::get('/dashboard/tasks', [DashboardController::class, 'getTasks'])->name('dashboard.tasks');
-        
-        // Profile Progress
-        Route::get('/profile/progress', function () {
-            $user = auth()->user();
-            return response()->json([
-                'completion_percentage' => $user->userStats?->profile_completion_percentage ?? 0,
-                'sections' => [
-                    'basic_info' => ['completed' => !empty($user->firstname) && !empty($user->email)],
-                    'education' => ['completed' => !empty($user->studentProfile?->study_field_id)],
-                    'skills' => ['completed' => !empty($user->studentProfile?->technical_skills)],
-                    'portfolio' => ['completed' => !empty($user->studentProfile?->portfolio_url)]
-                ]
-            ]);
-        })->name('profile.progress');
-        
-        // Search/Filter
-        Route::get('/search/students', function () {
-            // Return filtered students
-            return response()->json(['students' => []]);
-        })->name('search.students');
-        
-        Route::get('/search/companies', function () {
-            // Return filtered companies
-            return response()->json(['companies' => []]);
-        })->name('search.companies');
-        
-        // Stats for charts
-        Route::get('/stats/applications', function () {
-            $user = auth()->user();
-            $stats = $user->userStats;
-            
-            return response()->json([
-                'total' => $stats?->applications_sent ?? 0,
-                'pending' => $stats?->applications_pending ?? 0,
-                'interview' => $stats?->applications_interview ?? 0,
-                'offers' => $stats?->applications_offers ?? 0,
-                'rejected' => $stats?->applications_rejected ?? 0
-            ]);
-        })->name('stats.applications');
-        
-        // Profile views over time
-        Route::get('/stats/profile-views', function () {
-            return response()->json([
-                'total_views' => auth()->user()->userStats?->profile_views_count ?? 0,
-                'this_month' => auth()->user()->userStats?->profile_views_this_month ?? 0,
-                'daily_views' => [] // Array of daily view counts for charts
-            ]);
-        })->name('stats.profile-views');
-        
-        // Quick actions
-        Route::post('/quick-actions/favorite', [FavorietenController::class, 'store'])->name('quick-actions.favorite');
-        Route::post('/quick-actions/message', [MessageController::class, 'quickMessage'])->name('quick-actions.message');
-        Route::post('/quick-actions/apply', [ApplicationController::class, 'quickApply'])->name('quick-actions.apply');
-        
-        // File uploads
-        Route::post('/upload/cv', function () {
-            // Handle CV upload
-            return response()->json(['success' => true, 'message' => 'CV uploaded successfully']);
-        })->name('upload.cv');
-        
-        Route::post('/upload/portfolio', function () {
-            // Handle portfolio file upload
-            return response()->json(['success' => true, 'message' => 'Portfolio uploaded successfully']);
-        })->name('upload.portfolio');
-        
-        Route::post('/upload/profile-image', function () {
-            // Handle profile image upload
-            return response()->json(['success' => true, 'message' => 'Profile image uploaded successfully']);
-        })->name('upload.profile-image');
-
-        // Real-time updates
-        Route::get('/live/appointments-count', function () {
-            // Return current appointment counts for real-time updates
-            $controller = new AfspraakController();
-            return response()->json([
-                'tijdslots' => $controller->getBeschikbareTijdslots(),
-                'timestamp' => now()->toISOString()
-            ]);
-        })->name('live.appointments-count');
-        
-        // Calendar integration
-        Route::get('/calendar/export/{appointmentId}', function ($appointmentId) {
-            // Export appointment to calendar format
-            $appointment = DB::table('appointments')
-                ->where('id', $appointmentId)
-                ->where('student_id', auth()->id())
-                ->first();
-                
-            if (!$appointment) {
-                abort(404);
-            }
-            
-            // Generate ICS file content
-            $icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\n";
-            $icsContent .= "DTSTART:20250325T090000Z\n";
-            $icsContent .= "DTEND:20250325T091500Z\n";
-            $icsContent .= "SUMMARY:Career Launch Speeddate\n";
-            $icsContent .= "DESCRIPTION:Speeddate met bedrijf\n";
-            $icsContent .= "LOCATION:Erasmushogeschool Brussel, Campus Kaai\n";
-            $icsContent .= "END:VEVENT\nEND:VCALENDAR";
-            
-            return response($icsContent)
-                ->header('Content-Type', 'text/calendar')
-                ->header('Content-Disposition', 'attachment; filename="speeddate.ics"');
-        })->name('calendar.export');
-    });
-    
-    // === ADMIN ROUTES (for company users) ===
-    Route::middleware(['company'])->prefix('admin')->name('admin.')->group(function () {
-        Route::get('/dashboard', function () {
-            return Inertia::render('admin/Dashboard');
-        })->name('dashboard');
-        
-        Route::get('/applications', function () {
-            return Inertia::render('admin/Applications');
-        })->name('applications');
-        
-        Route::get('/students', function () {
-            return Inertia::render('admin/Students');
-        })->name('students');
-        
-        Route::get('/events', function () {
-            return Inertia::render('admin/Events');
-        })->name('events');
-        
-        // Appointment management for companies
-        Route::prefix('appointments')->name('appointments.')->group(function () {
-            Route::get('/', function () {
-                return Inertia::render('admin/Appointments');
-            })->name('index');
-            
-            Route::get('/export', function () {
-                // Export appointments to Excel/CSV
-                return response()->json(['message' => 'Export functionality to be implemented']);
-            })->name('export');
-            
-            Route::patch('/{id}/notes', function ($id) {
-                // Update company notes for appointment
-                request()->validate(['notes' => 'required|string|max:1000']);
-                
-                DB::table('appointments')
-                    ->where('id', $id)
-                    ->update([
-                        'company_notes' => request('notes'),
-                        'updated_at' => now()
-                    ]);
-                    
-                return response()->json(['success' => true]);
-            })->name('update-notes');
-        });
-    });
-});
-
-// === CAREER LAUNCH SPECIFIC ROUTES ===
-Route::prefix('career-launch')->name('career-launch.')->group(function () {
-    Route::get('/', function () {
-        return Inertia::render('CareerLaunch/Index');
-    })->name('index');
-    
-    Route::get('/program', function () {
-        return Inertia::render('CareerLaunch/Program');
-    })->name('program');
-    
+    // Companies
     Route::get('/companies', function () {
-        return Inertia::render('CareerLaunch/Companies');
-    })->name('companies');
+        return Inertia::render('Bedrijven');
+    })->name('companies.index');
+    Route::get('/companies/{company}', [CompanyController::class, 'show'])->name('companies.show');
+    Route::get('/alle-bedrijven', [CompanyController::class, 'index'])->name('companies.alle');
     
-    Route::get('/schedule', function () {
-        return Inertia::render('CareerLaunch/Schedule');
-    })->name('schedule');
+    // Company management (company users only)
+    Route::middleware('company')->group(function () {
+        Route::post('/companies', [CompanyController::class, 'store'])->name('companies.store');
+        Route::put('/companies/{company}', [CompanyController::class, 'update'])->name('companies.update');
+        Route::delete('/companies/{company}', [CompanyController::class, 'destroy'])->name('companies.destroy');
+    });
+    
+    // Appointments
+    Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
+    Route::get('/appointments/{appointment}', [AppointmentController::class, 'show'])->name('appointments.show');
+    
+    // Appointment management (students only)
+    Route::middleware('student')->group(function () {
+        Route::get('/appointments/create/{company}', [AppointmentController::class, 'create'])->name('appointments.create');
+        Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+        Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
+        Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
+    });
+    
+    // Favorites (students only)
+    Route::middleware('student')->group(function () {
+        Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+        Route::post('/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
+        Route::delete('/favorites/{company}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+        Route::post('/favorites/{company}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+    });
+
+    // Student routes
+    Route::get('/students', [StudentController::class, 'index'])->name('students.index');
+    Route::get('/students/{student}', [StudentController::class, 'show'])->name('students.show');
+    Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
+    Route::put('/students/{student}', [StudentController::class, 'update'])->name('students.update');
 });
 
 // === WEBHOOK ROUTES ===
@@ -423,3 +197,7 @@ Route::get('/alle-bedrijven', function () {
 Route::get('/Wiezijnwe', function () {
     return Inertia::render('Wiezijnwe');
 })->name('Wiezijnwe');
+
+Route::get('/home', function () {
+    return redirect('/');
+})->name('home');
