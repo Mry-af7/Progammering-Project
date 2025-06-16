@@ -109,6 +109,95 @@ Route::middleware('auth')->group(function () {
     Route::put('/students/{student}', [StudentController::class, 'update'])->name('students.update');
 });
 
+// === WEBHOOK ROUTES ===
+Route::post('/webhooks/email-opened/{notification}', function ($notificationId) {
+    // Track email opens
+    DB::table('email_tracking')
+        ->where('notification_id', $notificationId)
+        ->update(['opened_at' => now()]);
+        
+    return response('OK');
+})->name('webhooks.email-opened');
+
+Route::post('/webhooks/email-clicked/{notification}', function ($notificationId) {
+    // Track email clicks
+    DB::table('email_tracking')
+        ->where('notification_id', $notificationId)
+        ->update(['clicked_at' => now()]);
+        
+    return response('OK');
+})->name('webhooks.email-clicked');
+
+// === SYSTEM HEALTH ROUTES ===
+Route::get('/health', function () {
+    return response()->json([
+        'status' => 'healthy',
+        'timestamp' => now()->toISOString(),
+        'services' => [
+            'database' => DB::connection()->getPdo() ? 'healthy' : 'unhealthy',
+            'afspraak_system' => 'healthy'
+        ]
+    ]);
+})->name('health');
+
+// === ERROR PAGES ===
+Route::get('/404', function () {
+    return Inertia::render('Error', ['status' => 404]);
+})->name('404');
+
+Route::get('/500', function () {
+    return Inertia::render('Error', ['status' => 500]);
+})->name('500');
+
+// === SITEMAP ===
+Route::get('/sitemap.xml', function () {
+    $urls = [
+        ['url' => route('home'), 'priority' => '1.0'],
+        ['url' => route('info'), 'priority' => '0.8'],
+        ['url' => route('afspraak'), 'priority' => '0.9'],
+        ['url' => route('contact'), 'priority' => '0.7'],
+        ['url' => route('career-launch.index'), 'priority' => '0.8'],
+    ];
+    
+    return response()->view('sitemap', compact('urls'))
+        ->header('Content-Type', 'text/xml');
+})->name('sitemap');
+
+// === LEGACY REDIRECTS ===
+Route::redirect('/appointment', '/afspraak', 301);
+Route::redirect('/appointments', '/afspraken', 301);
+Route::redirect('/booking', '/afspraak', 301);
+
+// Load other route files
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';
+
+Route::get('/debug-users', function () {
+    $users = User::all(['email', 'firstname', 'lastname', 'role', 'user_type']);
+    $output = "";
+    foreach ($users as $user) {
+        $output .= "Email: {$user->email}, Name: {$user->firstname} {$user->lastname}, Role: {$user->role}, Type: {$user->user_type}\n";
+    }
+    Storage::disk('local')->put('user_emails.txt', $output);
+    return 'Dumped to storage/app/user_emails.txt';
+});
+
+// Admin dashboard route
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return Inertia::render('AdminDashboard');
+    })->name('admin.dashboard');
+});
+
+Route::get('/alle-bedrijven', function () {
+    return Inertia::render('Bedrijven');
+})->name('bedrijven.index');
+
+
+Route::get('/Wiezijnwe', function () {
+    return Inertia::render('Wiezijnwe');
+})->name('Wiezijnwe');
+
 Route::get('/home', function () {
     return redirect('/');
 })->name('home');

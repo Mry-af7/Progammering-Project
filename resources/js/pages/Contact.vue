@@ -158,7 +158,9 @@
                     <div>
                         <h3 class="font-semibold mb-4">Over Ons</h3>
                         <ul class="space-y-2 text-orange-100 text-sm">
-                            <li>*Wie zijn we?</li>
+                            <li>
+                                <Link href="/Wiezijnwe">Wie zijn we?</Link>
+                                 </li>
                         </ul>
                     </div>
                 </div>
