@@ -418,3 +418,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::get('/alle-bedrijven', function () {
     return Inertia::render('Bedrijven');
 })->name('bedrijven.index');
+
+
+Route::get('/Wiezijnwe', function () {
+    return Inertia::render('Wiezijnwe');
+})->name('Wiezijnwe');
