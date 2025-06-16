@@ -15,12 +15,15 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::with(['company', 'timeSlot'])
-            ->where('student_id', Auth::id())
-            ->orderBy('created_at', 'desc')
+        // Haal events op voor de afspraakpagina
+        $events = \App\Models\Event::with('timeSlots')
+            ->where('date', '>=', now())
+            ->where('is_active', true)
             ->get();
 
-        return response()->json(['appointments' => $appointments]);
+        return Inertia::render('Afspraak', [
+            'events' => $events,
+        ]);
     }
 
     public function create(Company $company)

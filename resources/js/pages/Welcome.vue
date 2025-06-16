@@ -268,11 +268,11 @@
                     
                     <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
                         <Link href="/afspraak" class="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-orange-600 hover:to-red-600 hover:shadow-lg transition-all transform hover:scale-105">
-    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-    </svg>
-    Plan je afspraak
-</Link>
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            Plan je afspraak
+                        </Link>
                         
                         <div class="text-sm text-gray-600">
                             <strong class="text-orange-600">Volgende event:</strong> 15 maart 2025

@@ -31,9 +31,13 @@ Route::get('/contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
 
-Route::get('/afspraak', function () {
-    return Inertia::render('Afspraak');
-})->name('afspraak');
+Route::get('/afspraak', [AppointmentController::class, 'index'])->name('afspraak');
+Route::post('/afspraak', [AppointmentController::class, 'store'])->name('afspraak.store');
+Route::get('/afspraak/{id}', [AppointmentController::class, 'show'])->name('afspraak.show');
+Route::put('/afspraak/{id}', [AppointmentController::class, 'update'])->name('afspraak.update');
+Route::delete('/afspraak/{id}', [AppointmentController::class, 'destroy'])->name('afspraak.destroy');
+Route::get('/afspraak/{id}/download', [AppointmentController::class, 'downloadCalendar'])->name('afspraak.download');
+Route::get('/afspraak/event/{eventId}/slots', [AppointmentController::class, 'getAvailableTimeSlots'])->name('afspraak.slots');
 
 Route::get('/favorieten', function () {
     return Inertia::render('Favorieten');
