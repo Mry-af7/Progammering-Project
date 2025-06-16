@@ -218,7 +218,7 @@ const keyMap = {
   info:       'info',
   favorieten: 'fav',
   contact:    'contact',
-  wiezijnwe:  'wie zijn we'
+  Wiezijnwe:  'wie zijn we'
 }
 const activeTab = ref(keyMap[path] || 'home')
 
@@ -240,7 +240,7 @@ function navigate(key) {
     info:      '/info',
     fav:       '/favorieten',
     contact:   '/contact',
-    wiezijnwe: '/wiezijnwe'
+    wiezijnwe: '/wiezijnwe',
   }
   router.visit(routes[key])
 }

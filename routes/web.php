@@ -195,7 +195,7 @@ Route::get('/alle-bedrijven', function () {
 
 
 Route::get('/Wiezijnwe', function () {
-    return Inertia::render('Wiezijnwe');
+    return Inertia::render('wiezijnwe');
 })->name('Wiezijnwe');
 
 Route::get('/home', function () {
