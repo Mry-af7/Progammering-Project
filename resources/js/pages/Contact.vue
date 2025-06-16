@@ -204,9 +204,8 @@
                     <!-- Hulp Section -->
                     <div>
                         <h3 class="font-semibold mb-4">Hulp</h3>
-                        <ul class="space-y-2 text-orange-100 text-sm">
-                            <li>*FAQ</li>
-                        </ul>
+                        
+              <Link href="/faq">FAQ</Link>
                     </div>
                     
                     <!-- Over Ons Section -->
