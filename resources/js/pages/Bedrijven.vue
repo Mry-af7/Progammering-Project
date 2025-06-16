@@ -13,6 +13,17 @@ const itemsPerPage = 12
 const isLoading = ref(false)
 const viewMode = ref('grid') // 'grid' or 'list'
 
+// Add new favorite methods
+const toggleFavorite = (company) => {
+    if (window.addToFavorites) {
+        window.addToFavorites(company)
+    }
+}
+
+const isFavorite = (companyId) => {
+    return window.favoritesState?.value.some(fav => fav.id === companyId) || false
+}
+
 const bedrijven = ref([
   {
     id: 1,
@@ -542,9 +553,9 @@ function closeModal() {
   document.body.style.overflow = 'auto'
 }
 
+// Replace the existing toggleFavoriet function with the new one
 function toggleFavoriet(bedrijf) {
-  bedrijf.favoriet = !bedrijf.favoriet
-  // Here you could also save to localStorage or send to server
+    toggleFavorite(bedrijf)
 }
 
 function resetFilters() {
@@ -764,14 +775,15 @@ onMounted(() => {
             <!-- Favorite Button -->
             <button
               @click="toggleFavoriet(bedrijf)"
-              class="absolute top-4 right-4 p-2 rounded-full hover:bg-white/80 transition-all duration-200 z-10"
+              :class="[
+                'absolute top-4 right-4 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300',
+                isFavorite(bedrijf.id) 
+                  ? 'bg-red-100 text-red-600 hover:bg-red-200' 
+                  : 'bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-orange-600'
+              ]"
             >
-              <svg
-                :class="['w-6 h-6 transition-all duration-200', bedrijf.favoriet ? 'text-yellow-400 scale-110' : 'text-gray-300 group-hover:text-yellow-400']"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.173 3.617a1 1 0 00.95.69h3.801c.969 0 1.371 1.24.588 1.81l-3.073 2.23a1 1 0 00-.364 1.118l1.173 3.617c.3.921-.755 1.688-1.54 1.118l-3.073-2.23a1 1 0 00-1.175 0l-3.073 2.23c-.784.57-1.838-.197-1.54-1.118l1.173-3.617a1 1 0 00-.364-1.118L2.536 9.044c-.783-.57-.38-1.81.588-1.81h3.801a1 1 0 00.95-.69l1.173-3.617z" />
+              <svg class="w-5 h-5" :fill="isFavorite(bedrijf.id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
               </svg>
             </button>
 
@@ -901,14 +913,15 @@ onMounted(() => {
             <div class="flex items-center gap-3">
               <button
                 @click="toggleFavoriet(bedrijf)"
-                class="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                :class="[
+                  'w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300',
+                  isFavorite(bedrijf.id) 
+                    ? 'bg-red-100 text-red-600 hover:bg-red-200' 
+                    : 'bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-orange-600'
+                ]"
               >
-                <svg
-                  :class="['w-6 h-6', bedrijf.favoriet ? 'text-yellow-400' : 'text-gray-300']"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.173 3.617a1 1 0 00.95.69h3.801c.969 0 1.371 1.24.588 1.81l-3.073 2.23a1 1 0 00-.364 1.118l1.173 3.617c.3.921-.755 1.688-1.54 1.118l-3.073-2.23a1 1 0 00-1.175 0l-3.073 2.23c-.784.57-1.838-.197-1.54-1.118l1.173-3.617a1 1 0 00-.364-1.118L2.536 9.044c-.783-.57-.38-1.81.588-1.81h3.801a1 1 0 00.95-.69l1.173-3.617z" />
+                <svg class="w-5 h-5" :fill="isFavorite(bedrijf.id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                 </svg>
               </button>
               <button
