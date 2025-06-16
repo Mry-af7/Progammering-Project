@@ -220,3 +220,37 @@ Route::redirect('/booking', '/afspraak', 301);
 // Load other route files
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+
+Route::get('/debug-users', function () {
+    $users = User::all(['email', 'firstname', 'lastname', 'role', 'user_type']);
+    $output = "";
+    foreach ($users as $user) {
+        $output .= "Email: {$user->email}, Name: {$user->firstname} {$user->lastname}, Role: {$user->role}, Type: {$user->user_type}\n";
+    }
+    Storage::disk('local')->put('user_emails.txt', $output);
+    return 'Dumped to storage/app/user_emails.txt';
+});
+
+// Admin dashboard route
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return Inertia::render('AdminDashboard');
+    })->name('admin.dashboard');
+});
+
+Route::get('/alle-bedrijven', function () {
+    return Inertia::render('Bedrijven');
+})->name('bedrijven.index');
+
+
+Route::get('/Wiezijnwe', function () {
+    return Inertia::render('Wiezijnwe');
+})->name('Wiezijnwe');
+
+Route::get('/home', function () {
+    return redirect('/');
+})->name('home');
+
+Route::get('/faq', function () {
+    return Inertia::render('Faq');
+})->name('Faq');
