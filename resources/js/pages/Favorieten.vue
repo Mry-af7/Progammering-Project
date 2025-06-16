@@ -10,10 +10,10 @@
                   <div class="flex items-center space-x-3">
                       <div class="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
                           <span class="text-white font-bold text-lg">E</span>
-                      </div>
+          </div>
                       <div class="font-bold text-xl text-gray-900">erasmus</div>
                       <div class="hidden sm:block text-sm text-gray-500">HOGESCHOOL BRUSSEL</div>
-                  </div>
+      </div>
                   
                   <!-- Desktop Navigation -->
                   <div class="hidden md:flex items-center space-x-8">
@@ -22,15 +22,15 @@
                       <Link href="/favorieten" class="text-orange-600 font-medium border-b-2 border-orange-600 pb-1">Favorieten</Link>
                       <Link href="/contact" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</Link>
                       <Link href="/inloggen" class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300">Inloggen</Link>
-                  </div>
-                  
+        </div>
+        
                   <!-- Mobile menu button -->
                   <div class="md:hidden">
                       <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-700 hover:text-orange-600 focus:outline-none">
                           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                           </svg>
-                      </button>
+          </button>
                   </div>
               </div>
               
@@ -66,11 +66,11 @@
                   <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
                       Houd je interessante bedrijven bij en vind snel terug wat je zoekt voor je toekomstige carrière.
                   </p>
-              </div>
-          </div>
+        </div>
+      </div>
       </section>
 
-      <!-- Main Content -->
+    <!-- Main Content -->
       <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
           
           <!-- Statistics Bar -->
@@ -93,7 +93,7 @@
                       <div class="text-sm text-gray-500">Locaties</div>
                   </div>
               </div>
-          </div>
+        </div>
 
           <!-- Filter & Search Bar -->
           <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8" v-if="favorites.length > 0">
@@ -120,8 +120,8 @@
                           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                           </svg>
-                      </button>
-                  </div>
+            </button>
+          </div>
               </div>
           </div>
 
@@ -166,8 +166,8 @@
                               <span class="px-3 py-1 bg-orange-100 text-orange-600 text-sm font-medium rounded-full">
                                   {{ company.industry }}
                               </span>
-                          </div>
-                      </div>
+        </div>
+      </div>
 
                       <!-- Company Info -->
                       <div class="p-6 pt-0">
@@ -190,8 +190,8 @@
                                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
                                   </svg>
                                   {{ company.employees }} medewerkers
-                              </div>
-                          </div>
+          </div>
+        </div>
 
                           <!-- Tags -->
                           <div class="flex flex-wrap gap-1 mb-4">
@@ -205,7 +205,7 @@
                               <span v-if="company.tags.length > 3" class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-md">
                                   +{{ company.tags.length - 3 }}
                               </span>
-                          </div>
+                </div>
 
                           <!-- Action Buttons -->
                           <div class="flex gap-2">
@@ -223,14 +223,14 @@
                               >
                                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                  </svg>
+                  </svg>
                               </a>
                           </div>
                       </div>
                   </div>
               </div>
-          </div>
-
+              </div>
+              
           <!-- Empty State -->
           <div v-else-if="favorites.length === 0" class="text-center py-16">
               <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-12 max-w-md mx-auto">
@@ -253,8 +253,8 @@
                       Ontdek bedrijven
                   </Link>
               </div>
-          </div>
-
+                </div>
+                
           <!-- No Results State -->
           <div v-else-if="filteredFavorites.length === 0" class="text-center py-16">
               <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-12 max-w-md mx-auto">
@@ -301,7 +301,7 @@
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                           </svg>
                           Exporteer lijst
-                      </button>
+                  </button>
                   </div>
               </div>
           </div>
@@ -514,13 +514,13 @@
                                       </svg>
                                       Bezoek website
                                   </a>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+                </div>
               </div>
+            </div>
           </div>
+        </div>
       </div>
+    </div>
   </div>
 </template>
 
