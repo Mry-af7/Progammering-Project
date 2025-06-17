@@ -1,5 +1,7 @@
 
 <script setup>
+import { Head, Link } from '@inertiajs/vue3'
+
 function isActive(page) {
   return page === 'faq'
 }
