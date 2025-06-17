@@ -10,14 +10,14 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname');
-            $table->string('lastname');
+            $table->string('firstname')->nullable();
+            $table->string('lastname')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             
             // User type: 'student' of 'company'
-            $table->enum('user_type', ['student', 'company', 'admin'])->default('student');
+            $table->enum('role', ['student', 'company', 'admin'])->default('student');
             
             // Basis profiel info
             $table->integer('age')->nullable();

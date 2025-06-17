@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class TimeSlot extends Model
 {
@@ -15,41 +17,34 @@ class TimeSlot extends Model
         'company_id',
         'start_time',
         'end_time',
-        'duration',
-        'max_students',
-        'current_students',
-        'status',
-        'location',
-        'room_number'
+        'is_available',
+        'duration_minutes'
     ];
 
     protected $casts = [
         'start_time' => 'datetime',
         'end_time' => 'datetime',
-        'max_students' => 'integer',
-        'current_students' => 'integer'
+        'is_available' => 'boolean'
     ];
 
-    public function event()
+    public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
     }
 
-    public function company()
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
-    public function appointments()
+    public function appointment(): HasOne
     {
-        return $this->hasMany(Appointment::class);
+        return $this->hasOne(Appointment::class);
     }
 
-    public function isAvailable()
+    public function isAvailable(): bool
     {
-        return $this->status === 'available' && 
-               $this->current_students < $this->max_students &&
-               $this->start_time > now();
+        return $this->is_available && !$this->appointment()->exists() && $this->start_time > now();
     }
 
     public function isFull()
@@ -75,8 +70,8 @@ class TimeSlot extends Model
 
     public function scopeAvailable($query)
     {
-        return $query->where('status', 'available')
-                    ->where('current_students', '<', DB::raw('max_students'))
+        return $query->where('is_available', true)
+                    ->whereDoesntHave('appointment')
                     ->where('start_time', '>', now());
     }
 
