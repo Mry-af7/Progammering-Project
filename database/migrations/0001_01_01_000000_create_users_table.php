@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('password');
             
             // User type: 'student' of 'company'
-            $table->enum('user_type', ['student', 'company', 'admin'])->default('student');
+            $table->enum('role', ['student', 'company', 'admin'])->default('student');
             
             // Basis profiel info
             $table->integer('age')->nullable();

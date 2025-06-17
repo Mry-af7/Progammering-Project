@@ -22,6 +22,11 @@ class Company extends Model
         'postal_code',
     ];
 
+    public function timeSlots(): HasMany
+    {
+        return $this->hasMany(TimeSlot::class);
+    }
+
     public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class);
