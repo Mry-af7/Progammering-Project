@@ -17,6 +17,7 @@
             </div>
           </Link>
 
+          <!-- voorbeeld-->
           <!-- Mobile menu button -->
           <div class="md:hidden">
             <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg text-gray-700 hover:bg-orange-100 transition-colors">
