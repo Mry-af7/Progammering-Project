@@ -330,7 +330,7 @@
                     <div>
                         <h3 class="font-semibold mb-4 text-white">Hulp</h3>
                         <ul class="space-y-2 text-gray-400 text-sm">
-                            <li><a href="#" class="hover:text-white transition-colors">Veelgestelde vragen</a></li>
+                            <li><a href="/faq" class="hover:text-white transition-colors">Veelgestelde vragen</a></li>
                             <li><a href="#" class="hover:text-white transition-colors">Registratie hulp</a></li>
                         </ul>
                     </div>

@@ -347,7 +347,7 @@
                   <div>
                       <h3 class="font-semibold mb-4 text-white">Hulp</h3>
                       <ul class="space-y-2 text-orange-100 text-sm">
-                          <li><a href="#" class="hover:text-white transition-colors">Veelgestelde vragen</a></li>
+                          <li><Link href="/faq" class="hover:text-white transition-colors">Veelgestelde vragen</Link></li>
                           <li><a href="#" class="hover:text-white transition-colors">Registratie hulp</a></li>
                       </ul>
                   </div>
