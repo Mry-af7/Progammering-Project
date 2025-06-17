@@ -204,4 +204,4 @@ Route::get('/home', function () {
 
 Route::get('/faq', function () {
     return Inertia::render('Faq');
-})->name('Faq');
+})->name('faq');

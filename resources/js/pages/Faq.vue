@@ -8,7 +8,7 @@ function isActive(page) {
  <div class="nav">
     <header class="nav">
       <div class="logo-section">
-          <img src="/images/erasmus-logo.png" alt="Erasmus" class="logo" />
+          <a href="/home"><div class="logo-icon">E</div></a>
         </div>
 
       <nav class="nav-menu">
@@ -47,8 +47,7 @@ function isActive(page) {
    </details>
   
 <p>
-  Als je geen antwoord vindt op jouw vraag, neem gerust
-  <RouterLink to="/contact" class="contact-link">contact met ons</RouterLink> op.
+  Als je geen antwoord vindt op jouw vraag, neem gerust <a href="/contact" class="contact"> contact met ons</a> op.
 </p>
 
   </section>
@@ -281,4 +280,52 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.contact{
+  text-decoration: underline;
+  margin-top: 1rem;
+  text-decoration-color: orange;
+}
+
+.logo-section {
+  display: inline flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.logo {
+  height: 20px;
+  margin-right: 0 auto;
+}
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.logo-title {
+  font-size: 1.3rem;
+  font-weight: 900;
+  text-transform: lowercase;
+  color: black;
+}
+.logo-subtitle {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: grey;
+  text-transform: uppercase;
+}
+.logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 40px;
+  margin-right: 0.5rem;
+  background-color: #DC2626;
+  border-radius: 0.75rem;
+  font-family: sans-serif;
+  font-size: 1.25rem; 
+  font-weight: 700;  
+  color: white;
+}
+
 </style>
