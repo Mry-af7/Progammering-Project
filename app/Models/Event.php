@@ -12,30 +12,21 @@ class Event extends Model
     use HasFactory;
 
     protected $fillable = [
-        'company_id',
-        'title',
+        'name',
         'description',
-        'event_type',
-        'start_date',
-        'end_date',
+        'date',
+        'start_time',
+        'end_time',
         'location',
-        'online_meeting_link',
         'max_participants',
-        'registration_deadline',
-        'status',
-        'image',
-        'requirements',
-        'benefits',
-        'target_audience',
+        'is_active'
     ];
 
     protected $casts = [
-        'start_date' => 'datetime',
-        'end_date' => 'datetime',
-        'registration_deadline' => 'datetime',
-        'requirements' => 'array',
-        'benefits' => 'array',
-        'target_audience' => 'array',
+        'date' => 'date',
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
+        'is_active' => 'boolean'
     ];
 
     public function company(): BelongsTo
@@ -46,5 +37,15 @@ class Event extends Model
     public function participants(): HasMany
     {
         return $this->hasMany(EventParticipant::class);
+    }
+
+    public function timeSlots(): HasMany
+    {
+        return $this->hasMany(TimeSlot::class);
+    }
+
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
     }
 } 
