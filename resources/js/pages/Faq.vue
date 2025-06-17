@@ -4,12 +4,16 @@ import { Head, Link } from '@inertiajs/vue3'
 
 function isActive(page) {
   return page === 'faq'
+
+
 }
 
 
 </script>
 <template>
+  
   <div class="min-h-screen bg-orange-50">
+      <Head title="FAQ - Career Launch 2025" />
  <nav class="bg-white shadow-sm border-b border-gray-100">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div class="flex justify-between items-center h-16">
@@ -55,9 +59,11 @@ function isActive(page) {
       </nav>
 
   <div class="faq-wrapper">
-  <section class="faq">
-   <h2>FAQ</h2>
+
+   <h1>Veel <span class="gradient-text">gestelde vragen</span></h1>
    <p>Hier vinden jullie de meest gestelde vragen.</p>
+
+  <section class="faq">
 
    <details>
     <summary>Hoe meld ik me aan?</summary>
@@ -76,7 +82,7 @@ function isActive(page) {
 
    <details>
     <summary>Kan ik meerdere bedrijven tegelijkertijd benaderen?</summary>
-    <p>Ja, je kan afspraken nemen met meerdere bedrijven door verschillende tijden reserveren voor elk bedrijf wara je interesse voor hebt.</p>
+    <p>Ja, je kan afspraken nemen met meerdere bedrijven door verschillende tijden te reserveren voor elk bedrijf waarin je interesse hebt.</p>
    </details>
 
    <details>
@@ -96,8 +102,7 @@ function isActive(page) {
 
    <details>
     <summary>Waar kan ik allemaal op filteren bij het zoeken van een stageplek?</summary>
-    <p>Wanneer het gaat om een stageplek zoeken is er heel veel variatie. Je kan filteren op locatie; zo kun je dus een stageplek vinden hier in Brussel, maar mocht je een buitenlandse ervaring willen dan zijn er ook stageplekken verkrijgbaar in Utrecht! Je kan ook filteren op 
-      industrie, dus als je meer interesse hebt in development of als data jou fascineert dan dan ga je hier zeker iets vinden. Zo zijn er nog andere sectoren waar je op kan filteren.
+    <p>Wanneer het gaat om een stageplek zoeken is er heel veel variatie. Je kan filteren op locatie; zo kun je dus een stageplek vinden hier in Brussel, maar mocht je een buitenlandse ervaring willen dan zijn er ook stageplekken verkrijgbaar in Utrecht! Je kan ook filteren op industrie. Heb je meer interesse in development of fascineert data jou, dan vind je hier zeker iets.
     </p>
    </details>
 
@@ -135,10 +140,10 @@ function isActive(page) {
                           </div>
                           <div class="text-white font-bold text-xl">erasmus</div>
                       </div>
-                      <p class="text-orange-100 text-sm mb-6">
+                      <p1 class="text-orange-100 text-sm mb-6">
                           Hogeschool Brussel<br>
                           Connecting talent with opportunity
-                      </p>
+                      </p1>
                       <div class="flex space-x-4">
                           <a href="#" class="text-orange-200 hover:text-white transition-colors">
                               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -181,7 +186,7 @@ function isActive(page) {
               </div>
               
               <div class="border-t border-orange-400 mt-12 pt-8 text-center text-orange-100 text-sm">
-                  <p>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden.</p>
+                  <p1>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden.</p1>
               </div>
           </div>
       </footer>
@@ -190,14 +195,44 @@ function isActive(page) {
 
 <style scoped>
 
+h1 {
+  text-align: center;
+   font-size: 3.75rem; 
+  font-weight: bold;
+  color: #111827; 
+  margin-bottom: 1.5rem; 
+  line-height: 1.2; 
+  text-align: center;
+}
+
+.gradient-text {
+  background: linear-gradient(to right, #f97316, #ef4444); /* from-orange-500 to-red-500 */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+
+p {
+  text-align: center;
+  font-size: 1.25rem; 
+  color: #4b5563;     
+  max-width: 42rem;    
+  margin-left: auto;
+  margin-right: auto;  
+  line-height: 1.75rem; 
+}
+
+
 .contact-link {
-  color: #e95c2a;
+  color: #979797;
   text-decoration: underline;
   font-weight: bold;
 }
 
 .contact-link:hover {
-  color: #c4440c;
+  color: #979797;
 }
 
 
@@ -217,6 +252,12 @@ details {
   border-radius: 8px;
   transition: all 0.3s ease;
 }
+
+details:hover {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border-color: #e95c2a;
+}
+
 
 summary {
   font-weight: bold;
@@ -247,10 +288,11 @@ details p {
   max-width: 700px;
   margin: 2rem auto;
   padding: 2rem;
-  background-color: #fff;
-  border: 2px solid #e95c2a;
-  border-radius: 8px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+
 
 .faq h2 {
   font-size: 2rem;
@@ -279,17 +321,8 @@ details p {
 }
 
  .faq-wrapper {
-  background-color: #fff1e6; /* lichtoranje achtergrond */
+  background-color: oklch(98% 0.016 73.684);/* lichtoranje achtergrond */
   padding: 3rem 1rem;
-}
-
-.faq {
-  background-color: white;
-  border-radius: 12px;
-  padding: 2rem;
-  max-width: 700px;
-  margin: 0 auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 
@@ -297,7 +330,7 @@ details p {
 
 <style>
 body {
-  background-color: #fae6d7;
+  background-color:oklch(98% 0.016 73.684);
   margin: 0;
   padding: 0;
 }
