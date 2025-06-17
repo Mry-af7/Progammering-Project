@@ -11,14 +11,14 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->text('description')->nullable();
             $table->string('logo_path')->nullable();
             $table->string('website')->nullable();
-            $table->string('specialisatie')->nullable();
-            $table->text('beschrijving')->nullable();
-            $table->string('adres')->nullable();
-            $table->string('telefoon')->nullable();
             $table->string('email')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('postal_code')->nullable();
             $table->timestamps();
         });
     }

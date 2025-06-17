@@ -13,11 +13,28 @@ class DashboardController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $stats = $user->userStats;
+        
+        // Initialize empty stats if they don't exist
+        if (!$user->userStats) {
+            $stats = new UserStats([
+                'profile_completion_percentage' => 0,
+                'applications_sent' => 0,
+                'applications_pending' => 0,
+                'applications_interview' => 0,
+                'applications_offers' => 0,
+                'profile_views_count' => 0
+            ]);
+            $user->userStats()->save($stats);
+        } else {
+            $stats = $user->userStats;
+        }
+
+        // Get activities if they exist, otherwise return empty collection
         $activities = UserActivity::where('user_id', $user->id)
             ->latest()
             ->take(5)
-            ->get();
+            ->get() ?? collect();
+
         $tasks = []; // Temporarily disable tasks
 
         return Inertia::render('Dashboard', [
@@ -30,15 +47,29 @@ class DashboardController extends Controller
     public function getStats()
     {
         $user = auth()->user();
+        $stats = $user->userStats;
+        
+        if (!$stats) {
+            $stats = new UserStats([
+                'profile_completion_percentage' => 0,
+                'applications_sent' => 0,
+                'applications_pending' => 0,
+                'applications_interview' => 0,
+                'applications_offers' => 0,
+                'profile_views_count' => 0
+            ]);
+            $user->userStats()->save($stats);
+        }
+
         return response()->json([
-            'profile_completion' => $user->userStats?->profile_completion_percentage ?? 0,
+            'profile_completion' => $stats->profile_completion_percentage,
             'applications' => [
-                'total' => $user->userStats?->applications_sent ?? 0,
-                'pending' => $user->userStats?->applications_pending ?? 0,
-                'interview' => $user->userStats?->applications_interview ?? 0,
-                'offers' => $user->userStats?->applications_offers ?? 0,
+                'total' => $stats->applications_sent,
+                'pending' => $stats->applications_pending,
+                'interview' => $stats->applications_interview,
+                'offers' => $stats->applications_offers,
             ],
-            'profile_views' => $user->userStats?->profile_views_count ?? 0,
+            'profile_views' => $stats->profile_views_count,
             'messages' => $user->unreadMessages()->count(),
         ]);
     }
@@ -46,10 +77,10 @@ class DashboardController extends Controller
     public function getActivities()
     {
         $user = auth()->user();
-        $activities = $user->activities()
+        $activities = UserActivity::where('user_id', $user->id)
             ->latest()
             ->take(10)
-            ->get();
+            ->get() ?? collect();
 
         return response()->json($activities);
     }
@@ -60,7 +91,7 @@ class DashboardController extends Controller
         $tasks = $user->tasks()
             ->where('completed', false)
             ->orderBy('due_date')
-            ->get();
+            ->get() ?? collect();
 
         return response()->json($tasks);
     }
