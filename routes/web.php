@@ -186,6 +186,13 @@ Route::get('/debug-users', function () {
     return 'Dumped to storage/app/user_emails.txt';
 });
 
+// Company dashboard route
+Route::middleware(['auth', 'company'])->group(function () {
+    Route::get('/company/dashboard', function () {
+        return Inertia::render('CompanyDashboard');
+    })->name('company.dashboard');
+});
+
 // Admin dashboard route
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
