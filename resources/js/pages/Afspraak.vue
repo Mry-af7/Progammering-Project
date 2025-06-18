@@ -1,21 +1,21 @@
 <template>
     <div class="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50">
         <Head title="Plan je afspraak - Erasmus Career Launch" />
-      
+        
         <!-- Premium Navigation -->
         <nav class="bg-white/95 backdrop-blur-md shadow-lg border-b border-orange-100 sticky top-0 z-50">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div class="flex justify-between items-center h-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
                     <!-- Premium Logo -->
                     <Link href="/" class="flex items-center space-x-3 group">
                         <div class="w-12 h-12 bg-gradient-to-br from-red-600 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
                             <span class="text-white font-bold text-xl">E</span>
-                      </div>
-                      <div>
+                        </div>
+                        <div>
                             <div class="text-gray-900 font-bold text-xl tracking-tight">erasmus</div>
                             <div class="text-xs text-gray-600 -mt-1 font-medium">HOGESCHOOL BRUSSEL</div>
-                      </div>
-                  </Link>
+                        </div>
+                    </Link>
                   
                     <!-- Premium Navigation Links -->
                   <div class="hidden md:flex items-center space-x-1">
@@ -166,8 +166,8 @@
                                         <div class="text-sm text-gray-600">Fortune 500 & Scale-ups</div>
                                     </div>
                                 </div>
-                            </div>
-                            
+                    </div>
+                    
                             <div class="space-y-3">
                                 <div class="flex items-center text-gray-700 bg-green-50 rounded-lg p-3">
                                     <svg class="w-5 h-5 mr-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -251,9 +251,9 @@
                                 <option value="Retail">Retail & E-commerce</option>
                                 <option value="Healthcare">Healthcare</option>
                             </select>
-                        </div>
-                              </div>
-                          </div>
+                    </div>
+                </div>
+            </div>
                 
                 <!-- Companies grid -->
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -271,7 +271,7 @@
                                 <div class="flex items-center justify-between">
                                     <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
                                         {{ company.sector || 'Algemeen' }}
-                                    </span>
+                    </span>
                           <div class="text-right">
                                         <div class="text-green-600 font-bold text-sm">{{ company.openPositions || 0 }} posities</div>
                                         <div class="text-xs text-gray-500">beschikbaar</div>
@@ -435,9 +435,9 @@
                         <div class="flex items-center">
                             <span class="font-semibold text-gray-700 mr-2">Tijd:</span>
                             <span class="text-gray-900">{{ selectedTimeSlot?.time }}</span>
-                        </div>
                     </div>
                 </div>
+            </div>
                 
                 <!-- Error message -->
                 <div v-if="Object.keys(form.errors).length > 0" class="mb-8 bg-red-50 border-l-4 border-red-500 p-6 rounded-r-xl">
@@ -451,7 +451,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="grid md:grid-cols-2 gap-8">
                   <div>
                         <label class="block text-sm font-bold text-gray-700 mb-3">Voornaam *</label>
@@ -596,8 +596,8 @@
                                 </div>
                             </div>
                           </div>
-                          </div>
-  
+                            </div>
+
                     <!-- Next Steps -->
                     <div class="bg-blue-50 rounded-2xl p-6 mb-8 text-left border border-blue-200">
                         <h4 class="font-bold text-blue-900 mb-4 text-lg">📝 Wat gebeurt er nu?</h4>
@@ -641,7 +641,7 @@
         <footer class="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white py-20">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid md:grid-cols-4 gap-12">
-                  <div>
+                            <div>
                         <div class="flex items-center space-x-3 mb-6">
                             <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
                                 <span class="text-white font-bold text-xl">E</span>
@@ -660,7 +660,7 @@
                                 <span class="text-sm">📱</span>
                             </div>
                         </div>
-                  </div>
+                    </div>
                   
                   <div>
                         <h4 class="font-bold mb-6 text-xl">Voor studenten</h4>
@@ -694,21 +694,21 @@
                             <li><Link href="/help" class="hover:text-white transition-colors flex items-center">
                                 <span class="mr-2">→</span>Help center</Link></li>
                       </ul>
-                  </div>
-              </div>
-              
+                </div>
+            </div>
+
                 <div class="border-t border-orange-400 mt-16 pt-8 text-center text-orange-100">
                     <p>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden. Made with ❤️ for students.</p>
               </div>
-          </div>
+            </div>
       </footer>
-  </div>
+    </div>
 </template>
 
 <script setup>
   import { ref, computed, onMounted } from 'vue';
   import { Head, Link, useForm } from '@inertiajs/vue3';
-  import axios from 'axios';
+import axios from 'axios';
   
   const props = defineProps({
     events: {
@@ -745,7 +745,7 @@
   const currentStep = ref(1);
   const selectedEvent = ref(null);
   const selectedCompany = ref(null);
-  const timeSlots = ref([]);
+const timeSlots = ref([]);
   const selectedTimeSlot = ref(null);
   const loading = ref(false);
   const appointmentId = ref(null);
