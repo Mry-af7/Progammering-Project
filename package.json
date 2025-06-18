@@ -11,6 +11,7 @@
     },
     "devDependencies": {
         "@eslint/js": "^9.19.0",
+        "@tailwindcss/line-clamp": "^0.4.4",
         "@types/node": "^22.13.5",
         "@types/vue": "^1.0.31",
         "@vue/eslint-config-typescript": "^14.3.0",
