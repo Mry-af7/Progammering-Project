@@ -1199,6 +1199,7 @@ onMounted(() => {
             <h4 class="font-semibold mb-4">Support</h4>
             <ul class="space-y-2 text-orange-100 text-sm">
               <li><Link href="/contact" class="hover:text-white transition-colors">Contact</Link></li>
+              <li><Link href="/faq" class="hover:text-white transition-colors">FAQ</Link></li>
               <li><Link href="/privacy" class="hover:text-white transition-colors">Privacy beleid</Link></li>
             </ul>
           </div>
@@ -1213,11 +1214,13 @@ onMounted(() => {
 </template>
 
 <style scoped>
+/* Line clamp utilities */
 .line-clamp-1 {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-clamp: 1;
 }
 
 .line-clamp-2 {
@@ -1225,6 +1228,7 @@ onMounted(() => {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-clamp: 2;
 }
 
 .line-clamp-3 {
@@ -1232,6 +1236,7 @@ onMounted(() => {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-clamp: 3;
 }
 
 @keyframes slideIn {

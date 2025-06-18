@@ -689,6 +689,8 @@
                         <ul class="space-y-3 text-orange-100">
                             <li><Link href="/contact" class="hover:text-white transition-colors flex items-center">
                                 <span class="mr-2">→</span>Contact</Link></li>
+                            <li><Link href="/faq" class="hover:text-white transition-colors flex items-center">
+                                <span class="mr-2">→</span>FAQ</Link></li>
                             <li><Link href="/help" class="hover:text-white transition-colors flex items-center">
                                 <span class="mr-2">→</span>Help center</Link></li>
                         </ul>

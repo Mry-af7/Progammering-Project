@@ -378,6 +378,7 @@
               <h4 class="font-semibold mb-4">Over Ons</h4>
               <ul class="space-y-2 text-orange-100 text-sm">
                 <li><Link href="/Wiezijnwe" class="hover:text-white transition-colors">Wie zijn we?</Link></li>
+                <li><Link href="/faq" class="hover:text-white transition-colors">FAQ</Link></li>
                 <li><a href="#" class="hover:text-white transition-colors">Onze opleidingen</a></li>
                 <li><a href="#" class="hover:text-white transition-colors">Privacy beleid</a></li>
               </ul>
