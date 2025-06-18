@@ -24,15 +24,22 @@ class AppointmentController extends Controller
             ->where('is_active', true)
             ->first();
 
-        // Get all companies with their time slots
-        $companies = Company::with(['timeSlots' => function ($query) use ($event) {
-            if ($event) {
-                $query->where('event_id', $event->id)
-                      ->where('start_time', '>', now())
-                      ->where('is_available', true)
-                      ->orderBy('start_time');
-            }
-        }])->get();
+        // Get all companies, regardless of whether they have time slots
+        $companies = Company::all();
+
+        // Get time slots for the current event if it exists
+        if ($event) {
+            $timeSlots = TimeSlot::where('event_id', $event->id)
+                ->where('start_time', '>', now())
+                ->where('is_available', true)
+                ->orderBy('start_time')
+                ->get();
+
+            // Group time slots by company
+            $timeSlotsByCompany = $timeSlots->groupBy('company_id');
+        } else {
+            $timeSlotsByCompany = collect();
+        }
 
         return Inertia::render('Afspraak', [
             'event' => $event ? [
@@ -46,7 +53,7 @@ class AppointmentController extends Controller
                 'max_participants' => $event->max_participants,
                 'is_active' => $event->is_active
             ] : null,
-            'companies' => $companies->map(function($company) {
+            'companies' => $companies->map(function($company) use ($timeSlotsByCompany) {
                 return [
                     'id' => $company->id,
                     'name' => $company->name,
@@ -58,7 +65,7 @@ class AppointmentController extends Controller
                     'address' => $company->address,
                     'city' => $company->city,
                     'postal_code' => $company->postal_code,
-                    'timeSlots' => $company->timeSlots ? $company->timeSlots->map(function($slot) {
+                    'timeSlots' => $timeSlotsByCompany->get($company->id, collect())->map(function($slot) {
                         return [
                             'id' => $slot->id,
                             'start_time' => $slot->start_time,
@@ -66,7 +73,7 @@ class AppointmentController extends Controller
                             'duration_minutes' => $slot->duration_minutes,
                             'is_available' => $slot->isAvailable()
                         ];
-                    }) : []
+                    })
                 ];
             }),
             'availableSpots' => $event ? TimeSlot::where('event_id', $event->id)

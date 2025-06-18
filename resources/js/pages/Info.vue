@@ -300,6 +300,7 @@
                     <span class="text-white font-bold text-lg">E</span>
                   </div>
                   <div class="text-white font-bold text-xl">erasmus</div>
+                  
                 </div>
                 <p class="text-orange-100 text-sm mb-4">
                   Hogeschool Brussel<br />
