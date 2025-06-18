@@ -68,7 +68,7 @@
                   <div class="text-sm font-bold text-gray-900">{{ studentData.name }}</div>
                   <div class="text-xs text-gray-500 font-medium">{{ studentData.study }}</div>
                 </div>
-              </div>
+                    </div>
                 </div>
             </div>
         </div>

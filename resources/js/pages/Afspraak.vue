@@ -3,34 +3,7 @@
         <Head title="Plan je afspraak - Erasmus Career Launch" />
         
         <!-- Premium Navigation -->
-        <nav class="bg-white/95 backdrop-blur-md shadow-lg border-b border-orange-100 sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <!-- Premium Logo -->
-                    <Link href="/" class="flex items-center space-x-3 group">
-                        <div class="w-12 h-12 bg-gradient-to-br from-red-600 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                            <span class="text-white font-bold text-xl">E</span>
-                        </div>
-                        <div>
-                            <div class="text-gray-900 font-bold text-xl tracking-tight">erasmus</div>
-                            <div class="text-xs text-gray-600 -mt-1 font-medium">HOGESCHOOL BRUSSEL</div>
-                        </div>
-                    </Link>
-                  
-                    <!-- Premium Navigation Links -->
-                  <div class="hidden md:flex items-center space-x-1">
-                        <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Home</Link>
-                        <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Info</Link>
-                        <Link href="/afspraak" class="px-4 py-2 text-orange-600 font-medium bg-orange-100 rounded-lg">Afspraak</Link>
-                        <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Contact</Link>
-                      
-                      <div class="flex items-center ml-6">
-                            <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-semibold transition-colors rounded-lg hover:bg-orange-50">Inloggen</Link>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </nav>
+        <MainNavigation activePage="afspraak" />
 
         <!-- Hero Section -->
         <div class="relative overflow-hidden">
@@ -706,11 +679,12 @@
 </template>
 
 <script setup>
-  import { ref, computed, onMounted } from 'vue';
-  import { Head, Link, useForm } from '@inertiajs/vue3';
-import axios from 'axios';
-  
-  const props = defineProps({
+import { Head, Link } from '@inertiajs/vue3'
+import { ref, computed, onMounted, watch } from 'vue'
+import MainNavigation from '@/components/MainNavigation.vue'
+import axios from 'axios'
+
+const props = defineProps({
     events: {
       type: Array,
       default: () => [
@@ -739,323 +713,323 @@ import axios from 'axios';
         { id: 8, name: 'Microsoft', description: 'Cloud & AI Technology Solutions', openPositions: 4, sector: 'IT' }
       ]
     }
-  });
-  
-  // State management
-  const currentStep = ref(1);
-  const selectedEvent = ref(null);
-  const selectedCompany = ref(null);
-const timeSlots = ref([]);
-  const selectedTimeSlot = ref(null);
-  const loading = ref(false);
-  const appointmentId = ref(null);
-  
-  // Filter states
-  const companySearchTerm = ref('');
-  const selectedSector = ref('');
-  
-  // Computed properties
-  const events = computed(() => props.events);
-  const companies = computed(() => props.companies);
-  const availableSpots = computed(() => selectedEvent.value?.spotsLeft || 42);
-  const totalSpots = computed(() => 100);
-  
-  // Progress steps configuration
-  const progressSteps = ref([
+})
+
+// State management
+const currentStep = ref(1)
+const selectedEvent = ref(null)
+const selectedCompany = ref(null)
+const timeSlots = ref([])
+const selectedTimeSlot = ref(null)
+const loading = ref(false)
+const appointmentId = ref(null)
+
+// Filter states
+const companySearchTerm = ref('')
+const selectedSector = ref('')
+
+// Computed properties
+const events = computed(() => props.events)
+const companies = computed(() => props.companies)
+const availableSpots = computed(() => selectedEvent.value?.spotsLeft || 42)
+const totalSpots = computed(() => 100)
+
+// Progress steps configuration
+const progressSteps = ref([
     { number: 1, title: 'Event selecteren', subtitle: 'Kies je event' },
     { number: 2, title: 'Bedrijf kiezen', subtitle: 'Pick your target' },
     { number: 3, title: 'Tijdslot kiezen', subtitle: 'Perfect timing' },
     { number: 4, title: 'Gegevens invullen', subtitle: 'Tell your story' },
     { number: 5, title: 'Bevestiging', subtitle: 'All set!' }
-  ]);
-  
-  // Time periods for better organization
-  const timePeriods = ref([
+])
+
+// Time periods for better organization
+const timePeriods = ref([
     { name: '🌅 Ochtend (09:00 - 12:00)', range: ['09', '10', '11'] },
     { name: '🍽️ Middag (13:00 - 15:00)', range: ['13', '14'] },
     { name: '🌆 Namiddag (15:00 - 17:00)', range: ['15', '16'] }
-  ]);
-  
-  // Form management
-  const form = useForm({
+])
+
+// Form management
+const form = useForm({
     event_id: null,
     company_id: null,
     time_slot_id: null,
     first_name: '',
     last_name: '',
-  email: '',
-  phone: '',
+    email: '',
+    phone: '',
     study_program: '',
-  motivation: ''
-  });
-  
-  // Form validation
-  const isFormValid = computed(() => {
+    motivation: ''
+})
+
+// Form validation
+const isFormValid = computed(() => {
     const valid = (
-      form.first_name?.trim() &&
-      form.last_name?.trim() &&
-      form.email?.trim() &&
-      form.study_program?.trim()
-    );
-    return valid;
-  });
-  
-  // Filtered companies based on search and sector
-  const filteredCompanies = computed(() => {
-    let filtered = companies.value;
+        form.first_name?.trim() &&
+        form.last_name?.trim() &&
+        form.email?.trim() &&
+        form.study_program?.trim()
+    )
+    return valid
+})
+
+// Filtered companies based on search and sector
+const filteredCompanies = computed(() => {
+    let filtered = companies.value
     
     if (companySearchTerm.value) {
-      const searchTerm = companySearchTerm.value.toLowerCase();
-      filtered = filtered.filter(company => 
-        company.name?.toLowerCase().includes(searchTerm) ||
-        company.description?.toLowerCase().includes(searchTerm)
-      );
+        const searchTerm = companySearchTerm.value.toLowerCase()
+        filtered = filtered.filter(company => 
+            company.name?.toLowerCase().includes(searchTerm) ||
+            company.description?.toLowerCase().includes(searchTerm)
+        )
     }
     
     if (selectedSector.value) {
-      filtered = filtered.filter(company => company.sector === selectedSector.value);
+        filtered = filtered.filter(company => company.sector === selectedSector.value)
     }
     
-    return filtered;
-  });
-  
-  // Step navigation functions
-  function selectCareerLaunchEvent() {
-    selectedEvent.value = events.value[0];
-    resetSelections();
-    currentStep.value = 2;
-  }
-  
-  function selectEvent(event) {
-    selectedEvent.value = event;
-    resetSelections();
-  }
-  
-  function selectCompany(company) {
-    selectedCompany.value = company;
-    selectedTimeSlot.value = null;
-    form.clearErrors();
+    return filtered
+})
+
+// Step navigation functions
+function selectCareerLaunchEvent() {
+    selectedEvent.value = events.value[0]
+    resetSelections()
+    currentStep.value = 2
+}
+
+function selectEvent(event) {
+    selectedEvent.value = event
+    resetSelections()
+}
+
+function selectCompany(company) {
+    selectedCompany.value = company
+    selectedTimeSlot.value = null
+    form.clearErrors()
     
     // Auto-select event if not selected
     if (!selectedEvent.value && events.value.length > 0) {
-      selectedEvent.value = events.value[0];
+        selectedEvent.value = events.value[0]
     }
     
     // Load timeslots immediately
-    loadTimeSlots();
-  }
-  
-  function selectTimeSlot(slot) {
-    if (!slot.available) return;
-    selectedTimeSlot.value = slot;
-    form.clearErrors();
-  }
-  
-  function nextStep() {
+    loadTimeSlots()
+}
+
+function selectTimeSlot(slot) {
+    if (!slot.available) return
+    selectedTimeSlot.value = slot
+    form.clearErrors()
+}
+
+function nextStep() {
     // Auto-select event if needed
     if (!selectedEvent.value && events.value.length > 0) {
-      selectedEvent.value = events.value[0];
+        selectedEvent.value = events.value[0]
     }
     
     // Validation for each step
     if (currentStep.value === 2 && !selectedCompany.value) {
-      alert('Selecteer eerst een bedrijf om door te gaan.');
-      return;
+        alert('Selecteer eerst een bedrijf om door te gaan.')
+        return
     }
     if (currentStep.value === 3 && !selectedTimeSlot.value) {
-      alert('Kies een tijdslot om door te gaan.');
-      return;
+        alert('Kies een tijdslot om door te gaan.')
+        return
     }
     if (currentStep.value === 4) {
-      // This step is handled by bookAppointment function
-      return;
+        // This step is handled by bookAppointment function
+        return
     }
     
     // Load timeslots when going to step 3
     if (currentStep.value === 2 && selectedCompany.value) {
-      loadTimeSlots();
+        loadTimeSlots()
     }
     
-    currentStep.value++;
-  }
-  
-  function prevStep() {
+    currentStep.value++
+}
+
+function prevStep() {
     if (currentStep.value > 1) {
-      currentStep.value--;
+        currentStep.value--
     }
-  }
-  
-  // Timeslot management
-  function loadTimeSlots() {
-    if (!selectedEvent.value || !selectedCompany.value) return;
+}
+
+// Timeslot management
+function loadTimeSlots() {
+    if (!selectedEvent.value || !selectedCompany.value) return
     
-    loading.value = true;
-    timeSlots.value = generateFallbackTimeSlots(); // Always show fallback first
+    loading.value = true
+    timeSlots.value = generateFallbackTimeSlots() // Always show fallback first
     
     // Try API call
-    const eventId = selectedEvent.value.id;
-    const companyId = selectedCompany.value.id;
+    const eventId = selectedEvent.value.id
+    const companyId = selectedCompany.value.id
     
     axios.get(`/api/events/${eventId}/companies/${companyId}/timeslots`)
-      .then(response => {
-        if (response.data?.time_slots?.length > 0) {
-          timeSlots.value = response.data.time_slots.map(slot => ({
-            id: slot.id,
-            time: slot.time_range || slot.time,
-            duration: 15,
-            available: slot.available !== false,
-            spotsLeft: slot.spots_left || 0
-          }));
-        }
-      })
-      .catch(error => {
-        // API call failed, using fallback data
-      })
-      .finally(() => {
-        loading.value = false;
-      });
-  }
-  
-  function generateFallbackTimeSlots() {
-    const slots = [];
+        .then(response => {
+            if (response.data?.time_slots?.length > 0) {
+                timeSlots.value = response.data.time_slots.map(slot => ({
+                    id: slot.id,
+                    time: slot.time_range || slot.time,
+                    duration: 15,
+                    available: slot.available !== false,
+                    spotsLeft: slot.spots_left || 0
+                }))
+            }
+        })
+        .catch(error => {
+            // API call failed, using fallback data
+        })
+        .finally(() => {
+            loading.value = false
+        })
+}
+
+function generateFallbackTimeSlots() {
+    const slots = []
     const times = [
-      '09:00', '09:20', '09:40', '10:00', '10:20', '10:40',
-      '11:00', '11:20', '11:40', '13:00', '13:20', '13:40',
-      '14:00', '14:20', '14:40', '15:00', '15:20', '15:40',
-      '16:00', '16:20', '16:40'
-    ];
+        '09:00', '09:20', '09:40', '10:00', '10:20', '10:40',
+        '11:00', '11:20', '11:40', '13:00', '13:20', '13:40',
+        '14:00', '14:20', '14:40', '15:00', '15:20', '15:40',
+        '16:00', '16:20', '16:40'
+    ]
     
     times.forEach((time, index) => {
-      const endTime = new Date(`2025-03-15 ${time}:00`);
-      endTime.setMinutes(endTime.getMinutes() + 15);
-      const endTimeStr = endTime.toTimeString().slice(0, 5);
-      
-      slots.push({
-        id: index + 1,
-        time: `${time} - ${endTimeStr}`,
-        duration: 15,
-        available: Math.random() > 0.3, // 70% available
-        spotsLeft: Math.random() > 0.3 ? 1 : 0
-      });
-    });
+        const endTime = new Date(`2025-03-15 ${time}:00`)
+        endTime.setMinutes(endTime.getMinutes() + 15)
+        const endTimeStr = endTime.toTimeString().slice(0, 5)
+        
+        slots.push({
+            id: index + 1,
+            time: `${time} - ${endTimeStr}`,
+            duration: 15,
+            available: Math.random() > 0.3, // 70% available
+            spotsLeft: Math.random() > 0.3 ? 1 : 0
+        })
+    })
     
-    return slots;
-  }
-  
-  function getSlotsByPeriod(periodRange) {
+    return slots
+}
+
+function getSlotsByPeriod(periodRange) {
     return timeSlots.value.filter(slot => {
-      const hour = slot.time.split(':')[0];
-      return periodRange.includes(hour);
-    });
-  }
-  
-  function getTimeSlotClass(slot) {
+        const hour = slot.time.split(':')[0]
+        return periodRange.includes(hour)
+    })
+}
+
+function getTimeSlotClass(slot) {
     if (selectedTimeSlot.value?.id === slot.id) {
-      return 'ring-2 ring-orange-500 bg-orange-100 border-orange-500 scale-105 shadow-lg';
+        return 'ring-2 ring-orange-500 bg-orange-100 border-orange-500 scale-105 shadow-lg'
     }
     if (!slot.available) {
-      return 'opacity-50 cursor-not-allowed bg-gray-50 border-gray-200';
+        return 'opacity-50 cursor-not-allowed bg-gray-50 border-gray-200'
     }
-    return 'hover:shadow-lg hover:border-orange-300 hover:scale-102 bg-white border-gray-200';
-  }
-  
-  // Booking functionality
-  function bookAppointment() {
+    return 'hover:shadow-lg hover:border-orange-300 hover:scale-102 bg-white border-gray-200'
+}
+
+// Booking functionality
+function bookAppointment() {
     // Comprehensive validation
     if (!selectedEvent.value) {
-      alert('❌ Geen event geselecteerd. Ga terug naar stap 1.');
-      currentStep.value = 1;
-      return;
+        alert('❌ Geen event geselecteerd. Ga terug naar stap 1.')
+        currentStep.value = 1
+        return
     }
     
     if (!selectedCompany.value) {
-      alert('❌ Geen bedrijf geselecteerd. Ga terug naar stap 2.');
-      currentStep.value = 2;
-      return;
+        alert('❌ Geen bedrijf geselecteerd. Ga terug naar stap 2.')
+        currentStep.value = 2
+        return
     }
     
     if (!selectedTimeSlot.value) {
-      alert('❌ Geen tijdslot geselecteerd. Ga terug naar stap 3.');
-      currentStep.value = 3;
-      return;
+        alert('❌ Geen tijdslot geselecteerd. Ga terug naar stap 3.')
+        currentStep.value = 3
+        return
     }
     
     if (!isFormValid.value) {
-      const missingFields = [];
-      if (!form.first_name?.trim()) missingFields.push('Voornaam');
-      if (!form.last_name?.trim()) missingFields.push('Achternaam');
-      if (!form.email?.trim()) missingFields.push('E-mailadres');
-      if (!form.study_program?.trim()) missingFields.push('Studierichting');
-      
-      alert(`❌ Vul de volgende verplichte velden in:\n\n${missingFields.join('\n')}`);
-      return;
+        const missingFields = []
+        if (!form.first_name?.trim()) missingFields.push('Voornaam')
+        if (!form.last_name?.trim()) missingFields.push('Achternaam')
+        if (!form.email?.trim()) missingFields.push('E-mailadres')
+        if (!form.study_program?.trim()) missingFields.push('Studierichting')
+        
+        alert(`❌ Vul de volgende verplichte velden in:\n\n${missingFields.join('\n')}`)
+        return
     }
     
     // Auto-recovery for missing data
-    autoRecoverMissingData();
+    autoRecoverMissingData()
     
     // Update form data
-    form.event_id = selectedEvent.value.id;
-    form.company_id = selectedCompany.value.id;
-    form.time_slot_id = selectedTimeSlot.value.id;
+    form.event_id = selectedEvent.value.id
+    form.company_id = selectedCompany.value.id
+    form.time_slot_id = selectedTimeSlot.value.id
     
     // Submit appointment
     form.post('/api/appointments', {
-      onSuccess: (response) => {
-        appointmentId.value = response.props?.appointment?.id || Date.now();
-        currentStep.value = 5;
-      },
-      onError: (errors) => {
-        console.error('❌ API Booking error:', errors);
-        // For development: proceed anyway
-        appointmentId.value = Date.now();
-        currentStep.value = 5;
-      }
-    });
+        onSuccess: (response) => {
+            appointmentId.value = response.props?.appointment?.id || Date.now()
+            currentStep.value = 5
+        },
+        onError: (errors) => {
+            console.error('❌ API Booking error:', errors)
+            // For development: proceed anyway
+            appointmentId.value = Date.now()
+            currentStep.value = 5
+        }
+    })
     
     // Fallback timeout
     setTimeout(() => {
-      if (currentStep.value === 4 && form.processing) {
-        form.processing = false;
-        appointmentId.value = Date.now();
-        currentStep.value = 5;
-      }
-    }, 3000);
-  }
-  
-  // Helper functions
-  function autoRecoverMissingData() {
+        if (currentStep.value === 4 && form.processing) {
+            form.processing = false
+            appointmentId.value = Date.now()
+            currentStep.value = 5
+        }
+    }, 3000)
+}
+
+// Helper functions
+function autoRecoverMissingData() {
     if (!selectedEvent.value && events.value.length > 0) {
-      selectedEvent.value = events.value[0];
+        selectedEvent.value = events.value[0]
     }
     
     if (!selectedCompany.value && companies.value.length > 0) {
-      selectedCompany.value = companies.value[0];
+        selectedCompany.value = companies.value[0]
     }
     
     if (!selectedTimeSlot.value && timeSlots.value.length > 0) {
-      selectedTimeSlot.value = timeSlots.value.find(slot => slot.available) || timeSlots.value[0];
+        selectedTimeSlot.value = timeSlots.value.find(slot => slot.available) || timeSlots.value[0]
     }
-  }
-  
-  function resetSelections() {
-    selectedCompany.value = null;
-    selectedTimeSlot.value = null;
-    timeSlots.value = [];
-    form.clearErrors();
-  }
-  
-  function downloadCalendar() {
-    if (!selectedEvent.value || !selectedTimeSlot.value) return;
+}
+
+function resetSelections() {
+    selectedCompany.value = null
+    selectedTimeSlot.value = null
+    timeSlots.value = []
+    form.clearErrors()
+}
+
+function downloadCalendar() {
+    if (!selectedEvent.value || !selectedTimeSlot.value) return
     
-    const event = selectedEvent.value;
-    const timeSlot = selectedTimeSlot.value;
+    const event = selectedEvent.value
+    const timeSlot = selectedTimeSlot.value
     
     try {
-      const startDate = new Date(`${event.date} ${timeSlot.time.split(' - ')[0]}`);
-      const endDate = new Date(`${event.date} ${timeSlot.time.split(' - ')[1]}`);
+        const startDate = new Date(`${event.date} ${timeSlot.time.split(' - ')[0]}`)
+        const endDate = new Date(`${event.date} ${timeSlot.time.split(' - ')[1]}`)
   
-  const icsContent = `BEGIN:VCALENDAR
+        const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
   PRODID:-//Erasmus Hogeschool Brussel//Career Launch//EN
 BEGIN:VEVENT
@@ -1071,23 +1045,23 @@ LOCATION:${event.location}
   DESCRIPTION:Career Launch gesprek over 30 minuten
   END:VALARM
 END:VEVENT
-  END:VCALENDAR`;
+  END:VCALENDAR`
       
-      const blob = new Blob([icsContent], { type: 'text/calendar' });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `career-launch-${selectedCompany.value.name.toLowerCase().replace(/\s+/g, '-')}.ics`;
-      link.click();
-      window.URL.revokeObjectURL(url);
+        const blob = new Blob([icsContent], { type: 'text/calendar' })
+        const url = window.URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.download = `career-launch-${selectedCompany.value.name.toLowerCase().replace(/\s+/g, '-')}.ics`
+        link.click()
+        window.URL.revokeObjectURL(url)
     } catch (error) {
-      console.error('Calendar download error:', error);
-      alert('Er was een probleem bij het downloaden van het kalenderbestand.');
+        console.error('Calendar download error:', error)
+        alert('Er was een probleem bij het downloaden van het kalenderbestand.')
     }
-  }
-  
-  // Debug function
-  function debugState() {
+}
+
+// Debug function
+function debugState() {
     const debugInfo = `
   🔍 CAREER LAUNCH DEBUG INFO
   ==========================================
@@ -1120,23 +1094,23 @@ END:VEVENT
   Form valid: ${isFormValid.value}
   Loading: ${loading.value}
   Appointment ID: ${appointmentId.value || 'None'}
-    `;
+    `
     
-    alert(debugInfo);
-  }
-  
-  // Initialize component
-  onMounted(() => {
+    alert(debugInfo)
+}
+
+// Initialize component
+onMounted(() => {
     // Auto-select event
     if (!selectedEvent.value && events.value.length > 0) {
-      selectedEvent.value = events.value[0];
+        selectedEvent.value = events.value[0]
     }
     
     // Preload fallback timeslots
     if (timeSlots.value.length === 0) {
-      timeSlots.value = generateFallbackTimeSlots();
+        timeSlots.value = generateFallbackTimeSlots()
     }
     
     // Component initialized successfully
-  });
+})
 </script>
