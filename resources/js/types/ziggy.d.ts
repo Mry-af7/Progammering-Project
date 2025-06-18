@@ -10,3 +10,13 @@ declare module '@vue/runtime-core' {
         route: typeof route;
     }
 }
+
+declare interface ZiggyRoute {
+    (name: string, params?: Record<string, any>, absolute?: boolean): string;
+    current(): string;
+    check(name: string): boolean;
+}
+
+declare const route: ZiggyRoute;
+
+export { route };

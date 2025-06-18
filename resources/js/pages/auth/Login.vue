@@ -6,13 +6,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
+import { Head, useForm, Link } from '@inertiajs/vue3';
+import { LoaderCircle, Search, User } from 'lucide-vue-next';
 import { ref } from 'vue';
-const activeTab = ref<'bedrijf' | 'student'>('bedrijf');
-import { Link } from '@inertiajs/vue3';
-import { Search, User } from 'lucide-vue-next';
 
+const activeTab = ref<'bedrijf' | 'student'>('bedrijf');
 const mobileMenuOpen = ref(false);
 
 const navItems = [
@@ -35,7 +33,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('login'), {
+    form.post('/login', {
         onFinish: () => form.reset('password'),
     });
 };
@@ -192,7 +190,7 @@ const submit = () => {
                                 </Label>
                                 <TextLink 
                                     v-if="canResetPassword" 
-                                    :href="route('password.request')" 
+                                    href="/forgot-password" 
                                     class="text-sm text-orange-600 hover:text-orange-700 font-medium"
                                     :tabindex="5"
                                 > 
@@ -238,7 +236,7 @@ const submit = () => {
                         <div class="text-center pt-4 border-t border-gray-100">
                             <span class="text-sm text-gray-600">Don't have an account? </span>
                             <TextLink
-                                :href="activeTab === 'bedrijf' ? route('register.bedrijf') : route('register')"
+                                :href="activeTab === 'bedrijf' ? '/register/bedrijf' : '/register'"
                                 :tabindex="5"
                                 class="text-orange-600 hover:text-orange-700 font-semibold"
                             >
