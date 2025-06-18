@@ -1,5 +1,6 @@
-<script setup>
-import { Head, Link } from '@inertiajs/vue3'
+<script setup lang="ts">
+import { Head, Link } from '@inertiajs/vue3';
+import AppLayout from '@/layouts/AppLayout.vue';
 import { ref, computed, watch, onMounted } from 'vue'
 
 const mobileMenuOpen = ref(false)
@@ -592,625 +593,171 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-50">
-    <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-lg shadow-lg sticky top-0 z-40 border-b border-orange-100">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-          <!-- Logo -->
-          <Link href="/" class="flex items-center space-x-3 group">
-            <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-              <span class="text-white font-bold text-lg">E</span>
-            </div>
-            <div>
-              <div class="text-gray-900 font-bold text-xl">erasmus</div>
-              <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
-            </div>
-          </Link>
-
-          <!-- Mobile menu button -->
-          <div class="md:hidden">
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg text-gray-700 hover:bg-orange-100 transition-colors">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
-
-          <!-- Desktop Navigation -->
-          <div class="hidden md:flex items-center space-x-1">
-            <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Home</Link>
-            <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Info</Link>
-            <Link href="/bedrijven" class="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg font-medium">Bedrijven</Link>
-            <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50 relative">
-              Favorieten
-              <span v-if="favorieten.length > 0" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                {{ favorieten.length }}
-              </span>
-            </Link>
-            <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Contact</Link>
-            <div class="flex items-center ml-6">
-              <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Inloggen</Link>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mobile menu -->
-        <div v-show="mobileMenuOpen" class="md:hidden mt-4 pb-4 border-t border-orange-200">
-          <div class="flex flex-col space-y-2 pt-4">
-            <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium rounded-lg">Home</Link>
-            <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium rounded-lg">Info</Link>
-            <Link href="/bedrijven" class="px-4 py-2 text-orange-600 bg-orange-100 font-medium rounded-lg">Bedrijven</Link>
-            <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium rounded-lg">Favorieten</Link>
-            <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium rounded-lg">Contact</Link>
-            <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium rounded-lg">Inloggen</Link>
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <Head title="Alle Bedrijven - Pro" />
-
-    <!-- Header Section -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="text-center mb-12">
-        <h1 class="text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 via-orange-600 to-red-600 bg-clip-text text-transparent mb-6">
-          Ontdek jouw toekomstige werkgever
-        </h1>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-          Verken {{ bedrijven.length }} toonaangevende bedrijven die op zoek zijn naar talent zoals jij. 
-          Filter op industrie, locatie en meer om jouw perfecte match te vinden.
-        </p>
-      </div>
-
-      <!-- Search and Filter Bar -->
-      <div class="bg-white rounded-2xl shadow-xl p-6 mb-8 border border-orange-100">
-        <div class="flex flex-col lg:flex-row gap-4 items-center">
-          <!-- Search Input -->
-          <div class="relative flex-1 w-full lg:w-auto">
-            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input
-              v-model="searchQuery"
-              type="text"
-              placeholder="Zoek bedrijven, specialisaties, technologieën..."
-              class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200"
-            />
-          </div>
-
-          <!-- Quick Filters -->
-          <div class="flex flex-wrap gap-2 lg:gap-4">
-            <select
-              v-model="selectedIndustry"
-              class="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white"
-            >
-              <option v-for="industry in industries" :key="industry" :value="industry">
-                {{ industry }}
-              </option>
-            </select>
-
-            <select
-              v-model="selectedLocation"
-              class="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white"
-            >
-              <option v-for="location in locations" :key="location" :value="location">
-                {{ location }}
-              </option>
-            </select>
-
-            <select
-              v-model="sortBy"
-              class="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white"
-            >
-              <option value="naam">Sorteer op naam</option>
-              <option value="industrie">Sorteer op industrie</option>
-              <option value="locatie">Sorteer op locatie</option>
-              <option value="grootte">Sorteer op grootte</option>
-            </select>
-          </div>
-
-          <!-- View Toggle and Reset -->
-          <div class="flex items-center gap-2">
-            <div class="flex bg-gray-100 rounded-lg p-1">
-              <button
-                @click="viewMode = 'grid'"
-                :class="['px-3 py-2 rounded-md transition-all', viewMode === 'grid' ? 'bg-white shadow-sm text-orange-600' : 'text-gray-600 hover:text-gray-900']"
-              >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                </svg>
-              </button>
-              <button
-                @click="viewMode = 'list'"
-                :class="['px-3 py-2 rounded-md transition-all', viewMode === 'list' ? 'bg-white shadow-sm text-orange-600' : 'text-gray-600 hover:text-gray-900']"
-              >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
-
-            <button
-              @click="resetFilters"
-              class="px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors"
-              title="Reset filters"
-            >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Results Summary -->
-        <div class="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
-          <p class="text-gray-600">
-            <span class="font-semibold text-gray-900">{{ filteredBedrijven.length }}</span> 
-            {{ filteredBedrijven.length === 1 ? 'bedrijf gevonden' : 'bedrijven gevonden' }}
-          </p>
-          <p class="text-sm text-gray-500">
-            Pagina {{ currentPage }} van {{ totalPages }}
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Companies Grid/List -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-      <!-- Loading State -->
-      <div v-if="isLoading" class="flex justify-center items-center py-20">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
-      </div>
-
-      <!-- Grid View -->
-      <div v-else-if="viewMode === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <div
-          v-for="bedrijf in paginatedBedrijven"
-          :key="bedrijf.id"
-          class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden"
-        >
-          <!-- Company Card Header -->
-          <div class="relative p-6 bg-gradient-to-br from-gray-50 to-white">
-            <!-- Favorite Button -->
-            <button
-              @click="toggleFavoriet(bedrijf)"
-              :class="[
-                'absolute top-4 right-4 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300',
-                isFavorite(bedrijf.id) 
-                  ? 'bg-red-100 text-red-600 hover:bg-red-200' 
-                  : 'bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-orange-600'
-              ]"
-            >
-              <svg class="w-5 h-5" :fill="isFavorite(bedrijf.id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-              </svg>
-            </button>
-
-            <!-- Company Logo -->
-            <div class="flex justify-center mb-4">
-              <div class="w-20 h-20 bg-white rounded-2xl shadow-md flex items-center justify-center hover:shadow-lg transition-shadow cursor-pointer" @click="openModal(bedrijf)">
-                <img
-                  :src="bedrijf.src"
-                  :alt="bedrijf.name"
-                  class="max-w-16 max-h-16 object-contain"
-                />
-              </div>
-            </div>
-
-            <!-- Company Name -->
-            <h3 class="text-xl font-bold text-gray-900 text-center mb-2 group-hover:text-orange-600 transition-colors cursor-pointer" @click="openModal(bedrijf)">
-              {{ bedrijf.name }}
-            </h3>
-
-            <!-- Industry Tag -->
-            <div class="flex justify-center mb-3">
-              <span class="px-3 py-1 bg-orange-100 text-orange-600 text-sm font-medium rounded-full">
-                {{ bedrijf.industry }}
-              </span>
-            </div>
-          </div>
-
-          <!-- Company Info -->
-          <div class="p-6 pt-0">
-            <!-- Specialization -->
-            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
-              {{ bedrijf.specialisatie }}
-            </p>
-
-            <!-- Company Details -->
-            <div class="space-y-2 mb-4">
-              <div class="flex items-center text-sm text-gray-500">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                {{ bedrijf.location }}
-              </div>
-              <div class="flex items-center text-sm text-gray-500">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
-                </svg>
-                {{ bedrijf.employees }} medewerkers
-              </div>
-            </div>
-
-            <!-- Tags -->
-            <div class="flex flex-wrap gap-1 mb-4">
-              <span
-                v-for="tag in bedrijf.tags.slice(0, 3)"
-                :key="tag"
-                class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-md"
-              >
-                {{ tag }}
-              </span>
-              <span v-if="bedrijf.tags.length > 3" class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-md">
-                +{{ bedrijf.tags.length - 3 }}
-              </span>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex gap-2">
-              <button
-                @click="openModal(bedrijf)"
-                class="flex-1 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors font-medium"
-              >
-                Meer info
-              </button>
-              <a
-                :href="bedrijf.website"
-                target="_blank"
-                class="px-4 py-2 border border-orange-600 text-orange-600 rounded-lg hover:bg-orange-50 transition-colors"
-                title="Bezoek website"
-              >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- List View -->
-      <div v-else class="space-y-4">
-        <div
-          v-for="bedrijf in paginatedBedrijven"
-          :key="bedrijf.id"
-          class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 p-6"
-        >
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-6 flex-1">
-              <!-- Company Logo -->
-              <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center cursor-pointer" @click="openModal(bedrijf)">
-                <img
-                  :src="bedrijf.src"
-                  :alt="bedrijf.name"
-                  class="max-w-12 max-h-12 object-contain"
-                />
-              </div>
-
-              <!-- Company Info -->
-              <div class="flex-1">
-                <div class="flex items-center gap-3 mb-2">
-                  <h3 class="text-xl font-bold text-gray-900 hover:text-orange-600 transition-colors cursor-pointer" @click="openModal(bedrijf)">
-                    {{ bedrijf.name }}
-                  </h3>
-                  <span class="px-3 py-1 bg-orange-100 text-orange-600 text-sm font-medium rounded-full">
-                    {{ bedrijf.industry }}
-                  </span>
+    <AppLayout>
+        <Head title="Bedrijven - Career Launch 2025" />
+        
+        <!-- Hero Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center px-4 py-2 bg-orange-100 rounded-full text-orange-700 text-sm font-medium mb-6">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                    Deelnemende Bedrijven
                 </div>
-                <p class="text-gray-600 mb-2 line-clamp-1">{{ bedrijf.specialisatie }}</p>
-                <div class="flex items-center gap-4 text-sm text-gray-500">
-                  <span>📍 {{ bedrijf.location }}</span>
-                  <span>👥 {{ bedrijf.employees }} medewerkers</span>
-                  <span>📅 Opgericht {{ bedrijf.founded }}</span>
-                </div>
-              </div>
+                <h1 class="text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 via-orange-600 to-red-600 bg-clip-text text-transparent mb-6">
+                    Ontdek topbedrijven
+                </h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    Verken de deelnemende bedrijven van Career Launch 2025. 
+                    Van startups tot multinationals - vind het bedrijf dat bij jou past!
+                </p>
             </div>
+        </section>
 
-            <!-- Actions -->
-            <div class="flex items-center gap-3">
-              <button
-                @click="toggleFavoriet(bedrijf)"
-                :class="[
-                  'w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300',
-                  isFavorite(bedrijf.id) 
-                    ? 'bg-red-100 text-red-600 hover:bg-red-200' 
-                    : 'bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-orange-600'
-                ]"
-              >
-                <svg class="w-5 h-5" :fill="isFavorite(bedrijf.id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                </svg>
-              </button>
-              <button
-                @click="openModal(bedrijf)"
-                class="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium"
-              >
-                Meer info
-              </button>
-              <a
-                :href="bedrijf.website"
-                target="_blank"
-                class="p-2 border border-orange-600 text-orange-600 rounded-lg hover:bg-orange-50 transition-colors"
-              >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- No Results -->
-      <div v-if="filteredBedrijven.length === 0" class="text-center py-20">
-        <svg class="w-24 h-24 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.47.881-6.086 2.291M12 15v2.25m0 0V19.5m0-2.25L9.75 19.5m2.25-2.25L14.25 19.5" />
-        </svg>
-        <h3 class="text-xl font-semibold text-gray-900 mb-2">Geen bedrijven gevonden</h3>
-        <p class="text-gray-600 mb-4">Probeer je zoektermen te wijzigen of filters aan te passen</p>
-        <button
-          @click="resetFilters"
-          class="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium"
-        >
-          Reset filters
-        </button>
-      </div>
-    </section>
-
-    <!-- Pagination -->
-    <section v-if="totalPages > 1" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-      <div class="flex justify-center">
-        <nav class="flex items-center space-x-1">
-          <button
-            @click="changePage(currentPage - 1)"
-            :disabled="currentPage === 1"
-            class="px-3 py-2 rounded-lg text-gray-500 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          <template v-for="page in totalPages" :key="page">
-            <button
-              v-if="page === 1 || page === totalPages || Math.abs(page - currentPage) <= 2"
-              @click="changePage(page)"
-              :class="[
-                'px-4 py-2 rounded-lg font-medium transition-colors',
-                page === currentPage
-                  ? 'bg-orange-600 text-white'
-                  : 'text-gray-700 hover:text-orange-600 hover:bg-orange-50'
-              ]"
-            >
-              {{ page }}
-            </button>
-            <span v-else-if="Math.abs(page - currentPage) === 3" class="px-2 text-gray-400">...</span>
-          </template>
-
-          <button
-            @click="changePage(currentPage + 1)"
-            :disabled="currentPage === totalPages"
-            class="px-3 py-2 rounded-lg text-gray-500 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </nav>
-      </div>
-    </section>
-
-    <!-- Enhanced Modal -->
-    <div
-      v-if="showModal && geselecteerdBedrijf"
-      class="fixed inset-0 z-50 overflow-y-auto"
-      @click.self="closeModal"
-    >
-      <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center">
-        <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" @click="closeModal"></div>
-
-        <div class="relative bg-white rounded-3xl shadow-2xl max-w-4xl w-full transform transition-all">
-          <!-- Modal Header -->
-          <div class="relative bg-gradient-to-br from-orange-100 to-orange-200 px-8 py-6 rounded-t-3xl">
-            <button
-              @click="closeModal"
-              class="absolute top-6 right-6 p-2 rounded-full bg-white/80 hover:bg-white text-gray-600 hover:text-gray-900 transition-all"
-            >
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            <div class="flex items-center space-x-6">
-              <div class="w-20 h-20 bg-white rounded-3xl shadow-lg flex items-center justify-center">
-                <img
-                  :src="geselecteerdBedrijf.src"
-                  :alt="geselecteerdBedrijf.name"
-                  class="max-w-16 max-h-16 object-contain"
-                />
-              </div>
-              <div class="text-left">
-                <h2 class="text-3xl font-bold text-gray-900 mb-2">{{ geselecteerdBedrijf.name }}</h2>
-                <div class="flex items-center gap-3">
-                  <span class="px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-full">
-                    {{ geselecteerdBedrijf.industry }}
-                  </span>
-                  <span class="text-gray-600">{{ geselecteerdBedrijf.location }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Modal Content -->
-          <div class="px-8 py-6">
-            <div class="grid md:grid-cols-2 gap-8">
-              <!-- Left Column -->
-              <div class="space-y-6">
-                <div>
-                  <h3 class="text-lg font-semibold text-gray-900 mb-3">Specialisatie</h3>
-                  <p class="text-gray-600">{{ geselecteerdBedrijf.specialisatie }}</p>
-                </div>
-
-                <div>
-                  <h3 class="text-lg font-semibold text-gray-900 mb-3">Over het bedrijf</h3>
-                  <p class="text-gray-600 leading-relaxed">{{ geselecteerdBedrijf.beschrijving }}</p>
-                </div>
-
-                <div>
-                  <h3 class="text-lg font-semibold text-gray-900 mb-3">Technologieën & Skills</h3>
-                  <div class="flex flex-wrap gap-2">
-                    <span
-                      v-for="tag in geselecteerdBedrijf.tags"
-                      :key="tag"
-                      class="px-3 py-1 bg-blue-100 text-blue-600 text-sm rounded-full"
-                    >
-                      {{ tag }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Right Column -->
-              <div class="space-y-6">
-                <div>
-                  <h3 class="text-lg font-semibold text-gray-900 mb-3">Bedrijfsinfo</h3>
-                  <div class="space-y-3">
-                    <div class="flex items-start">
-                      <svg class="w-5 h-5 text-gray-400 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                      <span class="text-gray-600">{{ geselecteerdBedrijf.adres }}</span>
+        <!-- Content Sections -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Company List -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mr-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-bold text-gray-900 mb-2">Deelnemende Bedrijven</h2>
+                            <p class="text-gray-600">Ontdek de bedrijven die deelnemen aan Career Launch 2025</p>
+                        </div>
                     </div>
-                    <div class="flex items-center">
-                      <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
-                      <span class="text-gray-600">{{ geselecteerdBedrijf.telefoon || 'Niet beschikbaar' }}</span>
+                    
+                    <div class="space-y-4">
+                        <p class="text-gray-700 leading-relaxed">
+                            Career Launch 2025 brengt toonaangevende bedrijven uit verschillende sectoren samen. 
+                            Van technologie en design tot marketing en consultancy - er is voor iedereen wat wils.
+                        </p>
+                        
+                        <div class="bg-orange-50 rounded-2xl p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Wat kun je verwachten?</h3>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-center">
+                                    <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    Direct contact met recruiters
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    Speeddate sessies
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    Job en stage mogelijkheden
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    Netwerk mogelijkheden
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="flex items-center">
-                      <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                      <span class="text-gray-600">{{ geselecteerdBedrijf.email || 'Niet beschikbaar' }}</span>
-                    </div>
-                    <div class="flex items-center">
-                      <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
-                      </svg>
-                      <span class="text-gray-600">{{ geselecteerdBedrijf.employees }} medewerkers</span>
-                    </div>
-                    <div class="flex items-center">
-                      <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4h3a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9a2 2 0 012-2h3z" />
-                      </svg>
-                      <span class="text-gray-600">Opgericht in {{ geselecteerdBedrijf.founded }}</span>
-                    </div>
-                  </div>
                 </div>
 
-                <div class="bg-gray-50 rounded-2xl p-6">
-                  <h3 class="text-lg font-semibold text-gray-900 mb-4">Interesse?</h3>
-                  <p class="text-gray-600 text-sm mb-4">
-                    Voeg {{ geselecteerdBedrijf.name }} toe aan je favorieten en plan een gesprek tijdens de Career Launch!
-                  </p>
-                  <div class="flex gap-3">
-                    <button
-                      @click="toggleFavoriet(geselecteerdBedrijf)"
-                      :class="[
-                        'flex-1 px-4 py-2 rounded-lg font-medium transition-all',
-                        geselecteerdBedrijf.favoriet
-                          ? 'bg-yellow-100 text-yellow-700 border border-yellow-200'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      ]"
-                    >
-                      <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.173 3.617a1 1 0 00.95.69h3.801c.969 0 1.371 1.24.588 1.81l-3.073 2.23a1 1 0 00-.364 1.118l1.173 3.617c.3.921-.755 1.688-1.54 1.118l-3.073-2.23a1 1 0 00-1.175 0l-3.073 2.23c-.784.57-1.838-.197-1.54-1.118l1.173-3.617a1 1 0 00-.364-1.118L2.536 9.044c-.783-.57-.38-1.81.588-1.81h3.801a1 1 0 00.95-.69l1.173-3.617z" />
-                      </svg>
-                      {{ geselecteerdBedrijf.favoriet ? 'Favoriet ✓' : 'Voeg toe aan favorieten' }}
-                    </button>
-                  </div>
+                <!-- How to Connect -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mr-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-bold text-gray-900 mb-2">Hoe contact maken?</h2>
+                            <p class="text-gray-600">Stap voor stap gids</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">1</div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-2">Bekijk bedrijven</h3>
+                                <p class="text-gray-700">Verken de bedrijfsprofielen en lees meer over hun cultuur en vacatures.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">2</div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-2">Voeg toe aan favorieten</h3>
+                                <p class="text-gray-700">Sla interessante bedrijven op in je favorieten voor later.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">3</div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-2">Plan speeddate sessies</h3>
+                                <p class="text-gray-700">Reserveer tijd met bedrijven die je interesseren.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">4</div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-2">Maak indruk</h3>
+                                <p class="text-gray-700">Bereid je voor en maak een goede indruk tijdens het evenement!</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
+        </section>
 
-            <!-- Modal Footer -->
-            <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
-              <button
-                @click="closeModal"
-                class="px-6 py-2 text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                Sluiten
-              </button>
-              <a
-                :href="geselecteerdBedrijf.website"
-                target="_blank"
-                class="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium flex items-center"
-              >
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-                Bezoek website
-              </a>
+        <!-- CTA Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+            <div class="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-3xl p-8 text-white text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-black/10"></div>
+                <div class="absolute -top-4 -right-4 w-24 h-24 bg-white/10 rounded-full"></div>
+                <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-white/5 rounded-full"></div>
+                
+                <div class="relative z-10">
+                    <div class="flex items-center justify-center mb-6">
+                        <div class="w-20 h-20 bg-white/20 rounded-3xl flex items-center justify-center">
+                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-4xl font-bold mb-4">Klaar om te ontdekken?</h3>
+                    <p class="text-white/90 mb-8 max-w-2xl mx-auto text-lg">
+                        Bekijk alle deelnemende bedrijven en vind het bedrijf dat bij jou past!
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <Link href="/favorieten" class="inline-flex items-center bg-white text-orange-600 px-8 py-4 rounded-2xl font-semibold text-lg hover:bg-orange-50 transition-all duration-300 shadow-lg hover:shadow-xl">
+                            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                            Bekijk favorieten
+                        </Link>
+                        <Link href="/register?type=student" class="inline-flex items-center bg-white/10 text-white border-2 border-white/20 px-8 py-4 rounded-2xl font-semibold text-lg hover:bg-white/20 transition-all duration-300 backdrop-blur-sm">
+                            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            Maak je profiel
+                        </Link>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-gradient-to-r from-orange-500 to-red-600 text-white py-16">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid md:grid-cols-4 gap-8">
-          <div>
-            <div class="flex items-center space-x-3 mb-4">
-              <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                <span class="text-white font-bold text-lg">E</span>
-              </div>
-              <div class="text-white font-bold text-xl">erasmus</div>
-            </div>
-            <p class="text-orange-100 text-sm mb-4">
-              Hogeschool Brussel<br />
-              Connecting talent with opportunity
-            </p>
-          </div>
-
-          <div>
-            <h4 class="font-semibold mb-4">Voor studenten</h4>
-            <ul class="space-y-2 text-orange-100 text-sm">
-              <li><Link href="/register?type=student" class="hover:text-white transition-colors">Maak je profiel</Link></li>
-              <li><Link href="/info" class="hover:text-white transition-colors">Career Launch Info</Link></li>
-              <li><Link href="/afspraak" class="hover:text-white transition-colors">Speeddate plannen</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 class="font-semibold mb-4">Voor bedrijven</h4>
-            <ul class="space-y-2 text-orange-100 text-sm">
-              <li><Link href="/companies" class="hover:text-white transition-colors">Browse studenten</Link></li>
-              <li><Link href="/contact" class="hover:text-white transition-colors">Partnership</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 class="font-semibold mb-4">Support</h4>
-            <ul class="space-y-2 text-orange-100 text-sm">
-              <li><Link href="/contact" class="hover:text-white transition-colors">Contact</Link></li>
-              <li><Link href="/faq" class="hover:text-white transition-colors">FAQ</Link></li>
-              <li><Link href="/privacy" class="hover:text-white transition-colors">Privacy beleid</Link></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="border-t border-orange-400 mt-12 pt-8 text-center text-orange-100 text-sm">
-          <p>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden.</p>
-        </div>
-      </div>
-    </footer>
-  </div>
+        </section>
+    </AppLayout>
 </template>
 
 <style scoped>

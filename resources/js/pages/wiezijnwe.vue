@@ -1,66 +1,7 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-50">
+  <AppLayout>
     <Head title="Wie zijn we? - Career Launch 2025" />
     
-    <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-lg shadow-lg sticky top-0 z-40 border-b border-orange-100">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-          <!-- Logo -->
-          <Link href="/" class="flex items-center space-x-3 group">
-            <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-              <span class="text-white font-bold text-lg">E</span>
-            </div>
-            <div>
-              <div class="text-gray-900 font-bold text-xl">erasmus</div>
-              <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
-            </div>
-          </Link>
-
-          <!-- voorbeeld-->
-          <!-- Mobile menu button -->
-          <div class="md:hidden">
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg text-gray-700 hover:bg-orange-100 transition-colors">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
-
-          <!-- Desktop Navigation -->
-          <div class="hidden md:flex items-center space-x-1">
-            <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Home</Link>
-            <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Info</Link>
-            <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Bedrijven</Link>
-            <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50 relative">
-              Favorieten
-              <span v-if="favoritenCount > 0" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                {{ favoritenCount }}
-              </span>
-            </Link>
-            <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Contact</Link>
-            <Link href="/Wiezijnwe" class="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg font-medium">Wie zijn we?</Link>
-            <div class="flex items-center ml-6">
-              <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Inloggen</Link>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mobile menu -->
-        <div v-show="mobileMenuOpen" class="md:hidden mt-4 pb-4 border-t border-orange-200">
-          <div class="flex flex-col space-y-2 pt-4">
-            <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium rounded-lg">Home</Link>
-            <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium rounded-lg">Info</Link>
-            <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium rounded-lg">Bedrijven</Link>
-            <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium rounded-lg">Favorieten</Link>
-            <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium rounded-lg">Contact</Link>
-            <Link href="/Wiezijnwe" class="px-4 py-2 text-orange-600 bg-orange-100 font-medium rounded-lg">Wie zijn we?</Link>
-            <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium rounded-lg">Inloggen</Link>
-          </div>
-        </div>
-      </div>
-    </nav>
-
     <!-- Hero Section -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div class="text-center mb-12">
@@ -198,380 +139,129 @@
             </div>
           </div>
 
-          <!-- Name & Role -->
-          <div class="text-center mb-6">
+          <!-- Info -->
+          <div class="text-center">
             <h3 class="text-xl font-bold text-gray-900 mb-2">{{ lid.naam }}</h3>
-            <p class="text-gray-600">{{ lid.functie }}</p>
-            <div class="inline-flex items-center px-3 py-1 bg-orange-100 text-orange-600 text-sm font-medium rounded-full mt-2">
-              Toegepaste Informatica
-            </div>
-          </div>
+            <p class="text-orange-600 font-medium mb-1">{{ lid.rol }}</p>
+            <p class="text-sm text-gray-500 mb-4">{{ lid.specialisatie }}</p>
+            
+            <p class="text-gray-600 text-sm leading-relaxed mb-4">
+              {{ lid.beschrijving }}
+            </p>
 
-          <!-- Skills/Interests -->
-          <div class="mb-6">
+            <!-- Interests -->
             <div class="flex flex-wrap gap-2 justify-center">
               <span
-                v-for="skill in getRandomSkills()"
-                :key="skill"
-                class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-md"
+                v-for="interesse in lid.interesses"
+                :key="interesse"
+                class="px-3 py-1 bg-orange-100 text-orange-600 text-xs rounded-full"
               >
-                {{ skill }}
+                {{ interesse }}
               </span>
             </div>
           </div>
-
-          <!-- LinkedIn Button -->
-          <div class="text-center">
-            <a
-              v-if="lid.linkedin"
-              :href="lid.linkedin"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-xl font-medium hover:bg-blue-700 transition-colors group"
-            >
-              <svg class="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-              </svg>
-              LinkedIn
-            </a>
-            <div v-else class="text-gray-400 text-sm">
-              LinkedIn binnenkort beschikbaar
-            </div>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- Study Program Info -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-      <div class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-3xl p-8 text-white relative overflow-hidden">
-        <!-- Background decoration -->
-        <div class="absolute inset-0 bg-black/10"></div>
-        <div class="absolute -top-4 -right-4 w-24 h-24 bg-white/10 rounded-full"></div>
-        <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-white/5 rounded-full"></div>
-        
-        <div class="relative z-10 text-center">
-          <div class="flex items-center justify-center mb-6">
-            <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
-              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-              </svg>
-            </div>
-          </div>
-          <h3 class="text-3xl font-bold mb-4">Toegepaste Informatica</h3>
-          <p class="text-white/90 mb-6 max-w-2xl mx-auto text-lg">
-            We studeren allemaal Toegepaste Informatica aan de Erasmus Hogeschool Brussel, 
-            een praktijkgerichte opleiding die ons voorbereidt op de digitale toekomst.
-          </p>
-          
-          <div class="grid md:grid-cols-3 gap-6 mt-8">
-            <div class="bg-white/10 rounded-2xl p-6 backdrop-blur-sm">
-              <h4 class="font-semibold mb-2">💻 Programmeren</h4>
-              <p class="text-white/80 text-sm">Web development, mobile apps, software engineering</p>
-            </div>
-            <div class="bg-white/10 rounded-2xl p-6 backdrop-blur-sm">
-              <h4 class="font-semibold mb-2">🔐 Cybersecurity</h4>
-              <p class="text-white/80 text-sm">Netwerk beveiliging, ethical hacking, data protection</p>
-            </div>
-            <div class="bg-white/10 rounded-2xl p-6 backdrop-blur-sm">
-              <h4 class="font-semibold mb-2">📊 Data Science</h4>
-              <p class="text-white/80 text-sm">Big data, machine learning, business intelligence</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA Section -->
+    <!-- About Section -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-      <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 text-center">
-        <div class="max-w-3xl mx-auto">
-          <h3 class="text-3xl font-bold text-gray-900 mb-4">Klaar om mee te doen?</h3>
-          <p class="text-xl text-gray-600 mb-8">
-            Ontdek alle deelnemende bedrijven en vind jouw perfecte match tijdens Career Launch 2025!
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/bedrijven" class="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300">
-              <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6"></path>
+      <div class="bg-gradient-to-r from-orange-500 to-red-500 rounded-3xl p-8 lg:p-12 text-white">
+        <div class="grid lg:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 class="text-3xl font-bold mb-6">Over Ons</h2>
+            <div class="space-y-4 text-orange-100 leading-relaxed">
+              <p class="text-lg">
+                We studeren allemaal Toegepaste Informatica aan de Erasmus Hogeschool Brussel,
+                en we zijn gepassioneerd over het creëren van technologie die mensen verbindt.
+              </p>
+              <p>
+                Career Launch 2025 is ons afstudeerproject, maar het is veel meer dan dat.
+                Het is een platform dat we hebben gebouwd met liefde en toewijding,
+                in de hoop dat het studenten en bedrijven zal helpen om elkaar te vinden.
+              </p>
+              <p>
+                We geloven in de kracht van technologie om mensen te verbinden en
+                kansen te creëren voor iedereen, ongeacht hun achtergrond.
+              </p>
+            </div>
+          </div>
+          
+          <div class="text-center">
+            <div class="w-32 h-32 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
               </svg>
-              Ontdek bedrijven
-            </Link>
-            <Link href="/contact" class="inline-flex items-center bg-gray-100 text-gray-700 px-8 py-4 rounded-2xl font-semibold text-lg hover:bg-gray-200 transition-all duration-300">
-              <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-              </svg>
-              Neem contact op
-            </Link>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Innovatie & Creativiteit</h3>
+            <p class="text-orange-100">
+              We streven ernaar om innovatieve oplossingen te creëren die
+              echte problemen oplossen en mensen helpen groeien.
+            </p>
           </div>
         </div>
       </div>
     </section>
-
-    <!-- Footer -->
-     <!-- Privacybeleid Section -->
-     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-    <div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden p-8">
-      <h2 class="text-3xl font-bold text-gray-900 mb-6">Privacybeleid Career Launch 2025</h2>
-      <div class="grid gap-6 md:grid-cols-2">
-        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
-          <p class="font-semibold text-orange-700">Versie 0.1 - Laatst aangepast op 17 juni 2025.</p>
-          <p class="mt-2 text-gray-700">Wij hechten veel waarde aan uw privacy. Wanneer u gebruikmaakt van onze diensten, vertrouwt u ons persoonlijke gegevens toe. Wij zijn ons bewust van dat vertrouwen en zien het dan ook als onze verantwoordelijkheid om zorgvuldig met uw gegevens om te gaan en uw privacy te beschermen. In deze privacyverklaring leggen wij uit welke gegevens wij verzamelen, waarom wij dat doen en hoe wij hiermee omgaan.</p>
-        </div>
-
-        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
-          <h3 class="font-semibold text-lg text-orange-700">Gebruik van onze diensten</h3>
-          <p class="mt-2 text-gray-700">Wanneer u zich aanmeldt voor één van onze diensten, kunnen wij u vragen om persoonsgegevens te verstrekken, zoals uw naam, e-mailadres, telefoonnummer of andere gegevens. Deze informatie gebruiken wij uitsluitend om onze diensten optimaal te kunnen verlenen en u een gepersonaliseerde ervaring te bieden.</p>
-        </div>
-
-        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
-          <h3 class="font-semibold text-lg text-orange-700">Communicatie</h3>
-
-          <p class="mt-2 text-gray-700">Indien u per e-mail of via andere communicatiekanalen contact met ons opneemt, kunnen wij deze correspondentie bewaren. Dit doen wij om uw verzoek correct te kunnen afhandelen en onze dienstverlening te verbeteren. Daarbij kunnen aanvullende persoonsgegevens worden gevraagd indien nodig voor de behandeling van uw vraag.</p>
-        </div>
-
-        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
-          <h3 class="font-semibold text-lg text-orange-700">Cookies</h3>
-
-          <p class="mt-2 text-gray-700">Uw gegevens worden uitsluitend gebruikt voor de doeleinden zoals vermeld in dit privacybeleid, tenzij u voorafgaand expliciet toestemming geeft voor ander gebruik.</p>
-
-  
-        </div>
-
-        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
-          <h3 class="font-semibold text-lg text-orange-700">Doeleinden</h3>
-
-          <p class="mt-2 text-gray-700">Uw persoonsgegevens worden uitsluitend verwerkt voor de doeleinden die in deze privacyverklaring zijn opgenomen. Wij zullen uw gegevens nooit voor andere doeleinden gebruiken zonder u daarvan vooraf op de hoogte te stellen en, indien nodig, uw expliciete toestemming te vragen.</p>
-
-        </div>
-
-        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
-          <h3 class="font-semibold text-lg text-orange-700">Derden</h3>
-
-          <p class="mt-2 text-gray-700">Wij delen uw persoonsgegevens niet met derden, tenzij dit strikt noodzakelijk is voor het uitvoeren van onze diensten of wanneer wij daartoe wettelijk verplicht zijn. Intern kan informatie gedeeld worden met bevoegde medewerkers, die gebonden zijn aan een geheimhoudingsplicht.</p>
-
-        </div>
-
-        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
-          <h3 class="font-semibold text-lg text-orange-700">Veranderingen</h3>
-
-          <p class="mt-2 text-gray-700">Deze privacyverklaring is specifiek opgesteld voor het gebruik en de functionaliteiten van deze website. Bij eventuele wijzigingen in de inhoud of werking van de site, kan ook de privacyverklaring worden aangepast. Wij adviseren u daarom deze verklaring periodiek te controleren.</p>
-
-        </div>
-
-        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
-          <h3 class="font-semibold text-lg text-orange-700">Keuzes voor persoonsgegevens</h3>
-
-          <p class="mt-2 text-gray-700">Elke gebruiker heeft het recht op inzage in zijn of haar persoonsgegevens, evenals het recht om deze te corrigeren of te laten verwijderen. Indien u van deze rechten gebruik wenst te maken, kunt u contact met ons opnemen via de contactgegevens zoals vermeld in deze verklaring.</p>
-
-        </div>
-
-        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
-          <h3 class="font-semibold text-lg text-orange-700">Aanpassen/uitschrijven dienst nieuwsbrief</h3>
-          <p class="mt-2 text-gray-700">In elke e-mail die u van ons ontvangt, is een mogelijkheid opgenomen om uw contactvoorkeuren aan te passen of om u geheel uit te schrijven voor toekomstige mailings.</p>
-
-        </div>
-
-        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
-          <h3 class="font-semibold text-lg text-orange-700">Aanpassen/uitschrijven communicatie</h3>
-
-          <p class="mt-2 text-gray-700">"Als u uw persoonsgegevens wilt corrigeren of wilt laten verwijderen uit onze systemen, kunt u te allen tijde contact met ons opnemen via de contactgegevens vermeld in deze verklaring.</p>
-
-        </div>
-
-        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
-          <h3 class="font-semibold text-lg text-orange-700">Cookies uitzetten</h3>
-
-          <p class="mt-2 text-gray-700">Standaard accepteren de meeste internetbrowsers cookies. U heeft echter de mogelijkheid om uw browser zo in te stellen dat cookies worden geweigerd of dat u een melding ontvangt wanneer een cookie wordt geplaatst. Het uitschakelen van cookies kan invloed hebben op de functionaliteit van deze website.</p>
-
-        </div>
-
-        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
-          <h3 class="font-semibold text-lg text-orange-700">Vragen en feedback</h3>
-
-          <p class="mt-2 text-gray-700">Wij voeren regelmatig controles uit om na te gaan of wij ons aan dit privacybeleid houden. Indien u vragen, opmerkingen of klachten heeft met betrekking tot dit beleid, kunt u contact met ons opnemen via de contactgegevens zoals vermeld onderaan deze verklaring.</p>
-
-          <ul class="list-disc pl-5 mt-2 text-gray-700">
-            <li>Career Launch 2025</li>
-            <li>Nijverheidskaai 170, 1070 Anderlecht</li>
-            <li>Tel: 02 523 37 37</li>
-            <li>Email: gdt.kaai.student@ehb.be</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-    <footer class="bg-gradient-to-r from-orange-500 to-red-600 text-white py-16">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid md:grid-cols-4 gap-8">
-          <div>
-            <div class="flex items-center space-x-3 mb-4">
-              <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                <span class="text-white font-bold text-lg">E</span>
-              </div>
-              <div class="text-white font-bold text-xl">erasmus</div>
-            </div>
-            <p class="text-orange-100 text-sm mb-4">
-              Hogeschool Brussel<br />
-              Connecting talent with opportunity
-            </p>
-            <div class="flex space-x-4">
-              <a href="https://www.linkedin.com/school/erasmus-hogeschool-brussel/" target="_blank" class="text-orange-200 hover:text-white transition-colors">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-              </a>
-              <a href="https://www.instagram.com/erasmushogeschool/" target="_blank" class="text-orange-200 hover:text-white transition-colors">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987c6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.611-3.197-1.559-.748-.947-1.197-2.25-1.197-3.679 0-1.429.449-2.732 1.197-3.679.749-.948 1.9-1.559 3.197-1.559s2.448.611 3.197 1.559c.748.947 1.197 2.25 1.197 3.679 0 1.429-.449 2.732-1.197 3.679-.749.948-1.9 1.559-3.197 1.559z"/>
-                </svg>
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <h4 class="font-semibold mb-4">Voor studenten</h4>
-            <ul class="space-y-2 text-orange-100 text-sm">
-              <li><Link href="/register?type=student" class="hover:text-white transition-colors">Maak je profiel</Link></li>
-              <li><Link href="/info" class="hover:text-white transition-colors">Career Launch Info</Link></li>
-              <li><Link href="/bedrijven" class="hover:text-white transition-colors">Ontdek bedrijven</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 class="font-semibold mb-4">Contact</h4>
-            <ul class="space-y-2 text-orange-100 text-sm">
-              <li><a href="mailto:gdt.kaai.student@ehb.be" class="hover:text-white transition-colors">gdt.kaai.student@ehb.be</a></li>
-              <li><a href="tel:+3225233737" class="hover:text-white transition-colors">02 523 37 37</a></li>
-              <li>Nijverheidskaai 170, 1070 Anderlecht</li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 class="font-semibold mb-4">Over Ons</h4>
-            <ul class="space-y-2 text-orange-100 text-sm">
-              <li><Link href="/Wiezijnwe" class="hover:text-white transition-colors">Wie zijn we?</Link></li>
-              <li><Link href="/faq" class="hover:text-white transition-colors">FAQ</Link></li>
-              <li><a href="#" class="hover:text-white transition-colors">Onze opleidingen</a></li>
-              <li><a href="#" class="hover:text-white transition-colors">Privacy beleid</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="border-t border-orange-400 mt-12 pt-8 text-center text-orange-100 text-sm">
-          <p>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden.</p>
-        </div>
-      </div>
-    </footer>
-  </div>
+  </AppLayout>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3'
-import { ref, computed, onMounted } from 'vue'
+import AppLayout from '@/layouts/AppLayout.vue'
+import { ref } from 'vue'
 
-// State
-const activeDetail = ref(null)
-
-// Show detail and scroll to section
-const showDetails = async (key) => {
-  if (activeDetail.value === key) {
-    activeDetail.value = null
-    return
-  }
-  activeDetail.value = key
-  await nextTick()
-  const el = document.getElementById(`section-${key}`)
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-}
-
-// Close mobile menu when clicking outside
-onMounted(() => {
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('nav') && mobileMenuOpen.value) {
-      mobileMenuOpen.value = false
-    }
-  })
-})
-
-// State
 const mobileMenuOpen = ref(false)
+const favoritenCount = ref(3)
 
-// Team data
 const team = [
-  { naam: 'Jawad Zannou', functie: 'Student', linkedin: 'https://www.linkedin.com/in/jawad-zannou-437abb359/' },
-  { naam: 'Amine Zerouali', functie: 'Student', linkedin: 'https://www.linkedin.com/in/amine-zerouali-063124357/' }, 
-  { naam: 'Amina Saidi', functie: 'Student', linkedin: 'https://www.linkedin.com/in/amina-saidi-a7a526352/' },
-  { naam: 'Rania El Hakiki', functie: 'Student', linkedin: 'https://www.linkedin.com/in/rania-el-hakiki-723360286/' },
-  { naam: 'Maryam Afallah', functie: 'Student', linkedin: '' },
-  { naam: 'Asma M\'Barki', functie: 'Student', linkedin: 'https://www.linkedin.com/in/mbarkiasma' },
+  {
+    naam: 'Amine Zerouali',
+    rol: 'Frontend Developer',
+    specialisatie: 'Vue.js, TypeScript, UI/UX',
+    beschrijving: 'Passionate about creating beautiful and intuitive user interfaces. Loves working with modern web technologies and ensuring the best user experience.',
+    interesses: ['Web Development', 'UI/UX Design', 'JavaScript']
+  },
+  {
+    naam: 'Student 2',
+    rol: 'Backend Developer',
+    specialisatie: 'Laravel, PHP, Database Design',
+    beschrijving: 'Focused on building robust and scalable backend systems. Enjoys solving complex problems and optimizing database performance.',
+    interesses: ['Backend Development', 'Database Design', 'API Development']
+  },
+  {
+    naam: 'Student 3',
+    rol: 'Full Stack Developer',
+    specialisatie: 'Vue.js, Laravel, DevOps',
+    beschrijving: 'Versatile developer with experience across the entire stack. Enjoys learning new technologies and implementing best practices.',
+    interesses: ['Full Stack Development', 'DevOps', 'Cloud Computing']
+  },
+  {
+    naam: 'Student 4',
+    rol: 'UI/UX Designer',
+    specialisatie: 'Figma, User Research, Prototyping',
+    beschrijving: 'Creative designer focused on creating user-centered experiences. Passionate about accessibility and inclusive design.',
+    interesses: ['UI/UX Design', 'User Research', 'Prototyping']
+  },
+  {
+    naam: 'Student 5',
+    rol: 'Project Manager',
+    specialisatie: 'Agile, Team Leadership, Planning',
+    beschrijving: 'Organized and detail-oriented project manager. Enjoys coordinating team efforts and ensuring project success.',
+    interesses: ['Project Management', 'Team Leadership', 'Agile Methodologies']
+  },
+  {
+    naam: 'Student 6',
+    rol: 'QA Engineer',
+    specialisatie: 'Testing, Automation, Quality Assurance',
+    beschrijving: 'Quality-focused engineer who ensures our platform meets the highest standards. Passionate about user experience and bug prevention.',
+    interesses: ['Quality Assurance', 'Automated Testing', 'User Experience']
+  }
 ]
-
-const skills = [
-  'JavaScript', 'Python', 'Java', 'React', 'Vue.js', 'Node.js', 
-  'Cybersecurity', 'Data Analysis', 'Machine Learning', 'DevOps',
-  'Cloud Computing', 'Mobile Development', 'UI/UX Design', 'Databases'
-]
-
-// Get favorites count for navigation badge
-const favoritenCount = computed(() => {
-    return window.favoritesState?.value?.length || 0
-})
-
-// Generate random skills for each team member
-const getRandomSkills = () => {
-  const shuffled = [...skills].sort(() => 0.5 - Math.random())
-  return shuffled.slice(0, 3)
-}
-
-// Close mobile menu when clicking outside
-onMounted(() => {
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('nav') && mobileMenuOpen.value) {
-            mobileMenuOpen.value = false
-        }
-    })
-})
 </script>
 
 <style scoped>
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.group:hover .group-hover\:scale-110 {
-  transform: scale(1.1);
-
-}
-html {
-  scroll-behavior: smooth;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fadeInUp 0.6s ease-in-out both;
-}
-
-.group:hover .group-hover\:scale-110 {
-  transform: scale(1.1);
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 </style>

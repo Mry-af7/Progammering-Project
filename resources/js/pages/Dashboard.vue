@@ -251,7 +251,7 @@
                     <div v-for="skill in currentSkills" :key="skill.name" class="group">
                       <div class="flex items-center justify-between mb-2">
                         <span class="font-semibold text-gray-700">{{ skill.name }}</span>
-                        <span class="text-sm font-bold text-gray-900">{{ skill.level }}%</span>
+                        <span class="text-sm font-bold text-gray-900">{{ calculateSkillProgress(skill.level) }}</span>
                       </div>
                       <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
                         <div :class="`h-3 rounded-full transition-all duration-1000 ${getSkillColor(skill.level)}`" 
@@ -489,7 +489,7 @@
     </div>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
   import { ref, computed, onMounted } from 'vue';
   
   // Reactive state
@@ -567,51 +567,119 @@
     { name: "Offer", count: 1, percentage: 7, active: false }
   ]);
   
+  // Type definitions
+  type ApplicationStatus = 'Interview Scheduled' | 'Under Review' | 'Application Sent' | 'Offer' | 'Rejected';
+
+  interface Company {
+    name: string;
+    logo: string;
+  }
+
+  interface Application {
+    id: number;
+    position: string;
+    company: {
+      name: string;
+      logo: string;
+    };
+    status: ApplicationStatus;
+    appliedDays: number;
+    logo?: string; // Optional logo property
+  }
+
+  interface Skill {
+    name: string;
+    level: number;
+  }
+
+  interface RecommendedSkill {
+    name: string;
+    demand: number;
+  }
+
+  interface CareerGoal {
+    id: number;
+    title: string;
+    description: string;
+    progress: number;
+  }
+
+  interface NetworkingSuggestion {
+    id: number;
+    name: string;
+    position: string;
+    mutualConnections: number;
+  }
+
+  interface Event {
+    id: number;
+    title: string;
+    time: string;
+    location: string;
+    icon: string;
+    isToday: boolean;
+  }
+
+  interface FavoriteCompany {
+    id: number;
+    name: string;
+    industry: string;
+    employees: string;
+    location: string;
+    specialisatie: string;
+    logo: string;
+  }
+
+  interface QuickAction {
+    title: string;
+    icon: string;
+  }
+
   // Recent applications
-  const recentApplications = ref([
+  const recentApplications = ref<Application[]>([
     {
         id: 1,
         position: 'Junior Software Developer',
         company: { name: 'Capgemini', logo: '/images/logos/capgemini-logo.svg' },
-        status: 'Interview Scheduled' as ApplicationStatus,
+        status: 'Interview Scheduled',
         appliedDays: 3
     },
     {
         id: 2,
         position: 'Frontend Developer',
         company: { name: 'Accenture', logo: '/images/logos/accenture-logo.svg' },
-        status: 'Under Review' as ApplicationStatus,
+        status: 'Under Review',
         appliedDays: 5
     },
     {
         id: 3,
         position: 'Web Developer',
         company: { name: 'delaware', logo: '/images/logos/delaware-logo.svg' },
-        status: 'Application Sent' as ApplicationStatus,
+        status: 'Application Sent',
         appliedDays: 1
     }
-]
+  ]);
 
-// Current skills
-const currentSkills = [
+  // Current skills
+  const currentSkills = ref<Skill[]>([
     { name: 'JavaScript', level: 75 },
     { name: 'HTML/CSS', level: 85 },
     { name: 'Java', level: 60 },
     { name: 'Microsoft Office', level: 90 },
     { name: 'French', level: 100 },
     { name: 'Dutch', level: 85 }
-]
+  ]);
 
-// Recommended skills
-const recommendedSkills = [
+  // Recommended skills
+  const recommendedSkills = ref<RecommendedSkill[]>([
     { name: 'React.js', demand: 89 },
     { name: 'Node.js', demand: 76 },
     { name: 'Python', demand: 83 },
     { name: 'SQL', demand: 71 }
-]
+  ]);
 
-// Career goals
-const careerGoals = [
+  // Career goals
+  const careerGoals = ref<CareerGoal[]>([
     {
       id: 1,
       title: "Land First Developer Job",
@@ -633,7 +701,7 @@ const careerGoals = [
   ]);
   
   // Networking suggestions
-  const networkingSuggestions = ref([
+  const networkingSuggestions = ref<NetworkingSuggestion[]>([
     {
       id: 1,
       name: "Sarah De Vos",
@@ -655,7 +723,7 @@ const careerGoals = [
   ]);
   
   // Upcoming events
-  const upcomingEvents = ref([
+  const upcomingEvents = ref<Event[]>([
     {
       id: 1,
       title: "Tech Career Fair",
@@ -682,8 +750,8 @@ const careerGoals = [
     }
   ]);
   
-  // Favorite companies (integrated with favorites system)
-  const favoriteCompanies = ref([
+  // Favorite companies
+  const favoriteCompanies = ref<FavoriteCompany[]>([
     {
       id: 1,
       name: "Accenture",
@@ -741,7 +809,7 @@ const careerGoals = [
   ]);
   
   // Quick actions
-  const quickActions = ref([
+  const quickActions = ref<QuickAction[]>([
     { title: "Search Jobs", icon: "🔍" },
     { title: "Update CV", icon: "📝" },
     { title: "Network", icon: "🤝" },
@@ -749,7 +817,7 @@ const careerGoals = [
   ]);
   
   // Floating menu items
-  const floatingMenuItems = ref([
+  const floatingMenuItems = ref<QuickAction[]>([
     { title: "Quick Apply", icon: "📝" },
     { title: "Schedule Meeting", icon: "📅" },
     { title: "Send Message", icon: "💬" },
@@ -758,7 +826,7 @@ const careerGoals = [
   ]);
   
   // Helper functions
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: ApplicationStatus): string => {
     const colors = {
       'Interview Scheduled': 'bg-yellow-100 text-yellow-800 border-yellow-200',
       'Under Review': 'bg-blue-100 text-blue-800 border-blue-200', 
@@ -769,13 +837,17 @@ const careerGoals = [
     return colors[status] || 'bg-gray-100 text-gray-800 border-gray-200';
   };
   
-  const getSkillColor = (level) => {
-    if (level >= 80) return 'bg-gradient-to-r from-green-500 to-emerald-500';
-    if (level >= 60) return 'bg-gradient-to-r from-yellow-500 to-orange-500';
-    return 'bg-gradient-to-r from-red-500 to-pink-500';
+  const calculateSkillProgress = (level: number): string => {
+    return `${Math.min(100, Math.max(0, level))}%`;
   };
   
-  const removeFromFavorites = (companyId) => {
+  const getSkillColor = (level: number): string => {
+    if (level >= 80) return 'bg-green-500';
+    if (level >= 60) return 'bg-yellow-500';
+    return 'bg-orange-500';
+  };
+  
+  const removeFromFavorites = (companyId: number): void => {
     favoriteCompanies.value = favoriteCompanies.value.filter(company => company.id !== companyId);
   };
   
@@ -793,6 +865,7 @@ const careerGoals = [
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    line-clamp: 2;
   }
   
   .animate-in {
