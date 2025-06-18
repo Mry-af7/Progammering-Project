@@ -441,6 +441,7 @@
                   <li><Link href="/register?type=student" class="hover:text-white transition-colors">Maak je profiel</Link></li>
                   <li><Link href="/info" class="hover:text-white transition-colors">Career Launch Info</Link></li>
                   <li><Link href="/bedrijven" class="hover:text-white transition-colors">Ontdek bedrijven</Link></li>
+                  <li><Link href="/faq" class="hover:text-white transition-colors">FAQ</Link></li>
                 </ul>
               </div>
 
