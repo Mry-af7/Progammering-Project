@@ -354,7 +354,7 @@ onMounted(() => {
           <div>
             <h4 class="font-semibold mb-6 text-lg">Over Ons</h4>
             <ul class="space-y-3 text-orange-100">
-              <li><Link href="/Wiezijnwe" class="hover:text-white transition-colors flex items-center">
+              <li><Link href="/wiezijnwe" class="hover:text-white transition-colors flex items-center">
                 <span class="w-1.5 h-1.5 bg-orange-300 rounded-full mr-3"></span>
                 Wie zijn we?
               </Link></li>
