@@ -4,23 +4,84 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Company;
+use App\Models\Event;
 use App\Models\TimeSlot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
 class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::with(['company', 'timeSlot'])
-            ->where('student_id', Auth::id())
-            ->orderBy('created_at', 'desc')
-            ->get();
+        // Get the next upcoming event
+        $event = Event::query()
+            ->where('date', '>=', now()->toDateString())
+            ->where('is_active', true)
+            ->first();
 
-        return response()->json(['appointments' => $appointments]);
+        // Get all companies, regardless of whether they have time slots
+        $companies = Company::all();
+
+        // Get time slots for the current event if it exists
+        if ($event) {
+            $timeSlots = TimeSlot::where('event_id', $event->id)
+                ->where('start_time', '>', now())
+                ->where('is_available', true)
+                ->orderBy('start_time')
+                ->get();
+
+            // Group time slots by company
+            $timeSlotsByCompany = $timeSlots->groupBy('company_id');
+        } else {
+            $timeSlotsByCompany = collect();
+        }
+
+        return Inertia::render('Afspraak', [
+            'event' => $event ? [
+                'id' => $event->id,
+                'name' => $event->name,
+                'description' => $event->description,
+                'date' => $event->date,
+                'start_time' => $event->start_time,
+                'end_time' => $event->end_time,
+                'location' => $event->location,
+                'max_participants' => $event->max_participants,
+                'is_active' => $event->is_active
+            ] : null,
+            'companies' => $companies->map(function($company) use ($timeSlotsByCompany) {
+                return [
+                    'id' => $company->id,
+                    'name' => $company->name,
+                    'description' => $company->description,
+                    'logo_path' => $company->logo_path,
+                    'website' => $company->website,
+                    'email' => $company->email,
+                    'phone' => $company->phone,
+                    'address' => $company->address,
+                    'city' => $company->city,
+                    'postal_code' => $company->postal_code,
+                    'timeSlots' => $timeSlotsByCompany->get($company->id, collect())->map(function($slot) {
+                        return [
+                            'id' => $slot->id,
+                            'start_time' => $slot->start_time,
+                            'end_time' => $slot->end_time,
+                            'duration_minutes' => $slot->duration_minutes,
+                            'is_available' => $slot->isAvailable()
+                        ];
+                    })
+                ];
+            }),
+            'availableSpots' => $event ? TimeSlot::where('event_id', $event->id)
+                                               ->where('is_available', true)
+                                               ->where('start_time', '>', now())
+                                               ->count() : 0,
+            'totalSpots' => $event ? TimeSlot::where('event_id', $event->id)->count() : 0
+        ]);
     }
 
     public function create(Company $company)
@@ -49,8 +110,18 @@ class AppointmentController extends Controller
 
         // Check if time slot is still available
         $timeSlot = TimeSlot::findOrFail($request->time_slot_id);
-        if (!$timeSlot->is_available) {
+        if ($timeSlot->status !== 'available' || !$timeSlot->is_available) {
             return response()->json(['error' => 'Dit tijdslot is niet meer beschikbaar'], 422);
+        }
+
+        // Check if user already has an appointment for this event
+        $existingAppointment = Appointment::where('student_id', Auth::id())
+            ->whereHas('timeSlot', function ($query) use ($timeSlot) {
+                $query->where('event_id', $timeSlot->event_id);
+            })->exists();
+
+        if ($existingAppointment) {
+            return response()->json(['error' => 'Je hebt al een afspraak voor dit event'], 422);
         }
 
         // Create appointment
@@ -59,11 +130,18 @@ class AppointmentController extends Controller
             'company_id' => $request->company_id,
             'time_slot_id' => $request->time_slot_id,
             'status' => 'pending',
-            'notes' => $request->motivatie
+            'notes' => $request->motivatie,
+            'student_name' => $request->voornaam . ' ' . $request->achternaam,
+            'student_email' => $request->email,
+            'student_phone' => $request->telefoon
         ]);
 
-        // Mark time slot as unavailable
-        $timeSlot->update(['is_available' => false]);
+        // Update time slot
+        $timeSlot->update([
+            'status' => 'booked',
+            'is_available' => false,
+            'current_bookings' => $timeSlot->current_bookings + 1
+        ]);
 
         return response()->json([
             'message' => 'Afspraak succesvol ingepland',
@@ -111,12 +189,26 @@ class AppointmentController extends Controller
         return response()->json(['message' => 'Afspraak succesvol geannuleerd']);
     }
 
-    public function getAvailableTimeSlots(Company $company)
+    public function getAvailableTimeSlots(Request $request)
     {
-        return TimeSlot::where('company_id', $company->id)
+        $validator = Validator::make($request->all(), [
+            'company_id' => 'required|exists:companies,id',
+            'event_id' => 'required|exists:events,id'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $timeSlots = TimeSlot::where('company_id', $request->company_id)
+            ->where('event_id', $request->event_id)
+            ->where('status', 'available')
             ->where('is_available', true)
-            ->whereBetween('start_time', [Carbon::now()->startOfDay(), Carbon::now()->addDays(14)->endOfDay()])
+            ->where('start_time', '>', now())
+            ->where('current_bookings', '<', DB::raw('max_students'))
             ->orderBy('start_time')
             ->get();
+
+        return response()->json(['timeSlots' => $timeSlots]);
     }
 } 

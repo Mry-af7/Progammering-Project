@@ -1,57 +1,11 @@
+<script setup lang="ts">
+import { Head, Link } from '@inertiajs/vue3';
+import AppLayout from '@/layouts/AppLayout.vue';
+</script>
+
 <template>
-    <div class="min-h-screen bg-orange-50">
+    <AppLayout>
         <Head title="Welcome" />
-        
-        <!-- Navigation -->
-        <nav class="bg-orange-50/90 backdrop-blur-sm shadow-sm sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <!-- Logo -->
-                    <Link href="/" class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-lg">
-                            <span class="text-white font-bold text-lg">E</span>
-                        </div>
-                        <div>
-                            <div class="text-gray-900 font-bold text-xl">erasmus</div>
-                            <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
-                        </div>
-                    </Link>
-                    
-                    <!-- Mobile menu button -->
-                    <div class="md:hidden">
-                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg text-gray-700 hover:bg-orange-100">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                            </svg>
-                        </button>
-                    </div>
-                    
-                    <!-- Desktop Navigation Links -->
-                    <div class="hidden md:flex items-center space-x-1">
-                        <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Home</Link>
-                        <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Info</Link>
-                        <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Favorieten</Link>
-                        <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</Link>
-                        
-                        <div class="flex items-center ml-6">
-                            <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Inloggen</Link>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Mobile menu -->
-                <div v-show="mobileMenuOpen" class="md:hidden mt-4 pb-4 border-t border-orange-200">
-                    <div class="flex flex-col space-y-2 pt-4">
-                        <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Home</Link>
-                        <Link href="/students" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Student Profiles</Link>
-                        <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Voor Bedrijven</Link>
-                        <Link href="/events" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Speeddate Events</Link>
-                        <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Contact</Link>
-                        <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Inloggen</Link>
-                    </div>
-                </div>
-            </div>
-        </nav>
 
         <!-- Hero Section -->
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -407,18 +361,18 @@
         </section>
 
         <!-- Footer -->
-        <footer class="bg-orange-500 text-white py-16">
+        <footer class="bg-gradient-to-r from-orange-500 to-red-600 text-white py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid md:grid-cols-4 gap-8">
                     <div>
                         <div class="flex items-center space-x-3 mb-4">
-                            <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center">
+                  <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
                                 <span class="text-white font-bold text-lg">E</span>
                             </div>
                             <div class="text-white font-bold text-xl">erasmus</div>
                         </div>
                         <p class="text-orange-100 text-sm mb-4">
-                            Hogeschool Brussel<br>
+                  Hogeschool Brussel<br />
                             Connecting talent with opportunity
                         </p>
                         <div class="flex space-x-4">
@@ -439,23 +393,27 @@
                         <h4 class="font-semibold mb-4">Voor studenten</h4>
                         <ul class="space-y-2 text-orange-100 text-sm">
                             <li><Link href="/register?type=student" class="hover:text-white transition-colors">Maak je profiel</Link></li>
-                            <li><Link href="/afspraak" class="hover:text-white transition-colors">Speeddate events</Link></li>
+                  <li><Link href="/info" class="hover:text-white transition-colors">Career Launch Info</Link></li>
+                  <li><Link href="/bedrijven" class="hover:text-white transition-colors">Ontdek bedrijven</Link></li>
                         </ul>
                     </div>
                     
                     <div>
-                        <h4 class="font-semibold mb-4">Voor bedrijven</h4>
+                <h4 class="font-semibold mb-4">Contact</h4>
                         <ul class="space-y-2 text-orange-100 text-sm">
-                            <li><Link href="/bedrijven" class="hover:text-white transition-colors">Browse studenten</Link></li>
+                  <li><a href="mailto:gdt.kaai.student@ehb.be" class="hover:text-white transition-colors">gdt.kaai.student@ehb.be</a></li>
+                  <li><a href="tel:+3225233737" class="hover:text-white transition-colors">02 523 37 37</a></li>
+                  <li>Nijverheidskaai 170, 1070 Anderlecht</li>
                         </ul>
                     </div>
                     
                     <div>
-                        <h4 class="font-semibold mb-4">Support</h4>
+                <h4 class="font-semibold mb-4">Over Ons</h4>
                         <ul class="space-y-2 text-orange-100 text-sm">
-                            <li><Link href="/contact" class="hover:text-white transition-colors">Contact</Link></li>
-                            <!--<li><Link href="/privacy" class="hover:text-white transition-colors">Privacy beleid</Link></li> Misschien als extra toevoegen-->
-                            <!--<li><Link href="/terms" class="hover:text-white transition-colors">Voorwaarden</Link></li> Misschien als extra toevoegen-->
+                  <li><Link href="/wiezijnwe" class="hover:text-white transition-colors">Wie zijn we?</Link></li>
+                  <li><Link href="/faq" class="hover:text-white transition-colors">FAQ</Link></li>
+                  <li><a href="#" class="hover:text-white transition-colors">Onze opleidingen</a></li>
+                  <li><a href="#" class="hover:text-white transition-colors">Privacy beleid</a></li>
                         </ul>
                     </div>
                 </div>
@@ -465,12 +423,5 @@
                 </div>
             </div>
         </footer>
-    </div>
+    </AppLayout>
 </template>
-
-<script setup>
-import { Head, Link } from '@inertiajs/vue3'
-import { ref } from 'vue'
-
-const mobileMenuOpen = ref(false)
-</script>

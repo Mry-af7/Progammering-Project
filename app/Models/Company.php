@@ -13,14 +13,24 @@ class Company extends Model
     protected $fillable = [
         'name',
         'description',
-        'logo_path',
         'website',
         'email',
-        'phone',
-        'address',
-        'city',
-        'postal_code',
+        'logo_path',
+        'is_active',
+        'participating_in_career_launch',
+        'tags'
     ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'participating_in_career_launch' => 'boolean',
+        'tags' => 'array'
+    ];
+
+    public function timeSlots(): HasMany
+    {
+        return $this->hasMany(TimeSlot::class);
+    }
 
     public function appointments(): HasMany
     {

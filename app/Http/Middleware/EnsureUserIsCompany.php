@@ -10,7 +10,7 @@ class EnsureUserIsCompany
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user() || !$request->user()->isCompany()) {
+        if (!$request->user() || $request->user()->role !== 'company') {
             return redirect()->route('dashboard')
                 ->with('error', 'You must be a company to access this page.');
         }

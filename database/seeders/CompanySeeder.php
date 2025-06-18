@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Company;
 use Illuminate\Database\Seeder;
+use App\Models\Company;
 
 class CompanySeeder extends Seeder
 {
@@ -11,81 +11,54 @@ class CompanySeeder extends Seeder
     {
         $companies = [
             [
+                'name' => 'Microsoft Belgium',
+                'description' => 'Tech giant met focus op cloud computing, AI en enterprise solutions.',
+                'website' => 'https://www.microsoft.com/nl-be',
+                'email' => 'info@microsoft.be',
+                'logo_path' => '/images/logos/microsoft-logo.svg',
+                'is_active' => true,
+                'participating_in_career_launch' => true,
+                'tags' => json_encode(['Cloud', 'AI', 'Enterprise'])
+            ],
+            [
                 'name' => 'Accenture',
-                'logo_path' => '/images/logos/accenture-logo.svg',
+                'description' => 'Global consultancy diensten in technologie en digitale transformatie.',
                 'website' => 'https://www.accenture.com/be-en',
-                'specialisatie' => 'IT Consulting & Services',
-                'beschrijving' => 'Accenture is een wereldwijd toonaangevend bedrijf in professionele diensten, met leidende capaciteiten in digitale, cloud en beveiliging.',
-                'adres' => 'Boulevard de la Plaine 9, 1050 Brussel',
-                'telefoon' => '+32 2 645 55 55',
-                'email' => 'info@accenture.com',
-                'is_active' => true
+                'email' => 'info@accenture.be',
+                'logo_path' => '/images/logos/accenture-logo.svg',
+                'is_active' => true,
+                'participating_in_career_launch' => true,
+                'tags' => json_encode(['Consulting', 'Digital', 'Innovation'])
             ],
             [
-                'name' => 'Capgemini',
-                'logo_path' => '/images/logos/capgemini-logo.svg',
-                'website' => 'https://www.capgemini.com/be-nl/',
-                'specialisatie' => 'IT Consulting & Services',
-                'beschrijving' => 'Capgemini is een wereldwijd leider in consulting, technologie services en digitale transformatie.',
-                'adres' => 'Bessenveldstraat 19, 1831 Diegem',
-                'telefoon' => '+32 2 708 11 11',
-                'email' => 'info@capgemini.com',
-                'is_active' => true
+                'name' => 'Deloitte Digital',
+                'description' => 'Digitale innovatie en consultancy voor enterprise klanten.',
+                'website' => 'https://www2.deloitte.com/be/en.html',
+                'email' => 'info@deloitte.be',
+                'logo_path' => '/images/logos/deloitte-logo.svg',
+                'is_active' => true,
+                'participating_in_career_launch' => true,
+                'tags' => json_encode(['Digital', 'Strategy', 'Tech'])
             ],
             [
-                'name' => 'Delaware',
-                'logo_path' => '/images/logos/delaware-logo.svg',
-                'website' => 'https://www.delawareconsulting.com/be-nl/',
-                'specialisatie' => 'IT Consulting & Services',
-                'beschrijving' => 'Delaware is een toonaangevend bedrijf in IT-consulting en -services, met focus op SAP en Microsoft technologieën.',
-                'adres' => 'Bessenveldstraat 33, 1831 Diegem',
-                'telefoon' => '+32 2 801 57 57',
-                'email' => 'info@delawareconsulting.com',
-                'is_active' => true
+                'name' => 'Proximus',
+                'description' => 'Telecom leader met focus op 5G, IoT en digitale services.',
+                'website' => 'https://www.proximus.be',
+                'email' => 'info@proximus.be',
+                'logo_path' => '/images/logos/proximus-logo.svg',
+                'is_active' => true,
+                'participating_in_career_launch' => true,
+                'tags' => json_encode(['Telecom', '5G', 'IoT'])
             ],
             [
-                'name' => 'Flexso',
-                'logo_path' => '/images/logos/flexo-logo.svg',
-                'website' => 'https://www.flexso.be/',
-                'specialisatie' => 'IT Consulting & Services',
-                'beschrijving' => 'Flexso is een toonaangevend bedrijf in IT-consulting en -services, met focus op SAP en Microsoft technologieën.',
-                'adres' => 'Bessenveldstraat 33, 1831 Diegem',
-                'telefoon' => '+32 2 801 57 57',
-                'email' => 'info@flexso.be',
-                'is_active' => true
-            ],
-            [
-                'name' => 'BNP Paribas',
-                'logo_path' => '/images/logos/bnp-paribas-fortis-logo.svg',
-                'website' => 'https://www.bnpparibasfortis.be/',
-                'specialisatie' => 'Banking & Finance',
-                'beschrijving' => 'BNP Paribas Fortis is de grootste bank in België en biedt een breed scala aan financiële diensten aan particulieren en bedrijven.',
-                'adres' => 'Warandeberg 3, 1000 Brussel',
-                'telefoon' => '+32 2 565 11 11',
-                'email' => 'info@bnpparibasfortis.be',
-                'is_active' => true
-            ],
-            [
-                'name' => 'Colruyt Group',
+                'name' => 'Colruyt Group IT',
+                'description' => 'Retail technologie en e-commerce innovaties.',
+                'website' => 'https://jobs.colruytgroup.com',
+                'email' => 'jobs@colruytgroup.com',
                 'logo_path' => '/images/logos/colruyt-group-logo.svg',
-                'website' => 'https://www.colruytgroup.com/',
-                'specialisatie' => 'Retail & Distribution',
-                'beschrijving' => 'Colruyt Group is een toonaangevende Belgische retailgroep met activiteiten in retail, foodservice en non-food.',
-                'adres' => 'Edingensesteenweg 196, 1500 Halle',
-                'telefoon' => '+32 2 363 55 45',
-                'email' => 'info@colruytgroup.com',
-                'is_active' => true
-            ],
-            [
-                'name' => 'Inetum',
-                'logo_path' => '/images/logos/inetum-realdolmen-logo.svg',
-                'website' => 'https://www.inetum-realdolmen.com/',
-                'specialisatie' => 'IT Consulting & Services',
-                'beschrijving' => 'Inetum is een toonaangevend bedrijf in IT-consulting en -services, met focus op digitale transformatie.',
-                'adres' => 'Bessenveldstraat 33, 1831 Diegem',
-                'telefoon' => '+32 2 801 57 57',
-                'email' => 'info@inetum-realdolmen.com',
-                'is_active' => true
+                'is_active' => true,
+                'participating_in_career_launch' => true,
+                'tags' => json_encode(['Retail', 'E-commerce', 'Innovation'])
             ]
         ];
 
