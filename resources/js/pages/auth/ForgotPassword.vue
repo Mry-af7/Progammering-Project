@@ -28,18 +28,18 @@ const mobileMenuOpen = ref(false)
 
     <div class="min-h-screen bg-orange-50">
 
-        <!-- Navigation -->
+    <!-- Navigation -->
         <nav class="bg-orange-50/90 backdrop-blur-sm shadow-sm sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
-                    <!-- Logo -->
+                <!-- Logo -->
                     <Link href="/" class="flex items-center space-x-3">
                     <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-lg">
                         <span class="text-white font-bold text-lg">E</span>
-                    </div>
-                    <div>
+                        </div>
+                        <div>
                         <div class="text-gray-900 font-bold text-xl">erasmus</div>
-                        <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
+                            <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
                     </div>
                     </Link>
 
@@ -48,9 +48,9 @@ const mobileMenuOpen = ref(false)
                         <button @click="mobileMenuOpen = !mobileMenuOpen"
                             class="p-2 rounded-lg text-gray-700 hover:bg-orange-100">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4 6h16M4 12h16M4 18h16"></path>
-                            </svg>
+                        </svg>
                         </button>
                     </div>
 
@@ -92,10 +92,10 @@ const mobileMenuOpen = ref(false)
                         </Link>
                         <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Inloggen
                         </Link>
-                    </div>
                 </div>
             </div>
-        </nav>
+        </div>
+    </nav>
 
         <main class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-orange-50 text-black">
 
@@ -105,7 +105,7 @@ const mobileMenuOpen = ref(false)
                 <div class="bg-gradient-to-r from-orange-500 to-red-500 px-8 py-6 text-center">
                     <h1 class="text-2xl lg:text-3xl font-bold text-white mb-2">
                         Wachtwoord vergeten?
-                    </h1>
+        </h1>
                     <p class="text-orange-100">Vul je e-mailadres in om een verificatiecode te ontvangen</p>
                 </div>
 
@@ -127,8 +127,8 @@ const mobileMenuOpen = ref(false)
                         </div>
 
                         <div v-if="status" class="mb-4 text-center text-sm font-medium text-orange-600">
-                            {{ status }}
-                        </div>
+            {{ status }}
+        </div>
 
                         <!-- Submit Button -->
                         <Button type="submit"
@@ -140,8 +140,8 @@ const mobileMenuOpen = ref(false)
                                     d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
                                 </path>
                             </svg>
-                            Stuur resetlink
-                        </Button>
+                        Stuur resetlink
+                    </Button>
 
                         <!-- Sign Up Link -->
                         <div class="text-center pt-4 border-t border-gray-100">
@@ -152,13 +152,13 @@ const mobileMenuOpen = ref(false)
                 </div>
             </div>
         </main>
-    </div>
+        </div>
 
     <!-- Footer -->
     <footer class="bg-gradient-to-r from-orange-500 to-red-600 text-white py-16">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid md:grid-cols-4 gap-8">
-          <div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
             <div class="flex items-center space-x-3 mb-4">
               <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
                 <span class="text-white font-bold text-lg">E</span>
@@ -167,8 +167,8 @@ const mobileMenuOpen = ref(false)
             </div>
             <p class="text-orange-100 text-sm mb-4">
               Hogeschool Brussel<br />
-              Connecting talent with opportunity
-            </p>
+                        Connecting talent with opportunity
+                    </p>
             <div class="flex space-x-4">
               <a href="#" class="text-orange-200 hover:text-white transition-colors">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -181,40 +181,40 @@ const mobileMenuOpen = ref(false)
                 </svg>
               </a>
             </div>
-          </div>
+                </div>
 
-          <div>
-            <h4 class="font-semibold mb-4">Voor studenten</h4>
-            <ul class="space-y-2 text-orange-100 text-sm">
+                <div>
+                    <h4 class="font-semibold mb-4">Voor studenten</h4>
+                    <ul class="space-y-2 text-orange-100 text-sm">
               <li><Link href="/register?type=student" class="hover:text-white transition-colors">Maak je profiel</Link></li>
               <li><Link href="/info" class="hover:text-white transition-colors">Career Launch Info</Link></li>
               <li><Link href="/bedrijven" class="hover:text-white transition-colors">Ontdek bedrijven</Link></li>
-            </ul>
-          </div>
+                    </ul>
+                </div>
 
-          <div>
+                <div>
             <h4 class="font-semibold mb-4">Contact</h4>
-            <ul class="space-y-2 text-orange-100 text-sm">
+                    <ul class="space-y-2 text-orange-100 text-sm">
               <li><a href="mailto:gdt.kaai.student@ehb.be" class="hover:text-white transition-colors">gdt.kaai.student@ehb.be</a></li>
               <li><a href="tel:+3225233737" class="hover:text-white transition-colors">02 523 37 37</a></li>
               <li>Nijverheidskaai 170, 1070 Anderlecht</li>
-            </ul>
-          </div>
+                    </ul>
+                </div>
 
-          <div>
+                <div>
             <h4 class="font-semibold mb-4">Over Ons</h4>
-            <ul class="space-y-2 text-orange-100 text-sm">
-              <li><Link href="/Wiezijnwe" class="hover:text-white transition-colors">Wie zijn we?</Link></li>
+                    <ul class="space-y-2 text-orange-100 text-sm">
+              <li><Link href="/wiezijnwe" class="hover:text-white transition-colors">Wie zijn we?</Link></li>
               <li><Link href="/faq" class="hover:text-white transition-colors">FAQ</Link></li>
               <li><a href="#" class="hover:text-white transition-colors">Onze opleidingen</a></li>
               <li><a href="#" class="hover:text-white transition-colors">Privacy beleid</a></li>
-            </ul>
-          </div>
-        </div>
+                    </ul>
+                </div>
+            </div>
 
         <div class="border-t border-orange-400 mt-12 pt-8 text-center text-orange-100 text-sm">
-          <p>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden.</p>
+                <p>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden.</p>
+            </div>
         </div>
-      </div>
     </footer>
 </template>

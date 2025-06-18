@@ -3,49 +3,7 @@
         <Head title="Info - Career Launch 2025" />
         
         <!-- Navigation -->
-        <nav class="bg-white shadow-sm border-b border-gray-100">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <!-- Logo -->
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
-                            <span class="text-white font-bold text-lg">E</span>
-                        </div>
-                        <div class="font-bold text-xl text-gray-900">erasmus</div>
-                        <div class="hidden sm:block text-sm text-gray-500">HOGESCHOOL BRUSSEL</div>
-                    </div>
-                    
-                    <!-- Desktop Navigation -->
-                    <div class="hidden md:flex items-center space-x-8">
-                        <Link href="/" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Home</Link>
-                        <Link href="/info" class="text-orange-600 font-medium border-b-2 border-orange-600 pb-1">Info</Link>
-                        <Link href="/favorieten" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Favorieten</Link>
-                        <Link href="/contact" class="text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</Link>
-                        <Link href="/inloggen" class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300">Inloggen</Link>
-                    </div>
-                    
-                    <!-- Mobile menu button -->
-                    <div class="md:hidden">
-                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-700 hover:text-orange-600 focus:outline-none">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Mobile Navigation -->
-                <div v-show="mobileMenuOpen" class="md:hidden border-t border-gray-100 py-4">
-                    <div class="space-y-2">
-                        <Link href="/" class="block text-gray-700 hover:text-orange-600 font-medium py-2 transition-colors">Home</Link>
-                        <Link href="/info" class="block text-orange-600 font-medium py-2">Info</Link>
-                        <Link href="/favorieten" class="block text-gray-700 hover:text-orange-600 font-medium py-2 transition-colors">Favorieten</Link>
-                        <Link href="/contact" class="block text-gray-700 hover:text-orange-600 font-medium py-2 transition-colors">Contact</Link>
-                        <Link href="/inloggen" class="block bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-2 rounded-lg font-medium text-center mt-4">Inloggen</Link>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <MainNavigation activePage="info" />
         
         <!-- Hero Section -->
         <section class="relative overflow-hidden py-20 lg:py-32">
@@ -341,7 +299,7 @@
               <div>
                 <h4 class="font-semibold mb-4">Over Ons</h4>
                 <ul class="space-y-2 text-orange-100 text-sm">
-                  <li><Link href="/Wiezijnwe" class="hover:text-white transition-colors">Wie zijn we?</Link></li>
+                  <li><Link href="/wiezijnwe" class="hover:text-white transition-colors">Wie zijn we?</Link></li>
                   <li><Link href="/faq" class="hover:text-white transition-colors">FAQ</Link></li>
                   <li><a href="#" class="hover:text-white transition-colors">Onze opleidingen</a></li>
                   <li><a href="#" class="hover:text-white transition-colors">Privacy beleid</a></li>
@@ -378,7 +336,8 @@
 
 <script setup>
 import { Head, Link } from '@inertiajs/vue3'
-import { ref, Transition } from 'vue'
+import { ref } from 'vue'
+import MainNavigation from '@/components/MainNavigation.vue'
 
 const mobileMenuOpen = ref(false)
 const toast = ref({ show: false, message: '', type: 'info' })

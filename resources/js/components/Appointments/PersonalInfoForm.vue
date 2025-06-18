@@ -4,10 +4,10 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Voornaam -->
-            <div>
+        <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                    Voornaam <span class="text-red-500">*</span>
-                </label>
+                Voornaam <span class="text-red-500">*</span>
+            </label>
                 <input type="text" 
                        v-model="localData.voornaam"
                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
@@ -16,13 +16,13 @@
                 <div v-if="hasError('voornaam')" class="mt-1 text-sm text-red-600">
                     {{ getError('voornaam') }}
                 </div>
-            </div>
+        </div>
 
             <!-- Achternaam -->
-            <div>
+        <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                    Achternaam <span class="text-red-500">*</span>
-                </label>
+                Achternaam <span class="text-red-500">*</span>
+            </label>
                 <input type="text" 
                        v-model="localData.achternaam"
                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
@@ -31,13 +31,13 @@
                 <div v-if="hasError('achternaam')" class="mt-1 text-sm text-red-600">
                     {{ getError('achternaam') }}
                 </div>
-            </div>
+        </div>
 
             <!-- Email -->
-            <div>
+        <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                    E-mailadres <span class="text-red-500">*</span>
-                </label>
+                E-mailadres <span class="text-red-500">*</span>
+            </label>
                 <input type="email" 
                        v-model="localData.email"
                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
@@ -46,13 +46,13 @@
                 <div v-if="hasError('email')" class="mt-1 text-sm text-red-600">
                     {{ getError('email') }}
                 </div>
-            </div>
+        </div>
 
             <!-- Telefoon -->
-            <div>
+        <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                    Telefoonnummer <span class="text-red-500">*</span>
-                </label>
+                Telefoonnummer <span class="text-red-500">*</span>
+            </label>
                 <input type="tel" 
                        v-model="localData.telefoon"
                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"

@@ -21,7 +21,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home');
 
 Route::get('/info', function () {
     return Inertia::render('Info');
@@ -31,21 +31,29 @@ Route::get('/contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
 
-Route::get('/afspraak', [AppointmentController::class, 'index'])->name('afspraak');
-Route::post('/afspraak', [AppointmentController::class, 'store'])->name('afspraak.store');
-Route::get('/afspraak/{id}', [AppointmentController::class, 'show'])->name('afspraak.show');
-Route::put('/afspraak/{id}', [AppointmentController::class, 'update'])->name('afspraak.update');
-Route::delete('/afspraak/{id}', [AppointmentController::class, 'destroy'])->name('afspraak.destroy');
-Route::get('/afspraak/{id}/download', [AppointmentController::class, 'downloadCalendar'])->name('afspraak.download');
-Route::get('/afspraak/event/{eventId}/slots', [AppointmentController::class, 'getAvailableTimeSlots'])->name('afspraak.slots');
+Route::get('/bedrijven', function () {
+    return Inertia::render('Bedrijven');
+})->name('bedrijven');
 
 Route::get('/favorieten', function () {
     return Inertia::render('Favorieten');
 })->name('favorieten');
 
-Route::get('/bedrijven', function () {
-    return Inertia::render('Bedrijven');
-})->name('bedrijven');
+Route::get('/afspraak', function () {
+    return Inertia::render('Afspraak');
+})->name('afspraak');
+
+Route::get('/students', function () {
+    return Inertia::render('Students/Index');
+})->name('students');
+
+Route::get('/wiezijnwe', function () {
+    return Inertia::render('wiezijnwe');
+})->name('wiezijnwe');
+
+Route::get('/faq', function () {
+    return Inertia::render('Faq');
+})->name('faq');
 
 // Auth routes
 Route::middleware('guest')->group(function () {
@@ -72,46 +80,20 @@ Route::middleware('auth')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    // Companies
-    Route::get('/companies', function () {
-        return Inertia::render('Bedrijven');
-    })->name('companies.index');
-    Route::get('/companies/{company}', [CompanyController::class, 'show'])->name('companies.show');
-    Route::get('/alle-bedrijven', [CompanyController::class, 'index'])->name('companies.alle');
+    // Company dashboard route
+    Route::get('/company/dashboard', function () {
+        return Inertia::render('CompanyDashboard');
+    })->name('company.dashboard');
     
-    // Company management (company users only)
-    Route::middleware('company')->group(function () {
-        Route::post('/companies', [CompanyController::class, 'store'])->name('companies.store');
-        Route::put('/companies/{company}', [CompanyController::class, 'update'])->name('companies.update');
-        Route::delete('/companies/{company}', [CompanyController::class, 'destroy'])->name('companies.destroy');
-    });
-    
-    // Appointments
-    Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
-    Route::get('/appointments/{appointment}', [AppointmentController::class, 'show'])->name('appointments.show');
-    
-    // Appointment management (students only)
-    Route::middleware('student')->group(function () {
-        Route::get('/appointments/create/{company}', [AppointmentController::class, 'create'])->name('appointments.create');
-        Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
-        Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
-        Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
-    });
-    
-    // Favorites (students only)
-    Route::middleware('student')->group(function () {
-        Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
-        Route::post('/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
-        Route::delete('/favorites/{company}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
-        Route::post('/favorites/{company}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
-    });
-
-    // Student routes
-    Route::get('/students', [StudentController::class, 'index'])->name('students.index');
-    Route::get('/students/{student}', [StudentController::class, 'show'])->name('students.show');
-    Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
-    Route::put('/students/{student}', [StudentController::class, 'update'])->name('students.update');
+    // Admin dashboard route
+    Route::get('/admin/dashboard', function () {
+        return Inertia::render('AdminDashboard');
+    })->name('admin.dashboard');
 });
+
+// Load other route files
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';
 
 // === WEBHOOK ROUTES ===
 Route::post('/webhooks/email-opened/{notification}', function ($notificationId) {
@@ -171,41 +153,3 @@ Route::get('/sitemap.xml', function () {
 Route::redirect('/appointment', '/afspraak', 301);
 Route::redirect('/appointments', '/afspraken', 301);
 Route::redirect('/booking', '/afspraak', 301);
-
-// Load other route files
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
-
-Route::get('/debug-users', function () {
-    $users = User::all(['email', 'firstname', 'lastname', 'role', 'user_type']);
-    $output = "";
-    foreach ($users as $user) {
-        $output .= "Email: {$user->email}, Name: {$user->firstname} {$user->lastname}, Role: {$user->role}, Type: {$user->user_type}\n";
-    }
-    Storage::disk('local')->put('user_emails.txt', $output);
-    return 'Dumped to storage/app/user_emails.txt';
-});
-
-// Admin dashboard route
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return Inertia::render('AdminDashboard');
-    })->name('admin.dashboard');
-});
-
-Route::get('/alle-bedrijven', function () {
-    return Inertia::render('Bedrijven');
-})->name('bedrijven.index');
-
-
-Route::get('/Wiezijnwe', function () {
-    return Inertia::render('wiezijnwe');
-})->name('Wiezijnwe');
-
-Route::get('/home', function () {
-    return redirect('/');
-})->name('home');
-
-Route::get('/faq', function () {
-    return Inertia::render('Faq');
-})->name('faq');
