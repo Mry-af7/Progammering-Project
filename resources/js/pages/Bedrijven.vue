@@ -147,7 +147,7 @@ const bedrijven = ref([
   {
     id: 8,
     name: 'Blents',
-    src: '/images/logos/blents-logo.png',
+    src: '/images/logos/blents.png',
     favoriet: false,
     website: 'https://www.blents.com/',
     specialisatie: 'IT consultancy, software development, digital solutions',
@@ -164,7 +164,7 @@ const bedrijven = ref([
   {
     id: 9,
     name: 'BNP Paribas',
-    src: '/images/logos/bnp-paribas-logo.png',
+    src: '/images/logos/bnp-paribas-fortis-logo.svg',
     favoriet: false,
     website: 'https://www.bnpparibas.be/',
     specialisatie: 'Banking, financial services, digitale banking solutions, fintech',
@@ -181,7 +181,7 @@ const bedrijven = ref([
   {
     id: 10,
     name: 'Capgemini',
-    src: '/images/logos/capgemini-logo.png',
+    src: '/images/logos/capgemini-logo.svg',
     favoriet: false,
     website: 'https://www.capgemini.com/be-en/',
     specialisatie: 'Digital transformation, consulting, technology services, engineering',
@@ -215,7 +215,7 @@ const bedrijven = ref([
   {
     id: 12,
     name: 'Colruyt Group',
-    src: '/images/logos/colruyt-group-logo.png',
+    src: '/images/logos/colruyt-group-logo.svg',
     favoriet: false,
     website: 'https://www.colruytgroup.com/wps/portal/cg/nl/home',
     specialisatie: 'Retail technology, e-commerce, supply chain, digital innovation',

@@ -440,21 +440,21 @@ const recentApplications = [
     {
         id: 1,
         position: 'Junior Software Developer',
-        company: { name: 'Capgemini', logo: '/images/capgemini-logo.png' },
+        company: { name: 'Capgemini', logo: '/images/logos/capgemini-logo.svg' },
         status: 'Interview Scheduled' as ApplicationStatus,
         appliedDays: 3
     },
     {
         id: 2,
         position: 'Frontend Developer',
-        company: { name: 'Accenture', logo: '/images/accenture-logo.png' },
+        company: { name: 'Accenture', logo: '/images/logos/accenture-logo.svg' },
         status: 'Under Review' as ApplicationStatus,
         appliedDays: 5
     },
     {
         id: 3,
         position: 'Web Developer',
-        company: { name: 'delaware', logo: '/images/delaware-logo.png' },
+        company: { name: 'delaware', logo: '/images/logos/delaware-logo.svg' },
         status: 'Application Sent' as ApplicationStatus,
         appliedDays: 1
     }

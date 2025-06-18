@@ -907,8 +907,7 @@
         }
       })
       .catch(error => {
-        console.log('API call failed, using fallback data:', error);
-        // Keep fallback data
+        // API call failed, using fallback data
       })
       .finally(() => {
         loading.value = false;
@@ -960,14 +959,6 @@
   
   // Booking functionality
   function bookAppointment() {
-    console.log('🚀 Starting appointment booking...', {
-      currentStep: currentStep.value,
-      event: selectedEvent.value,
-      company: selectedCompany.value,
-      timeSlot: selectedTimeSlot.value,
-      formData: form.data()
-    });
-    
     // Comprehensive validation
     if (!selectedEvent.value) {
       alert('❌ Geen event geselecteerd. Ga terug naar stap 1.');
@@ -1006,34 +997,23 @@
     form.company_id = selectedCompany.value.id;
     form.time_slot_id = selectedTimeSlot.value.id;
     
-    console.log('📤 Submitting form data:', form.data());
-    
     // Submit appointment
     form.post('/api/appointments', {
-      onStart: () => {
-        console.log('📤 Form submission started...');
-      },
       onSuccess: (response) => {
-        console.log('✅ Booking successful!', response);
         appointmentId.value = response.props?.appointment?.id || Date.now();
         currentStep.value = 5;
       },
       onError: (errors) => {
         console.error('❌ API Booking error:', errors);
         // For development: proceed anyway
-        console.log('🔄 API failed, proceeding with demo flow...');
         appointmentId.value = Date.now();
         currentStep.value = 5;
-      },
-      onFinish: () => {
-        console.log('✅ Form submission finished');
       }
     });
     
     // Fallback timeout
     setTimeout(() => {
       if (currentStep.value === 4 && form.processing) {
-        console.log('⏰ Timeout reached, forcing progression...');
         form.processing = false;
         appointmentId.value = Date.now();
         currentStep.value = 5;
@@ -1045,17 +1025,14 @@
   function autoRecoverMissingData() {
     if (!selectedEvent.value && events.value.length > 0) {
       selectedEvent.value = events.value[0];
-      console.log('🔄 Auto-recovered event');
     }
     
     if (!selectedCompany.value && companies.value.length > 0) {
       selectedCompany.value = companies.value[0];
-      console.log('🔄 Auto-recovered company');
     }
     
     if (!selectedTimeSlot.value && timeSlots.value.length > 0) {
       selectedTimeSlot.value = timeSlots.value.find(slot => slot.available) || timeSlots.value[0];
-      console.log('🔄 Auto-recovered timeslot');
     }
   }
   
@@ -1144,23 +1121,6 @@
     `;
     
     alert(debugInfo);
-    console.log('🔍 Debug State:', {
-      currentStep: currentStep.value,
-      selectedEvent: selectedEvent.value,
-      selectedCompany: selectedCompany.value,
-      selectedTimeSlot: selectedTimeSlot.value,
-      formData: form.data(),
-      availableData: {
-        events: events.value,
-        companies: companies.value,
-        timeSlots: timeSlots.value
-      },
-      validation: {
-        isFormValid: isFormValid.value,
-        processing: form.processing,
-        errors: form.errors
-      }
-    });
   }
   
   // Initialize component
@@ -1175,10 +1135,6 @@
       timeSlots.value = generateFallbackTimeSlots();
     }
     
-    console.log('🎯 Career Launch PRO initialized!', {
-      events: events.value.length,
-      companies: companies.value.length,
-      timeslots: timeSlots.value.length
-    });
+    // Component initialized successfully
   });
   </script>
