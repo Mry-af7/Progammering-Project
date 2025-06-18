@@ -17,6 +17,7 @@
             </div>
           </Link>
 
+          <!-- voorbeeld-->
           <!-- Mobile menu button -->
           <div class="md:hidden">
             <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg text-gray-700 hover:bg-orange-100 transition-colors">
@@ -315,62 +316,81 @@
       <div class="grid gap-6 md:grid-cols-2">
         <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
           <p class="font-semibold text-orange-700">Versie 0.1 - Laatst aangepast op 17 juni 2025.</p>
-          <p class="mt-2 text-gray-700">Wij zijn er van bewust dat u vertrouwen stelt in ons. Wij zien het dan ook als onze verantwoordelijkheid om uw privacy te beschermen...</p>
+          <p class="mt-2 text-gray-700">Wij hechten veel waarde aan uw privacy. Wanneer u gebruikmaakt van onze diensten, vertrouwt u ons persoonlijke gegevens toe. Wij zijn ons bewust van dat vertrouwen en zien het dan ook als onze verantwoordelijkheid om zorgvuldig met uw gegevens om te gaan en uw privacy te beschermen. In deze privacyverklaring leggen wij uit welke gegevens wij verzamelen, waarom wij dat doen en hoe wij hiermee omgaan.</p>
         </div>
 
         <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
           <h3 class="font-semibold text-lg text-orange-700">Gebruik van onze diensten</h3>
-          <p class="mt-2 text-gray-700">Wanneer u zich aanmeldt voor een van onze diensten vragen we u om persoonsgegevens te verstrekken...</p>
+          <p class="mt-2 text-gray-700">Wanneer u zich aanmeldt voor één van onze diensten, kunnen wij u vragen om persoonsgegevens te verstrekken, zoals uw naam, e-mailadres, telefoonnummer of andere gegevens. Deze informatie gebruiken wij uitsluitend om onze diensten optimaal te kunnen verlenen en u een gepersonaliseerde ervaring te bieden.</p>
         </div>
 
         <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
           <h3 class="font-semibold text-lg text-orange-700">Communicatie</h3>
-          <p class="mt-2 text-gray-700">Wanneer u e-mail of andere berichten naar ons verzendt, is het mogelijk dat we die berichten bewaren...</p>
+
+          <p class="mt-2 text-gray-700">Indien u per e-mail of via andere communicatiekanalen contact met ons opneemt, kunnen wij deze correspondentie bewaren. Dit doen wij om uw verzoek correct te kunnen afhandelen en onze dienstverlening te verbeteren. Daarbij kunnen aanvullende persoonsgegevens worden gevraagd indien nodig voor de behandeling van uw vraag.</p>
         </div>
 
         <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
           <h3 class="font-semibold text-lg text-orange-700">Cookies</h3>
-          <p class="mt-2 text-gray-700">Wij verzamelen gegevens voor onderzoek om zo een beter inzicht te krijgen in onze klanten...</p>
+
+          <p class="mt-2 text-gray-700">Uw gegevens worden uitsluitend gebruikt voor de doeleinden zoals vermeld in dit privacybeleid, tenzij u voorafgaand expliciet toestemming geeft voor ander gebruik.</p>
+
+  
         </div>
 
         <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
           <h3 class="font-semibold text-lg text-orange-700">Doeleinden</h3>
-          <p class="mt-2 text-gray-700">We verzamelen of gebruiken geen informatie voor andere doeleinden dan de doeleinden die worden beschreven...</p>
+
+          <p class="mt-2 text-gray-700">Uw persoonsgegevens worden uitsluitend verwerkt voor de doeleinden die in deze privacyverklaring zijn opgenomen. Wij zullen uw gegevens nooit voor andere doeleinden gebruiken zonder u daarvan vooraf op de hoogte te stellen en, indien nodig, uw expliciete toestemming te vragen.</p>
+
         </div>
 
         <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
           <h3 class="font-semibold text-lg text-orange-700">Derden</h3>
-          <p class="mt-2 text-gray-700">De informatie wordt niet met derden gedeeld. In enkele gevallen kan de informatie intern gedeeld worden...</p>
+
+          <p class="mt-2 text-gray-700">Wij delen uw persoonsgegevens niet met derden, tenzij dit strikt noodzakelijk is voor het uitvoeren van onze diensten of wanneer wij daartoe wettelijk verplicht zijn. Intern kan informatie gedeeld worden met bevoegde medewerkers, die gebonden zijn aan een geheimhoudingsplicht.</p>
+
         </div>
 
         <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
           <h3 class="font-semibold text-lg text-orange-700">Veranderingen</h3>
-          <p class="mt-2 text-gray-700">Deze privacyverklaring is afgestemd op het gebruik van en de mogelijkheden op deze site...</p>
+
+          <p class="mt-2 text-gray-700">Deze privacyverklaring is specifiek opgesteld voor het gebruik en de functionaliteiten van deze website. Bij eventuele wijzigingen in de inhoud of werking van de site, kan ook de privacyverklaring worden aangepast. Wij adviseren u daarom deze verklaring periodiek te controleren.</p>
+
         </div>
 
         <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
           <h3 class="font-semibold text-lg text-orange-700">Keuzes voor persoonsgegevens</h3>
-          <p class="mt-2 text-gray-700">Wij bieden alle bezoekers de mogelijkheid tot het inzien, veranderen, of verwijderen van alle persoonlijke informatie...</p>
+
+          <p class="mt-2 text-gray-700">Elke gebruiker heeft het recht op inzage in zijn of haar persoonsgegevens, evenals het recht om deze te corrigeren of te laten verwijderen. Indien u van deze rechten gebruik wenst te maken, kunt u contact met ons opnemen via de contactgegevens zoals vermeld in deze verklaring.</p>
+
         </div>
 
         <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
           <h3 class="font-semibold text-lg text-orange-700">Aanpassen/uitschrijven dienst nieuwsbrief</h3>
-          <p class="mt-2 text-gray-700">Onderaan iedere mailing vindt u de mogelijkheid om uw gegevens aan te passen of om u af te melden.</p>
+          <p class="mt-2 text-gray-700">In elke e-mail die u van ons ontvangt, is een mogelijkheid opgenomen om uw contactvoorkeuren aan te passen of om u geheel uit te schrijven voor toekomstige mailings.</p>
+
         </div>
 
         <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
           <h3 class="font-semibold text-lg text-orange-700">Aanpassen/uitschrijven communicatie</h3>
-          <p class="mt-2 text-gray-700">Als u uw gegevens aan wilt passen of uzelf uit onze bestanden wilt laten halen, kunt u contact met ons opnemen...</p>
+
+          <p class="mt-2 text-gray-700">"Als u uw persoonsgegevens wilt corrigeren of wilt laten verwijderen uit onze systemen, kunt u te allen tijde contact met ons opnemen via de contactgegevens vermeld in deze verklaring.</p>
+
         </div>
 
         <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
           <h3 class="font-semibold text-lg text-orange-700">Cookies uitzetten</h3>
-          <p class="mt-2 text-gray-700">De meeste browsers zijn standaard ingesteld om cookies te accepteren, maar u kunt uw browser opnieuw instellen...</p>
+
+          <p class="mt-2 text-gray-700">Standaard accepteren de meeste internetbrowsers cookies. U heeft echter de mogelijkheid om uw browser zo in te stellen dat cookies worden geweigerd of dat u een melding ontvangt wanneer een cookie wordt geplaatst. Het uitschakelen van cookies kan invloed hebben op de functionaliteit van deze website.</p>
+
         </div>
 
         <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
           <h3 class="font-semibold text-lg text-orange-700">Vragen en feedback</h3>
-          <p class="mt-2 text-gray-700">We controleren regelmatig of we aan dit privacybeleid voldoen. Als u vragen heeft over dit privacybeleid, kunt u contact met ons opnemen:</p>
+
+          <p class="mt-2 text-gray-700">Wij voeren regelmatig controles uit om na te gaan of wij ons aan dit privacybeleid houden. Indien u vragen, opmerkingen of klachten heeft met betrekking tot dit beleid, kunt u contact met ons opnemen via de contactgegevens zoals vermeld onderaan deze verklaring.</p>
+
           <ul class="list-disc pl-5 mt-2 text-gray-700">
             <li>Career Launch 2025</li>
             <li>Nijverheidskaai 170, 1070 Anderlecht</li>
