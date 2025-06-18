@@ -20,7 +20,7 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-    ]);
+    ])->name('home');
 });
 
 Route::get('/info', function () {
@@ -47,28 +47,12 @@ Route::get('/bedrijven', function () {
     return Inertia::render('Bedrijven');
 })->name('bedrijven');
 
-// Auth routes
-Route::middleware('guest')->group(function () {
-    // Student registration
-    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('register', [RegisteredUserController::class, 'store']);
-    
-    // Company registration
-    Route::get('register/bedrijf', [RegisteredUserController::class, 'createBedrijf'])->name('register.bedrijf');
-    Route::post('register/bedrijf', [RegisteredUserController::class, 'storeBedrijf']);
-    
-    // Login
-    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
-    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
-    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
-    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
-    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update');
-});
+Route::get('/alle-bedrijven', [CompanyController::class, 'index'])->name('companies.alle');
+
+// Load auth routes
+require __DIR__.'/auth.php';
 
 Route::middleware('auth')->group(function () {
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
-    
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
@@ -77,7 +61,6 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Bedrijven');
     })->name('companies.index');
     Route::get('/companies/{company}', [CompanyController::class, 'show'])->name('companies.show');
-    Route::get('/alle-bedrijven', [CompanyController::class, 'index'])->name('companies.alle');
     
     // Company management (company users only)
     Route::middleware('company')->group(function () {
@@ -160,7 +143,6 @@ Route::get('/sitemap.xml', function () {
         ['url' => route('info'), 'priority' => '0.8'],
         ['url' => route('afspraak'), 'priority' => '0.9'],
         ['url' => route('contact'), 'priority' => '0.7'],
-        ['url' => route('career-launch.index'), 'priority' => '0.8'],
     ];
     
     return response()->view('sitemap', compact('urls'))
@@ -174,7 +156,6 @@ Route::redirect('/booking', '/afspraak', 301);
 
 // Load other route files
 require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
 
 Route::get('/debug-users', function () {
     $users = User::all(['email', 'firstname', 'lastname', 'role', 'user_type']);
@@ -200,18 +181,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     })->name('admin.dashboard');
 });
 
-Route::get('/alle-bedrijven', function () {
-    return Inertia::render('Bedrijven');
-})->name('bedrijven.index');
-
-
 Route::get('/Wiezijnwe', function () {
     return Inertia::render('wiezijnwe');
 })->name('Wiezijnwe');
-
-Route::get('/home', function () {
-    return redirect('/');
-})->name('home');
 
 Route::get('/faq', function () {
     return Inertia::render('Faq');
