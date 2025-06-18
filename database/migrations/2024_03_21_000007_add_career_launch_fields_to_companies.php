@@ -9,16 +9,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->boolean('is_active')->default(true);
-            $table->boolean('participating_in_career_launch')->default(true);
-            $table->json('tags')->nullable();
+            if (!Schema::hasColumn('companies', 'tags')) {
+                $table->json('tags')->nullable();
+            }
         });
     }
 
     public function down(): void
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->dropColumn(['is_active', 'participating_in_career_launch', 'tags']);
+            if (Schema::hasColumn('companies', 'tags')) {
+                $table->dropColumn(['tags']);
+            }
         });
     }
 }; 

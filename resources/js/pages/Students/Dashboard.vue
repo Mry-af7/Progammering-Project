@@ -70,6 +70,10 @@
                 </div>
                     </div>
                 </div>
++              <!-- Uitloggen knop -->
++              <Link href="/logout" method="post" as="button" class="ml-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-200">
++                Uitloggen
++              </Link>
             </div>
         </div>
       </header>
@@ -491,6 +495,8 @@
 
 <script setup lang="ts">
   import { ref, computed, onMounted } from 'vue';
+  import { Link } from '@inertiajs/vue3'
+  import { route } from 'ziggy-js'
   
   // Reactive state
   const showQuickMenu = ref(false);

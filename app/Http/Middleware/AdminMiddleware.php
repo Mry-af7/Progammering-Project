@@ -4,15 +4,16 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        if (auth()->check() && auth()->user()->role === 'admin') {
-            return $next($request);
+        if (!Auth::check() || !Auth::user()->is_admin) {
+            return redirect('/login')->with('error', 'Admin toegang vereist');
         }
-        abort(403, 'Unauthorized');
+
+        return $next($request);
     }
 } 

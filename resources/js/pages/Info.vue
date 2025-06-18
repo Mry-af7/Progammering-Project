@@ -336,7 +336,7 @@
 
 <script setup>
 import { Head, Link } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import MainNavigation from '@/components/MainNavigation.vue'
 
 const mobileMenuOpen = ref(false)

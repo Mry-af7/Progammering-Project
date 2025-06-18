@@ -7,7 +7,16 @@ import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { Head, useForm, Link } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
-import { ref } from 'vue'
+import { ref } from 'vue';
+import { route } from 'ziggy-js';
+
+// Declare route type
+declare module 'ziggy-js' {
+    interface ZiggyRoute {
+        'password.email': string;
+        'login': string;
+    }
+}
 
 defineProps<{
     status?: string;

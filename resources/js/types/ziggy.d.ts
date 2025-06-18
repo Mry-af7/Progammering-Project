@@ -22,6 +22,17 @@ declare global {
         absolute?: boolean,
         config?: Config
     ): string;
+
+    interface Window {
+        Ziggy: {
+            routes: Record<string, any>;
+            url: string;
+            port: number | null;
+            defaults: Record<string, any>;
+            location: string;
+        };
+        route: typeof import('ziggy-js').default;
+    }
 }
 
 declare module '@vue/runtime-core' {
@@ -66,7 +77,48 @@ declare module 'ziggy-js' {
         has(name: string): boolean;
     }
 
-    const route: RouteFunction;
+    interface ZiggyRouteParams {
+        [key: string]: any;
+    }
+
+    interface ZiggyRouteQuery {
+        [key: string]: any;
+    }
+
+    interface ZiggyRouteOptions {
+        absolute?: boolean;
+        domain?: string;
+        secure?: boolean;
+        preserveState?: boolean;
+        preserveScroll?: boolean;
+        replace?: boolean;
+        only?: string[];
+        except?: string[];
+        headers?: Record<string, string>;
+        errorBag?: string;
+        onBefore?: () => void;
+        onStart?: () => void;
+        onProgress?: (progress: any) => void;
+        onFinish?: () => void;
+        onCancel?: () => void;
+        onSuccess?: (page: any) => void;
+        onError?: (errors: any) => void;
+    }
+
+    function route(
+        name?: string,
+        params?: ZiggyRouteParams | ZiggyRouteQuery,
+        absolute?: boolean,
+        config?: ZiggyRouteOptions
+    ): string;
+
+    function route(
+        name: string,
+        params?: ZiggyRouteParams | ZiggyRouteQuery,
+        absolute?: boolean,
+        config?: ZiggyRouteOptions
+    ): string;
+
     export default route;
 }
 

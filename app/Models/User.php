@@ -26,6 +26,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role', // student, company, admin
+        'is_admin',
         'profile_photo_path',
         'bio',
         'phone',

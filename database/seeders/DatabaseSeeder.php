@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             StudyFieldSeeder::class,
             AdminSeeder::class,
             DashboardDataSeeder::class,
-            TestUserSeeder::class,
+            // TestUserSeeder::class, // Removed to avoid duplicate admin accounts
         ]);
 
         // Create study fields
@@ -57,33 +57,6 @@ class DatabaseSeeder extends Seeder
         foreach ($tags as $tag) {
             Tag::create(['name' => $tag]);
         }
-
-        // Create admin user
-        User::factory()->create([
-            'firstname' => 'Amine',
-            'lastname' => 'Zerouali',
-            'email' => 'zerouali.amine2005@gmail.com',
-            'password' => Hash::make('Maissae123/'),
-            'role' => 'admin'
-        ]);
-
-        // Create test student account
-        User::factory()->create([
-            'firstname' => 'Test',
-            'lastname' => 'Student',
-            'email' => 'student@test.com',
-            'password' => Hash::make('student123'),
-            'role' => 'student'
-        ])->studentProfile()->create([
-            'study_field_id' => StudyField::first()->id,
-            'bio' => 'I am a test student account for demonstration purposes.',
-            'technical_skills' => ['JavaScript', 'Python', 'React'],
-            'soft_skills' => ['Communication', 'Teamwork', 'Problem Solving'],
-            'languages' => ['English', 'Dutch', 'French'],
-            'graduation_year' => '2024',
-            'current_education_level' => 'Bachelor',
-            'availability_status' => 'Available'
-        ]);
 
         // Create your requested student account
         User::factory()->create([

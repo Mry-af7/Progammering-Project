@@ -4,14 +4,16 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\Company\DashboardController as CompanyDashboardController;
+use App\Http\Controllers\Company\OverviewController as CompanyOverviewController;
+use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\StudentController;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Admin\AdminController;
 
 // Public routes
 Route::get('/', function () {
@@ -31,9 +33,8 @@ Route::get('/contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
 
-Route::get('/bedrijven', function () {
-    return Inertia::render('Bedrijven');
-})->name('bedrijven');
+Route::get('/bedrijven', [CompanyOverviewController::class, 'index'])->name('bedrijven');
+Route::get('/bedrijven/{id}', [CompanyOverviewController::class, 'show'])->name('bedrijven.show');
 
 Route::get('/favorieten', function () {
     return Inertia::render('Favorieten');
@@ -43,9 +44,10 @@ Route::get('/afspraak', function () {
     return Inertia::render('Afspraak');
 })->name('afspraak');
 
-Route::get('/students', function () {
-    return Inertia::render('Students/Index');
-})->name('students');
+Route::get('/students', [StudentDashboardController::class, 'index'])->name('students');
+Route::get('/students/{student}', [StudentDashboardController::class, 'show'])->name('students.show');
+Route::get('/students/{student}/edit', [StudentDashboardController::class, 'edit'])->name('students.edit');
+Route::put('/students/{student}', [StudentDashboardController::class, 'update'])->name('students.update');
 
 Route::get('/wiezijnwe', function () {
     return Inertia::render('wiezijnwe');
@@ -82,13 +84,21 @@ Route::middleware('auth')->group(function () {
     
     // Company dashboard route
     Route::get('/company/dashboard', function () {
-        return Inertia::render('CompanyDashboard');
+        return Inertia::render('Companies/Dashboard');
     })->name('company.dashboard');
-    
-    // Admin dashboard route
-    Route::get('/admin/dashboard', function () {
-        return Inertia::render('AdminDashboard');
-    })->name('admin.dashboard');
+});
+
+// Admin routes
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/companies', [AdminController::class, 'companies'])->name('companies');
+    Route::get('/students', [AdminController::class, 'students'])->name('students');
+    Route::get('/appointments', [AdminController::class, 'appointments'])->name('appointments');
+});
+
+// Redirect na admin login
+Route::middleware(['auth', 'admin'])->get('/admin', function () {
+    return redirect()->route('admin.dashboard');
 });
 
 // Load other route files

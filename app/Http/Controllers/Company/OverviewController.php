@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Company;
 
+use App\Http\Controllers\Controller;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class BedrijvenController extends Controller
+class OverviewController extends Controller
 {
     public function index()
     {
@@ -14,7 +15,7 @@ class BedrijvenController extends Controller
             ->select(['id', 'name', 'logo_path', 'website', 'specialisatie', 'beschrijving', 'adres', 'telefoon', 'email'])
             ->get();
 
-        return Inertia::render('Bedrijven', [
+        return Inertia::render('Companies/Overview', [
             'bedrijven' => $bedrijven
         ]);
     }
@@ -22,7 +23,7 @@ class BedrijvenController extends Controller
     public function show($id)
     {
         $bedrijf = Company::findOrFail($id);
-        return Inertia::render('BedrijfDetail', [
+        return Inertia::render('Companies/Detail', [
             'bedrijf' => $bedrijf
         ]);
     }

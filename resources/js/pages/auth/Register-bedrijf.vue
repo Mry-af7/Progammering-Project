@@ -11,6 +11,7 @@ import { LoaderCircle } from 'lucide-vue-next';
 import { Link } from '@inertiajs/vue3';
 import { Search, User } from 'lucide-vue-next';
 import { ref } from 'vue';
+import { route } from 'ziggy-js';
 
 const mobileMenuOpen = ref(false);
 

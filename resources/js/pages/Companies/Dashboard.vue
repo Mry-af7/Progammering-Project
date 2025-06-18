@@ -659,581 +659,581 @@
     </div>
 </template>
 
-  <script setup>
-  import { ref, computed, onMounted } from 'vue';
-  
-  // Reactive state
-  const activeTab = ref('overview');
-  const showCompanyQuickMenu = ref(false);
-  const jobFilter = ref('all');
-  const candidateFilter = ref('all');
-  const newTalentCount = ref(12);
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+
+// Reactive state
+const activeTab = ref('overview');
+const showCompanyQuickMenu = ref(false);
+const jobFilter = ref('all');
+const candidateFilter = ref('all');
+const newTalentCount = ref(12);
 
 // Company data
-  const companyData = ref({
-    name: "Accenture Belgium",
-    industry: "IT Consulting & Services",
-    avatar: "AC",
-    location: "Brussels, Belgium",
-    status: "Verified Premium",
-    profileCompleteness: 85,
-    activeJobs: 8,
-    applications: 156,
-    interviews: 12,
-    responseRate: 92
-  });
-  
-  // Navigation tabs
-  const navigationTabs = ref([
-    { 
-      id: 'overview', 
-      label: 'Overview', 
-      icon: 'chart-icon',
-      badge: null
-    },
-    { 
-      id: 'jobs', 
-      label: 'Jobs', 
-      icon: 'briefcase-icon',
-      badge: '8'
-    },
-    { 
-      id: 'candidates', 
-      label: 'Candidates', 
-      icon: 'users-icon',
-      badge: '156'
-    },
-    { 
-      id: 'analytics', 
-      label: 'Analytics', 
-      icon: 'trending-icon',
-      badge: null
-    },
-    { 
-      id: 'events', 
-      label: 'Events', 
-      icon: 'calendar-icon',
-      badge: '2'
-    },
-    { 
-      id: 'messages', 
-      label: 'Messages', 
-      icon: 'message-icon',
-      badge: '24'
-    }
-  ]);
-  
-  // Company metrics for hero section
-  const companyMetrics = ref([
-    {
-      label: "Active Jobs",
-      value: "8",
-      trend: "+2",
-      subtitle: "This month",
-      icon: "briefcase-icon",
-      trendColor: "bg-green-100 text-green-600"
-    },
-    {
-      label: "Applications",
-      value: "156",
-      trend: "+23%",
-      subtitle: "Total received",
-      icon: "users-icon",
-      trendColor: "bg-blue-100 text-blue-600"
-    },
-    {
-      label: "Interview Rate",
-      value: "67%",
-      trend: "+12%",
-      subtitle: "Conversion rate",
-      icon: "target-icon",
-      trendColor: "bg-purple-100 text-purple-600"
-    },
-    {
-      label: "Hired",
-      value: "24",
-      trend: "+8",
-      subtitle: "This quarter",
-      icon: "check-icon",
-      trendColor: "bg-green-100 text-green-600"
-    }
-  ]);
-  
-  // Quick company actions
-  const quickCompanyActions = ref([
-    {
-      title: "Post New Job",
-      icon: "💼",
-      style: "bg-blue-500/20 hover:bg-blue-500/30 text-blue-700 border border-blue-300"
-    },
-    {
-      title: "Review Applications",
-      icon: "📋",
-      style: "bg-purple-500/20 hover:bg-purple-500/30 text-purple-700 border border-purple-300"
-    },
-    {
-      title: "Schedule Interviews",
-      icon: "📅",
-      style: "bg-green-500/20 hover:bg-green-500/30 text-green-700 border border-green-300"
-    },
-    {
-      title: "Analytics Report",
-      icon: "📊",
-      style: "bg-orange-500/20 hover:bg-orange-500/30 text-orange-700 border border-orange-300"
-    }
-  ]);
-  
-  // Company statistics
-  const companyStats = ref([
-    { 
-      label: "Total Applications", 
-      value: 156, 
-      change: "+23%", 
-      subtitle: "This month",
-      icon: "users-icon",
-      iconBg: "bg-blue-100",
-      iconColor: "text-blue-600",
-      changeBg: "bg-green-100",
-      changeColor: "text-green-600",
-      gradient: "from-blue-500 to-indigo-500",
-      trendPercentage: 78,
-      trendBarColor: "bg-gradient-to-r from-blue-500 to-indigo-500"
-    },
-    { 
-      label: "Interview Scheduled", 
-      value: 24, 
-      change: "+8", 
-      subtitle: "This week",
-      icon: "calendar-icon",
-      iconBg: "bg-purple-100",
-      iconColor: "text-purple-600",
-      changeBg: "bg-blue-100",
-      changeColor: "text-blue-600",
-      gradient: "from-purple-500 to-pink-500",
-      trendPercentage: 65,
-      trendBarColor: "bg-gradient-to-r from-purple-500 to-pink-500"
-    },
-    { 
-      label: "Successful Hires", 
-      value: 12, 
-      change: "+4", 
-      subtitle: "This quarter",
-      icon: "check-icon",
-      iconBg: "bg-green-100",
-      iconColor: "text-green-600",
-      changeBg: "bg-green-100",
-      changeColor: "text-green-600",
-      gradient: "from-green-500 to-emerald-500",
-      trendPercentage: 82,
-      trendBarColor: "bg-gradient-to-r from-green-500 to-emerald-500"
-    },
-    { 
-      label: "Company Rating", 
-      value: "4.8★", 
-      change: "+0.2", 
-      subtitle: "Candidate reviews",
-      icon: "star-icon",
-      iconBg: "bg-yellow-100",
-      iconColor: "text-yellow-600",
-      changeBg: "bg-green-100",
-      changeColor: "text-green-600",
-      gradient: "from-yellow-500 to-orange-500",
-      trendPercentage: 96,
-      trendBarColor: "bg-gradient-to-r from-yellow-500 to-orange-500"
-    }
-  ]);
-  
-  // Active jobs
-  const activeJobs = ref([
-    {
-        id: 1,
-      title: "Senior Software Engineer",
-      department: "Technology",
-      applications: 45,
-      postedDays: 5,
-      type: "Full-time",
-      status: "active"
-    },
-    {
-        id: 2,
-      title: "Frontend Developer",
-      department: "Digital",
-      applications: 32,
-      postedDays: 3,
-      type: "Full-time", 
-      status: "active"
-    },
-    {
-        id: 3,
-      title: "Data Analyst",
-      department: "Analytics",
-      applications: 28,
-      postedDays: 7,
-      type: "Contract",
-      status: "active"
-    },
-    {
-      id: 4,
-      title: "UX Designer",
-      department: "Design",
-      applications: 19,
-      postedDays: 2,
-      type: "Full-time",
-      status: "draft"
-    }
-  ]);
+const companyData = ref({
+  name: "Accenture Belgium",
+  industry: "IT Consulting & Services",
+  avatar: "AC",
+  location: "Brussels, Belgium",
+  status: "Verified Premium",
+  profileCompleteness: 85,
+  activeJobs: 8,
+  applications: 156,
+  interviews: 12,
+  responseRate: 92
+});
+
+// Navigation tabs
+const navigationTabs = ref([
+  { 
+    id: 'overview', 
+    label: 'Overview', 
+    icon: 'chart-icon',
+    badge: null
+  },
+  { 
+    id: 'jobs', 
+    label: 'Jobs', 
+    icon: 'briefcase-icon',
+    badge: '8'
+  },
+  { 
+    id: 'candidates', 
+    label: 'Candidates', 
+    icon: 'users-icon',
+    badge: '156'
+  },
+  { 
+    id: 'analytics', 
+    label: 'Analytics', 
+    icon: 'trending-icon',
+    badge: null
+  },
+  { 
+    id: 'events', 
+    label: 'Events', 
+    icon: 'calendar-icon',
+    badge: '2'
+  },
+  { 
+    id: 'messages', 
+    label: 'Messages', 
+    icon: 'message-icon',
+    badge: '24'
+  }
+]);
+
+// Company metrics for hero section
+const companyMetrics = ref([
+  {
+    label: "Active Jobs",
+    value: "8",
+    trend: "+2",
+    subtitle: "This month",
+    icon: "briefcase-icon",
+    trendColor: "bg-green-100 text-green-600"
+  },
+  {
+    label: "Applications",
+    value: "156",
+    trend: "+23%",
+    subtitle: "Total received",
+    icon: "users-icon",
+    trendColor: "bg-blue-100 text-blue-600"
+  },
+  {
+    label: "Interview Rate",
+    value: "67%",
+    trend: "+12%",
+    subtitle: "Conversion rate",
+    icon: "target-icon",
+    trendColor: "bg-purple-100 text-purple-600"
+  },
+  {
+    label: "Hired",
+    value: "24",
+    trend: "+8",
+    subtitle: "This quarter",
+    icon: "check-icon",
+    trendColor: "bg-green-100 text-green-600"
+  }
+]);
+
+// Quick company actions
+const quickCompanyActions = ref([
+  {
+    title: "Post New Job",
+    icon: "💼",
+    style: "bg-blue-500/20 hover:bg-blue-500/30 text-blue-700 border border-blue-300"
+  },
+  {
+    title: "Review Applications",
+    icon: "📋",
+    style: "bg-purple-500/20 hover:bg-purple-500/30 text-purple-700 border border-purple-300"
+  },
+  {
+    title: "Schedule Interviews",
+    icon: "📅",
+    style: "bg-green-500/20 hover:bg-green-500/30 text-green-700 border border-green-300"
+  },
+  {
+    title: "Analytics Report",
+    icon: "📊",
+    style: "bg-orange-500/20 hover:bg-orange-500/30 text-orange-700 border border-orange-300"
+  }
+]);
+
+// Company statistics
+const companyStats = ref([
+  { 
+    label: "Total Applications", 
+    value: 156, 
+    change: "+23%", 
+    subtitle: "This month",
+    icon: "users-icon",
+    iconBg: "bg-blue-100",
+    iconColor: "text-blue-600",
+    changeBg: "bg-green-100",
+    changeColor: "text-green-600",
+    gradient: "from-blue-500 to-indigo-500",
+    trendPercentage: 78,
+    trendBarColor: "bg-gradient-to-r from-blue-500 to-indigo-500"
+  },
+  { 
+    label: "Interview Scheduled", 
+    value: 24, 
+    change: "+8", 
+    subtitle: "This week",
+    icon: "calendar-icon",
+    iconBg: "bg-purple-100",
+    iconColor: "text-purple-600",
+    changeBg: "bg-blue-100",
+    changeColor: "text-blue-600",
+    gradient: "from-purple-500 to-pink-500",
+    trendPercentage: 65,
+    trendBarColor: "bg-gradient-to-r from-purple-500 to-pink-500"
+  },
+  { 
+    label: "Successful Hires", 
+    value: 12, 
+    change: "+4", 
+    subtitle: "This quarter",
+    icon: "check-icon",
+    iconBg: "bg-green-100",
+    iconColor: "text-green-600",
+    changeBg: "bg-green-100",
+    changeColor: "text-green-600",
+    gradient: "from-green-500 to-emerald-500",
+    trendPercentage: 82,
+    trendBarColor: "bg-gradient-to-r from-green-500 to-emerald-500"
+  },
+  { 
+    label: "Company Rating", 
+    value: "4.8★", 
+    change: "+0.2", 
+    subtitle: "Candidate reviews",
+    icon: "star-icon",
+    iconBg: "bg-yellow-100",
+    iconColor: "text-yellow-600",
+    changeBg: "bg-green-100",
+    changeColor: "text-green-600",
+    gradient: "from-yellow-500 to-orange-500",
+    trendPercentage: 96,
+    trendBarColor: "bg-gradient-to-r from-yellow-500 to-orange-500"
+  }
+]);
+
+// Active jobs
+const activeJobs = ref([
+  {
+      id: 1,
+    title: "Senior Software Engineer",
+    department: "Technology",
+    applications: 45,
+    postedDays: 5,
+    type: "Full-time",
+    status: "active"
+  },
+  {
+      id: 2,
+    title: "Frontend Developer",
+    department: "Digital",
+    applications: 32,
+    postedDays: 3,
+    type: "Full-time", 
+    status: "active"
+  },
+  {
+      id: 3,
+    title: "Data Analyst",
+    department: "Analytics",
+    applications: 28,
+    postedDays: 7,
+    type: "Contract",
+    status: "active"
+  },
+  {
+    id: 4,
+    title: "UX Designer",
+    department: "Design",
+    applications: 19,
+    postedDays: 2,
+    type: "Full-time",
+    status: "draft"
+  }
+]);
 
 // Recent applications
-  const recentApplications = ref([
-    {
-        id: 1,
-      candidateName: "Maryam Afallah",
-      position: "Frontend Developer",
-      experience: "2+ years",
-      appliedHours: 2,
-      matchScore: 94,
-      featured: true
-    },
-    {
-        id: 2,
-      candidateName: "Thomas Janssen",
-      position: "Senior Software Engineer", 
-      experience: "5+ years",
-      appliedHours: 4,
-      matchScore: 87,
-      featured: false
-    },
-    {
-      id: 3,
-      candidateName: "Sarah De Vos",
-      position: "Data Analyst",
-      experience: "3+ years", 
-      appliedHours: 6,
-      matchScore: 91,
-      featured: true
-    },
-    {
-      id: 4,
-      candidateName: "Lucas Martinez",
-      position: "UX Designer",
-      experience: "4+ years",
-      appliedHours: 8,
-      matchScore: 78,
-      featured: false
-    }
-  ]);
-  
-  // Talent pipeline
-  const talentPipeline = ref([
-    { name: "Applied", count: 156, percentage: 100, active: true },
-    { name: "Screening", count: 89, percentage: 57, active: true },
-    { name: "Interview", count: 24, percentage: 15, active: true },
-    { name: "Offer", count: 8, percentage: 5, active: false }
-  ]);
-  
-  // Profile sections
-  const profileSections = ref([
-    {
-      name: "Company Information",
-      status: "complete",
-      progress: 100,
-      description: "Basic company details and description"
-    },
-    {
-      name: "Culture & Values",
-      status: "complete",
-      progress: 90,
-      description: "Company culture, values and benefits"
-    },
-    {
-      name: "Media & Photos",
-      status: "incomplete",
-      progress: 60,
-      description: "Office photos and company videos"
-    },
-    {
-      name: "Contact Information",
-      status: "complete",
-      progress: 100,
-      description: "Location, contact details and social media"
-    }
-  ]);
-  
-  // Favorite candidates (integrated with favorites system)
-  const favoriteCandidates = ref([
-    {
+const recentApplications = ref([
+  {
       id: 1,
-      name: "Maryam Afallah",
-      field: "Frontend Development",
-      skills: ["React", "JavaScript", "CSS"],
-      rating: 4.9
-    },
-    {
+    candidateName: "Maryam Afallah",
+    position: "Frontend Developer",
+    experience: "2+ years",
+    appliedHours: 2,
+    matchScore: 94,
+    featured: true
+  },
+  {
       id: 2,
-      name: "Thomas Janssen", 
-      field: "Backend Development",
-      skills: ["Java", "Spring", "PostgreSQL"],
-      rating: 4.7
-    },
-    {
-        id: 3,
-      name: "Sarah De Vos",
-      field: "Data Science",
-      skills: ["Python", "Machine Learning", "SQL"],
-      rating: 4.8
-    }
-  ]);
-  
-  // Recruitment metrics
-  const recruitmentMetrics = ref([
-    {
-      name: "Application Response Rate",
-      value: "92%",
-      percentage: 92,
-      barColor: "bg-gradient-to-r from-green-500 to-emerald-500",
-      color: "text-green-600",
-      description: "Companies respond to applications"
-    },
-    {
-      name: "Interview Conversion",
-      value: "15%",
-      percentage: 68,
-      barColor: "bg-gradient-to-r from-blue-500 to-indigo-500",
-      color: "text-blue-600",
-      description: "Applications leading to interviews"
-    },
-    {
-      name: "Hire Success Rate",
-      value: "8%",
-      percentage: 45,
-      barColor: "bg-gradient-to-r from-purple-500 to-pink-500",
-      color: "text-purple-600",
-      description: "Interviews resulting in hires"
-    },
-    {
-      name: "Time to Hire",
-      value: "18 days",
-      percentage: 75,
-      barColor: "bg-gradient-to-r from-yellow-500 to-orange-500",
-      color: "text-yellow-600",
-      description: "Average hiring process duration"
-    }
-  ]);
-  
-  // Quick tools
-  const quickTools = ref([
-    {
-      title: "Bulk Actions",
-      description: "Mass operations",
-      icon: "⚡",
-      hoverColor: "hover:border-blue-300 hover:bg-blue-50"
-    },
-    {
-      title: "Export Data",
-      description: "Download reports",
-      icon: "📊",
-      hoverColor: "hover:border-green-300 hover:bg-green-50"
-    },
-    {
-      title: "Invite Team",
-      description: "Add colleagues",
-      icon: "👥",
-      hoverColor: "hover:border-purple-300 hover:bg-purple-50"
-    },
-    {
-      title: "Settings",
-      description: "Configure account",
-      icon: "⚙️",
-      hoverColor: "hover:border-gray-300 hover:bg-gray-50"
-    }
-  ]);
-  
-  // All candidates (for candidate management)
-  const allCandidates = ref([
-    {
-        id: 1,
-      name: "Maryam Afallah",
-      position: "Frontend Developer",
-      experience: "2+ years",
-      education: "Bachelor Computer Science",
-      rating: 4.9,
-      skills: ["React", "JavaScript", "CSS", "TypeScript"],
-      featured: true,
-      status: "new"
-    },
-    {
-        id: 2,
-      name: "Thomas Janssen",
-      position: "Senior Software Engineer", 
-      experience: "5+ years",
-      education: "Master Software Engineering",
-      rating: 4.7,
-      skills: ["Java", "Spring", "PostgreSQL", "Microservices"],
-      featured: false,
-      status: "interview"
-    },
-    {
-        id: 3,
-      name: "Sarah De Vos",
-      position: "Data Analyst",
-      experience: "3+ years",
-      education: "Master Data Science",
-      rating: 4.8,
-      skills: ["Python", "Machine Learning", "SQL", "Tableau"],
-      featured: true,
-      status: "new"
-    }
-  ]);
-  
-  // Company quick actions
-  const companyQuickActions = ref([
-    {
-      title: "Post Job",
-      icon: "💼",
-      style: "hover:bg-blue-50 text-blue-700"
-    },
-    {
-      title: "Review CVs",
-      icon: "📋",
-      style: "hover:bg-purple-50 text-purple-700"
-    },
-    {
-      title: "Schedule Call",
-      icon: "📞",
-      style: "hover:bg-green-50 text-green-700"
-    },
-    {
-      title: "Send Message",
-      icon: "💬",
-      style: "hover:bg-orange-50 text-orange-700"
-    }
-  ]);
-  
-  // Computed properties
-  const filteredJobs = computed(() => {
-    if (jobFilter.value === 'all') return activeJobs.value;
-    return activeJobs.value.filter(job => job.status === jobFilter.value);
-  });
-  
-  const filteredCandidates = computed(() => {
-    if (candidateFilter.value === 'all') return allCandidates.value;
-    return allCandidates.value.filter(candidate => candidate.status === candidateFilter.value);
-  });
+    candidateName: "Thomas Janssen",
+    position: "Senior Software Engineer", 
+    experience: "5+ years",
+    appliedHours: 4,
+    matchScore: 87,
+    featured: false
+  },
+  {
+    id: 3,
+    candidateName: "Sarah De Vos",
+    position: "Data Analyst",
+    experience: "3+ years", 
+    appliedHours: 6,
+    matchScore: 91,
+    featured: true
+  },
+  {
+    id: 4,
+    candidateName: "Lucas Martinez",
+    position: "UX Designer",
+    experience: "4+ years",
+    appliedHours: 8,
+    matchScore: 78,
+    featured: false
+  }
+]);
+
+// Talent pipeline
+const talentPipeline = ref([
+  { name: "Applied", count: 156, percentage: 100, active: true },
+  { name: "Screening", count: 89, percentage: 57, active: true },
+  { name: "Interview", count: 24, percentage: 15, active: true },
+  { name: "Offer", count: 8, percentage: 5, active: false }
+]);
+
+// Profile sections
+const profileSections = ref([
+  {
+    name: "Company Information",
+    status: "complete",
+    progress: 100,
+    description: "Basic company details and description"
+  },
+  {
+    name: "Culture & Values",
+    status: "complete",
+    progress: 90,
+    description: "Company culture, values and benefits"
+  },
+  {
+    name: "Media & Photos",
+    status: "incomplete",
+    progress: 60,
+    description: "Office photos and company videos"
+  },
+  {
+    name: "Contact Information",
+    status: "complete",
+    progress: 100,
+    description: "Location, contact details and social media"
+  }
+]);
+
+// Favorite candidates (integrated with favorites system)
+const favoriteCandidates = ref([
+  {
+    id: 1,
+    name: "Maryam Afallah",
+    field: "Frontend Development",
+    skills: ["React", "JavaScript", "CSS"],
+    rating: 4.9
+  },
+  {
+    id: 2,
+    name: "Thomas Janssen", 
+    field: "Backend Development",
+    skills: ["Java", "Spring", "PostgreSQL"],
+    rating: 4.7
+  },
+  {
+      id: 3,
+    name: "Sarah De Vos",
+    field: "Data Science",
+    skills: ["Python", "Machine Learning", "SQL"],
+    rating: 4.8
+  }
+]);
+
+// Recruitment metrics
+const recruitmentMetrics = ref([
+  {
+    name: "Application Response Rate",
+    value: "92%",
+    percentage: 92,
+    barColor: "bg-gradient-to-r from-green-500 to-emerald-500",
+    color: "text-green-600",
+    description: "Companies respond to applications"
+  },
+  {
+    name: "Interview Conversion",
+    value: "15%",
+    percentage: 68,
+    barColor: "bg-gradient-to-r from-blue-500 to-indigo-500",
+    color: "text-blue-600",
+    description: "Applications leading to interviews"
+  },
+  {
+    name: "Hire Success Rate",
+    value: "8%",
+    percentage: 45,
+    barColor: "bg-gradient-to-r from-purple-500 to-pink-500",
+    color: "text-purple-600",
+    description: "Interviews resulting in hires"
+  },
+  {
+    name: "Time to Hire",
+    value: "18 days",
+    percentage: 75,
+    barColor: "bg-gradient-to-r from-yellow-500 to-orange-500",
+    color: "text-yellow-600",
+    description: "Average hiring process duration"
+  }
+]);
+
+// Quick tools
+const quickTools = ref([
+  {
+    title: "Bulk Actions",
+    description: "Mass operations",
+    icon: "⚡",
+    hoverColor: "hover:border-blue-300 hover:bg-blue-50"
+  },
+  {
+    title: "Export Data",
+    description: "Download reports",
+    icon: "📊",
+    hoverColor: "hover:border-green-300 hover:bg-green-50"
+  },
+  {
+    title: "Invite Team",
+    description: "Add colleagues",
+    icon: "👥",
+    hoverColor: "hover:border-purple-300 hover:bg-purple-50"
+  },
+  {
+    title: "Settings",
+    description: "Configure account",
+    icon: "⚙️",
+    hoverColor: "hover:border-gray-300 hover:bg-gray-50"
+  }
+]);
+
+// All candidates (for candidate management)
+const allCandidates = ref([
+  {
+      id: 1,
+    name: "Maryam Afallah",
+    position: "Frontend Developer",
+    experience: "2+ years",
+    education: "Bachelor Computer Science",
+    rating: 4.9,
+    skills: ["React", "JavaScript", "CSS", "TypeScript"],
+    featured: true,
+    status: "new"
+  },
+  {
+      id: 2,
+    name: "Thomas Janssen",
+    position: "Senior Software Engineer", 
+    experience: "5+ years",
+    education: "Master Software Engineering",
+    rating: 4.7,
+    skills: ["Java", "Spring", "PostgreSQL", "Microservices"],
+    featured: false,
+    status: "interview"
+  },
+  {
+      id: 3,
+    name: "Sarah De Vos",
+    position: "Data Analyst",
+    experience: "3+ years",
+    education: "Master Data Science",
+    rating: 4.8,
+    skills: ["Python", "Machine Learning", "SQL", "Tableau"],
+    featured: true,
+    status: "new"
+  }
+]);
+
+// Company quick actions
+const companyQuickActions = ref([
+  {
+    title: "Post Job",
+    icon: "💼",
+    style: "hover:bg-blue-50 text-blue-700"
+  },
+  {
+    title: "Review CVs",
+    icon: "📋",
+    style: "hover:bg-purple-50 text-purple-700"
+  },
+  {
+    title: "Schedule Call",
+    icon: "📞",
+    style: "hover:bg-green-50 text-green-700"
+  },
+  {
+    title: "Send Message",
+    icon: "💬",
+    style: "hover:bg-orange-50 text-orange-700"
+  }
+]);
+
+// Computed properties
+const filteredJobs = computed(() => {
+  if (jobFilter.value === 'all') return activeJobs.value;
+  return activeJobs.value.filter(job => job.status === jobFilter.value);
+});
+
+const filteredCandidates = computed(() => {
+  if (candidateFilter.value === 'all') return allCandidates.value;
+  return allCandidates.value.filter(candidate => candidate.status === candidateFilter.value);
+});
 
 // Helper functions
-  const getJobTypeColor = (type) => {
-    const colors = {
-      'Full-time': 'bg-green-100 text-green-800 border-green-200',
-      'Part-time': 'bg-blue-100 text-blue-800 border-blue-200',
-      'Contract': 'bg-orange-100 text-orange-800 border-orange-200',
-      'Internship': 'bg-purple-100 text-purple-800 border-purple-200'
-    };
-    return colors[type] || 'bg-gray-100 text-gray-800 border-gray-200';
+const getJobTypeColor = (type) => {
+  const colors = {
+    'Full-time': 'bg-green-100 text-green-800 border-green-200',
+    'Part-time': 'bg-blue-100 text-blue-800 border-blue-200',
+    'Contract': 'bg-orange-100 text-orange-800 border-orange-200',
+    'Internship': 'bg-purple-100 text-purple-800 border-purple-200'
   };
-  
-  const getJobStatusColor = (status) => {
-    const colors = {
-      'active': 'bg-green-100 text-green-800 border-green-200',
-      'draft': 'bg-yellow-100 text-yellow-800 border-yellow-200',
-      'paused': 'bg-orange-100 text-orange-800 border-orange-200',
-      'closed': 'bg-red-100 text-red-800 border-red-200'
-    };
-    return colors[status] || 'bg-gray-100 text-gray-800 border-gray-200';
+  return colors[type] || 'bg-gray-100 text-gray-800 border-gray-200';
+};
+
+const getJobStatusColor = (status) => {
+  const colors = {
+    'active': 'bg-green-100 text-green-800 border-green-200',
+    'draft': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+    'paused': 'bg-orange-100 text-orange-800 border-orange-200',
+    'closed': 'bg-red-100 text-red-800 border-red-200'
   };
+  return colors[status] || 'bg-gray-100 text-gray-800 border-gray-200';
+};
+
+// Action functions
+const addToFavorites = (candidate) => {
+  const exists = favoriteCandidates.value.find(fav => fav.id === candidate.id);
+  if (!exists) {
+    favoriteCandidates.value.push({
+      id: candidate.id,
+      name: candidate.name,
+      field: candidate.position,
+      skills: candidate.skills.slice(0, 3),
+      rating: candidate.rating
+    });
+  }
+};
+
+const removeFromFavorites = (candidateId) => {
+  favoriteCandidates.value = favoriteCandidates.value.filter(candidate => candidate.id !== candidateId);
+};
+
+// Initialize favorites from global state if available
+onMounted(() => {
+  if (window.companyFavoritesState?.value) {
+    favoriteCandidates.value = window.companyFavoritesState.value;
+  }
   
-  // Action functions
-  const addToFavorites = (candidate) => {
-    const exists = favoriteCandidates.value.find(fav => fav.id === candidate.id);
-    if (!exists) {
-      favoriteCandidates.value.push({
-        id: candidate.id,
-        name: candidate.name,
-        field: candidate.position,
-        skills: candidate.skills.slice(0, 3),
-        rating: candidate.rating
-      });
-    }
-  };
+  // Make favorite functions globally available for companies
+  if (!window.addCandidateToFavorites) {
+    window.addCandidateToFavorites = addToFavorites;
+  }
   
-  const removeFromFavorites = (candidateId) => {
-    favoriteCandidates.value = favoriteCandidates.value.filter(candidate => candidate.id !== candidateId);
-  };
+  if (!window.removeCandidateFromFavorites) {
+    window.removeCandidateFromFavorites = removeFromFavorites;
+  }
   
-  // Initialize favorites from global state if available
-  onMounted(() => {
-    if (window.companyFavoritesState?.value) {
-      favoriteCandidates.value = window.companyFavoritesState.value;
-    }
-    
-    // Make favorite functions globally available for companies
-    if (!window.addCandidateToFavorites) {
-      window.addCandidateToFavorites = addToFavorites;
-    }
-    
-    if (!window.removeCandidateFromFavorites) {
-      window.removeCandidateFromFavorites = removeFromFavorites;
-    }
-    
-    console.log('Company Dashboard PRO initialized');
-  });
+  console.log('Company Dashboard PRO initialized');
+});
 </script> 
   
-  <style scoped>
-  /* Custom scrollbar */
-  .overflow-y-auto::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  .overflow-y-auto::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-  }
-  
-  .overflow-y-auto::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 10px;
-  }
-  
-  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-  
-  /* Custom animations */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-out;
-  }
-  
-  /* Hover scale effects */
-  .hover\:scale-102:hover {
-    transform: scale(1.02);
-  }
-  
-  .hover\:scale-105:hover {
-    transform: scale(1.05);
-  }
-  
-  .hover\:scale-110:hover {
-    transform: scale(1.1);
-  }
-  
-  /* Gradient text */
-  .bg-clip-text {
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-  
-  /* Pulse animation for floating button */
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-  }
-  
-  .animate-pulse {
-    animation: pulse 2s infinite;
-  }
-  </style>
+<style scoped>
+/* Custom scrollbar */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Hover scale effects */
+.hover\:scale-102:hover {
+  transform: scale(1.02);
+}
+
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+.hover\:scale-110:hover {
+  transform: scale(1.1);
+}
+
+/* Gradient text */
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Pulse animation for floating button */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+</style>
