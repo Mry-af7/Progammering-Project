@@ -570,50 +570,48 @@
   // Recent applications
   const recentApplications = ref([
     {
-      id: 1,
-      position: "Junior Software Developer",
-      company: "Capgemini",
-      status: "Interview Scheduled",
-      appliedDays: 3,
-      logo: "C"
+        id: 1,
+        position: 'Junior Software Developer',
+        company: { name: 'Capgemini', logo: '/images/logos/capgemini-logo.svg' },
+        status: 'Interview Scheduled' as ApplicationStatus,
+        appliedDays: 3
     },
     {
-      id: 2,
-      position: "Frontend Developer", 
-      company: "Accenture",
-      status: "Under Review",
-      appliedDays: 5,
-      logo: "A"
+        id: 2,
+        position: 'Frontend Developer',
+        company: { name: 'Accenture', logo: '/images/logos/accenture-logo.svg' },
+        status: 'Under Review' as ApplicationStatus,
+        appliedDays: 5
     },
     {
-      id: 3,
-      position: "Web Developer",
-      company: "Delaware",
-      status: "Application Sent",
-      appliedDays: 1,
-      logo: "D"
+        id: 3,
+        position: 'Web Developer',
+        company: { name: 'delaware', logo: '/images/logos/delaware-logo.svg' },
+        status: 'Application Sent' as ApplicationStatus,
+        appliedDays: 1
     }
-  ]);
-  
-  // Skills data
-  const currentSkills = ref([
-    { name: "JavaScript", level: 75 },
-    { name: "HTML/CSS", level: 85 },
-    { name: "Java", level: 60 },
-    { name: "Microsoft Office", level: 90 },
-    { name: "French", level: 100 },
-    { name: "Dutch", level: 85 }
-  ]);
-  
-  const recommendedSkills = ref([
-    { name: "React.js", demand: 89 },
-    { name: "Node.js", demand: 76 },
-    { name: "Python", demand: 83 },
-    { name: "SQL", demand: 71 }
-  ]);
-  
-  // Career goals
-  const careerGoals = ref([
+]
+
+// Current skills
+const currentSkills = [
+    { name: 'JavaScript', level: 75 },
+    { name: 'HTML/CSS', level: 85 },
+    { name: 'Java', level: 60 },
+    { name: 'Microsoft Office', level: 90 },
+    { name: 'French', level: 100 },
+    { name: 'Dutch', level: 85 }
+]
+
+// Recommended skills
+const recommendedSkills = [
+    { name: 'React.js', demand: 89 },
+    { name: 'Node.js', demand: 76 },
+    { name: 'Python', demand: 83 },
+    { name: 'SQL', demand: 71 }
+]
+
+// Career goals
+const careerGoals = [
     {
       id: 1,
       title: "Land First Developer Job",

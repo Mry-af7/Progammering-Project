@@ -17,6 +17,7 @@
             </div>
           </Link>
 
+          <!-- voorbeeld-->
           <!-- Mobile menu button -->
           <div class="md:hidden">
             <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg text-gray-700 hover:bg-orange-100 transition-colors">
@@ -308,6 +309,98 @@
     </section>
 
     <!-- Footer -->
+     <!-- Privacybeleid Section -->
+     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    <div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden p-8">
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">Privacybeleid Career Launch 2025</h2>
+      <div class="grid gap-6 md:grid-cols-2">
+        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
+          <p class="font-semibold text-orange-700">Versie 0.1 - Laatst aangepast op 17 juni 2025.</p>
+          <p class="mt-2 text-gray-700">Wij hechten veel waarde aan uw privacy. Wanneer u gebruikmaakt van onze diensten, vertrouwt u ons persoonlijke gegevens toe. Wij zijn ons bewust van dat vertrouwen en zien het dan ook als onze verantwoordelijkheid om zorgvuldig met uw gegevens om te gaan en uw privacy te beschermen. In deze privacyverklaring leggen wij uit welke gegevens wij verzamelen, waarom wij dat doen en hoe wij hiermee omgaan.</p>
+        </div>
+
+        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
+          <h3 class="font-semibold text-lg text-orange-700">Gebruik van onze diensten</h3>
+          <p class="mt-2 text-gray-700">Wanneer u zich aanmeldt voor één van onze diensten, kunnen wij u vragen om persoonsgegevens te verstrekken, zoals uw naam, e-mailadres, telefoonnummer of andere gegevens. Deze informatie gebruiken wij uitsluitend om onze diensten optimaal te kunnen verlenen en u een gepersonaliseerde ervaring te bieden.</p>
+        </div>
+
+        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
+          <h3 class="font-semibold text-lg text-orange-700">Communicatie</h3>
+
+          <p class="mt-2 text-gray-700">Indien u per e-mail of via andere communicatiekanalen contact met ons opneemt, kunnen wij deze correspondentie bewaren. Dit doen wij om uw verzoek correct te kunnen afhandelen en onze dienstverlening te verbeteren. Daarbij kunnen aanvullende persoonsgegevens worden gevraagd indien nodig voor de behandeling van uw vraag.</p>
+        </div>
+
+        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
+          <h3 class="font-semibold text-lg text-orange-700">Cookies</h3>
+
+          <p class="mt-2 text-gray-700">Uw gegevens worden uitsluitend gebruikt voor de doeleinden zoals vermeld in dit privacybeleid, tenzij u voorafgaand expliciet toestemming geeft voor ander gebruik.</p>
+
+  
+        </div>
+
+        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
+          <h3 class="font-semibold text-lg text-orange-700">Doeleinden</h3>
+
+          <p class="mt-2 text-gray-700">Uw persoonsgegevens worden uitsluitend verwerkt voor de doeleinden die in deze privacyverklaring zijn opgenomen. Wij zullen uw gegevens nooit voor andere doeleinden gebruiken zonder u daarvan vooraf op de hoogte te stellen en, indien nodig, uw expliciete toestemming te vragen.</p>
+
+        </div>
+
+        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
+          <h3 class="font-semibold text-lg text-orange-700">Derden</h3>
+
+          <p class="mt-2 text-gray-700">Wij delen uw persoonsgegevens niet met derden, tenzij dit strikt noodzakelijk is voor het uitvoeren van onze diensten of wanneer wij daartoe wettelijk verplicht zijn. Intern kan informatie gedeeld worden met bevoegde medewerkers, die gebonden zijn aan een geheimhoudingsplicht.</p>
+
+        </div>
+
+        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
+          <h3 class="font-semibold text-lg text-orange-700">Veranderingen</h3>
+
+          <p class="mt-2 text-gray-700">Deze privacyverklaring is specifiek opgesteld voor het gebruik en de functionaliteiten van deze website. Bij eventuele wijzigingen in de inhoud of werking van de site, kan ook de privacyverklaring worden aangepast. Wij adviseren u daarom deze verklaring periodiek te controleren.</p>
+
+        </div>
+
+        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
+          <h3 class="font-semibold text-lg text-orange-700">Keuzes voor persoonsgegevens</h3>
+
+          <p class="mt-2 text-gray-700">Elke gebruiker heeft het recht op inzage in zijn of haar persoonsgegevens, evenals het recht om deze te corrigeren of te laten verwijderen. Indien u van deze rechten gebruik wenst te maken, kunt u contact met ons opnemen via de contactgegevens zoals vermeld in deze verklaring.</p>
+
+        </div>
+
+        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
+          <h3 class="font-semibold text-lg text-orange-700">Aanpassen/uitschrijven dienst nieuwsbrief</h3>
+          <p class="mt-2 text-gray-700">In elke e-mail die u van ons ontvangt, is een mogelijkheid opgenomen om uw contactvoorkeuren aan te passen of om u geheel uit te schrijven voor toekomstige mailings.</p>
+
+        </div>
+
+        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
+          <h3 class="font-semibold text-lg text-orange-700">Aanpassen/uitschrijven communicatie</h3>
+
+          <p class="mt-2 text-gray-700">"Als u uw persoonsgegevens wilt corrigeren of wilt laten verwijderen uit onze systemen, kunt u te allen tijde contact met ons opnemen via de contactgegevens vermeld in deze verklaring.</p>
+
+        </div>
+
+        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
+          <h3 class="font-semibold text-lg text-orange-700">Cookies uitzetten</h3>
+
+          <p class="mt-2 text-gray-700">Standaard accepteren de meeste internetbrowsers cookies. U heeft echter de mogelijkheid om uw browser zo in te stellen dat cookies worden geweigerd of dat u een melding ontvangt wanneer een cookie wordt geplaatst. Het uitschakelen van cookies kan invloed hebben op de functionaliteit van deze website.</p>
+
+        </div>
+
+        <div class="bg-orange-50 border border-orange-100 rounded-2xl p-6 shadow-sm transition-shadow hover:shadow-md animate-fade-in">
+          <h3 class="font-semibold text-lg text-orange-700">Vragen en feedback</h3>
+
+          <p class="mt-2 text-gray-700">Wij voeren regelmatig controles uit om na te gaan of wij ons aan dit privacybeleid houden. Indien u vragen, opmerkingen of klachten heeft met betrekking tot dit beleid, kunt u contact met ons opnemen via de contactgegevens zoals vermeld onderaan deze verklaring.</p>
+
+          <ul class="list-disc pl-5 mt-2 text-gray-700">
+            <li>Career Launch 2025</li>
+            <li>Nijverheidskaai 170, 1070 Anderlecht</li>
+            <li>Tel: 02 523 37 37</li>
+            <li>Email: gdt.kaai.student@ehb.be</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
     <footer class="bg-gradient-to-r from-orange-500 to-red-600 text-white py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-4 gap-8">
@@ -330,7 +423,7 @@
               </a>
               <a href="https://www.instagram.com/erasmushogeschool/" target="_blank" class="text-orange-200 hover:text-white transition-colors">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987c6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.611-3.197-1.559-.748-.947-1.197-2.25-1.197-3.679 0-1.429.449-2.732 1.197-3.679.749-.948 1.9-1.559 3.197-1.559s2.448.611 3.197 1.559c.748.947 1.197 2.25 1.197 3.679 0 1.429-.449 2.732-1.197 3.679-.749.948-1.9 1.559-3.197 1.559zm7.718 0c-1.297 0-2.448-.611-3.197-1.559-.748-.947-1.197-2.25-1.197-3.679 0-1.429.449-2.732 1.197-3.679.749-.948 1.9-1.559 3.197-1.559s2.448.611 3.197 1.559c.748.947 1.197 2.25 1.197 3.679 0 1.429-.449 2.732-1.197 3.679-.749.948-1.9 1.559-3.197 1.559z"/>
+                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987c6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.611-3.197-1.559-.748-.947-1.197-2.25-1.197-3.679 0-1.429.449-2.732 1.197-3.679.749-.948 1.9-1.559 3.197-1.559s2.448.611 3.197 1.559c.748.947 1.197 2.25 1.197 3.679 0 1.429-.449 2.732-1.197 3.679-.749.948-1.9 1.559-3.197 1.559z"/>
                 </svg>
               </a>
             </div>
@@ -358,6 +451,7 @@
             <h4 class="font-semibold mb-4">Over Ons</h4>
             <ul class="space-y-2 text-orange-100 text-sm">
               <li><Link href="/Wiezijnwe" class="hover:text-white transition-colors">Wie zijn we?</Link></li>
+              <li><Link href="/faq" class="hover:text-white transition-colors">FAQ</Link></li>
               <li><a href="#" class="hover:text-white transition-colors">Onze opleidingen</a></li>
               <li><a href="#" class="hover:text-white transition-colors">Privacy beleid</a></li>
             </ul>
@@ -375,6 +469,32 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3'
 import { ref, computed, onMounted } from 'vue'
+
+// State
+const activeDetail = ref(null)
+
+// Show detail and scroll to section
+const showDetails = async (key) => {
+  if (activeDetail.value === key) {
+    activeDetail.value = null
+    return
+  }
+  activeDetail.value = key
+  await nextTick()
+  const el = document.getElementById(`section-${key}`)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
+
+// Close mobile menu when clicking outside
+onMounted(() => {
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('nav') && mobileMenuOpen.value) {
+      mobileMenuOpen.value = false
+    }
+  })
+})
 
 // State
 const mobileMenuOpen = ref(false)
@@ -426,6 +546,29 @@ onMounted(() => {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.group:hover .group-hover\:scale-110 {
+  transform: scale(1.1);
+
+}
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.6s ease-in-out both;
 }
 
 .group:hover .group-hover\:scale-110 {

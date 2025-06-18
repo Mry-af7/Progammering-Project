@@ -212,3 +212,7 @@ Route::get('/Wiezijnwe', function () {
 Route::get('/home', function () {
     return redirect('/');
 })->name('home');
+
+Route::get('/faq', function () {
+    return Inertia::render('Faq');
+})->name('faq');

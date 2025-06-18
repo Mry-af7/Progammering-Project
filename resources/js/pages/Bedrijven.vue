@@ -147,9 +147,9 @@ const bedrijven = ref([
   {
     id: 8,
     name: 'Blents',
-    src: '/images/logos/blents-logo.png',
+    src: '/images/logos/blents.png',
     favoriet: false,
-    website: 'https://www.blents.com/',
+    website: 'https://www.blents.be/',
     specialisatie: 'IT consultancy, software development, digital solutions',
     beschrijving: 'Blents is een innovatief IT-bedrijf dat zich richt op het leveren van hoogwaardige software-oplossingen en digitale transformaties. Met expertise in moderne technologieën helpen we bedrijven hun digitale doelstellingen te realiseren.',
     adres: 'Tech Lane 45, 2000 Antwerpen',
@@ -164,7 +164,7 @@ const bedrijven = ref([
   {
     id: 9,
     name: 'BNP Paribas',
-    src: '/images/logos/bnp-paribas-logo.png',
+    src: '/images/logos/bnp-paribas-fortis-logo.svg',
     favoriet: false,
     website: 'https://www.bnpparibas.be/',
     specialisatie: 'Banking, financial services, digitale banking solutions, fintech',
@@ -181,7 +181,7 @@ const bedrijven = ref([
   {
     id: 10,
     name: 'Capgemini',
-    src: '/images/logos/capgemini-logo.png',
+    src: '/images/logos/capgemini-logo.svg',
     favoriet: false,
     website: 'https://www.capgemini.com/be-en/',
     specialisatie: 'Digital transformation, consulting, technology services, engineering',
@@ -200,7 +200,7 @@ const bedrijven = ref([
     name: 'Colibri',
     src: '/images/logos/colibri-logo.png',
     favoriet: false,
-    website: 'https://www.colibri-software.com/',
+    website: 'https://colibri.consulting/',
     specialisatie: 'Software development, custom applications, web development',
     beschrijving: 'Colibri Software is een dynamisch softwareontwikkelingsbedrijf dat zich specialiseert in het creëren van op maat gemaakte software-oplossingen. Van webapplicaties tot mobiele apps, Colibri helpt bedrijven hun digitale visie tot leven te brengen.',
     adres: 'Innovation Street 12, 9000 Gent',
@@ -215,7 +215,7 @@ const bedrijven = ref([
   {
     id: 12,
     name: 'Colruyt Group',
-    src: '/images/logos/colruyt-group-logo.png',
+    src: '/images/logos/colruyt-group-logo.svg',
     favoriet: false,
     website: 'https://www.colruytgroup.com/wps/portal/cg/nl/home',
     specialisatie: 'Retail technology, e-commerce, supply chain, digital innovation',
@@ -248,17 +248,17 @@ const bedrijven = ref([
   },
   {
     id: 14,
-    name: 'Diloco',
-    src: '/images/logos/diloco-logo.png',
+    name: 'Dilaco',
+    src: '/images/logos/dilaco.png',
     favoriet: false,
-    website: 'https://www.diloco.be/',
+    website: 'https://www.dilaco.eu/',
     specialisatie: 'Digital solutions, web development, e-commerce, mobile applications',
-    beschrijving: 'Diloco is een digitaal bureau dat bedrijven helpt bij hun online aanwezigheid en digitale strategieën. Ze bieden een breed scala aan diensten, van webdesign tot complexe e-commerce oplossingen en mobiele applicaties.',
-    adres: 'Digital Boulevard 88, 2018 Antwerpen',
-    telefoon: '+32 3 456 78 90',
-    email: 'contact@diloco.be',
+    beschrijving: 'Dilaco is een digitaal bureau dat bedrijven helpt bij hun online aanwezigheid en digitale strategieën. Ze bieden een breed scala aan diensten, van webdesign tot complexe e-commerce oplossingen en mobiele applicaties.',
+    adres: 'Leuvensesteenweg 325, 1932 Zaventem',
+    telefoon: '+32 2 267 65 60',
+    email: 'contact@dilaco.be',
     industry: 'Digital Agency',
-    location: 'Antwerpen',
+    location: 'Zaventem',
     employees: '15-30',
     founded: '2016',
     tags: ['Web Development', 'E-commerce', 'Mobile Apps', 'Digital Strategy']
@@ -266,9 +266,9 @@ const bedrijven = ref([
   {
     id: 15,
     name: 'Eezee',
-    src: '/images/logos/eezee-logo.png',
+    src: '/images/logos/eezee-IT.png',
     favoriet: false,
-    website: 'https://www.eezee.be/',
+    website: 'https://eezee-it.com/nl_BE',
     specialisatie: 'User experience, interface design, digital products, frontend development',
     beschrijving: 'Eezee is een UX/UI design agency die zich richt op het creëren van intuïtieve en gebruiksvriendelijke digitale ervaringen. Ze combineren design thinking met technische expertise om digitale producten te ontwikkelen die gebruikers écht willen gebruiken.',
     adres: 'Design District 15, 1050 Brussel',
@@ -283,9 +283,9 @@ const bedrijven = ref([
   {
     id: 16,
     name: 'Euricom',
-    src: '/images/logos/euricom-logo.png',
+    src: '/images/logos/euricom.png',
     favoriet: false,
-    website: 'https://www.euricom.com/',
+    website: 'https://www.euri.com/en',
     specialisatie: 'Software development, training, consultancy, modern web technologies',
     beschrijving: 'Euricom is een Belgisch softwareontwikkelingsbedrijf dat zich specialiseert in moderne webtechnologieën en training. Ze bieden zowel consultancy diensten als uitgebreide trainingen in de nieuwste development frameworks en methodologieën.',
     adres: 'Mechelsesteenweg 102, 2018 Antwerpen',
@@ -317,7 +317,7 @@ const bedrijven = ref([
   {
     id: 18,
     name: 'Exclusive Networks',
-    src: '/images/logos/exclusive-networks-logo.png',
+    src: '/images/logos/Exclusive-LOGO.png',
     favoriet: false,
     website: 'https://www.exclusive-networks.com/',
     specialisatie: 'Cybersecurity, cloud solutions, network infrastructure, technology distribution',
@@ -334,7 +334,7 @@ const bedrijven = ref([
   {
     id: 19,
     name: 'Flexso',
-    src: '/images/logos/flexso-logo.png',
+    src: '/images/logos/flexo-logo.svg',
     favoriet: false,
     website: 'https://www.flexso.com/',
     specialisatie: 'SAP solutions, business process optimization, digital transformation',
@@ -368,9 +368,9 @@ const bedrijven = ref([
   {
     id: 21,
     name: 'Nexios IT',
-    src: '/images/logos/nexios-logo.png',
+    src: '/images/logos/nexios_it_ver2.png',
     favoriet: false,
-    website: 'https://www.nexios.be/',
+    website: 'https://www.nexiosit.com/',
     specialisatie: 'IT infrastructure, cloud services, managed services, cybersecurity',
     beschrijving: 'Nexios IT is een Belgische IT-dienstverlener die bedrijven ondersteunt met moderne IT-infrastructuur en cloud services. Ze bieden managed services, cybersecurity oplossingen en helpen organisaties bij hun migratie naar de cloud.',
     adres: 'IT Boulevard 77, 2800 Mechelen',
@@ -385,7 +385,7 @@ const bedrijven = ref([
   {
     id: 22,
     name: 'Nomios',
-    src: '/images/logos/nomios-logo.png',
+    src: '/images/logos/NOMIOS.png',
     favoriet: false,
     website: 'https://www.nomios.be/',
     specialisatie: 'Network infrastructure, cybersecurity, cloud connectivity, data center',
@@ -402,9 +402,9 @@ const bedrijven = ref([
   {
     id: 23,
     name: 'Persolis',
-    src: '/images/logos/persolis-logo.png',
+    src: '/images/logos/persolis.png',
     favoriet: false,
-    website: 'https://www.persolis.be/',
+    website: 'https://persolis.be/nl/',
     specialisatie: 'HR technology, payroll solutions, workforce management',
     beschrijving: 'Persolis is een HR-technologiebedrijf dat innovatieve oplossingen biedt voor personeelsbeheer, payroll en workforce management. Ze helpen organisaties hun HR-processen te digitaliseren en te optimaliseren met moderne technologieën.',
     adres: 'HR Tech Center 33, 1000 Brussel',
@@ -419,7 +419,7 @@ const bedrijven = ref([
   {
     id: 24,
     name: 'Safran',
-    src: '/images/logos/safran-logo.png',
+    src: '/images/logos/Safran-LOGO.svg',
     favoriet: false,
     website: 'https://www.safran-group.com/',
     specialisatie: 'Aerospace technology, defense systems, high-tech engineering',
@@ -436,7 +436,7 @@ const bedrijven = ref([
   {
     id: 25,
     name: 'Simac',
-    src: '/images/logos/simac-logo.png',
+    src: '/images/logos/simac.svg',
     favoriet: false,
     website: 'https://www.simac.com/be-nl',
     specialisatie: 'IT solutions, digital workspace, business applications, managed services',
@@ -453,7 +453,7 @@ const bedrijven = ref([
   {
     id: 26,
     name: 'Sopra Steria',
-    src: '/images/logos/sopra-steria-logo.png',
+    src: '/images/logos/sopra-steria.png',
     favoriet: false,
     website: 'https://www.soprasteria.be/',
     specialisatie: 'Digital transformation, consulting, software development, systems integration',
@@ -1199,6 +1199,7 @@ onMounted(() => {
             <h4 class="font-semibold mb-4">Support</h4>
             <ul class="space-y-2 text-orange-100 text-sm">
               <li><Link href="/contact" class="hover:text-white transition-colors">Contact</Link></li>
+              <li><Link href="/faq" class="hover:text-white transition-colors">FAQ</Link></li>
               <li><Link href="/privacy" class="hover:text-white transition-colors">Privacy beleid</Link></li>
             </ul>
           </div>
@@ -1213,11 +1214,13 @@ onMounted(() => {
 </template>
 
 <style scoped>
+/* Line clamp utilities */
 .line-clamp-1 {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-clamp: 1;
 }
 
 .line-clamp-2 {
@@ -1225,6 +1228,7 @@ onMounted(() => {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-clamp: 2;
 }
 
 .line-clamp-3 {
@@ -1232,6 +1236,7 @@ onMounted(() => {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-clamp: 3;
 }
 
 @keyframes slideIn {
