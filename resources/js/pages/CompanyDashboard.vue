@@ -15,33 +15,33 @@
                 <div class="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white animate-pulse flex items-center justify-center">
                   <div class="w-2 h-2 bg-white rounded-full"></div>
                 </div>
-              </div>
-              <div>
+                                </div>
+                                <div>
                 <div class="font-black text-2xl text-gray-900 tracking-tight">{{ companyData.name }}</div>
                 <div class="text-xs text-gray-500 font-bold tracking-wider uppercase bg-green-100 text-green-600 px-2 py-1 rounded-full">
                   Company Portal
-                </div>
-              </div>
-            </div>
+                                </div>
+                            </div>
+                        </div>
             
             <!-- Real-time Company Metrics -->
             <div class="hidden lg:flex items-center space-x-8 px-8 py-4 bg-gradient-to-r from-gray-50 to-green-50 rounded-2xl border border-gray-200">
               <div class="text-center">
                 <div class="text-xl font-black text-gray-900">{{ companyData.activeJobs }}</div>
                 <div class="text-xs text-gray-500 font-medium">Active Jobs</div>
-              </div>
+                    </div>
               <div class="w-px h-10 bg-gray-300"></div>
-              <div class="text-center">
+                            <div class="text-center">
                 <div class="text-xl font-black text-blue-600">{{ companyData.applications }}</div>
                 <div class="text-xs text-gray-500 font-medium">Applications</div>
-              </div>
+                            </div>
               <div class="w-px h-10 bg-gray-300"></div>
-              <div class="text-center">
+                            <div class="text-center">
                 <div class="text-xl font-black text-purple-600">{{ companyData.interviews }}</div>
                 <div class="text-xs text-gray-500 font-medium">Interviews</div>
-              </div>
+                            </div>
               <div class="w-px h-10 bg-gray-300"></div>
-              <div class="text-center">
+                            <div class="text-center">
                 <div class="flex items-center justify-center space-x-1">
                   <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                   <span class="text-xs font-bold text-green-600">{{ companyData.responseRate }}%</span>
@@ -91,11 +91,11 @@
                 <div class="hidden sm:block">
                   <div class="text-sm font-bold text-gray-900">{{ companyData.name }}</div>
                   <div class="text-xs text-gray-500 font-medium">{{ companyData.industry }}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
       </header>
   
       <!-- Advanced Navigation Tabs -->
@@ -119,7 +119,7 @@
             </button>
           </nav>
         </div>
-      </div>
+                        </div>
   
       <!-- Main Content -->
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -134,7 +134,7 @@
               <div class="absolute bottom-10 right-10 w-56 h-56 bg-teal-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
               <div class="absolute top-1/2 left-1/3 w-24 h-24 bg-green-500/10 rounded-full blur-2xl animate-bounce"></div>
               <div class="absolute inset-0 bg-gradient-to-r from-green-900/20 to-emerald-900/20"></div>
-            </div>
+                    </div>
             
             <div class="relative z-10">
               <div class="flex items-center space-x-6 mb-8">
@@ -150,14 +150,14 @@
                     <div class="bg-white/20 backdrop-blur-sm rounded-xl px-4 py-2 flex items-center space-x-2">
                       <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
                       <span class="text-sm font-semibold">{{ companyData.status }}</span>
-                    </div>
+                        </div>
                     <div class="bg-white/20 backdrop-blur-sm rounded-xl px-4 py-2 text-sm font-semibold">
                       {{ companyData.location }}
                     </div>
                   </div>
                 </div>
-              </div>
-              
+                </div>
+
               <!-- Company Metrics Grid -->
               <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                 <div v-for="metric in companyMetrics" :key="metric.label"
@@ -202,10 +202,10 @@
                       {{ stat.change }}
                     </span>
                   </div>
-                </div>
+                        </div>
                 <div class="text-4xl font-black text-gray-900 mb-3 group-hover:text-green-600 transition-colors duration-300">
                   {{ stat.value }}
-                </div>
+                    </div>
                 <div class="text-gray-600 font-bold text-lg">{{ stat.label }}</div>
                 <div class="text-sm text-gray-500 mt-2">{{ stat.subtitle }}</div>
                 
@@ -214,10 +214,10 @@
                   <div :class="`h-full rounded-full transition-all duration-1000 ${stat.trendBarColor}`" 
                        :style="`width: ${stat.trendPercentage}%`"></div>
                 </div>
-              </div>
+                </div>
             </div>
-          </div>
-  
+        </div>
+
           <!-- Main Company Dashboard Grid -->
           <div class="grid lg:grid-cols-3 gap-8">
             <!-- Left Column - Jobs & Applications -->
@@ -255,17 +255,17 @@
                       </div>
                     </div>
                     
-                    <div class="flex items-center space-x-3">
+                                <div class="flex items-center space-x-3">
                       <button class="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-xl font-semibold transition-all duration-300 hover:scale-105">
                         View Applications
                       </button>
                       <button class="text-gray-400 hover:text-gray-600 transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
                 </div>
               </div>
   
@@ -276,7 +276,7 @@
                     <h3 class="text-2xl font-black text-gray-900">Recent Applications</h3>
                     <p class="text-gray-600 mt-1">Latest candidate submissions</p>
                   </div>
-                  <div class="flex items-center space-x-4">
+                                <div class="flex items-center space-x-4">
                     <div class="flex items-center space-x-2">
                       <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                       <span class="text-sm font-medium text-green-600">Live</span>
@@ -300,7 +300,7 @@
                             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                           </svg>
                         </div>
-                      </div>
+                                </div>
                       <div>
                         <div class="font-bold text-gray-900 text-lg">{{ application.candidateName }}</div>
                         <div class="text-gray-600 font-medium">{{ application.position }}</div>
@@ -312,11 +312,11 @@
                               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                             </svg>
                             <span class="text-sm font-medium text-gray-600">{{ application.matchScore }}% match</span>
-                          </div>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                    
+                </div>
+
                     <div class="flex items-center space-x-3">
                       <button class="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-xl font-semibold transition-all duration-300 hover:scale-105">
                         Reject
@@ -367,7 +367,7 @@
               
               <!-- Company Profile Status -->
               <div class="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-3xl p-8 border-2 border-green-200">
-                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center justify-between mb-6">
                   <div>
                     <h3 class="text-xl font-black text-gray-900">Company Profile</h3>
                     <p class="text-gray-600 text-sm">{{ companyData.profileCompleteness }}% complete</p>
@@ -407,9 +407,9 @@
                   <button class="text-blue-600 hover:text-blue-800 font-semibold transition-colors">
                     View All
                   </button>
-                </div>
-                
-                <div class="space-y-4">
+                    </div>
+                    
+                    <div class="space-y-4">
                   <div v-for="candidate in favoriteCandidates" :key="candidate.id" 
                        class="flex items-center space-x-4 p-4 border-2 border-gray-100 rounded-2xl hover:border-blue-200 hover:bg-blue-50 transition-all duration-300 group">
                     <div class="relative">
@@ -483,7 +483,7 @@
           <div class="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
             <div class="flex items-center justify-between mb-8">
               <h3 class="text-2xl font-black text-gray-900">All Job Postings</h3>
-              <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-4">
                 <select v-model="jobFilter" class="px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                   <option value="all">All Jobs</option>
                   <option value="active">Active Only</option>
@@ -525,11 +525,11 @@
                     <span class="text-gray-500">Type:</span>
                     <span class="font-semibold text-purple-600 ml-1">{{ job.type }}</span>
                   </div>
-                  <div>
+                                <div>
                     <span class="text-gray-500">Posted:</span>
                     <span class="font-semibold text-gray-600 ml-1">{{ job.postedDays }}d ago</span>
-                  </div>
-                </div>
+                                </div>
+                            </div>
   
                 <div class="flex items-center space-x-2">
                   <button class="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-2 px-4 rounded-xl font-semibold hover:scale-105 transition-all duration-300">
@@ -537,13 +537,13 @@
                   </button>
                   <button class="px-4 py-2 border-2 border-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors">
                     Edit
-                  </button>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-  
+
         <!-- Candidates Tab -->
         <div v-if="activeTab === 'candidates'" class="space-y-8">
           <!-- Candidates Header -->
@@ -582,8 +582,8 @@
                       <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                       </svg>
-                    </div>
-                  </div>
+                            </div>
+                            </div>
                   <div>
                     <div class="font-bold text-gray-900 text-lg">{{ candidate.name }}</div>
                     <div class="text-gray-600 font-medium">{{ candidate.position }}</div>
@@ -606,27 +606,27 @@
                             class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
                         +{{ candidate.skills.length - 3 }}
                       </span>
+                        </div>
                     </div>
-                  </div>
                 </div>
-                
+
                 <div class="flex items-center space-x-3">
                   <button @click="addToFavorites(candidate)"
                           class="text-red-500 hover:text-red-700 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                     </svg>
-                  </button>
+                        </button>
                   <button class="bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2 rounded-xl font-semibold transition-all duration-300 hover:scale-105">
                     View Profile
-                  </button>
+                        </button>
                   <button class="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6 py-2 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
                     Schedule Interview
-                  </button>
+                        </button>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
+        </div>
         </div>
       </div>
   
@@ -657,8 +657,8 @@
         </div>
       </div>
     </div>
-  </template>
-  
+</template>
+
   <script setup>
   import { ref, computed, onMounted } from 'vue';
   
@@ -668,8 +668,8 @@
   const jobFilter = ref('all');
   const candidateFilter = ref('all');
   const newTalentCount = ref(12);
-  
-  // Company data
+
+// Company data
   const companyData = ref({
     name: "Accenture Belgium",
     industry: "IT Consulting & Services",
@@ -846,7 +846,7 @@
   // Active jobs
   const activeJobs = ref([
     {
-      id: 1,
+        id: 1,
       title: "Senior Software Engineer",
       department: "Technology",
       applications: 45,
@@ -855,7 +855,7 @@
       status: "active"
     },
     {
-      id: 2,
+        id: 2,
       title: "Frontend Developer",
       department: "Digital",
       applications: 32,
@@ -864,7 +864,7 @@
       status: "active"
     },
     {
-      id: 3,
+        id: 3,
       title: "Data Analyst",
       department: "Analytics",
       applications: 28,
@@ -882,11 +882,11 @@
       status: "draft"
     }
   ]);
-  
-  // Recent applications
+
+// Recent applications
   const recentApplications = ref([
     {
-      id: 1,
+        id: 1,
       candidateName: "Maryam Afallah",
       position: "Frontend Developer",
       experience: "2+ years",
@@ -895,7 +895,7 @@
       featured: true
     },
     {
-      id: 2,
+        id: 2,
       candidateName: "Thomas Janssen",
       position: "Senior Software Engineer", 
       experience: "5+ years",
@@ -976,7 +976,7 @@
       rating: 4.7
     },
     {
-      id: 3,
+        id: 3,
       name: "Sarah De Vos",
       field: "Data Science",
       skills: ["Python", "Machine Learning", "SQL"],
@@ -1051,7 +1051,7 @@
   // All candidates (for candidate management)
   const allCandidates = ref([
     {
-      id: 1,
+        id: 1,
       name: "Maryam Afallah",
       position: "Frontend Developer",
       experience: "2+ years",
@@ -1062,7 +1062,7 @@
       status: "new"
     },
     {
-      id: 2,
+        id: 2,
       name: "Thomas Janssen",
       position: "Senior Software Engineer", 
       experience: "5+ years",
@@ -1073,7 +1073,7 @@
       status: "interview"
     },
     {
-      id: 3,
+        id: 3,
       name: "Sarah De Vos",
       position: "Data Analyst",
       experience: "3+ years",
@@ -1119,8 +1119,8 @@
     if (candidateFilter.value === 'all') return allCandidates.value;
     return allCandidates.value.filter(candidate => candidate.status === candidateFilter.value);
   });
-  
-  // Helper functions
+
+// Helper functions
   const getJobTypeColor = (type) => {
     const colors = {
       'Full-time': 'bg-green-100 text-green-800 border-green-200',
@@ -1176,7 +1176,7 @@
     
     console.log('Company Dashboard PRO initialized');
   });
-  </script>
+</script> 
   
   <style scoped>
   /* Custom scrollbar */

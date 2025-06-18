@@ -1,37 +1,37 @@
 <template>
     <div class="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50">
         <Head title="Plan je afspraak - Erasmus Career Launch" />
-        
+      
         <!-- Premium Navigation -->
         <nav class="bg-white/95 backdrop-blur-md shadow-lg border-b border-orange-100 sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="flex justify-between items-center h-16">
                     <!-- Premium Logo -->
                     <Link href="/" class="flex items-center space-x-3 group">
                         <div class="w-12 h-12 bg-gradient-to-br from-red-600 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
                             <span class="text-white font-bold text-xl">E</span>
-                        </div>
-                        <div>
+                      </div>
+                      <div>
                             <div class="text-gray-900 font-bold text-xl tracking-tight">erasmus</div>
                             <div class="text-xs text-gray-600 -mt-1 font-medium">HOGESCHOOL BRUSSEL</div>
-                        </div>
-                    </Link>
-                    
+                      </div>
+                  </Link>
+                  
                     <!-- Premium Navigation Links -->
-                    <div class="hidden md:flex items-center space-x-1">
+                  <div class="hidden md:flex items-center space-x-1">
                         <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Home</Link>
                         <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Info</Link>
                         <Link href="/afspraak" class="px-4 py-2 text-orange-600 font-medium bg-orange-100 rounded-lg">Afspraak</Link>
                         <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Contact</Link>
-                        
-                        <div class="flex items-center ml-6">
+                      
+                      <div class="flex items-center ml-6">
                             <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-semibold transition-colors rounded-lg hover:bg-orange-50">Inloggen</Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-  
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </nav>
+
         <!-- Hero Section -->
         <div class="relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-r from-orange-600 to-red-600 opacity-5"></div>
@@ -40,13 +40,13 @@
                     <div class="flex justify-center mb-8">
                         <div class="w-24 h-24 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-3xl flex items-center justify-center shadow-2xl">
                             <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                    </div>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                  </div>
+              </div>
                     <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
                         Plan je <span class="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Career Launch</span> gesprek
-                    </h1>
+              </h1>
                     <p class="text-gray-600 text-xl max-w-4xl mx-auto leading-relaxed mb-8">
                         Ontmoet face-to-face de bedrijven die je interesseren. 
                         Kies een bedrijf en tijdslot voor een persoonlijk gesprek van 15 minuten.
@@ -54,19 +54,19 @@
                     
                     <!-- Success Indicators -->
                     <div class="flex items-center justify-center space-x-8 text-sm text-gray-600">
-                        <div class="flex items-center">
+                  <div class="flex items-center">
                             <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                             </svg>
                             <span>250+ succesvolle matches</span>
-                        </div>
-                        <div class="flex items-center">
+                  </div>
+                  <div class="flex items-center">
                             <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                             </svg>
                             <span>85% tevredenheidsscore</span>
-                        </div>
-                        <div class="flex items-center">
+                  </div>
+                  <div class="flex items-center">
                             <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                             </svg>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+                  </div>
   
         <!-- Main Content -->
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
@@ -83,7 +83,7 @@
             <div class="mb-16">
                 <div class="flex items-center justify-center space-x-4 mb-8 overflow-x-auto pb-4">
                     <div v-for="(step, index) in progressSteps" :key="index" class="flex items-center">
-                        <div class="flex items-center">
+                  <div class="flex items-center">
                             <div :class="currentStep >= step.number ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg scale-110' : 'bg-gray-200 text-gray-600'" 
                                  class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 relative">
                                 <span v-if="currentStep > step.number" class="absolute">
@@ -103,11 +103,11 @@
                         <div v-if="index < progressSteps.length - 1" 
                              :class="currentStep > step.number ? 'bg-gradient-to-r from-orange-500 to-red-500' : 'bg-gray-300'"
                              class="w-8 h-1 rounded-full mx-4 transition-all duration-300"></div>
-                    </div>
-                </div>
-            </div>
-  
-            <!-- Step 1: Event Selection -->
+                  </div>
+              </div>
+          </div>
+
+          <!-- Step 1: Event Selection -->
             <div v-if="currentStep === 1" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
                 <div class="text-center mb-8">
                     <h2 class="text-3xl font-bold text-gray-900 mb-4">Welkom bij Career Launch</h2>
@@ -133,11 +133,11 @@
                                     <svg class="w-6 h-6 mr-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                     </svg>
-                                    <div>
+                          <div>
                                         <div class="font-semibold">15 maart 2025</div>
                                         <div class="text-sm text-gray-600">Zaterdag</div>
                                     </div>
-                                </div>
+                          </div>
                                 <div class="flex items-center text-gray-700 bg-white/60 rounded-xl p-3">
                                     <svg class="w-6 h-6 mr-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -145,13 +145,13 @@
                                     <div>
                                         <div class="font-semibold">09:00 - 17:00</div>
                                         <div class="text-sm text-gray-600">8 uur netwerkgelegenheid</div>
-                                    </div>
-                                </div>
+                          </div>
+                      </div>
                                 <div class="flex items-center text-gray-700 bg-white/60 rounded-xl p-3">
                                     <svg class="w-6 h-6 mr-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                  </svg>
                                     <div>
                                         <div class="font-semibold">Campus Brussel</div>
                                         <div class="text-sm text-gray-600">Hoofdgebouw - Zaal A1.01</div>
@@ -214,7 +214,7 @@
                         Deelnemen aan Career Launch
                     </button>
                 </div>
-            </div>
+                              </div>
   
             <!-- Step 2: Company Selection -->
             <div v-if="currentStep === 2" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
@@ -224,7 +224,7 @@
                     <div class="flex items-center">
                         <svg class="h-6 w-6 text-orange-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+                                  </svg>
                         <div>
                             <p class="font-semibold text-orange-800">Career Launch Event • 15 maart 2025 • Campus Brussel</p>
                             <p class="text-orange-700 text-sm mt-1">Selecteer het bedrijf waarmee je een 15-minuten één-op-één gesprek wilt plannen.</p>
@@ -252,8 +252,8 @@
                                 <option value="Healthcare">Healthcare</option>
                             </select>
                         </div>
-                    </div>
-                </div>
+                              </div>
+                          </div>
                 
                 <!-- Companies grid -->
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -272,13 +272,13 @@
                                     <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
                                         {{ company.sector || 'Algemeen' }}
                                     </span>
-                                    <div class="text-right">
+                          <div class="text-right">
                                         <div class="text-green-600 font-bold text-sm">{{ company.openPositions || 0 }} posities</div>
                                         <div class="text-xs text-gray-500">beschikbaar</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
                         
                         <!-- Selection indicator -->
                         <div v-if="selectedCompany?.id === company.id" class="mt-4 flex items-center text-orange-600">
@@ -295,15 +295,15 @@
                             class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300">
                         ← Vorige stap
                     </button>
-                    <button @click="nextStep" 
+                  <button @click="nextStep" 
                             :disabled="!selectedCompany"
                             :class="selectedCompany ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-lg hover:shadow-xl' : 'bg-gray-300 cursor-not-allowed'"
                             class="px-8 py-3 text-white rounded-xl font-semibold transition-all duration-300">
                         Volgende stap →
-                    </button>
-                </div>
-            </div>
-  
+                  </button>
+              </div>
+          </div>
+
             <!-- Step 3: Time Slot Selection -->
             <div v-if="currentStep === 3" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
                 <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Kies je perfecte tijdslot</h2>
@@ -344,7 +344,7 @@
                             <h4 class="font-semibold text-gray-900 mb-3 text-lg">{{ period.name }}</h4>
                             <div class="grid md:grid-cols-4 lg:grid-cols-6 gap-3">
                                 <div v-for="slot in getSlotsByPeriod(period.range)" :key="slot.id"
-                                     @click="selectTimeSlot(slot)"
+                       @click="selectTimeSlot(slot)"
                                      :class="getTimeSlotClass(slot)"
                                      class="border rounded-xl p-4 cursor-pointer transition-all duration-300 text-center relative overflow-hidden">
                                     
@@ -363,11 +363,11 @@
                                     </div>
                                     <div v-else class="text-xs font-semibold text-red-500 bg-red-100 rounded-full px-2 py-1">
                                         ✗ Bezet
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                          </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
                     
                     <!-- Legend -->
                     <div class="mt-8 flex items-center justify-center space-x-8 text-sm border-t border-gray-200 pt-6">
@@ -405,17 +405,17 @@
                     <button @click="prevStep" 
                             class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300">
                         ← Vorige stap
-                    </button>
-                    <button @click="nextStep" 
+                  </button>
+                  <button @click="nextStep" 
                             :disabled="!selectedTimeSlot || loading"
                             :class="selectedTimeSlot && !loading ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-lg hover:shadow-xl' : 'bg-gray-300 cursor-not-allowed'"
                             class="px-8 py-3 text-white rounded-xl font-semibold transition-all duration-300">
                         <span v-if="loading">Laden...</span>
                         <span v-else>Volgende stap →</span>
-                    </button>
-                </div>
-            </div>
-  
+                  </button>
+              </div>
+          </div>
+
             <!-- Step 4: Personal Details -->
             <div v-if="currentStep === 4" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
                 <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Vertel ons over jezelf</h2>
@@ -453,65 +453,65 @@
                 </div>
                 
                 <div class="grid md:grid-cols-2 gap-8">
-                    <div>
+                  <div>
                         <label class="block text-sm font-bold text-gray-700 mb-3">Voornaam *</label>
                         <input v-model="form.first_name" 
-                               type="text" 
-                               required
+                             type="text" 
+                             required
                                :class="form.errors.first_name ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-orange-500'"
                                class="w-full px-6 py-4 border rounded-xl focus:ring-2 focus:border-transparent text-lg">
                         <div v-if="form.errors.first_name" class="text-red-500 text-sm mt-2">{{ form.errors.first_name }}</div>
-                    </div>
-                    <div>
+                  </div>
+                  <div>
                         <label class="block text-sm font-bold text-gray-700 mb-3">Achternaam *</label>
                         <input v-model="form.last_name" 
-                               type="text" 
-                               required
+                             type="text" 
+                             required
                                :class="form.errors.last_name ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-orange-500'"
                                class="w-full px-6 py-4 border rounded-xl focus:ring-2 focus:border-transparent text-lg">
                         <div v-if="form.errors.last_name" class="text-red-500 text-sm mt-2">{{ form.errors.last_name }}</div>
-                    </div>
-                    <div>
+                  </div>
+                  <div>
                         <label class="block text-sm font-bold text-gray-700 mb-3">E-mailadres *</label>
                         <input v-model="form.email" 
-                               type="email" 
-                               required
+                             type="email" 
+                             required
                                :class="form.errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-orange-500'"
                                class="w-full px-6 py-4 border rounded-xl focus:ring-2 focus:border-transparent text-lg">
                         <div v-if="form.errors.email" class="text-red-500 text-sm mt-2">{{ form.errors.email }}</div>
-                    </div>
-                    <div>
+                  </div>
+                  <div>
                         <label class="block text-sm font-bold text-gray-700 mb-3">Telefoonnummer</label>
                         <input v-model="form.phone" 
-                               type="tel" 
+                             type="tel" 
                                class="w-full px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent text-lg">
-                    </div>
-                    <div class="md:col-span-2">
+                  </div>
+                  <div class="md:col-span-2">
                         <label class="block text-sm font-bold text-gray-700 mb-3">Studierichting *</label>
                         <select v-model="form.study_program" 
-                                required
+                              required
                                 :class="form.errors.study_program ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-orange-500'"
                                 class="w-full px-6 py-4 border rounded-xl focus:ring-2 focus:border-transparent text-lg">
-                            <option value="">Selecteer je studierichting</option>
-                            <option value="Toegepaste Informatica">Toegepaste Informatica</option>
-                            <option value="Business Management">Business Management</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Accountancy-Fiscaliteit">Accountancy-Fiscaliteit</option>
+                          <option value="">Selecteer je studierichting</option>
+                          <option value="Toegepaste Informatica">Toegepaste Informatica</option>
+                          <option value="Business Management">Business Management</option>
+                          <option value="Marketing">Marketing</option>
+                          <option value="Accountancy-Fiscaliteit">Accountancy-Fiscaliteit</option>
                             <option value="Communicatiemanagement">Communicatiemanagement</option>
                             <option value="Financie- en Verzekeringswezen">Financie- en Verzekeringswezen</option>
-                            <option value="Andere">Andere</option>
-                        </select>
+                          <option value="Andere">Andere</option>
+                      </select>
                         <div v-if="form.errors.study_program" class="text-red-500 text-sm mt-2">{{ form.errors.study_program }}</div>
-                    </div>
-                    <div class="md:col-span-2">
+                  </div>
+                  <div class="md:col-span-2">
                         <label class="block text-sm font-bold text-gray-700 mb-3">Motivatie (optioneel)</label>
                         <textarea v-model="form.motivation" 
-                                  rows="4"
+                                rows="4"
                                   placeholder="Waarom wil je bij dit bedrijf werken? Wat zijn je doelen en verwachtingen van dit gesprek?"
                                   class="w-full px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent text-lg"></textarea>
                         <div class="text-sm text-gray-500 mt-2">💡 Dit helpt het bedrijf om zich beter voor te bereiden op jullie gesprek.</div>
-                    </div>
-                </div>
+                  </div>
+              </div>
                 
                 <div class="flex justify-between items-center mt-10">
                     <button @click="prevStep" 
@@ -525,7 +525,7 @@
                         <button @click="debugState" 
                                 class="px-4 py-3 border border-blue-500 text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors text-sm">
                             🔍 Debug
-                        </button>
+                  </button>
                         
                         <button @click="bookAppointment" 
                                 :disabled="!isFormValid || form.processing"
@@ -537,19 +537,19 @@
                             </svg>
                             <span v-if="form.processing">Bevestigen...</span>
                             <span v-else>✨ Afspraak Bevestigen</span>
-                        </button>
+                  </button>
                     </div>
-                </div>
-            </div>
-  
+              </div>
+          </div>
+
             <!-- Step 5: Confirmation -->
             <div v-if="currentStep === 5" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
-                <div class="text-center">
+              <div class="text-center">
                     <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse">
                         <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                    </div>
+                      </svg>
+                  </div>
                     <h2 class="text-4xl font-bold text-gray-900 mb-6">Gesprek succesvol geboekt! 🎉</h2>
                     <p class="text-gray-600 text-xl mb-8 max-w-2xl mx-auto">
                         Fantastisch! Je gesprek met <span class="font-bold text-orange-600">{{ selectedCompany?.name }}</span> 
@@ -595,8 +595,8 @@
                                     <span class="font-bold">{{ form.study_program }}</span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                          </div>
+                          </div>
   
                     <!-- Next Steps -->
                     <div class="bg-blue-50 rounded-2xl p-6 mb-8 text-left border border-blue-200">
@@ -605,51 +605,51 @@
                             <div class="flex items-start">
                                 <span class="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5">1</span>
                                 <span>Je ontvangt binnen 5 minuten een bevestigingsmail met alle details</span>
-                            </div>
+                          </div>
                             <div class="flex items-start">
                                 <span class="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5">2</span>
                                 <span>24 uur voor het event krijg je een herinneringsmail</span>
-                            </div>
+                          </div>
                             <div class="flex items-start">
                                 <span class="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5">3</span>
                                 <span>Bereid je voor: onderzoek het bedrijf en denk na over je vragen</span>
-                            </div>
-                        </div>
-                    </div>
-  
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="flex flex-col sm:flex-row gap-4 justify-center">
                         <button @click="downloadCalendar" 
                                 class="inline-flex items-center px-8 py-4 border-2 border-orange-500 text-orange-600 rounded-2xl font-bold hover:bg-orange-500 hover:text-white transition-all duration-300">
                             <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                            </svg>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                          </svg>
                             📅 Toevoegen aan kalender
-                        </button>
+                      </button>
                         <Link href="/login" 
                               class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl font-bold hover:from-orange-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl">
                             <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                            </svg>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                          </svg>
                             🚀 Bekijk je profiel
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </div>
-  
+                      </Link>
+                  </div>
+              </div>
+          </div>
+      </div>
+
         <!-- Premium Footer -->
         <footer class="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white py-20">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid md:grid-cols-4 gap-12">
-                    <div>
+                  <div>
                         <div class="flex items-center space-x-3 mb-6">
                             <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
                                 <span class="text-white font-bold text-xl">E</span>
-                            </div>
+                          </div>
                             <div class="text-white font-bold text-2xl">erasmus</div>
-                        </div>
+                      </div>
                         <p class="text-orange-100 mb-6 leading-relaxed">
-                            Hogeschool Brussel<br>
+                          Hogeschool Brussel<br>
                             <span class="font-semibold">Connecting talent with opportunity</span>
                         </p>
                         <div class="flex space-x-4">
@@ -660,9 +660,9 @@
                                 <span class="text-sm">📱</span>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div>
+                  </div>
+                  
+                  <div>
                         <h4 class="font-bold mb-6 text-xl">Voor studenten</h4>
                         <ul class="space-y-3 text-orange-100">
                             <li><Link href="/register?type=student" class="hover:text-white transition-colors flex items-center">
@@ -671,39 +671,39 @@
                                 <span class="mr-2">→</span>Speeddate events</Link></li>
                             <li><Link href="/jobs" class="hover:text-white transition-colors flex items-center">
                                 <span class="mr-2">→</span>Job board</Link></li>
-                        </ul>
-                    </div>
-                    
-                    <div>
+                      </ul>
+                  </div>
+                  
+                  <div>
                         <h4 class="font-bold mb-6 text-xl">Voor bedrijven</h4>
                         <ul class="space-y-3 text-orange-100">
                             <li><Link href="/bedrijven" class="hover:text-white transition-colors flex items-center">
                                 <span class="mr-2">→</span>Browse talenten</Link></li>
                             <li><Link href="/events" class="hover:text-white transition-colors flex items-center">
                                 <span class="mr-2">→</span>Organiseer events</Link></li>
-                        </ul>
-                    </div>
-                    
-                    <div>
+                      </ul>
+                  </div>
+                  
+                  <div>
                         <h4 class="font-bold mb-6 text-xl">Support</h4>
                         <ul class="space-y-3 text-orange-100">
                             <li><Link href="/contact" class="hover:text-white transition-colors flex items-center">
                                 <span class="mr-2">→</span>Contact</Link></li>
                             <li><Link href="/help" class="hover:text-white transition-colors flex items-center">
                                 <span class="mr-2">→</span>Help center</Link></li>
-                        </ul>
-                    </div>
-                </div>
-                
+                      </ul>
+                  </div>
+              </div>
+              
                 <div class="border-t border-orange-400 mt-16 pt-8 text-center text-orange-100">
                     <p>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden. Made with ❤️ for students.</p>
-                </div>
-            </div>
-        </footer>
-    </div>
-  </template>
-  
-  <script setup>
+              </div>
+          </div>
+      </footer>
+  </div>
+</template>
+
+<script setup>
   import { ref, computed, onMounted } from 'vue';
   import { Head, Link, useForm } from '@inertiajs/vue3';
   import axios from 'axios';
@@ -781,10 +781,10 @@
     time_slot_id: null,
     first_name: '',
     last_name: '',
-    email: '',
-    phone: '',
+  email: '',
+  phone: '',
     study_program: '',
-    motivation: ''
+  motivation: ''
   });
   
   // Form validation
@@ -962,9 +962,9 @@
   function bookAppointment() {
     console.log('🚀 Starting appointment booking...', {
       currentStep: currentStep.value,
-      event: selectedEvent.value,
+          event: selectedEvent.value,
       company: selectedCompany.value,
-      timeSlot: selectedTimeSlot.value,
+          timeSlot: selectedTimeSlot.value,
       formData: form.data()
     });
     
@@ -1075,23 +1075,23 @@
     try {
       const startDate = new Date(`${event.date} ${timeSlot.time.split(' - ')[0]}`);
       const endDate = new Date(`${event.date} ${timeSlot.time.split(' - ')[1]}`);
-      
-      const icsContent = `BEGIN:VCALENDAR
-  VERSION:2.0
+  
+  const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
   PRODID:-//Erasmus Hogeschool Brussel//Career Launch//EN
-  BEGIN:VEVENT
+BEGIN:VEVENT
   UID:${appointmentId.value}@erasmus.be
-  DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
-  DTSTART:${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z
-  DTEND:${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+DTSTART:${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+DTEND:${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z
   SUMMARY:Career Launch - ${selectedCompany.value.name}
   DESCRIPTION:Speeddate gesprek met ${selectedCompany.value.name}\\nDeelnemer: ${form.first_name} ${form.last_name}\\nStudierichting: ${form.study_program}
-  LOCATION:${event.location}
+LOCATION:${event.location}
   BEGIN:VALARM
   TRIGGER:-PT30M
   DESCRIPTION:Career Launch gesprek over 30 minuten
   END:VALARM
-  END:VEVENT
+END:VEVENT
   END:VCALENDAR`;
       
       const blob = new Blob([icsContent], { type: 'text/calendar' });
@@ -1181,4 +1181,4 @@
       timeslots: timeSlots.value.length
     });
   });
-  </script>
+</script>
