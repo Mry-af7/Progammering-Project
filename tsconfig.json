@@ -47,6 +47,13 @@
             "node"
         ],
         "allowJs": true,
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "noEmit": true,
         "forceConsistentCasingInFileNames": true
     },
     "include": [
