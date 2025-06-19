@@ -13,72 +13,80 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        if (!auth()->user()->is_admin) {
-            abort(403, 'Geen toegang');
+        try {
+            $stats = [
+                'total_students' => User::where('role', 'student')->count(),
+                'total_companies' => Company::count(),
+                'total_appointments' => Appointment::count(),
+                'pending_appointments' => Appointment::where('status', 'pending')->count(),
+                'confirmed_appointments' => Appointment::where('status', 'confirmed')->count(),
+            ];
+
+            $recent_appointments = Appointment::with(['user', 'company'])
+                ->latest()
+                ->take(10)
+                ->get();
+
+            $recent_students = User::where('role', 'student')
+                ->latest()
+                ->take(10)
+                ->get();
+
+            return Inertia::render('Admin/Dashboard', [
+                'stats' => $stats,
+                'recent_appointments' => $recent_appointments,
+                'recent_students' => $recent_students,
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Admin Dashboard Error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Er is een fout opgetreden bij het laden van het dashboard.');
         }
-        $stats = [
-            'total_students' => User::where('is_admin', false)->count(),
-            'total_companies' => Company::count(),
-            'total_appointments' => Appointment::count(),
-            'pending_appointments' => Appointment::where('status', 'pending')->count(),
-            'confirmed_appointments' => Appointment::where('status', 'confirmed')->count(),
-        ];
-
-        $recent_appointments = Appointment::with(['user', 'company'])
-            ->latest()
-            ->take(10)
-            ->get();
-
-        $recent_students = User::where('is_admin', false)
-            ->latest()
-            ->take(10)
-            ->get();
-
-        return Inertia::render('Admin/Dashboard', [
-            'stats' => $stats,
-            'recent_appointments' => $recent_appointments,
-            'recent_students' => $recent_students,
-        ]);
     }
 
     public function companies()
     {
-        if (!auth()->user()->is_admin) {
-            abort(403, 'Geen toegang');
-        }
-        $companies = Company::withCount('appointments')
-            ->paginate(15);
+        try {
+            $companies = Company::withCount('appointments')
+                ->paginate(15);
 
-        return Inertia::render('Admin/Companies', [
-            'companies' => $companies
-        ]);
+            return Inertia::render('Admin/Companies', [
+                'companies' => $companies
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Admin Companies Error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Er is een fout opgetreden bij het laden van de bedrijven.');
+        }
     }
 
     public function students()
     {
-        if (!auth()->user()->is_admin) {
-            abort(403, 'Geen toegang');
-        }
-        $students = User::where('is_admin', false)
-            ->withCount('appointments')
-            ->paginate(15);
+        try {
+            $students = User::where('role', 'student')
+                ->withCount('appointments')
+                ->paginate(15);
 
-        return Inertia::render('Admin/Students', [
-            'students' => $students
-        ]);
+            return Inertia::render('Admin/Students', [
+                'students' => $students
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Admin Students Error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Er is een fout opgetreden bij het laden van de studenten.');
+        }
     }
 
     public function appointments()
     {
-        if (!auth()->user()->is_admin) {
-            abort(403, 'Geen toegang');
-        }
-        $appointments = Appointment::with(['user', 'company'])
-            ->latest()
-            ->paginate(15);
+        try {
+            $appointments = Appointment::with(['user', 'company'])
+                ->latest()
+                ->paginate(15);
 
-        return Inertia::render('Admin/Appointments', [
-            'appointments' => $appointments
-        ]);
+            return Inertia::render('Admin/Appointments', [
+                'appointments' => $appointments
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Admin Appointments Error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Er is een fout opgetreden bij het laden van de afspraken.');
+        }
     }
 }

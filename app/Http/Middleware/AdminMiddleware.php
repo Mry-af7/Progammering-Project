@@ -10,8 +10,12 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check() || !Auth::user()->is_admin) {
-            return redirect('/login')->with('error', 'Admin toegang vereist');
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (!Auth::user()->isAdmin()) {
+            return redirect()->route('dashboard')->with('error', 'Je hebt geen toegang tot het admin dashboard.');
         }
 
         return $next($request);

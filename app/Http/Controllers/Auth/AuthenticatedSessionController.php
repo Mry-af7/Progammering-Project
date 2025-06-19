@@ -14,13 +14,13 @@ use Inertia\Response;
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Show the login page.
+     * Display the login view.
      */
-    public function create(Request $request): Response
+    public function create(): Response
     {
         return Inertia::render('auth/Login', [
             'canResetPassword' => Route::has('password.request'),
-            'status' => $request->session()->get('status'),
+            'status' => session('status'),
         ]);
     }
 
@@ -33,15 +33,23 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $user = auth()->user();
-        
+        $user = Auth::user();
+
+        // Check if the user's role matches the requested role
+        if ($request->role !== $user->role) {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect()->back()->withErrors(['email' => 'Deze gebruiker heeft geen ' . $request->role . ' toegang.']);
+        }
+
         // Role-based redirection
-        if ($user->is_admin) {
-            return redirect()->route('admin.dashboard');
+        if ($user->isAdmin()) {
+            return redirect()->intended(route('admin.dashboard'));
         } elseif ($user->isCompany()) {
-            return redirect()->route('company.dashboard');
+            return redirect()->intended(route('company.dashboard'));
         } else {
-            return redirect()->route('dashboard');
+            return redirect()->intended(route('dashboard'));
         }
     }
 
@@ -53,6 +61,7 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
+
         $request->session()->regenerateToken();
 
         return redirect('/');

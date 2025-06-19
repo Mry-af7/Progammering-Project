@@ -8,9 +8,14 @@ import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm, Link, router } from '@inertiajs/vue3';
 import { LoaderCircle, Search, User } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const activeTab = ref<'bedrijf' | 'student' | 'admin'>('bedrijf');
+
+// Watch for tab changes and update the form role
+watch(activeTab, (newTab) => {
+    form.role = newTab;
+});
 const mobileMenuOpen = ref(false);
 
 const navItems = [
@@ -32,6 +37,7 @@ const form = useForm({
     email: '',
     password: '',
     remember: false,
+    role: activeTab.value
 });
 
 const submit = () => {
