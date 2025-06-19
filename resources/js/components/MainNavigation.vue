@@ -17,9 +17,7 @@ defineProps<{
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
         <Link href="/" class="flex items-center space-x-3 group">
-          <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-            <span class="text-white font-bold text-lg">E</span>
-          </div>
+          <img src="/images/logos/ehb-logo.png" alt="EHB logo" class="w-10 h-10 object-contain transition-all duration-300" />
           <div>
             <div class="text-gray-900 font-bold text-xl">erasmus</div>
             <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
