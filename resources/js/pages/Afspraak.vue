@@ -496,7 +496,7 @@
         <h2 class="text-4xl font-bold text-gray-900 mb-6">Gesprek succesvol geboekt! 🎉</h2>
         <p class="text-gray-600 text-xl mb-8 max-w-2xl mx-auto">
             Fantastisch! Je gesprek met <span class="font-bold text-orange-600">{{ selectedCompany?.name }}</span> 
-            is bevestigd. We hebben een bevestigingsmail gestuurd naar <span class="font-semibold">{{ form.email }}</span>.
+            is bevestigd.
         </p>
         
         <div class="bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 rounded-3xl p-8 mb-8 text-left border border-orange-100">
@@ -529,25 +529,6 @@
                         <span class="text-gray-600 font-medium">Deelnemer:</span>
                         <span class="font-bold">{{ form.first_name }} {{ form.last_name }}</span>
                     </div>
-                </div>
-            </div>
-        </div>
-    
-        <!-- Next Steps -->
-        <div class="bg-blue-50 rounded-2xl p-6 mb-8 text-left border border-blue-200">
-            <h4 class="font-bold text-blue-900 mb-4 text-lg">📝 Wat gebeurt er nu?</h4>
-            <div class="space-y-3 text-sm text-blue-800">
-                <div class="flex items-start">
-                    <span class="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5">1</span>
-                    <span>Je ontvangt binnen 5 minuten een bevestigingsmail met alle details</span>
-                </div>
-                <div class="flex items-start">
-                    <span class="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5">2</span>
-                    <span>24 uur voor het event krijg je een herinneringsmail</span>
-                </div>
-                <div class="flex items-start">
-                    <span class="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5">3</span>
-                    <span>Bereid je voor: onderzoek het bedrijf en denk na over je vragen</span>
                 </div>
             </div>
         </div>
@@ -887,45 +868,49 @@
     }
     
     function downloadCalendar() {
-    if (!selectedEvent.value || !selectedTimeSlot.value || !selectedCompany.value) return
-    
-    try {
-    const eventDate = '2025-03-15' // 15 maart 2025
-    const startDateTime = `${eventDate}T${selectedTimeSlot.value.startTime.replace(':', '')}00`
-    const endDateTime = `${eventDate}T${selectedTimeSlot.value.endTime.replace(':', '')}00`
-    
+  if (!selectedEvent.value || !selectedTimeSlot.value || !selectedCompany.value) return;
+
+  try {
+    const eventDate = '20250315'; // In juiste formaat
+    const startTime = selectedTimeSlot.value.startTime.replace(':', '') + '00';
+    const endTime = selectedTimeSlot.value.endTime.replace(':', '') + '00';
+
+    const startDateTime = `${eventDate}T${startTime}`;
+    const endDateTime = `${eventDate}T${endTime}`;
+
     const icsContent = `BEGIN:VCALENDAR
-    VERSION:2.0
-    PRODID:-//Erasmus Hogeschool Brussel//Career Launch//EN
-    BEGIN:VEVENT
-    UID:${Date.now()}@erasmus.be
-    DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
-    DTSTART:${startDateTime}Z
-    DTEND:${endDateTime}Z
-    SUMMARY:Career Launch - ${selectedCompany.value.name}
-    DESCRIPTION:Speeddate gesprek met ${selectedCompany.value.name}\\nDeelnemer: ${form.first_name} ${form.last_name}\\nStudierichting: ${form.study_program || 'Niet opgegeven'}
-    LOCATION:Campus Brussel - Hoofdgebouw, Zaal A1.01
-    BEGIN:VALARM
-    TRIGGER:-PT30M
-    DESCRIPTION:Career Launch gesprek over 30 minuten
-    END:VALARM
-    END:VEVENT
-    END:VCALENDAR`
-    
-    const blob = new Blob([icsContent], { type: 'text/calendar' })
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `career-launch-${selectedCompany.value.name.toLowerCase().replace(/\s+/g, '-')}.ics`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    window.URL.revokeObjectURL(url)
-    } catch (error) {
-    console.error('Calendar download error:', error)
-    alert('Er was een probleem bij het downloaden van het kalenderbestand.')
-    }
-    }
+VERSION:2.0
+PRODID:-//Erasmus Hogeschool Brussel//Career Launch//EN
+BEGIN:VEVENT
+UID:${Date.now()}@erasmus.be
+DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+DTSTART:${startDateTime}Z
+DTEND:${endDateTime}Z
+SUMMARY:Career Launch - ${selectedCompany.value.name}
+DESCRIPTION:Speeddate gesprek met ${selectedCompany.value.name}\\nDeelnemer: ${form.first_name} ${form.last_name}\\nStudierichting: ${form.study_program || 'Niet opgegeven'}
+LOCATION:Campus Brussel - Hoofdgebouw, Zaal A1.01
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Career Launch gesprek over 30 minuten
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
+
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `career-launch-${selectedCompany.value.name.toLowerCase().replace(/\s+/g, '-')}.ics`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Calendar download error:', error);
+    alert('Er was een probleem bij het downloaden van het kalenderbestand.');
+  }
+}
+
     
     // Watch for filter changes to reset pagination
     watch([companySearchTerm, selectedSector, companiesPerPage], () => {
