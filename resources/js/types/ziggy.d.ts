@@ -127,3 +127,9 @@ declare module '@vue/runtime-core' {
         route: (name: string, params?: any) => string;
     }
 }
+
+declare module '@/types/ziggy' {
+    export function route(name: string, params?: Record<string, any>, absolute?: boolean): string;
+}
+
+export { route };

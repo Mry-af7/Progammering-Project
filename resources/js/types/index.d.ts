@@ -8,22 +8,24 @@ export interface Auth {
 
 export interface BreadcrumbItem {
     title: string;
-    href: string;
+    href?: string;
 }
 
 export interface NavItem {
     title: string;
     href: string;
-    icon?: LucideIcon;
-    isActive?: boolean;
+    icon?: any;
 }
 
 export interface SharedData extends PageProps {
-    name: string;
-    quote: { message: string; author: string };
     auth: Auth;
-    ziggy: Config & { location: string };
-    sidebarOpen: boolean;
+    ziggy: {
+        location: string;
+        url: string;
+        port: number | null;
+        defaults: any[];
+        routes: Record<string, any>;
+    };
 }
 
 export interface User {
@@ -31,9 +33,6 @@ export interface User {
     name: string;
     email: string;
     avatar?: string;
-    email_verified_at: string | null;
-    created_at: string;
-    updated_at: string;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;

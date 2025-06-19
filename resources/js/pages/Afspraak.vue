@@ -942,43 +942,38 @@
     
     <style scoped>
     /* Custom styles for enhanced UX */
-    .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    }
+    /* We don't need to define line-clamp-2 here as it's built into Tailwind */
     
     /* Enhanced hover effects */
     .hover\:scale-102:hover {
-    transform: scale(1.02);
+        transform: scale(1.02);
     }
     
     /* Smooth transitions for all interactive elements */
     * {
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 300ms;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
     }
     
     /* Custom scrollbar for better UX */
     ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+        width: 8px;
+        height: 8px;
     }
     
     ::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 4px;
+        background: #f1f5f9;
+        border-radius: 4px;
     }
     
     ::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 4px;
+        background: #cbd5e1;
+        border-radius: 4px;
     }
     
     ::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+        background: #94a3b8;
     }
     
     /* Enhanced focus states for accessibility */
@@ -986,83 +981,83 @@
     select:focus,
     textarea:focus,
     button:focus {
-    outline: 2px solid #f97316;
-    outline-offset: 2px;
+        outline: 2px solid #f97316;
+        outline-offset: 2px;
     }
     
     /* Premium gradient animations */
     @keyframes gradient-shift {
-    0%, 100% {
-    background-position: 0% 50%;
-    }
-    50% {
-    background-position: 100% 50%;
-    }
+        0%, 100% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
     }
     
     .bg-gradient-to-r {
-    background-size: 200% 200%;
-    animation: gradient-shift 6s ease infinite;
+        background-size: 200% 200%;
+        animation: gradient-shift 6s ease infinite;
     }
     
     /* Loading state animations */
     @keyframes pulse {
-    0%, 100% {
-    opacity: 1;
-    }
-    50% {
-    opacity: 0.5;
-    }
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
     }
     
     .animate-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     }
     
     /* Enhanced card hover effects */
     .group:hover .transform {
-    transform: translateY(-4px);
+        transform: translateY(-4px);
     }
     
     /* Pro-level visual enhancements */
     .shadow-xl {
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
     
     .shadow-2xl {
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     }
     
     /* Enhanced responsive design */
     @media (max-width: 768px) {
-    .grid.md\:grid-cols-2.lg\:grid-cols-3 {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    }
-    
-    .px-8 {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    }
-    
-    .text-5xl.lg\:text-6xl {
-    font-size: 2.5rem;
-    line-height: 1.2;
-    }
+        .grid.md\:grid-cols-2.lg\:grid-cols-3 {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .px-8 {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        .text-5xl.lg\:text-6xl {
+            font-size: 2.5rem;
+            line-height: 1.2;
+        }
     }
     
     /* Premium loading spinner */
     .loading-spinner {
-    border: 3px solid #f3f4f6;
-    border-top: 3px solid #f97316;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    animation: spin 1s linear infinite;
+        border: 3px solid #f3f4f6;
+        border-top: 3px solid #f97316;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        animation: spin 1s linear infinite;
     }
     
     @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
     </style>
