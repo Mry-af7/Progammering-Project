@@ -209,11 +209,11 @@
                      class="flex items-center justify-between p-6 border-2 border-gray-100 rounded-2xl hover:border-orange-200 hover:bg-orange-50 transition-all duration-300 group">
                   <div class="flex items-center space-x-4">
                     <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                      {{ app.logo }}
+                      {{ app.company.logo }}
                     </div>
                     <div>
                       <div class="font-bold text-gray-900 text-lg">{{ app.position }}</div>
-                      <div class="text-gray-600 font-medium">{{ app.company }}</div>
+                      <div class="text-gray-600 font-medium">{{ app.company.name }}</div>
                       <div class="text-sm text-gray-500">Applied {{ app.appliedDays }} days ago</div>
                     </div>
                   </div>
@@ -489,29 +489,110 @@
     </div>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
   import { ref, computed, onMounted } from 'vue';
   
   // Reactive state
   const showQuickMenu = ref(false);
   const showAllFavorites = ref(false);
   
+  interface StudentData {
+    name: string;
+    study: string;
+    avatar: string;
+    applications: number;
+    profileComplete: number;
+    profileViews: number;
+    connections: number;
+  }
+
+  interface ApplicationStatus {
+    id: number;
+    position: string;
+    company: { name: string; logo: string };
+    status: 'Interview Scheduled' | 'Under Review' | 'Application Sent' | 'Offer' | 'Rejected';
+    appliedDays: number;
+  }
+
+  interface Stat {
+    label: string;
+    value: string | number;
+    change: string;
+    subtitle: string;
+    icon: string;
+    iconBg: string;
+    iconColor: string;
+    changeBg: string;
+    changeColor: string;
+    gradient: string;
+  }
+
+  interface ApplicationStage {
+    name: string;
+    count: number;
+    percentage: number;
+    active: boolean;
+  }
+
+  interface CareerGoal {
+    id: number;
+    title: string;
+    description: string;
+    progress: number;
+  }
+
+  interface NetworkingSuggestion {
+    id: number;
+    name: string;
+    position: string;
+    mutualConnections: number;
+  }
+
+  interface UpcomingEvent {
+    id: number;
+    title: string;
+    time: string;
+    location: string;
+    icon: string;
+    isToday: boolean;
+  }
+
+  interface FavoriteCompany {
+    id: number;
+    name: string;
+    industry: string;
+    employees: string;
+    location: string;
+    specialisatie: string;
+    logo: string;
+  }
+
+  interface QuickAction {
+    title: string;
+    icon: string;
+  }
+
+  interface FloatingMenuItem {
+    title: string;
+    icon: string;
+  }
+
   // Student data
-  const studentData = ref({
-    name: "Maryam Afallah",
-    study: "Bachelor Toegepaste Informatica",
-    profileComplete: 92,
-    profileViews: 347,
-    applications: 15,
-    connections: 89,
-    avatar: "MA"
+  const studentData = ref<StudentData>({
+    name: 'Maryam Afallah',
+    study: 'Applied Computer Science',
+    avatar: 'MA',
+    applications: 23,
+    profileComplete: 85,
+    profileViews: 156,
+    connections: 89
   });
   
-  // Statistics data
-  const stats = ref([
+  // Stats for the grid
+  const stats = ref<Stat[]>([
     { 
-      label: "Active Applications", 
-      value: 15, 
+      label: "Applications", 
+      value: 23, 
       change: "+23%", 
       subtitle: "This month",
       icon: "briefcase-icon",
@@ -522,11 +603,11 @@
       gradient: "from-blue-500 to-indigo-500"
     },
     { 
-      label: "Network Connections", 
-      value: 89, 
-      change: "+12", 
-      subtitle: "New this week",
-      icon: "users-icon",
+      label: "Profile Views", 
+      value: 156, 
+      change: "+12%", 
+      subtitle: "This week",
+      icon: "eye-icon",
       iconBg: "bg-green-100",
       iconColor: "text-green-600",
       changeBg: "bg-blue-100",
@@ -534,11 +615,11 @@
       gradient: "from-green-500 to-emerald-500"
     },
     { 
-      label: "Skill Score", 
-      value: "7.8/10", 
-      change: "+0.5", 
-      subtitle: "Improving",
-      icon: "award-icon",
+      label: "Network", 
+      value: 89, 
+      change: "+8", 
+      subtitle: "New connections",
+      icon: "users-icon",
       iconBg: "bg-purple-100",
       iconColor: "text-purple-600",
       changeBg: "bg-purple-100",
@@ -546,11 +627,11 @@
       gradient: "from-purple-500 to-indigo-500"
     },
     { 
-      label: "Avg. Salary Target", 
-      value: "€2,200", 
-      change: "+€200", 
-      subtitle: "Monthly target",
-      icon: "trending-up-icon",
+      label: "Success Rate", 
+      value: "67%", 
+      change: "+5%", 
+      subtitle: "Interview rate",
+      icon: "trending-icon",
       iconBg: "bg-orange-100",
       iconColor: "text-orange-600",
       changeBg: "bg-green-100",
@@ -560,58 +641,58 @@
   ]);
   
   // Application stages
-  const applicationStages = ref([
-    { name: "Applied", count: 15, percentage: 100, active: true },
-    { name: "Reviewing", count: 8, percentage: 53, active: true },
-    { name: "Interview", count: 3, percentage: 20, active: true },
-    { name: "Offer", count: 1, percentage: 7, active: false }
+  const applicationStages = ref<ApplicationStage[]>([
+    { name: "Applied", count: 23, percentage: 100, active: true },
+    { name: "Screening", count: 15, percentage: 65, active: true },
+    { name: "Interview", count: 8, percentage: 35, active: true },
+    { name: "Offer", count: 3, percentage: 13, active: false }
   ]);
   
   // Recent applications
-  const recentApplications = ref([
+  const recentApplications = ref<ApplicationStatus[]>([
     {
-        id: 1,
-        position: 'Junior Software Developer',
-        company: { name: 'Capgemini', logo: '/images/logos/capgemini-logo.svg' },
-        status: 'Interview Scheduled' as ApplicationStatus,
-        appliedDays: 3
+      id: 1,
+      position: 'Junior Software Developer',
+      company: { name: 'Capgemini', logo: '/images/logos/capgemini-logo.svg' },
+      status: 'Interview Scheduled',
+      appliedDays: 3
     },
     {
-        id: 2,
-        position: 'Frontend Developer',
-        company: { name: 'Accenture', logo: '/images/logos/accenture-logo.svg' },
-        status: 'Under Review' as ApplicationStatus,
-        appliedDays: 5
+      id: 2,
+      position: 'Frontend Developer',
+      company: { name: 'Accenture', logo: '/images/logos/accenture-logo.svg' },
+      status: 'Under Review',
+      appliedDays: 5
     },
     {
-        id: 3,
-        position: 'Web Developer',
-        company: { name: 'delaware', logo: '/images/logos/delaware-logo.svg' },
-        status: 'Application Sent' as ApplicationStatus,
-        appliedDays: 1
+      id: 3,
+      position: 'Web Developer',
+      company: { name: 'delaware', logo: '/images/logos/delaware-logo.svg' },
+      status: 'Application Sent',
+      appliedDays: 1
     }
-]
-
-// Current skills
-const currentSkills = [
+  ]);
+  
+  // Current skills
+  const currentSkills = [
     { name: 'JavaScript', level: 75 },
     { name: 'HTML/CSS', level: 85 },
     { name: 'Java', level: 60 },
     { name: 'Microsoft Office', level: 90 },
     { name: 'French', level: 100 },
     { name: 'Dutch', level: 85 }
-]
-
-// Recommended skills
-const recommendedSkills = [
+  ];
+  
+  // Recommended skills
+  const recommendedSkills = [
     { name: 'React.js', demand: 89 },
     { name: 'Node.js', demand: 76 },
     { name: 'Python', demand: 83 },
     { name: 'SQL', demand: 71 }
-]
-
-// Career goals
-const careerGoals = [
+  ];
+  
+  // Career goals
+  const careerGoals = ref<CareerGoal[]>([
     {
       id: 1,
       title: "Land First Developer Job",
@@ -633,7 +714,7 @@ const careerGoals = [
   ]);
   
   // Networking suggestions
-  const networkingSuggestions = ref([
+  const networkingSuggestions = ref<NetworkingSuggestion[]>([
     {
       id: 1,
       name: "Sarah De Vos",
@@ -655,7 +736,7 @@ const careerGoals = [
   ]);
   
   // Upcoming events
-  const upcomingEvents = ref([
+  const upcomingEvents = ref<UpcomingEvent[]>([
     {
       id: 1,
       title: "Tech Career Fair",
@@ -683,7 +764,7 @@ const careerGoals = [
   ]);
   
   // Favorite companies (integrated with favorites system)
-  const favoriteCompanies = ref([
+  const favoriteCompanies = ref<FavoriteCompany[]>([
     {
       id: 1,
       name: "Accenture",
@@ -741,7 +822,7 @@ const careerGoals = [
   ]);
   
   // Quick actions
-  const quickActions = ref([
+  const quickActions = ref<QuickAction[]>([
     { title: "Search Jobs", icon: "🔍" },
     { title: "Update CV", icon: "📝" },
     { title: "Network", icon: "🤝" },
@@ -749,7 +830,7 @@ const careerGoals = [
   ]);
   
   // Floating menu items
-  const floatingMenuItems = ref([
+  const floatingMenuItems = ref<FloatingMenuItem[]>([
     { title: "Quick Apply", icon: "📝" },
     { title: "Schedule Meeting", icon: "📅" },
     { title: "Send Message", icon: "💬" },
@@ -758,7 +839,7 @@ const careerGoals = [
   ]);
   
   // Helper functions
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string): string => {
     const colors = {
       'Interview Scheduled': 'bg-yellow-100 text-yellow-800 border-yellow-200',
       'Under Review': 'bg-blue-100 text-blue-800 border-blue-200', 
@@ -766,16 +847,16 @@ const careerGoals = [
       'Offer': 'bg-green-100 text-green-800 border-green-200',
       'Rejected': 'bg-red-100 text-red-800 border-red-200'
     };
-    return colors[status] || 'bg-gray-100 text-gray-800 border-gray-200';
+    return colors[status as keyof typeof colors] || 'bg-gray-100 text-gray-800 border-gray-200';
   };
   
-  const getSkillColor = (level) => {
+  const getSkillColor = (level: number): string => {
     if (level >= 80) return 'bg-gradient-to-r from-green-500 to-emerald-500';
     if (level >= 60) return 'bg-gradient-to-r from-yellow-500 to-orange-500';
     return 'bg-gradient-to-r from-red-500 to-pink-500';
   };
   
-  const removeFromFavorites = (companyId) => {
+  const removeFromFavorites = (companyId: number): void => {
     favoriteCompanies.value = favoriteCompanies.value.filter(company => company.id !== companyId);
   };
   

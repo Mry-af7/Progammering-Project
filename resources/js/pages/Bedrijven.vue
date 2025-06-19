@@ -1,30 +1,59 @@
-<script setup>
+<script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3'
 import { ref, computed, watch, onMounted } from 'vue'
+import { route as ziggyRoute } from 'ziggy-js'
 
-const mobileMenuOpen = ref(false)
-const searchQuery = ref('')
-const selectedIndustry = ref('alle')
-const selectedLocation = ref('alle')
-const sortBy = ref('naam')
-const showFilters = ref(false)
-const currentPage = ref(1)
+interface Company {
+  id: number;
+  name: string;
+  src: string;
+  favoriet: boolean;
+  website: string;
+  specialisatie: string;
+  beschrijving: string;
+  adres: string;
+  telefoon: string;
+  email: string;
+  industry: string;
+  location: string;
+  employees: string;
+  founded: string;
+  tags: string[];
+}
+
+const mobileMenuOpen = ref<boolean>(false)
+const searchQuery = ref<string>('')
+const selectedIndustry = ref<string>('alle')
+const selectedLocation = ref<string>('alle')
+const sortBy = ref<string>('naam')
+const showFilters = ref<boolean>(false)
+const currentPage = ref<number>(1)
 const itemsPerPage = 12
-const isLoading = ref(false)
-const viewMode = ref('grid') // 'grid' or 'list'
+const isLoading = ref<boolean>(false)
+const viewMode = ref<'grid' | 'list'>('grid')
+
+// Extend Window interface
+declare global {
+  interface Window {
+    addToFavorites?: (company: Company) => void;
+    favoritesState?: {
+      value: Company[];
+    };
+  }
+}
 
 // Add new favorite methods
-const toggleFavorite = (company) => {
+const toggleFavorite = (company: Company) => {
     if (window.addToFavorites) {
         window.addToFavorites(company)
     }
 }
 
-const isFavorite = (companyId) => {
-    return window.favoritesState?.value.some(fav => fav.id === companyId) || false
+const isFavorite = (companyId: number) => {
+    return window.favoritesState?.value.some((fav: Company) => fav.id === companyId) || false
 }
 
-const bedrijven = ref([
+const bedrijven = ref<Company[]>([
   {
     id: 1,
     name: 'Accenture',
@@ -484,61 +513,43 @@ const locations = computed(() => {
 })
 
 const filteredBedrijven = computed(() => {
-  let result = bedrijven.value
-
-  // Filter by search query
+  let filtered = bedrijven.value;
+  
   if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase()
-    result = result.filter(bedrijf => 
+    const query = searchQuery.value.toLowerCase();
+    filtered = filtered.filter((bedrijf: Company) => 
       bedrijf.name.toLowerCase().includes(query) ||
-      bedrijf.specialisatie.toLowerCase().includes(query) ||
       bedrijf.beschrijving.toLowerCase().includes(query) ||
-      bedrijf.tags.some(tag => tag.toLowerCase().includes(query))
-    )
+      bedrijf.specialisatie.toLowerCase().includes(query)
+    );
   }
-
-  // Filter by industry
+  
   if (selectedIndustry.value !== 'alle') {
-    result = result.filter(bedrijf => bedrijf.industry === selectedIndustry.value)
+    filtered = filtered.filter((bedrijf: Company) => bedrijf.industry === selectedIndustry.value);
   }
-
-  // Filter by location
+  
   if (selectedLocation.value !== 'alle') {
-    result = result.filter(bedrijf => bedrijf.location === selectedLocation.value)
+    filtered = filtered.filter((bedrijf: Company) => bedrijf.location === selectedLocation.value);
   }
-
-  // Sort results
-  result.sort((a, b) => {
-    switch (sortBy.value) {
-      case 'naam':
-        return a.name.localeCompare(b.name)
-      case 'industrie':
-        return a.industry.localeCompare(b.industry)
-      case 'locatie':
-        return a.location.localeCompare(b.location)
-      case 'grootte':
-        return parseInt(b.employees.replace(/\D/g, '')) - parseInt(a.employees.replace(/\D/g, ''))
-      default:
-        return 0
-    }
-  })
-
-  return result
-})
+  
+  return filtered;
+});
 
 const paginatedBedrijven = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage
-  const end = start + itemsPerPage
-  return filteredBedrijven.value.slice(start, end)
-})
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return filteredBedrijven.value.slice(start, end);
+});
 
-const totalPages = computed(() => {
-  return Math.ceil(filteredBedrijven.value.length / itemsPerPage)
-})
+const totalPages = computed(() => Math.ceil(filteredBedrijven.value.length / itemsPerPage));
 
 const favorieten = computed(() => {
   return bedrijven.value.filter(b => b.favoriet)
 })
+
+const goToPage = (page: number) => {
+  currentPage.value = page;
+};
 
 // Methods
 function openModal(bedrijf) {

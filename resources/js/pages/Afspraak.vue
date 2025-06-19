@@ -705,357 +705,321 @@
   </div>
 </template>
 
-<script setup>
-  import { ref, computed, onMounted } from 'vue';
-  import { Head, Link, useForm } from '@inertiajs/vue3';
-  import axios from 'axios';
-  
-  const props = defineProps({
-    events: {
-      type: Array,
-      default: () => [
-        {
-          id: 1,
-          title: 'Career Launch Event 2025',
-          description: 'Het premium speeddate event van Erasmus Hogeschool Brussel',
-          date: '15 maart 2025',
-          time: '09:00 - 17:00',
-          location: 'Campus Brussel - Hoofdgebouw',
-          companies: 25,
-          spotsLeft: 42
-        }
-      ]
-    },
-    companies: {
-      type: Array,
-      default: () => [
-        { id: 1, name: 'Accenture', description: 'Technology & Consulting Leader', openPositions: 12, sector: 'IT' },
-        { id: 2, name: 'Capgemini', description: 'Digital Transformation Partner', openPositions: 8, sector: 'IT' },
-        { id: 3, name: 'Delaware', description: 'Business & Technology Solutions', openPositions: 6, sector: 'IT' },
-        { id: 4, name: 'BNP Paribas Fortis', description: 'Leading Bank & Financial Services', openPositions: 10, sector: 'Finance' },
-        { id: 5, name: 'Colruyt Group', description: 'Retail Innovation & Technology', openPositions: 7, sector: 'Retail' },
-        { id: 6, name: 'Deloitte', description: 'Professional Services & Consulting', openPositions: 9, sector: 'Consulting' },
-        { id: 7, name: 'PwC', description: 'Audit, Tax & Advisory Services', openPositions: 5, sector: 'Consulting' },
-        { id: 8, name: 'Microsoft', description: 'Cloud & AI Technology Solutions', openPositions: 4, sector: 'IT' }
-      ]
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import { route as ziggyRoute } from 'ziggy-js';
+
+interface Event {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  companies: number;
+  spotsLeft: number;
+}
+
+interface Company {
+  id: number;
+  name: string;
+  description: string;
+  openPositions: number;
+  sector: string;
+}
+
+interface TimeSlot {
+  id: number;
+  time: string;
+  available: boolean;
+}
+
+interface ApiResponse {
+  timeSlots: TimeSlot[];
+}
+
+interface Props {
+  events?: Event[];
+  companies?: Company[];
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  events: () => [
+    {
+      id: 1,
+      title: 'Career Launch Event 2025',
+      description: 'Het premium speeddate event van Erasmus Hogeschool Brussel',
+      date: '15 maart 2025',
+      time: '09:00 - 17:00',
+      location: 'Campus Brussel - Hoofdgebouw',
+      companies: 25,
+      spotsLeft: 42
     }
-  });
-  
-  // State management
-  const currentStep = ref(1);
-  const selectedEvent = ref(null);
-  const selectedCompany = ref(null);
-  const timeSlots = ref([]);
-  const selectedTimeSlot = ref(null);
-  const loading = ref(false);
-  const appointmentId = ref(null);
-  
-  // Filter states
-  const companySearchTerm = ref('');
-  const selectedSector = ref('');
-  
-  // Computed properties
-  const events = computed(() => props.events);
-  const companies = computed(() => props.companies);
-  const availableSpots = computed(() => selectedEvent.value?.spotsLeft || 42);
-  const totalSpots = computed(() => 100);
-  
-  // Progress steps configuration
-  const progressSteps = ref([
-    { number: 1, title: 'Event selecteren', subtitle: 'Kies je event' },
-    { number: 2, title: 'Bedrijf kiezen', subtitle: 'Pick your target' },
-    { number: 3, title: 'Tijdslot kiezen', subtitle: 'Perfect timing' },
-    { number: 4, title: 'Gegevens invullen', subtitle: 'Tell your story' },
-    { number: 5, title: 'Bevestiging', subtitle: 'All set!' }
-  ]);
-  
-  // Time periods for better organization
-  const timePeriods = ref([
-    { name: '🌅 Ochtend (09:00 - 12:00)', range: ['09', '10', '11'] },
-    { name: '🍽️ Middag (13:00 - 15:00)', range: ['13', '14'] },
-    { name: '🌆 Namiddag (15:00 - 17:00)', range: ['15', '16'] }
-  ]);
-  
-  // Form management
-  const form = useForm({
-    event_id: null,
-    company_id: null,
-    time_slot_id: null,
-    first_name: '',
-    last_name: '',
+  ],
+  companies: () => [
+    { id: 1, name: 'Accenture', description: 'Technology & Consulting Leader', openPositions: 12, sector: 'IT' },
+    { id: 2, name: 'Capgemini', description: 'Digital Transformation Partner', openPositions: 8, sector: 'IT' },
+    { id: 3, name: 'Delaware', description: 'Business & Technology Solutions', openPositions: 6, sector: 'IT' },
+    { id: 4, name: 'BNP Paribas Fortis', description: 'Leading Bank & Financial Services', openPositions: 10, sector: 'Finance' },
+    { id: 5, name: 'Colruyt Group', description: 'Retail Innovation & Technology', openPositions: 7, sector: 'Retail' },
+    { id: 6, name: 'Deloitte', description: 'Professional Services & Consulting', openPositions: 9, sector: 'Consulting' },
+    { id: 7, name: 'PwC', description: 'Audit, Tax & Advisory Services', openPositions: 5, sector: 'Consulting' },
+    { id: 8, name: 'Microsoft', description: 'Cloud & AI Technology Solutions', openPositions: 4, sector: 'IT' }
+  ]
+});
+
+// State management
+const currentStep = ref<number>(1);
+const selectedEvent = ref<Event | null>(null);
+const selectedCompany = ref<Company | null>(null);
+const timeSlots = ref<TimeSlot[]>([]);
+const selectedTimeSlot = ref<TimeSlot | null>(null);
+const loading = ref<boolean>(false);
+const appointmentId = ref<number | null>(null);
+
+// Filter states
+const companySearchTerm = ref<string>('');
+const selectedSector = ref<string>('');
+
+// Computed properties
+const events = computed(() => props.events);
+const companies = computed(() => props.companies);
+const availableSpots = computed(() => selectedEvent.value?.spotsLeft || 42);
+const totalSpots = computed(() => 100);
+
+// Progress steps configuration
+const progressSteps = ref([
+  { number: 1, title: 'Event selecteren', subtitle: 'Kies je event' },
+  { number: 2, title: 'Bedrijf kiezen', subtitle: 'Pick your target' },
+  { number: 3, title: 'Tijdslot kiezen', subtitle: 'Perfect timing' },
+  { number: 4, title: 'Gegevens invullen', subtitle: 'Tell your story' },
+  { number: 5, title: 'Bevestiging', subtitle: 'All set!' }
+]);
+
+// Time periods for better organization
+const timePeriods = ref([
+  { name: '🌅 Ochtend (09:00 - 12:00)', range: ['09', '10', '11'] },
+  { name: '🍽️ Middag (13:00 - 15:00)', range: ['13', '14'] },
+  { name: '🌆 Namiddag (15:00 - 17:00)', range: ['15', '16'] }
+]);
+
+// Form management
+const form = useForm({
+  event_id: null as number | null,
+  company_id: null as number | null,
+  time_slot_id: null as number | null,
+  first_name: '',
+  last_name: '',
   email: '',
   phone: '',
-    study_program: '',
+  study_program: '',
   motivation: ''
-  });
+});
+
+// Form validation
+const isFormValid = computed(() => {
+  const valid = (
+    form.first_name?.trim() &&
+    form.last_name?.trim() &&
+    form.email?.trim() &&
+    form.study_program?.trim()
+  );
+  return valid;
+});
+
+// Filtered companies based on search and sector
+const filteredCompanies = computed(() => {
+  let filtered = companies.value;
   
-  // Form validation
-  const isFormValid = computed(() => {
-    const valid = (
-      form.first_name?.trim() &&
-      form.last_name?.trim() &&
-      form.email?.trim() &&
-      form.study_program?.trim()
+  if (companySearchTerm.value) {
+    const searchTerm = companySearchTerm.value.toLowerCase();
+    filtered = filtered.filter(company => 
+      company.name?.toLowerCase().includes(searchTerm) ||
+      company.description?.toLowerCase().includes(searchTerm)
     );
-    return valid;
-  });
+  }
   
-  // Filtered companies based on search and sector
-  const filteredCompanies = computed(() => {
-    let filtered = companies.value;
-    
-    if (companySearchTerm.value) {
-      const searchTerm = companySearchTerm.value.toLowerCase();
-      filtered = filtered.filter(company => 
-        company.name?.toLowerCase().includes(searchTerm) ||
-        company.description?.toLowerCase().includes(searchTerm)
-      );
-    }
-    
-    if (selectedSector.value) {
-      filtered = filtered.filter(company => company.sector === selectedSector.value);
-    }
-    
-    return filtered;
-  });
+  if (selectedSector.value) {
+    filtered = filtered.filter(company => company.sector === selectedSector.value);
+  }
   
-  // Step navigation functions
-  function selectCareerLaunchEvent() {
+  return filtered;
+});
+
+// Step navigation functions
+function selectCareerLaunchEvent() {
+  selectedEvent.value = events.value[0];
+  resetSelections();
+  currentStep.value = 2;
+}
+
+function selectEvent(event: Event) {
+  selectedEvent.value = event;
+  resetSelections();
+}
+
+function selectCompany(company: Company) {
+  selectedCompany.value = company;
+  selectedTimeSlot.value = null;
+  form.clearErrors();
+  
+  // Auto-select event if not selected
+  if (!selectedEvent.value && events.value.length > 0) {
     selectedEvent.value = events.value[0];
-    resetSelections();
-    currentStep.value = 2;
   }
   
-  function selectEvent(event) {
-    selectedEvent.value = event;
-    resetSelections();
+  // Load timeslots immediately
+  loadTimeSlots();
+}
+
+function selectTimeSlot(slot: TimeSlot) {
+  if (!slot.available) return;
+  selectedTimeSlot.value = slot;
+  form.clearErrors();
+}
+
+function nextStep() {
+  // Auto-select event if needed
+  if (!selectedEvent.value && events.value.length > 0) {
+    selectedEvent.value = events.value[0];
   }
   
-  function selectCompany(company) {
-    selectedCompany.value = company;
-    selectedTimeSlot.value = null;
-    form.clearErrors();
-    
-    // Auto-select event if not selected
-    if (!selectedEvent.value && events.value.length > 0) {
-      selectedEvent.value = events.value[0];
-    }
-    
-    // Load timeslots immediately
+  // Validation for each step
+  if (currentStep.value === 2 && !selectedCompany.value) {
+    alert('Selecteer eerst een bedrijf om door te gaan.');
+    return;
+  }
+  if (currentStep.value === 3 && !selectedTimeSlot.value) {
+    alert('Kies een tijdslot om door te gaan.');
+    return;
+  }
+  if (currentStep.value === 4) {
+    // This step is handled by bookAppointment function
+    return;
+  }
+  
+  // Load timeslots when going to step 3
+  if (currentStep.value === 2 && selectedCompany.value) {
     loadTimeSlots();
   }
   
-  function selectTimeSlot(slot) {
-    if (!slot.available) return;
-    selectedTimeSlot.value = slot;
-    form.clearErrors();
+  currentStep.value++;
+}
+
+function prevStep() {
+  if (currentStep.value > 1) {
+    currentStep.value--;
   }
+}
+
+// Timeslot management
+function loadTimeSlots() {
+  const event = selectedEvent.value;
+  const company = selectedCompany.value;
   
-  function nextStep() {
-    // Auto-select event if needed
-    if (!selectedEvent.value && events.value.length > 0) {
-      selectedEvent.value = events.value[0];
+  if (!event || !company) return;
+  
+  loading.value = true;
+  timeSlots.value = generateFallbackTimeSlots();
+  
+  form.get(ziggyRoute('afspraak.slots', { 
+    eventId: event.id,
+    companyId: company.id 
+  }), {
+    preserveScroll: true,
+    onSuccess: (page) => {
+      const response = page.props as unknown as ApiResponse;
+      if (response.timeSlots) {
+        timeSlots.value = response.timeSlots;
+      }
+      loading.value = false;
+    },
+    onError: () => {
+      loading.value = false;
     }
-    
-    // Validation for each step
-    if (currentStep.value === 2 && !selectedCompany.value) {
-      alert('Selecteer eerst een bedrijf om door te gaan.');
-      return;
-    }
-    if (currentStep.value === 3 && !selectedTimeSlot.value) {
-      alert('Kies een tijdslot om door te gaan.');
-      return;
-    }
-    if (currentStep.value === 4) {
-      // This step is handled by bookAppointment function
-      return;
-    }
-    
-    // Load timeslots when going to step 3
-    if (currentStep.value === 2 && selectedCompany.value) {
-      loadTimeSlots();
-    }
-    
-    currentStep.value++;
+  });
+}
+
+function getSlotsByPeriod(periodRange: string[]): TimeSlot[] {
+  return timeSlots.value.filter(slot => {
+    const hour = slot.time.split(':')[0];
+    return periodRange.includes(hour);
+  });
+}
+
+function getTimeSlotClass(slot: TimeSlot): string {
+  if (selectedTimeSlot.value?.id === slot.id) {
+    return 'ring-2 ring-orange-500 bg-orange-100 border-orange-500 scale-105 shadow-lg';
   }
-  
-  function prevStep() {
-    if (currentStep.value > 1) {
-      currentStep.value--;
-    }
+  if (!slot.available) {
+    return 'opacity-50 cursor-not-allowed bg-gray-50';
   }
+  return 'hover:border-orange-200 hover:shadow-lg hover:scale-102';
+}
+
+function generateFallbackTimeSlots(): TimeSlot[] {
+  const slots: TimeSlot[] = [];
+  const startHour = 9;
+  const endHour = 17;
   
-  // Timeslot management
-  function loadTimeSlots() {
-    if (!selectedEvent.value || !selectedCompany.value) return;
-    
-    loading.value = true;
-    timeSlots.value = generateFallbackTimeSlots(); // Always show fallback first
-    
-    // Try API call
-    const eventId = selectedEvent.value.id;
-    const companyId = selectedCompany.value.id;
-    
-    axios.get(`/api/events/${eventId}/companies/${companyId}/timeslots`)
-      .then(response => {
-        if (response.data?.time_slots?.length > 0) {
-          timeSlots.value = response.data.time_slots.map(slot => ({
-            id: slot.id,
-            time: slot.time_range || slot.time,
-            duration: 15,
-            available: slot.available !== false,
-            spotsLeft: slot.spots_left || 0
-          }));
-        }
-      })
-      .catch(error => {
-        // API call failed, using fallback data
-      })
-      .finally(() => {
-        loading.value = false;
-      });
-  }
-  
-  function generateFallbackTimeSlots() {
-    const slots = [];
-    const times = [
-      '09:00', '09:20', '09:40', '10:00', '10:20', '10:40',
-      '11:00', '11:20', '11:40', '13:00', '13:20', '13:40',
-      '14:00', '14:20', '14:40', '15:00', '15:20', '15:40',
-      '16:00', '16:20', '16:40'
-    ];
-    
-    times.forEach((time, index) => {
-      const endTime = new Date(`2025-03-15 ${time}:00`);
-      endTime.setMinutes(endTime.getMinutes() + 15);
-      const endTimeStr = endTime.toTimeString().slice(0, 5);
+  for (let hour = startHour; hour < endHour; hour++) {
+    for (let minute = 0; minute < 60; minute += 15) {
+      const startTime = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+      const endTime = minute === 45 
+        ? `${(hour + 1).toString().padStart(2, '0')}:00`
+        : `${hour.toString().padStart(2, '0')}:${(minute + 15).toString().padStart(2, '0')}`;
       
       slots.push({
-        id: index + 1,
-        time: `${time} - ${endTimeStr}`,
-        duration: 15,
-        available: Math.random() > 0.3, // 70% available
-        spotsLeft: Math.random() > 0.3 ? 1 : 0
+        id: slots.length + 1,
+        time: `${startTime} - ${endTime}`,
+        available: Math.random() > 0.3 // 70% kans op beschikbaarheid
       });
-    });
-    
-    return slots;
-  }
-  
-  function getSlotsByPeriod(periodRange) {
-    return timeSlots.value.filter(slot => {
-      const hour = slot.time.split(':')[0];
-      return periodRange.includes(hour);
-    });
-  }
-  
-  function getTimeSlotClass(slot) {
-    if (selectedTimeSlot.value?.id === slot.id) {
-      return 'ring-2 ring-orange-500 bg-orange-100 border-orange-500 scale-105 shadow-lg';
-    }
-    if (!slot.available) {
-      return 'opacity-50 cursor-not-allowed bg-gray-50 border-gray-200';
-    }
-    return 'hover:shadow-lg hover:border-orange-300 hover:scale-102 bg-white border-gray-200';
-  }
-  
-  // Booking functionality
-  function bookAppointment() {
-    // Comprehensive validation
-    if (!selectedEvent.value) {
-      alert('❌ Geen event geselecteerd. Ga terug naar stap 1.');
-      currentStep.value = 1;
-      return;
-    }
-    
-    if (!selectedCompany.value) {
-      alert('❌ Geen bedrijf geselecteerd. Ga terug naar stap 2.');
-      currentStep.value = 2;
-      return;
-    }
-    
-    if (!selectedTimeSlot.value) {
-      alert('❌ Geen tijdslot geselecteerd. Ga terug naar stap 3.');
-      currentStep.value = 3;
-      return;
-    }
-    
-    if (!isFormValid.value) {
-      const missingFields = [];
-      if (!form.first_name?.trim()) missingFields.push('Voornaam');
-      if (!form.last_name?.trim()) missingFields.push('Achternaam');
-      if (!form.email?.trim()) missingFields.push('E-mailadres');
-      if (!form.study_program?.trim()) missingFields.push('Studierichting');
-      
-      alert(`❌ Vul de volgende verplichte velden in:\n\n${missingFields.join('\n')}`);
-      return;
-    }
-    
-    // Auto-recovery for missing data
-    autoRecoverMissingData();
-    
-    // Update form data
-    form.event_id = selectedEvent.value.id;
-    form.company_id = selectedCompany.value.id;
-    form.time_slot_id = selectedTimeSlot.value.id;
-    
-    // Submit appointment
-    form.post('/api/appointments', {
-      onSuccess: (response) => {
-        appointmentId.value = response.props?.appointment?.id || Date.now();
-        currentStep.value = 5;
-      },
-      onError: (errors) => {
-        console.error('❌ API Booking error:', errors);
-        // For development: proceed anyway
-        appointmentId.value = Date.now();
-        currentStep.value = 5;
-      }
-    });
-    
-    // Fallback timeout
-    setTimeout(() => {
-      if (currentStep.value === 4 && form.processing) {
-        form.processing = false;
-        appointmentId.value = Date.now();
-        currentStep.value = 5;
-      }
-    }, 3000);
-  }
-  
-  // Helper functions
-  function autoRecoverMissingData() {
-    if (!selectedEvent.value && events.value.length > 0) {
-      selectedEvent.value = events.value[0];
-    }
-    
-    if (!selectedCompany.value && companies.value.length > 0) {
-      selectedCompany.value = companies.value[0];
-    }
-    
-    if (!selectedTimeSlot.value && timeSlots.value.length > 0) {
-      selectedTimeSlot.value = timeSlots.value.find(slot => slot.available) || timeSlots.value[0];
     }
   }
   
-  function resetSelections() {
-    selectedCompany.value = null;
-    selectedTimeSlot.value = null;
-    timeSlots.value = [];
-    form.clearErrors();
+  return slots;
+}
+
+function resetSelections() {
+  selectedCompany.value = null;
+  selectedTimeSlot.value = null;
+  timeSlots.value = [];
+  form.reset();
+}
+
+function bookAppointment() {
+  const event = selectedEvent.value;
+  const company = selectedCompany.value;
+  const timeSlot = selectedTimeSlot.value;
+  
+  if (!event || !company || !timeSlot) {
+    console.error('Missing required data for booking');
+    return;
   }
   
-  function downloadCalendar() {
-    if (!selectedEvent.value || !selectedTimeSlot.value) return;
-    
-    const event = selectedEvent.value;
-    const timeSlot = selectedTimeSlot.value;
-    
-    try {
-      const startDate = new Date(`${event.date} ${timeSlot.time.split(' - ')[0]}`);
-      const endDate = new Date(`${event.date} ${timeSlot.time.split(' - ')[1]}`);
+  form.event_id = event.id;
+  form.company_id = company.id;
+  form.time_slot_id = timeSlot.id;
   
-  const icsContent = `BEGIN:VCALENDAR
+  form.post(ziggyRoute('afspraak.store'), {
+    onSuccess: () => {
+      currentStep.value = 5;
+    }
+  });
+}
+
+function downloadCalendar() {
+  if (!selectedEvent.value || !selectedTimeSlot.value) return;
+  
+  const event = selectedEvent.value;
+  const timeSlot = selectedTimeSlot.value;
+  
+  try {
+    const startDate = new Date(`${event.date} ${timeSlot.time.split(' - ')[0]}`);
+    const endDate = new Date(`${event.date} ${timeSlot.time.split(' - ')[1]}`);
+
+    const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
   PRODID:-//Erasmus Hogeschool Brussel//Career Launch//EN
 BEGIN:VEVENT
@@ -1072,71 +1036,71 @@ LOCATION:${event.location}
   END:VALARM
 END:VEVENT
   END:VCALENDAR`;
-      
-      const blob = new Blob([icsContent], { type: 'text/calendar' });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `career-launch-${selectedCompany.value.name.toLowerCase().replace(/\s+/g, '-')}.ics`;
-      link.click();
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Calendar download error:', error);
-      alert('Er was een probleem bij het downloaden van het kalenderbestand.');
-    }
+    
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `career-launch-${selectedCompany.value.name.toLowerCase().replace(/\s+/g, '-')}.ics`;
+    link.click();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Calendar download error:', error);
+    alert('Er was een probleem bij het downloaden van het kalenderbestand.');
+  }
+}
+
+// Debug function
+function debugState() {
+  const debugInfo = `
+🔍 CAREER LAUNCH DEBUG INFO
+==========================================
+
+📍 HUIDIGE STATUS:
+Stap: ${currentStep.value}/5
+
+✅ SELECTIES:
+Event: ${selectedEvent.value ? '✅ ' + selectedEvent.value.title : '❌ Niet geselecteerd'}
+Bedrijf: ${selectedCompany.value ? '✅ ' + selectedCompany.value.name : '❌ Niet geselecteerd'}
+Tijdslot: ${selectedTimeSlot.value ? '✅ ' + selectedTimeSlot.value.time : '❌ Niet geselecteerd'}
+
+👤 FORMULIER:
+Voornaam: ${form.first_name || '(leeg)'}
+Achternaam: ${form.last_name || '(leeg)'}
+Email: ${form.email || '(leeg)'}
+Telefoon: ${form.phone || '(leeg)'}
+Studierichting: ${form.study_program || '(leeg)'}
+Motivatie: ${form.motivation ? '✅ Ingevuld' : '(leeg)'}
+
+📊 BESCHIKBARE DATA:
+Events: ${events.value.length}
+Bedrijven: ${companies.value.length}
+Gefilterde bedrijven: ${filteredCompanies.value.length}
+Tijdslots: ${timeSlots.value.length}
+Beschikbare tijdslots: ${timeSlots.value.filter(slot => slot.available).length}
+
+🔧 TECHNISCHE INFO:
+Form processing: ${form.processing}
+Form valid: ${isFormValid.value}
+Loading: ${loading.value}
+Appointment ID: ${appointmentId.value || 'None'}
+  `;
+  
+  alert(debugInfo);
+}
+
+// Initialize component
+onMounted(() => {
+  // Auto-select event
+  if (!selectedEvent.value && events.value.length > 0) {
+    selectedEvent.value = events.value[0];
   }
   
-  // Debug function
-  function debugState() {
-    const debugInfo = `
-  🔍 CAREER LAUNCH DEBUG INFO
-  ==========================================
-  
-  📍 HUIDIGE STATUS:
-  Stap: ${currentStep.value}/5
-  
-  ✅ SELECTIES:
-  Event: ${selectedEvent.value ? '✅ ' + selectedEvent.value.title : '❌ Niet geselecteerd'}
-  Bedrijf: ${selectedCompany.value ? '✅ ' + selectedCompany.value.name : '❌ Niet geselecteerd'}
-  Tijdslot: ${selectedTimeSlot.value ? '✅ ' + selectedTimeSlot.value.time : '❌ Niet geselecteerd'}
-  
-  👤 FORMULIER:
-  Voornaam: ${form.first_name || '(leeg)'}
-  Achternaam: ${form.last_name || '(leeg)'}
-  Email: ${form.email || '(leeg)'}
-  Telefoon: ${form.phone || '(leeg)'}
-  Studierichting: ${form.study_program || '(leeg)'}
-  Motivatie: ${form.motivation ? '✅ Ingevuld' : '(leeg)'}
-  
-  📊 BESCHIKBARE DATA:
-  Events: ${events.value.length}
-  Bedrijven: ${companies.value.length}
-  Gefilterde bedrijven: ${filteredCompanies.value.length}
-  Tijdslots: ${timeSlots.value.length}
-  Beschikbare tijdslots: ${timeSlots.value.filter(slot => slot.available).length}
-  
-  🔧 TECHNISCHE INFO:
-  Form processing: ${form.processing}
-  Form valid: ${isFormValid.value}
-  Loading: ${loading.value}
-  Appointment ID: ${appointmentId.value || 'None'}
-    `;
-    
-    alert(debugInfo);
+  // Preload fallback timeslots
+  if (timeSlots.value.length === 0) {
+    timeSlots.value = generateFallbackTimeSlots();
   }
   
-  // Initialize component
-  onMounted(() => {
-    // Auto-select event
-    if (!selectedEvent.value && events.value.length > 0) {
-      selectedEvent.value = events.value[0];
-    }
-    
-    // Preload fallback timeslots
-    if (timeSlots.value.length === 0) {
-      timeSlots.value = generateFallbackTimeSlots();
-    }
-    
-    // Component initialized successfully
-  });
+  // Component initialized successfully
+});
 </script>

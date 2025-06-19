@@ -10,3 +10,5 @@ declare module '@vue/runtime-core' {
         route: typeof route;
     }
 }
+
+export type { RouteParams, Router };

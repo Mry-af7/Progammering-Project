@@ -376,14 +376,20 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3'
 import { ref, Transition } from 'vue'
 
-const mobileMenuOpen = ref(false)
-const toast = ref({ show: false, message: '', type: 'info' })
+interface Toast {
+    show: boolean;
+    message: string;
+    type: 'info' | 'success' | 'error' | 'warning';
+}
 
-function showToast(message, type = 'info') {
+const mobileMenuOpen = ref<boolean>(false)
+const toast = ref<Toast>({ show: false, message: '', type: 'info' })
+
+function showToast(message: string, type: Toast['type'] = 'info') {
     toast.value = { show: true, message, type }
     setTimeout(() => toast.value.show = false, 3000)
 }

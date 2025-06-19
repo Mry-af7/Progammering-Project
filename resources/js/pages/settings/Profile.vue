@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { route as ziggyRoute } from 'ziggy-js';
 
 import DeleteUser from '@/components/DeleteUser.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
@@ -34,7 +35,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.patch(route('profile.update'), {
+    form.patch(ziggyRoute('profile.update'), {
         preserveScroll: true,
     });
 };

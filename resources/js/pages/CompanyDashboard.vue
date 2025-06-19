@@ -659,18 +659,65 @@
     </div>
 </template>
 
-  <script setup>
+  <script setup lang="ts">
   import { ref, computed, onMounted } from 'vue';
   
-  // Reactive state
-  const activeTab = ref('overview');
-  const showCompanyQuickMenu = ref(false);
-  const jobFilter = ref('all');
-  const candidateFilter = ref('all');
-  const newTalentCount = ref(12);
+  interface CompanyData {
+    name: string;
+    industry: string;
+    avatar: string;
+    location: string;
+    status: string;
+    profileCompleteness: number;
+    activeJobs: number;
+    applications: number;
+    interviews: number;
+    responseRate: number;
+  }
 
-// Company data
-  const companyData = ref({
+  interface NavigationTab {
+    id: string;
+    label: string;
+    icon: string;
+    badge: string | null;
+  }
+
+  interface CompanyMetric {
+    label: string;
+    value: string;
+    trend: string;
+    subtitle: string;
+    icon: string;
+    trendColor: string;
+  }
+
+  interface Candidate {
+    id: number;
+    name: string;
+    position: string;
+    experience: string;
+    education: string;
+    rating: number;
+    skills: string[];
+    featured: boolean;
+    status: string;
+  }
+
+  interface QuickAction {
+    title: string;
+    icon: string;
+    style: string;
+  }
+
+  // Reactive state
+  const activeTab = ref<string>('overview');
+  const showCompanyQuickMenu = ref<boolean>(false);
+  const jobFilter = ref<string>('all');
+  const candidateFilter = ref<string>('all');
+  const newTalentCount = ref<number>(12);
+
+  // Company data
+  const companyData = ref<CompanyData>({
     name: "Accenture Belgium",
     industry: "IT Consulting & Services",
     avatar: "AC",
@@ -684,7 +731,7 @@
   });
   
   // Navigation tabs
-  const navigationTabs = ref([
+  const navigationTabs = ref<NavigationTab[]>([
     { 
       id: 'overview', 
       label: 'Overview', 
@@ -724,7 +771,7 @@
   ]);
   
   // Company metrics for hero section
-  const companyMetrics = ref([
+  const companyMetrics = ref<CompanyMetric[]>([
     {
       label: "Active Jobs",
       value: "8",
@@ -760,7 +807,7 @@
   ]);
   
   // Quick company actions
-  const quickCompanyActions = ref([
+  const quickCompanyActions = ref<QuickAction[]>([
     {
       title: "Post New Job",
       icon: "💼",
