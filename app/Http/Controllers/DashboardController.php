@@ -37,7 +37,7 @@ class DashboardController extends Controller
 
         $tasks = []; // Temporarily disable tasks
 
-        return Inertia::render('Students/Dashboard', [
+        return Inertia::render('Dashboard', [
             'stats' => $stats,
             'activities' => $activities,
             'tasks' => $tasks,

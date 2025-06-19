@@ -22,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'firstname',
         'lastname',
+        'name',
         'email',
         'password',
         'role', // student, company, admin
@@ -31,9 +32,6 @@ class User extends Authenticatable
         'address',
         'city',
         'postal_code',
-        'is_active',
-        'profile_completed',
-        'email_verified_at'
     ];
 
     /**
@@ -123,25 +121,16 @@ class User extends Authenticatable
         return $this->hasMany(Message::class)->where('read', false);
     }
 
-    /**
-     * Check if the user is an admin.
-     */
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
     }
 
-    /**
-     * Check if the user is a company.
-     */
     public function isCompany(): bool
     {
-        return $this->role === 'bedrijf';
+        return $this->role === 'company';
     }
 
-    /**
-     * Check if the user is a student.
-     */
     public function isStudent(): bool
     {
         return $this->role === 'student';

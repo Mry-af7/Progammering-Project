@@ -100,7 +100,6 @@ import {
   CalendarIcon 
 } from '@heroicons/vue/24/outline';
 import { router } from '@inertiajs/vue3';
-import { route } from 'ziggy-js';
 
 const props = defineProps({
   company: Object

@@ -6,16 +6,13 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
-import { Head, useForm, Link, router } from '@inertiajs/vue3';
-import { LoaderCircle, Search, User } from 'lucide-vue-next';
-import { ref, watch } from 'vue';
+import { Head, useForm } from '@inertiajs/vue3';
+import { LoaderCircle } from 'lucide-vue-next';
+import { ref } from 'vue';
+const activeTab = ref<'bedrijf' | 'student'>('bedrijf');
+import { Link } from '@inertiajs/vue3';
+import { Search, User } from 'lucide-vue-next';
 
-const activeTab = ref<'bedrijf' | 'student' | 'admin'>('bedrijf');
-
-// Watch for tab changes and update the form role
-watch(activeTab, (newTab) => {
-    form.role = newTab;
-});
 const mobileMenuOpen = ref(false);
 
 const navItems = [
@@ -26,22 +23,19 @@ const navItems = [
   { label: 'Contact', href: '/contact' },
 ];
 
-interface Props {
+defineProps<{
     status?: string;
     canResetPassword: boolean;
-}
-
-defineProps<Props>();
+}>();
 
 const form = useForm({
     email: '',
     password: '',
     remember: false,
-    role: activeTab.value
 });
 
 const submit = () => {
-    form.post('/login', {
+    form.post(route('login'), {
         onFinish: () => form.reset('password'),
     });
 };
@@ -77,9 +71,11 @@ const submit = () => {
                     
                     <!-- Desktop Navigation Links -->
                     <div class="hidden md:flex items-center space-x-1">
-                        <Link v-for="item in navItems" :key="item.href" :href="item.href" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">
-                            {{ item.label }}
-                        </Link>
+                        <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Home</Link>
+                        <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Info</Link>
+                        <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Bedrijven</Link>
+                        <Link href="/afspraak" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Afspraak</Link>
+                        <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors">Contact</Link>
                         
                         <div class="flex items-center ml-6">
                             <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Inloggen</Link>
@@ -90,9 +86,11 @@ const submit = () => {
                 <!-- Mobile menu -->
                 <div v-show="mobileMenuOpen" class="md:hidden mt-4 pb-4 border-t border-orange-200">
                     <div class="flex flex-col space-y-2 pt-4">
-                        <Link v-for="item in navItems" :key="item.href" :href="item.href" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">
-                            {{ item.label }}
-                        </Link>
+                        <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Home</Link>
+                        <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Info</Link>
+                        <Link href="/bedrijven" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Bedrijven</Link>
+                        <Link href="/afspraak" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Afspraak</Link>
+                        <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium">Contact</Link>
                         <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium">Inloggen</Link>
                     </div>
                 </div>
@@ -152,21 +150,6 @@ const submit = () => {
                                 </svg>
                                 Studenten
                             </button>
-                            <button
-                                :class="[
-                                    'px-6 py-3 rounded-lg font-semibold transition-all duration-200',
-                                    activeTab === 'admin' 
-                                        ? 'bg-orange-500 text-white shadow-lg' 
-                                        : 'text-gray-600 hover:text-orange-600'
-                                ]"
-                                @click="activeTab = 'admin'"
-                                type="button"
-                            >
-                                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                Admin
-                            </button>
                         </div>
                     </div>
 
@@ -175,7 +158,7 @@ const submit = () => {
                         <div class="inline-flex items-center bg-orange-50 px-4 py-2 rounded-xl">
                             <span class="text-sm text-gray-600">Je logt momenteel in als:</span>
                             <span class="ml-2 font-semibold text-orange-600">
-                                {{ activeTab === 'bedrijf' ? 'Bedrijf' : activeTab === 'student' ? 'Student' : 'Admin' }}
+                                {{ activeTab === 'bedrijf' ? 'Bedrijf' : 'Student' }}
                             </span>
                         </div>
                     </div>
@@ -207,14 +190,14 @@ const submit = () => {
                                 <Label for="password" class="block text-sm font-semibold text-gray-700">
                                     Password
                                 </Label>
-                                <Link 
+                                <TextLink 
                                     v-if="canResetPassword" 
-                                    href="/forgot-password" 
+                                    :href="route('password.request')" 
                                     class="text-sm text-orange-600 hover:text-orange-700 font-medium"
                                     :tabindex="5"
                                 > 
                                     Forgot password?
-                                </Link>
+                                </TextLink>
                             </div>
                             <Input
                                 id="password"
@@ -254,14 +237,13 @@ const submit = () => {
                         <!-- Sign Up Link -->
                         <div class="text-center pt-4 border-t border-gray-100">
                             <span class="text-sm text-gray-600">Don't have an account? </span>
-                            <Link
-                                v-if="activeTab !== 'admin'"
-                                :href="activeTab === 'bedrijf' ? '/register/bedrijf' : '/register'"
+                            <TextLink
+                                :href="activeTab === 'bedrijf' ? route('register.bedrijf') : route('register')"
                                 :tabindex="5"
                                 class="text-orange-600 hover:text-orange-700 font-semibold"
                             >
                                 Sign up
-                            </Link>
+                            </TextLink>
                         </div>
                     </form>
                 </div>
@@ -345,7 +327,7 @@ const submit = () => {
               <div>
                 <h4 class="font-semibold mb-4">Over Ons</h4>
                 <ul class="space-y-2 text-orange-100 text-sm">
-                  <li><Link href="/wiezijnwe" class="hover:text-white transition-colors">Wie zijn we?</Link></li>
+                  <li><Link href="/Wiezijnwe" class="hover:text-white transition-colors">Wie zijn we?</Link></li>
                   <li><Link href="/faq" class="hover:text-white transition-colors">FAQ</Link></li>
                   <li><a href="#" class="hover:text-white transition-colors">Onze opleidingen</a></li>
                   <li><a href="#" class="hover:text-white transition-colors">Privacy beleid</a></li>

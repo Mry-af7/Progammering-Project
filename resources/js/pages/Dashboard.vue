@@ -11,49 +11,49 @@
                   <span class="text-white font-bold text-xl tracking-tight">E</span>
                 </div>
                 <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
-                                </div>
-                                <div>
+              </div>
+              <div>
                 <div class="font-black text-2xl text-gray-900 tracking-tight">erasmus</div>
                 <div class="text-xs text-gray-500 font-semibold tracking-wider uppercase">Student Portal</div>
-                                </div>
-                            </div>
+              </div>
+            </div>
             
             <!-- Advanced Navigation & User Info -->
             <div class="flex items-center space-x-6">
               <!-- Quick Stats Bar -->
               <div class="hidden lg:flex items-center space-x-6 px-6 py-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl border border-gray-200">
-                            <div class="text-center">
+                <div class="text-center">
                   <div class="text-lg font-bold text-gray-900">{{ studentData.applications }}</div>
                   <div class="text-xs text-gray-500 font-medium">Applications</div>
-                            </div>
+                </div>
                 <div class="w-px h-8 bg-gray-300"></div>
-                            <div class="text-center">
+                <div class="text-center">
                   <div class="text-lg font-bold text-green-600">{{ studentData.profileComplete }}%</div>
                   <div class="text-xs text-gray-500 font-medium">Complete</div>
-                            </div>
+                </div>
                 <div class="w-px h-8 bg-gray-300"></div>
-                            <div class="text-center">
+                <div class="text-center">
                   <div class="text-lg font-bold text-blue-600">{{ studentData.profileViews }}</div>
                   <div class="text-xs text-gray-500 font-medium">Views</div>
                 </div>
-            </div>
-
+              </div>
+  
               <!-- Notifications -->
               <div class="relative">
                 <button class="p-3 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-all duration-300 relative">
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                            </svg>
+                  </svg>
                   <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-bounce"></span>
                 </button>
-                </div>
-
+              </div>
+  
               <!-- Settings -->
               <button class="p-3 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-all duration-300">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            </svg>
+                </svg>
               </button>
   
               <!-- User Profile -->
@@ -61,20 +61,16 @@
                 <div class="relative">
                   <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
                     <span class="text-white font-bold text-lg">{{ studentData.avatar }}</span>
-                        </div>
+                  </div>
                   <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
                 </div>
                 <div class="hidden sm:block">
                   <div class="text-sm font-bold text-gray-900">{{ studentData.name }}</div>
                   <div class="text-xs text-gray-500 font-medium">{{ studentData.study }}</div>
                 </div>
-                    </div>
-                </div>
-+              <!-- Uitloggen knop -->
-+              <Link href="/logout" method="post" as="button" class="ml-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-200">
-+                Uitloggen
-+              </Link>
+              </div>
             </div>
+          </div>
         </div>
       </header>
   
@@ -114,9 +110,9 @@
                 <button class="border-2 border-white/30 hover:border-white/50 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-105">
                   📊 View Analytics
                 </button>
-                        </div>
-                    </div>
-                    
+              </div>
+            </div>
+            
             <!-- Stats Cards -->
             <div class="hidden lg:block">
               <div class="grid grid-cols-2 gap-6">
@@ -124,27 +120,27 @@
                   <div class="text-4xl font-black text-yellow-300">{{ studentData.applications }}</div>
                   <div class="text-purple-200 font-semibold">Applications</div>
                   <div class="text-xs text-purple-300 mt-1">+23% this month</div>
-                                    </div>
+                </div>
                 <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20 hover:bg-white/30 transition-all duration-300">
                   <div class="text-4xl font-black text-green-300">{{ studentData.profileComplete }}%</div>
                   <div class="text-purple-200 font-semibold">Complete</div>
                   <div class="text-xs text-purple-300 mt-1">Profile strength</div>
-                                    </div>
+                </div>
                 <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20 hover:bg-white/30 transition-all duration-300">
                   <div class="text-4xl font-black text-blue-300">{{ studentData.profileViews }}</div>
                   <div class="text-purple-200 font-semibold">Views</div>
                   <div class="text-xs text-purple-300 mt-1">This week</div>
-                                </div>
+                </div>
                 <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20 hover:bg-white/30 transition-all duration-300">
                   <div class="text-4xl font-black text-pink-300">{{ studentData.connections }}</div>
                   <div class="text-purple-200 font-semibold">Network</div>
                   <div class="text-xs text-purple-300 mt-1">Connections</div>
-                                </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
         <!-- Premium Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           <div v-for="(stat, index) in stats" :key="index" 
@@ -156,20 +152,20 @@
               <div class="flex items-center justify-between mb-6">
                 <div :class="`p-4 ${stat.iconBg} rounded-2xl shadow-lg`">
                   <component :is="stat.icon" :class="`w-8 h-8 ${stat.iconColor}`" />
-                                    </div>
+                </div>
                 <div class="text-right">
                   <span :class="`text-sm font-bold px-3 py-1 rounded-full ${stat.changeBg} ${stat.changeColor}`">
                     {{ stat.change }}
                   </span>
-                                    </div>
-                                </div>
+                </div>
+              </div>
               <div class="text-4xl font-black text-gray-900 mb-3">{{ stat.value }}</div>
               <div class="text-gray-600 font-semibold">{{ stat.label }}</div>
               <div class="text-xs text-gray-500 mt-2">{{ stat.subtitle }}</div>
-                        </div>
-                    </div>
-                </div>
-
+            </div>
+          </div>
+        </div>
+  
         <!-- Main Dashboard Grid -->
         <div class="grid lg:grid-cols-3 gap-8 mb-10">
           <!-- Left Column - Main Content -->
@@ -185,57 +181,57 @@
                 <button class="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
                   View All
                 </button>
-                    </div>
-                    
+              </div>
+              
               <!-- Pipeline Visualization -->
               <div class="relative mb-8">
-                        <div class="flex justify-between items-center">
-                            <div v-for="(stage, index) in applicationStages" :key="stage.name" class="flex-1 text-center relative">
+                <div class="flex justify-between items-center">
+                  <div v-for="(stage, index) in applicationStages" :key="stage.name" class="flex-1 text-center relative">
                     <div :class="`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-lg font-bold transition-all duration-500 shadow-lg ${
                       stage.active ? 'bg-gradient-to-br from-orange-500 to-red-500 text-white scale-110' : 'bg-gray-200 text-gray-600'
                     }`">
-                                    {{ stage.count }}
-                                </div>
+                      {{ stage.count }}
+                    </div>
                     <div class="text-sm font-bold text-gray-900">{{ stage.name }}</div>
                     <div class="text-xs text-gray-600">{{ stage.percentage }}%</div>
                     <div v-if="index < applicationStages.length - 1" 
                          :class="`absolute top-8 left-1/2 w-full h-1 rounded-full -z-10 ${
                            stage.active ? 'bg-gradient-to-r from-orange-500 to-red-500' : 'bg-gray-200'
                          }`"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Recent Applications -->
+                  </div>
+                </div>
+              </div>
+  
+              <!-- Recent Applications -->
               <div class="space-y-4">
                 <h4 class="font-bold text-gray-900 mb-4">Recent Applications</h4>
                 <div v-for="app in recentApplications" :key="app.id" 
                      class="flex items-center justify-between p-6 border-2 border-gray-100 rounded-2xl hover:border-orange-200 hover:bg-orange-50 transition-all duration-300 group">
-                            <div class="flex items-center space-x-4">
+                  <div class="flex items-center space-x-4">
                     <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
                       {{ app.logo }}
                     </div>
-                                <div>
+                    <div>
                       <div class="font-bold text-gray-900 text-lg">{{ app.position }}</div>
                       <div class="text-gray-600 font-medium">{{ app.company }}</div>
                       <div class="text-sm text-gray-500">Applied {{ app.appliedDays }} days ago</div>
-                                </div>
-                            </div>
+                    </div>
+                  </div>
                   <div class="flex items-center space-x-4">
                     <span :class="`px-4 py-2 rounded-xl text-sm font-bold ${getStatusColor(app.status)}`">
-                                    {{ app.status }}
-                                </span>
+                      {{ app.status }}
+                    </span>
                     <button class="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-gray-600 transition-all duration-300">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-
-                <!-- Skills Development -->
+              </div>
+            </div>
+  
+            <!-- Skills Development -->
             <div class="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
               <div class="flex items-center justify-between mb-8">
                 <div>
@@ -245,40 +241,40 @@
                 <button class="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
                   Take Assessment
                 </button>
-                    </div>
-                    
+              </div>
+              
               <div class="grid md:grid-cols-2 gap-8">
-                        <!-- Current Skills -->
-                        <div>
+                <!-- Current Skills -->
+                <div>
                   <h4 class="font-bold text-gray-900 mb-6 text-lg">Current Skills</h4>
                   <div class="space-y-4">
                     <div v-for="skill in currentSkills" :key="skill.name" class="group">
                       <div class="flex items-center justify-between mb-2">
                         <span class="font-semibold text-gray-700">{{ skill.name }}</span>
-                        <span class="text-sm font-bold text-gray-900">{{ calculateSkillProgress(skill.level) }}</span>
-                                        </div>
+                        <span class="text-sm font-bold text-gray-900">{{ skill.level }}%</span>
+                      </div>
                       <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
                         <div :class="`h-3 rounded-full transition-all duration-1000 ${getSkillColor(skill.level)}`" 
                              :style="`width: ${skill.level}%`"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Recommended Skills -->
-                        <div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Recommended Skills -->
+                <div>
                   <h4 class="font-bold text-gray-900 mb-6 text-lg">Recommended Skills</h4>
                   <div class="space-y-4">
                     <div v-for="skill in recommendedSkills" :key="skill.name" 
                          class="flex items-center justify-between p-4 border-2 border-gray-100 rounded-2xl hover:border-purple-200 hover:bg-purple-50 transition-all duration-300 group">
-                                    <div>
+                      <div>
                         <div class="font-semibold text-gray-900">{{ skill.name }}</div>
                         <div class="text-sm text-gray-600">{{ skill.demand }}% demand in IT</div>
-                                    </div>
+                      </div>
                       <button class="bg-gradient-to-r from-orange-100 to-red-100 hover:from-orange-200 hover:to-red-200 text-orange-600 px-4 py-2 rounded-xl font-semibold transition-all duration-300 hover:scale-105">
-                                        Learn
-                                    </button>
-                                </div>
+                        Learn
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -352,10 +348,10 @@
                       <button class="px-4 py-2 border-2 border-orange-500 text-orange-600 rounded-xl font-semibold text-sm hover:bg-orange-50 transition-all duration-300">
                         Visit
                       </button>
-                            </div>
-                        </div>
                     </div>
+                  </div>
                 </div>
+              </div>
             </div>
           </div>
   
@@ -371,26 +367,26 @@
                 </div>
                 <div class="p-3 bg-purple-200 rounded-2xl">
                   <svg class="w-6 h-6 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
-                            </svg>
-                        </div>
-                    </div>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                  </svg>
+                </div>
+              </div>
               
               <div class="space-y-6">
                 <div v-for="goal in careerGoals" :key="goal.id" class="bg-white rounded-2xl p-6 shadow-lg border border-purple-100">
                   <div class="flex items-center justify-between mb-3">
                     <div class="font-bold text-gray-900">{{ goal.title }}</div>
                     <span class="text-lg font-black text-purple-600">{{ goal.progress }}%</span>
-                            </div>
+                  </div>
                   <div class="w-full h-3 bg-purple-100 rounded-full mb-3 overflow-hidden">
                     <div class="h-3 bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 rounded-full transition-all duration-1000" 
                          :style="`width: ${goal.progress}%`"></div>
-                            </div>
+                  </div>
                   <div class="text-sm text-gray-600">{{ goal.description }}</div>
-                        </div>
-                    </div>
                 </div>
-
+              </div>
+            </div>
+  
             <!-- Networking -->
             <div class="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
               <div class="flex items-center justify-between mb-6">
@@ -401,36 +397,36 @@
                 <button class="text-blue-600 hover:text-blue-800 font-semibold transition-colors">
                   View All
                 </button>
-                    </div>
+              </div>
               
-                    <div class="space-y-4">
+              <div class="space-y-4">
                 <div v-for="person in networkingSuggestions" :key="person.id" 
                      class="flex items-center space-x-4 p-4 border-2 border-gray-100 rounded-2xl hover:border-blue-200 hover:bg-blue-50 transition-all duration-300 group">
                   <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-blue-500 rounded-2xl flex items-center justify-center text-white font-bold shadow-lg">
                     {{ person.name.split(' ').map(n => n[0]).join('') }}
                   </div>
-                            <div class="flex-1">
+                  <div class="flex-1">
                     <div class="font-semibold text-gray-900">{{ person.name }}</div>
                     <div class="text-xs text-gray-600">{{ person.position }}</div>
                     <div class="text-xs text-blue-600 font-medium">{{ person.mutualConnections }} mutual</div>
-                            </div>
+                  </div>
                   <button class="opacity-75 group-hover:opacity-100 bg-gradient-to-r from-blue-100 to-indigo-100 hover:from-blue-200 hover:to-indigo-200 text-blue-600 px-4 py-2 rounded-xl font-semibold text-sm transition-all duration-300 hover:scale-105">
-                                Connect
-                            </button>
-                        </div>
-                    </div>
+                    Connect
+                  </button>
                 </div>
-
-                <!-- Upcoming Events -->
+              </div>
+            </div>
+  
+            <!-- Upcoming Events -->
             <div class="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
               <div class="flex items-center justify-between mb-6">
                 <div>
                   <h3 class="text-xl font-black text-gray-900">Upcoming Events</h3>
                   <p class="text-gray-600 text-sm">June 2025</p>
                 </div>
-                    </div>
+              </div>
               
-                    <div class="space-y-4">
+              <div class="space-y-4">
                 <div v-for="event in upcomingEvents" :key="event.id" 
                      :class="`flex items-start space-x-4 p-4 rounded-2xl transition-all duration-300 ${
                        event.isToday ? 'bg-gradient-to-r from-orange-50 to-red-50 border-2 border-orange-200' : 'hover:bg-gray-50'
@@ -438,19 +434,19 @@
                   <div :class="`w-12 h-12 rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-lg ${
                     event.isToday ? 'bg-gradient-to-r from-orange-500 to-red-500' : 'bg-gradient-to-r from-blue-500 to-indigo-500'
                   }`">
-                                {{ event.icon }}
-                            </div>
-                            <div class="flex-1">
+                    {{ event.icon }}
+                  </div>
+                  <div class="flex-1">
                     <div class="font-semibold text-gray-900">{{ event.title }}</div>
                     <div class="text-sm text-gray-600">{{ event.time }}</div>
                     <div class="text-xs text-gray-500">{{ event.location }}</div>
-                            </div>
+                  </div>
                   <div v-if="event.isToday" class="w-3 h-3 bg-orange-500 rounded-full animate-pulse"></div>
-                        </div>
-                    </div>
                 </div>
-
-                <!-- Quick Actions -->
+              </div>
+            </div>
+  
+            <!-- Quick Actions -->
             <div class="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-3xl p-8 border-2 border-green-200">
               <h3 class="text-xl font-black text-gray-900 mb-6">Quick Actions</h3>
               <div class="grid grid-cols-2 gap-4">
@@ -458,24 +454,24 @@
                         class="bg-white p-4 rounded-2xl border-2 border-gray-200 hover:border-green-300 hover:shadow-lg transition-all duration-300 text-left group hover:scale-105">
                   <div class="text-3xl mb-2">{{ action.icon }}</div>
                   <div class="text-sm font-bold text-gray-900">{{ action.title }}</div>
-                        </button>
+                </button>
               </div>
-                    </div>
-                </div>
             </div>
+          </div>
         </div>
-
-        <!-- Floating Action Button -->
+      </div>
+  
+      <!-- Floating Action Button -->
       <div class="fixed bottom-8 right-8 z-50">
-            <div class="relative group">
+        <div class="relative group">
           <button @click="showQuickMenu = !showQuickMenu"
                   class="w-16 h-16 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full shadow-2xl hover:shadow-3xl flex items-center justify-center text-white hover:scale-110 transition-all duration-300 animate-pulse hover:animate-none">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                </button>
-                
-                <!-- Quick Menu -->
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+          </button>
+          
+          <!-- Quick Menu -->
           <div v-if="showQuickMenu" 
                class="absolute bottom-20 right-0 w-56 bg-white rounded-3xl shadow-2xl border-2 border-gray-200 transform transition-all duration-300 animate-in slide-in-from-bottom-2">
             <div class="p-4">
@@ -484,19 +480,17 @@
                         class="w-full text-left px-4 py-3 rounded-2xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 text-sm font-semibold text-gray-700 hover:text-orange-600 transition-all duration-300 flex items-center space-x-3">
                   <span class="text-lg">{{ menuItem.icon }}</span>
                   <span>{{ menuItem.title }}</span>
-                        </button>
-                    </div>
-                </div>
+                </button>
+              </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
-</template>
-
-<script setup lang="ts">
+  </template>
+  
+  <script setup>
   import { ref, computed, onMounted } from 'vue';
-  import { Link } from '@inertiajs/vue3'
-  import { route } from 'ziggy-js'
   
   // Reactive state
   const showQuickMenu = ref(false);
@@ -573,191 +567,123 @@
     { name: "Offer", count: 1, percentage: 7, active: false }
   ]);
   
-  // Type definitions
-  type ApplicationStatus = 'Interview Scheduled' | 'Under Review' | 'Application Sent' | 'Offer' | 'Rejected';
-
-  interface Company {
-    name: string;
-    logo: string;
-  }
-
-  interface Application {
-    id: number;
-    position: string;
-    company: {
-      name: string;
-      logo: string;
-    };
-    status: ApplicationStatus;
-    appliedDays: number;
-    logo?: string; // Optional logo property
-  }
-
-  interface Skill {
-    name: string;
-    level: number;
-  }
-
-  interface RecommendedSkill {
-    name: string;
-    demand: number;
-  }
-
-  interface CareerGoal {
-    id: number;
-    title: string;
-    description: string;
-    progress: number;
-  }
-
-  interface NetworkingSuggestion {
-    id: number;
-    name: string;
-    position: string;
-    mutualConnections: number;
-  }
-
-  interface Event {
-    id: number;
-    title: string;
-    time: string;
-    location: string;
-    icon: string;
-    isToday: boolean;
-  }
-
-  interface FavoriteCompany {
-    id: number;
-    name: string;
-    industry: string;
-    employees: string;
-    location: string;
-    specialisatie: string;
-    logo: string;
-  }
-
-  interface QuickAction {
-    title: string;
-    icon: string;
-  }
-
-// Recent applications
-  const recentApplications = ref<Application[]>([
+  // Recent applications
+  const recentApplications = ref([
     {
         id: 1,
         position: 'Junior Software Developer',
         company: { name: 'Capgemini', logo: '/images/logos/capgemini-logo.svg' },
-        status: 'Interview Scheduled',
+        status: 'Interview Scheduled' as ApplicationStatus,
         appliedDays: 3
     },
     {
         id: 2,
         position: 'Frontend Developer',
         company: { name: 'Accenture', logo: '/images/logos/accenture-logo.svg' },
-        status: 'Under Review',
+        status: 'Under Review' as ApplicationStatus,
         appliedDays: 5
     },
     {
         id: 3,
         position: 'Web Developer',
         company: { name: 'delaware', logo: '/images/logos/delaware-logo.svg' },
-        status: 'Application Sent',
+        status: 'Application Sent' as ApplicationStatus,
         appliedDays: 1
     }
-  ]);
+]
 
 // Current skills
-  const currentSkills = ref<Skill[]>([
+const currentSkills = [
     { name: 'JavaScript', level: 75 },
     { name: 'HTML/CSS', level: 85 },
     { name: 'Java', level: 60 },
     { name: 'Microsoft Office', level: 90 },
     { name: 'French', level: 100 },
     { name: 'Dutch', level: 85 }
-  ]);
+]
 
 // Recommended skills
-  const recommendedSkills = ref<RecommendedSkill[]>([
+const recommendedSkills = [
     { name: 'React.js', demand: 89 },
     { name: 'Node.js', demand: 76 },
     { name: 'Python', demand: 83 },
     { name: 'SQL', demand: 71 }
-  ]);
+]
 
 // Career goals
-  const careerGoals = ref<CareerGoal[]>([
+const careerGoals = [
     {
-        id: 1,
+      id: 1,
       title: "Land First Developer Job",
       description: "Secure a junior developer position by July 2025",
-        progress: 65
+      progress: 65
     },
     {
-        id: 2,
+      id: 2,
       title: "Build Professional Network",
       description: "Connect with 100+ industry professionals", 
-        progress: 45
+      progress: 45
     },
     {
-        id: 3,
+      id: 3,
       title: "Complete Portfolio",
       description: "Showcase 5 professional projects",
-        progress: 80
+      progress: 80
     }
   ]);
-
-// Networking suggestions
-  const networkingSuggestions = ref<NetworkingSuggestion[]>([
+  
+  // Networking suggestions
+  const networkingSuggestions = ref([
     {
-        id: 1,
+      id: 1,
       name: "Sarah De Vos",
       position: "Senior Developer at Capgemini",
-        mutualConnections: 3
+      mutualConnections: 3
     },
     {
-        id: 2,
+      id: 2,
       name: "Thomas Janssens", 
       position: "HR Manager at Accenture",
-        mutualConnections: 1
+      mutualConnections: 1
     },
     {
-        id: 3,
+      id: 3,
       name: "Marie Dupont",
       position: "Tech Lead at Delaware",
-        mutualConnections: 2
+      mutualConnections: 2
     }
   ]);
-
-// Upcoming events
-  const upcomingEvents = ref<Event[]>([
+  
+  // Upcoming events
+  const upcomingEvents = ref([
     {
-        id: 1,
+      id: 1,
       title: "Tech Career Fair",
       time: "Today 2:00 PM",
       location: "Erasmushogeschool Brussels",
       icon: "📊",
-        isToday: true
+      isToday: true
     },
     {
-        id: 2,
+      id: 2,
       title: "Mock Interview Session",
       time: "Tomorrow 10:00 AM", 
       location: "Online",
       icon: "💼",
-        isToday: false
+      isToday: false
     },
     {
-        id: 3,
+      id: 3,
       title: "Networking Workshop",
       time: "Friday 6:00 PM",
       location: "Brussels",
       icon: "🤝",
-        isToday: false
+      isToday: false
     }
   ]);
   
-  // Favorite companies
-  const favoriteCompanies = ref<FavoriteCompany[]>([
+  // Favorite companies (integrated with favorites system)
+  const favoriteCompanies = ref([
     {
       id: 1,
       name: "Accenture",
@@ -815,7 +741,7 @@
   ]);
   
   // Quick actions
-  const quickActions = ref<QuickAction[]>([
+  const quickActions = ref([
     { title: "Search Jobs", icon: "🔍" },
     { title: "Update CV", icon: "📝" },
     { title: "Network", icon: "🤝" },
@@ -823,16 +749,16 @@
   ]);
   
   // Floating menu items
-  const floatingMenuItems = ref<QuickAction[]>([
+  const floatingMenuItems = ref([
     { title: "Quick Apply", icon: "📝" },
     { title: "Schedule Meeting", icon: "📅" },
     { title: "Send Message", icon: "💬" },
     { title: "Set Goal", icon: "🎯" },
     { title: "Add Company", icon: "🏢" }
   ]);
-
-// Helper functions
-  const getStatusColor = (status: ApplicationStatus): string => {
+  
+  // Helper functions
+  const getStatusColor = (status) => {
     const colors = {
       'Interview Scheduled': 'bg-yellow-100 text-yellow-800 border-yellow-200',
       'Under Review': 'bg-blue-100 text-blue-800 border-blue-200', 
@@ -843,17 +769,13 @@
     return colors[status] || 'bg-gray-100 text-gray-800 border-gray-200';
   };
   
-  const calculateSkillProgress = (level: number): string => {
-    return `${Math.min(100, Math.max(0, level))}%`;
+  const getSkillColor = (level) => {
+    if (level >= 80) return 'bg-gradient-to-r from-green-500 to-emerald-500';
+    if (level >= 60) return 'bg-gradient-to-r from-yellow-500 to-orange-500';
+    return 'bg-gradient-to-r from-red-500 to-pink-500';
   };
   
-  const getSkillColor = (level: number): string => {
-    if (level >= 80) return 'bg-green-500';
-    if (level >= 60) return 'bg-yellow-500';
-    return 'bg-orange-500';
-  };
-  
-  const removeFromFavorites = (companyId: number): void => {
+  const removeFromFavorites = (companyId) => {
     favoriteCompanies.value = favoriteCompanies.value.filter(company => company.id !== companyId);
   };
   
@@ -871,7 +793,6 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    line-clamp: 2;
   }
   
   .animate-in {

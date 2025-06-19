@@ -1,28 +1,42 @@
 <?php
 
-namespace App\Http\Controllers\Company;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class DashboardController extends Controller
+class CompanyController extends Controller
 {
     public function index()
     {
-        $companies = Company::where('is_active', true)
-            ->select(['id', 'name', 'logo_path', 'website', 'specialisatie', 'beschrijving', 'adres', 'telefoon', 'email'])
-            ->get();
+        $companies = Company::with(['timeSlots' => function ($query) {
+            $query->where('start_time', '>', now())
+                  ->where('is_available', true)
+                  ->orderBy('start_time');
+        }])->get();
+
+        if (request()->wantsJson()) {
+            return response()->json(['companies' => $companies]);
+        }
 
         return Inertia::render('Companies/Index', [
             'companies' => $companies
         ]);
     }
 
-    public function show($id)
+    public function show(Company $company)
     {
-        $company = Company::findOrFail($id);
+        $company->load(['timeSlots' => function ($query) {
+            $query->where('start_time', '>', now())
+                  ->where('is_available', true)
+                  ->orderBy('start_time');
+        }]);
+
+        if (request()->wantsJson()) {
+            return response()->json(['company' => $company]);
+        }
+
         return Inertia::render('Companies/Show', [
             'company' => $company
         ]);

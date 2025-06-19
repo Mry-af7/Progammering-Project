@@ -1,21 +1,23 @@
 <script setup lang="ts">
-import AppHeader from '@/components/layouts/AppHeader.vue';
-import type { BreadcrumbItem } from '@/types';
+import AppContent from '@/components/AppContent.vue';
+import AppHeader from '@/components/AppHeader.vue';
+import AppShell from '@/components/AppShell.vue';
+import type { BreadcrumbItemType } from '@/types';
 
 interface Props {
-    breadcrumbs?: BreadcrumbItem[];
+    breadcrumbs?: BreadcrumbItemType[];
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
 });
 </script>
 
 <template>
-    <div class="min-h-screen bg-background">
+    <AppShell class="flex-col">
         <AppHeader :breadcrumbs="breadcrumbs" />
-        <main>
+        <AppContent>
             <slot />
-        </main>
-    </div>
+        </AppContent>
+    </AppShell>
 </template>

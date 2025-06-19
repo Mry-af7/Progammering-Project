@@ -40,7 +40,6 @@
 import { Link } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
 import Pagination from '@/Components/Pagination.vue';
-import { route } from 'ziggy-js';
 
 const props = defineProps({
   companies: {
