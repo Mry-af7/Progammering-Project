@@ -9,10 +9,13 @@ import { route } from '@/lib/ziggy';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-
-// Custom Components
-import InputError from '@/components/InputError.vue';
-import TextLink from '@/components/TextLink.vue';
+import AuthBase from '@/layouts/AuthLayout.vue';
+import { Head } from '@inertiajs/vue3';
+import { LoaderCircle } from 'lucide-vue-next';
+import { Link } from '@inertiajs/vue3';
+import { Search, User } from 'lucide-vue-next';
+import { ref } from 'vue';
+import { route } from '@/lib/ziggy';
 
 const mobileMenuOpen = ref(false);
 const roleType = usePage().url.includes('type=bedrijf') ? 'bedrijf' : 'student';

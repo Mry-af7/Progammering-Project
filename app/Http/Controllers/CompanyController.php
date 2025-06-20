@@ -2,101 +2,83 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use App\Models\Company;
+use App\Models\Student;
 
 class CompanyController extends Controller
 {
-    public function index()
+    public function dashboard()
     {
-        $companies = Company::with(['timeSlots' => function ($query) {
-            $query->where('start_time', '>', now())
-                  ->where('is_available', true)
-                  ->orderBy('start_time');
-        }])->get();
+        $user = Auth::user();
+        $company = Company::with(['industry', 'companySize', 'technologies', 'benefits', 'savedStudents.skills', 'savedStudents.languages', 'savedStudents.portfolios', 'savedStudents.hobbies'])
+                         ->where('user_id', $user->id)
+                         ->first();
 
-        if (request()->wantsJson()) {
-            return response()->json(['companies' => $companies]);
-        }
+        // Add students data for the search functionality
+        $students = Student::with(['skills', 'languages', 'portfolios', 'hobbies'])
+                          ->get();
 
-        return Inertia::render('Companies/Index', [
-            'companies' => $companies
+        return Inertia::render('Company/Dashboard', [
+            'user' => $user,
+            'company' => $company,
+            'students' => $students,
+            'savedStudents' => $company?->savedStudents ?? [],
         ]);
     }
 
-    public function show(Company $company)
+    /**
+     * Save a student profile
+     */
+    public function saveStudent(Request $request)
     {
-        $company->load(['timeSlots' => function ($query) {
-            $query->where('start_time', '>', now())
-                  ->where('is_available', true)
-                  ->orderBy('start_time');
-        }]);
-
-        if (request()->wantsJson()) {
-            return response()->json(['company' => $company]);
-        }
-
-        return Inertia::render('Companies/Show', [
-            'company' => $company
-        ]);
-    }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'website' => 'nullable|url|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'nullable|string|max:20',
-            'address' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'postal_code' => 'required|string|max:20',
-            'logo' => 'nullable|image|max:2048'
+        $request->validate([
+            'student_id' => 'required|exists:students,id'
         ]);
 
-        if ($request->hasFile('logo')) {
-            $path = $request->file('logo')->store('company-logos', 'public');
-            $validated['logo_path'] = $path;
+        $user = Auth::user();
+        
+        // Use the same pattern as in dashboard method
+        $company = Company::where('user_id', $user->id)->first();
+        
+        if (!$company) {
+            return back()->withErrors(['error' => 'No company found for this user']);
         }
 
-        $company = Company::create($validated);
+        // Check if student is already saved
+        if ($company->savedStudents()->where('student_id', $request->student_id)->exists()) {
+            return back()->with('message', 'Student already saved');
+        }
 
-        return redirect()->route('companies.show', $company)
-            ->with('success', 'Company created successfully.');
+        // Save the student
+        $company->savedStudents()->attach($request->student_id);
+        
+        return back()->with('success', 'Student saved successfully');
     }
 
-    public function update(Request $request, Company $company)
+    /**
+     * Remove a saved student profile
+     */
+    public function unsaveStudent(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'website' => 'nullable|url|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'nullable|string|max:20',
-            'address' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'postal_code' => 'required|string|max:20',
-            'logo' => 'nullable|image|max:2048'
+        $request->validate([
+            'student_id' => 'required|exists:students,id'
         ]);
 
-        if ($request->hasFile('logo')) {
-            $path = $request->file('logo')->store('company-logos', 'public');
-            $validated['logo_path'] = $path;
+        $user = Auth::user();
+        
+        // Use the same pattern as in dashboard method
+        $company = Company::where('user_id', $user->id)->first();
+        
+        if (!$company) {
+            return back()->withErrors(['error' => 'No company found for this user']);
         }
 
-        $company->update($validated);
-
-        return redirect()->route('companies.show', $company)
-            ->with('success', 'Company updated successfully.');
+        // Remove the student from saved list
+        $company->savedStudents()->detach($request->student_id);
+        
+        return back()->with('success', 'Student removed from saved list');
     }
-
-    public function destroy(Company $company)
-    {
-        $company->delete();
-
-        return redirect()->route('companies.index')
-            ->with('success', 'Company deleted successfully.');
-    }
-} 
+}

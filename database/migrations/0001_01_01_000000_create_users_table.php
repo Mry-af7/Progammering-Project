@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
             $table->string('email')->unique();
+            $table->enum('user_type', ['student', 'company'])->default('student');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             

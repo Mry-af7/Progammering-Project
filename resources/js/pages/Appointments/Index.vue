@@ -77,7 +77,7 @@ import {
   EyeIcon, 
   XMarkIcon 
 } from '@heroicons/vue/24/outline';
-import Pagination from '@/Components/Pagination.vue';
+import Pagination from '@/components/Pagination.vue';
 import { router } from '@inertiajs/vue3';
 import { format } from 'date-fns';
 

@@ -14,12 +14,13 @@ use App\Models\Tag;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
+    public function run()
     {
         $this->call([
+            // Your seeders
+            SkillsTableSeeder::class,
+            LanguagesTableSeeder::class,
+            // Their seeders
             UserSeeder::class,
             CompanySeeder::class,
             StudyFieldSeeder::class,
@@ -43,7 +44,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($studyFields as $field) {
-            StudyField::create($field);
+            StudyField::firstOrCreate($field);
         }
 
         // Create tags
@@ -55,7 +56,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($tags as $tag) {
-            Tag::create(['name' => $tag]);
+            Tag::firstOrCreate(['name' => $tag]);
         }
 
         // Create admin user
@@ -134,4 +135,3 @@ class DatabaseSeeder extends Seeder
         });
     }
 }
-

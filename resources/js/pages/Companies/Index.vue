@@ -39,7 +39,7 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
-import Pagination from '@/Components/Pagination.vue';
+import Pagination from '@/components/Pagination.vue';
 
 const props = defineProps({
   companies: {

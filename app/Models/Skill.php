@@ -2,20 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Skill extends Model
 {
-    protected $fillable = [
-        'user_id',
-        'name',
-        'level',
-        'category'
-    ];
+    use HasFactory;
 
-    public function user(): BelongsTo
+    protected $fillable = ['name'];
+
+    public function students()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(Student::class, 'student_skills')
+                    ->withPivot('proficiency_level')
+                    ->withTimestamps();
     }
-} 
+}

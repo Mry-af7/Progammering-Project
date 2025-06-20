@@ -11,13 +11,12 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $fillable = [
         'firstname',
@@ -25,7 +24,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role', // student, company, admin
+        'role', // student, company, admin (keeping their naming)
+        'user_type', // keeping yours for backward compatibility
+        'profile_completed',
         'profile_photo_path',
         'bio',
         'phone',
@@ -37,7 +38,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -47,7 +48,7 @@ class User extends Authenticatable
     /**
      * Get the attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
     protected function casts(): array
     {
@@ -121,6 +122,7 @@ class User extends Authenticatable
         return $this->hasMany(Message::class)->where('read', false);
     }
 
+    // Role checking methods (supporting both naming conventions)
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
@@ -128,11 +130,11 @@ class User extends Authenticatable
 
     public function isCompany(): bool
     {
-        return $this->role === 'company';
+        return $this->role === 'company' || $this->user_type === 'company';
     }
 
     public function isStudent(): bool
     {
-        return $this->role === 'student';
+        return $this->role === 'student' || $this->user_type === 'student';
     }
 }

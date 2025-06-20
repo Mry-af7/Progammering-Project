@@ -2,18 +2,27 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ProfileOnboardingController;
+use App\Http\Controllers\CompanyOnboardingController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\FavoriteController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
+use Illuminate\Support\Facades\DB;
 
-// Public routes
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -22,6 +31,10 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('home');
+
+Route::get('/home', function () {
+    return Inertia::render('Welcome');
+});
 
 Route::get('/info', function () {
     return Inertia::render('Info');
@@ -55,7 +68,69 @@ Route::get('/faq', function () {
     return Inertia::render('Faq');
 })->name('faq');
 
-// Auth routes
+/*
+|--------------------------------------------------------------------------
+| API Routes for Favorites (Mock Data)
+|--------------------------------------------------------------------------
+*/
+
+Route::delete('/favorites/{id}', function ($id) {
+    // Simuleer het verwijderen van een favoriet
+    return response()->json(['message' => 'Favoriet verwijderd'], 200);
+})->name('favorites.destroy');
+
+Route::post('/favorites', function () {
+    // Simuleer het toevoegen van een favoriet
+    return response()->json(['message' => 'Favoriet toegevoegd'], 201);
+})->name('favorites.store');
+
+/*
+|--------------------------------------------------------------------------
+| Profile Viewing Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/studenten/{id}', function ($id) {
+    return Inertia::render('StudentProfile', ['studentId' => $id]);
+})->name('student.show');
+
+Route::get('/bedrijven/{id}', function ($id) {
+    return Inertia::render('CompanyProfile', ['companyId' => $id]);
+})->name('company.show');
+
+Route::get('/profielen/{id}', function ($id) {
+    return Inertia::render('Profile', ['profileId' => $id]);
+})->name('profile.show');
+
+/*
+|--------------------------------------------------------------------------
+| Messaging Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/berichten/nieuw', function () {
+    return Inertia::render('NewMessage', [
+        'to' => request('to'),
+        'type' => request('type')
+    ]);
+})->name('messages.create');
+
+/*
+|--------------------------------------------------------------------------
+| Company Routes (Public)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/bedrijf/profiel', function () {
+    return Inertia::render('profielpaginabedrijf');
+})->name('company.profile');
+
+/*
+|--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware('guest')->group(function () {
     // Student registration
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
@@ -63,6 +138,9 @@ Route::middleware('guest')->group(function () {
     
     // Company registration
     Route::get('register/bedrijf', [RegisteredUserController::class, 'createBedrijf'])->name('register.bedrijf');
+    Route::get('/register-bedrijf', function () {
+        return Inertia::render('auth/Register-bedrijf');
+    })->name('register.bedrijf');
     Route::post('register/bedrijf', [RegisteredUserController::class, 'storeBedrijf']);
     
     // Login
@@ -74,21 +152,65 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update');
 });
 
-Route::middleware('auth')->group(function () {
+/*
+|--------------------------------------------------------------------------
+| Protected Routes (Auth Required)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    
+    // Logout
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     
-    // Dashboard
+    // Main Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    // Company dashboard route
-    Route::get('/company/dashboard', function () {
-        return Inertia::render('CompanyDashboard');
-    })->name('company.dashboard');
+    // Student Profile Onboarding Routes (Step-by-step completion)
+    Route::get('/profile-onboarding', [ProfileOnboardingController::class, 'index'])->name('profile-onboarding');
+    Route::get('/profile-onboarding/step/{step}', [ProfileOnboardingController::class, 'showStep'])->name('profile-onboarding.step');
+    
+    Route::post('/profile-onboarding/basic-info', [ProfileOnboardingController::class, 'storeBasicInfo'])->name('profile-onboarding.basic-info');
+    Route::post('/profile-onboarding/github-portfolio', [ProfileOnboardingController::class, 'storeGitHubPortfolio'])->name('profile-onboarding.github-portfolio');
+    Route::post('/profile-onboarding/skills', [ProfileOnboardingController::class, 'storeSkills'])->name('profile-onboarding.skills');
+    Route::post('/profile-onboarding/languages', [ProfileOnboardingController::class, 'storeLanguages'])->name('profile-onboarding.languages');
+    Route::post('/profile-onboarding/hobbies', [ProfileOnboardingController::class, 'storeHobbies'])->name('profile-onboarding.hobbies');
+    Route::post('/profile-onboarding/complete', [ProfileOnboardingController::class, 'complete'])->name('profile-onboarding.complete');
+
+    // Company Onboarding Routes (Individual routes like student onboarding)
+    Route::get('/company/onboarding', [CompanyOnboardingController::class, 'index'])->name('company.onboarding');
+    Route::get('/company/onboarding/step/{step}', [CompanyOnboardingController::class, 'showStep'])->name('company.onboarding.step');
+    Route::get('/company/onboarding/{step}', [CompanyOnboardingController::class, 'showStep'])->name('company.onboarding.show');
+    
+    Route::post('/company/onboarding/basics', [CompanyOnboardingController::class, 'storeBasics'])->name('company.onboarding.basics');
+    Route::post('/company/onboarding/details', [CompanyOnboardingController::class, 'storeDetails'])->name('company.onboarding.details');
+    Route::post('/company/onboarding/tech', [CompanyOnboardingController::class, 'storeTech'])->name('company.onboarding.tech');
+    Route::post('/company/onboarding/benefits', [CompanyOnboardingController::class, 'storeBenefits'])->name('company.onboarding.benefits');
+    Route::post('/company/onboarding/media', [CompanyOnboardingController::class, 'storeMedia'])->name('company.onboarding.media');
+    Route::post('/company/onboarding/complete', [CompanyOnboardingController::class, 'complete'])->name('company.onboarding.complete');
+
+    // Company Dashboard & Management
+    Route::prefix('company')->name('company.')->group(function () {
+        Route::get('/dashboard', [CompanyController::class, 'dashboard'])->name('dashboard');
+        
+        // Add these new routes for saving students
+        Route::post('/save-student', [CompanyController::class, 'saveStudent'])->name('save-student');
+        Route::delete('/unsave-student', [CompanyController::class, 'unsaveStudent'])->name('unsave-student');
+        
+        Route::get('/profile-management', function () {
+            return Inertia::render('Company/ProfileManagement');
+        })->name('profile.management');
+    });
     
     // Admin dashboard route
     Route::get('/admin/dashboard', function () {
         return Inertia::render('AdminDashboard');
     })->name('admin.dashboard');
+    
+    // Regular Profile Routes
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 // Load other route files
@@ -142,7 +264,6 @@ Route::get('/sitemap.xml', function () {
         ['url' => route('info'), 'priority' => '0.8'],
         ['url' => route('afspraak'), 'priority' => '0.9'],
         ['url' => route('contact'), 'priority' => '0.7'],
-        ['url' => route('career-launch.index'), 'priority' => '0.8'],
     ];
     
     return response()->view('sitemap', compact('urls'))
