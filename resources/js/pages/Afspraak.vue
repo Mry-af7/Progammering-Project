@@ -1,751 +1,631 @@
 <template>
     <div class="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50">
-        <Head title="Plan je afspraak - Erasmus Career Launch" />
-      
-        <!-- Premium Navigation -->
-        <nav class="bg-white/95 backdrop-blur-md shadow-lg border-b border-orange-100 sticky top-0 z-50">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div class="flex justify-between items-center h-16">
-                    <!-- Premium Logo -->
-                    <Link href="/" class="flex items-center space-x-3 group">
-                        <div class="w-12 h-12 bg-gradient-to-br from-red-600 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                            <span class="text-white font-bold text-xl">E</span>
-                      </div>
-                      <div>
-                            <div class="text-gray-900 font-bold text-xl tracking-tight">erasmus</div>
-                            <div class="text-xs text-gray-600 -mt-1 font-medium">HOGESCHOOL BRUSSEL</div>
-                      </div>
-                  </Link>
-                  
-                    <!-- Premium Navigation Links -->
-                  <div class="hidden md:flex items-center space-x-1">
-                        <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Home</Link>
-                        <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Info</Link>
-                        <Link href="/afspraak" class="px-4 py-2 text-orange-600 font-medium bg-orange-100 rounded-lg">Afspraak</Link>
-                        <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Contact</Link>
-                      
-                      <div class="flex items-center ml-6">
-                            <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-semibold transition-colors rounded-lg hover:bg-orange-50">Inloggen</Link>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </nav>
-
-        <!-- Hero Section -->
-        <div class="relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-r from-orange-600 to-red-600 opacity-5"></div>
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <div class="text-center">
-                    <div class="flex justify-center mb-8">
-                        <div class="w-24 h-24 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-3xl flex items-center justify-center shadow-2xl">
-                            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                      </svg>
-                  </div>
-              </div>
-                    <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                        Plan je <span class="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Career Launch</span> gesprek
-              </h1>
-                    <p class="text-gray-600 text-xl max-w-4xl mx-auto leading-relaxed mb-8">
-                        Ontmoet face-to-face de bedrijven die je interesseren. 
-                        Kies een bedrijf en tijdslot voor een persoonlijk gesprek van 15 minuten.
-                    </p>
-                    
-                    <!-- Success Indicators -->
-                    <div class="flex items-center justify-center space-x-8 text-sm text-gray-600">
-                  <div class="flex items-center">
-                            <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>250+ succesvolle matches</span>
-                  </div>
-                  <div class="flex items-center">
-                            <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>85% tevredenheidsscore</span>
-                  </div>
-                  <div class="flex items-center">
-                            <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>Top bedrijven</span>
+    <Head title="Plan je afspraak - Erasmus Career Launch" />
+    
+    <!-- Premium Navigation -->
+    <MainNavigation activePage="afspraak" />
+    
+    <!-- Hero Section -->
+    <div class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-orange-600 to-red-600 opacity-5"></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="text-center">
+        <div class="flex justify-center mb-8">
+            <div class="w-24 h-24 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-3xl flex items-center justify-center shadow-2xl">
+                <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+        </div>
+        <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            Plan je <span class="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Career Launch</span> gesprek
+        </h1>
+        <p class="text-gray-600 text-xl max-w-4xl mx-auto leading-relaxed mb-8">
+            Ontmoet face-to-face de bedrijven die je interesseren. 
+            Kies een bedrijf en tijdslot voor een persoonlijk gesprek van 15 minuten.
+        </p>
+        
+        <!-- Success Indicators -->
+        <div class="flex items-center justify-center space-x-8 text-sm text-gray-600">
+            <div class="flex items-center">
+                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span>250+ succesvolle matches</span>
+            </div>
+            <div class="flex items-center">
+                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span>85% tevredenheidsscore</span>
+            </div>
+            <div class="flex items-center">
+                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Top bedrijven</span>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+    <!-- Premium Progress Steps -->
+    <div class="mb-16">
+    <div class="flex items-center justify-center space-x-4 mb-8 overflow-x-auto pb-4">
+        <div v-for="(step, index) in progressSteps" :key="index" class="flex items-center">
+            <div class="flex items-center">
+                <div :class="currentStep >= step.number ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg scale-110' : 'bg-gray-200 text-gray-600'" 
+                     class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 relative">
+                    <span v-if="currentStep > step.number" class="absolute">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </span>
+                    <span v-else>{{ step.number }}</span>
+                </div>
+                <div class="ml-3 text-left">
+                    <div class="text-sm font-semibold" :class="currentStep >= step.number ? 'text-orange-600' : 'text-gray-700'">
+                        {{ step.title }}
+                    </div>
+                    <div class="text-xs text-gray-500">{{ step.subtitle }}</div>
+                </div>
+            </div>
+            <div v-if="index < progressSteps.length - 1" 
+                 :class="currentStep > step.number ? 'bg-gradient-to-r from-orange-500 to-red-500' : 'bg-gray-300'"
+                 class="w-8 h-1 rounded-full mx-4 transition-all duration-300"></div>
+        </div>
+    </div>
+    </div>
+    
+    <!-- Step 1: Event Selection -->
+    <div v-if="currentStep === 1" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
+    <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Welkom bij Career Launch</h2>
+        <p class="text-gray-600 text-lg">Het premium speeddate event van Erasmus Hogeschool Brussel</p>
+    </div>
+    
+    <div class="bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 rounded-3xl p-8 mb-8 border border-orange-100">
+        <div class="flex items-start justify-between">
+            <div class="flex-1">
+                <div class="flex items-center mb-4">
+                    <div class="w-4 h-4 bg-green-500 rounded-full mr-3 animate-pulse"></div>
+                    <span class="text-sm font-semibold text-green-700 uppercase tracking-wide">Live Event</span>
+                </div>
+                
+                <h3 class="text-3xl font-bold text-gray-900 mb-3">Career Launch Event 2025</h3>
+                <p class="text-gray-700 mb-6 text-lg leading-relaxed">
+                    Het exclusieve speeddate event waar ambitieuze studenten topbedrijven ontmoeten 
+                    voor stages, jobs en carrièremogelijkheden.
+                </p>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="flex items-center text-gray-700 bg-white/60 rounded-xl p-3">
+                        <svg class="w-6 h-6 mr-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <div>
+                            <div class="font-semibold">15 maart 2025</div>
+                            <div class="text-sm text-gray-600">Zaterdag</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-gray-700 bg-white/60 rounded-xl p-3">
+                        <svg class="w-6 h-6 mr-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <div class="font-semibold">09:00 - 17:00</div>
+                            <div class="text-sm text-gray-600">8 uur netwerkgelegenheid</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-gray-700 bg-white/60 rounded-xl p-3">
+                        <svg class="w-6 h-6 mr-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <div>
+                            <div class="font-semibold">Campus Brussel</div>
+                            <div class="text-sm text-gray-600">Hoofdgebouw - Zaal A1.01</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-gray-700 bg-white/60 rounded-xl p-3">
+                        <svg class="w-6 h-6 mr-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                        <div>
+                            <div class="font-semibold">{{ companies.length }}+ Premium Bedrijven</div>
+                            <div class="text-sm text-gray-600">Fortune 500 & Scale-ups</div>
                         </div>
                     </div>
                 </div>
             </div>
-                  </div>
-  
-        <!-- Main Content -->
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-            <!-- Premium Progress Steps -->
-            <div class="mb-16">
-                <div class="flex items-center justify-center space-x-4 mb-8 overflow-x-auto pb-4">
-                    <div v-for="(step, index) in progressSteps" :key="index" class="flex items-center">
-                  <div class="flex items-center">
-                            <div :class="currentStep >= step.number ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg scale-110' : 'bg-gray-200 text-gray-600'" 
-                                 class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 relative">
-                                <span v-if="currentStep > step.number" class="absolute">
-                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </span>
-                                <span v-else>{{ step.number }}</span>
-                            </div>
-                            <div class="ml-3 text-left">
-                                <div class="text-sm font-semibold" :class="currentStep >= step.number ? 'text-orange-600' : 'text-gray-700'">
-                                    {{ step.title }}
-                                </div>
-                                <div class="text-xs text-gray-500">{{ step.subtitle }}</div>
-                            </div>
-                        </div>
-                        <div v-if="index < progressSteps.length - 1" 
-                             :class="currentStep > step.number ? 'bg-gradient-to-r from-orange-500 to-red-500' : 'bg-gray-300'"
-                             class="w-8 h-1 rounded-full mx-4 transition-all duration-300"></div>
-                  </div>
-              </div>
-          </div>
-
-          <!-- Step 1: Event Selection -->
-            <div v-if="currentStep === 1" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Welkom bij Career Launch</h2>
-                    <p class="text-gray-600 text-lg">Het premium speeddate event van Erasmus Hogeschool Brussel</p>
+            
+            <div class="ml-8 text-center">
+                <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                    <div class="text-4xl font-bold text-orange-600 mb-1">{{ availableSpots }}</div>
+                    <div class="text-sm text-gray-600 font-medium">plekken beschikbaar</div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
+                        <div class="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full transition-all duration-500" 
+                             :style="`width: ${(availableSpots / totalSpots) * 100}%`"></div>
+                    </div>
+                    <div class="text-xs text-gray-500 mt-2">van {{ totalSpots }} plekken</div>
                 </div>
-                
-                <div class="bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 rounded-3xl p-8 mb-8 border border-orange-100">
-                    <div class="flex items-start justify-between">
-                        <div class="flex-1">
-                            <div class="flex items-center mb-4">
-                                <div class="w-4 h-4 bg-green-500 rounded-full mr-3 animate-pulse"></div>
-                                <span class="text-sm font-semibold text-green-700 uppercase tracking-wide">Live Event</span>
-                            </div>
-                            
-                            <h3 class="text-3xl font-bold text-gray-900 mb-3">Career Launch Event 2025</h3>
-                            <p class="text-gray-700 mb-6 text-lg leading-relaxed">
-                                Het exclusieve speeddate event waar ambitieuze studenten topbedrijven ontmoeten 
-                                voor stages, jobs en carrièremogelijkheden.
-                            </p>
-                            
-                            <div class="grid md:grid-cols-2 gap-6 mb-6">
-                                <div class="flex items-center text-gray-700 bg-white/60 rounded-xl p-3">
-                                    <svg class="w-6 h-6 mr-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                    </svg>
-                          <div>
-                                        <div class="font-semibold">15 maart 2025</div>
-                                        <div class="text-sm text-gray-600">Zaterdag</div>
-                                    </div>
-                          </div>
-                                <div class="flex items-center text-gray-700 bg-white/60 rounded-xl p-3">
-                                    <svg class="w-6 h-6 mr-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <div>
-                                        <div class="font-semibold">09:00 - 17:00</div>
-                                        <div class="text-sm text-gray-600">8 uur netwerkgelegenheid</div>
-                          </div>
-                      </div>
-                                <div class="flex items-center text-gray-700 bg-white/60 rounded-xl p-3">
-                                    <svg class="w-6 h-6 mr-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                  </svg>
-                                    <div>
-                                        <div class="font-semibold">Campus Brussel</div>
-                                        <div class="text-sm text-gray-600">Hoofdgebouw - Zaal A1.01</div>
-                                    </div>
-                                </div>
-                                <div class="flex items-center text-gray-700 bg-white/60 rounded-xl p-3">
-                                    <svg class="w-6 h-6 mr-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                                    </svg>
-                                    <div>
-                                        <div class="font-semibold">25+ Premium Bedrijven</div>
-                                        <div class="text-sm text-gray-600">Fortune 500 & Scale-ups</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="space-y-3">
-                                <div class="flex items-center text-gray-700 bg-green-50 rounded-lg p-3">
-                                    <svg class="w-5 h-5 mr-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="font-medium">Persoonlijke gesprekken van 15 minuten met HR managers</span>
-                                </div>
-                                <div class="flex items-center text-gray-700 bg-blue-50 rounded-lg p-3">
-                                    <svg class="w-5 h-5 mr-3 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="font-medium">Directe feedback en concrete jobmogelijkheden</span>
-                                </div>
-                                <div class="flex items-center text-gray-700 bg-purple-50 rounded-lg p-3">
-                                    <svg class="w-5 h-5 mr-3 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="font-medium">Netwerkmogelijkheden en premium lunch included</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="ml-8 text-center">
-                            <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-                                <div class="text-4xl font-bold text-orange-600 mb-1">{{ availableSpots }}</div>
-                                <div class="text-sm text-gray-600 font-medium">plekken beschikbaar</div>
-                                <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
-                                    <div class="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full transition-all duration-500" 
-                                         :style="`width: ${(availableSpots / totalSpots) * 100}%`"></div>
-                                </div>
-                                <div class="text-xs text-gray-500 mt-2">van {{ totalSpots }} plekken</div>
-                            </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="flex justify-between items-center">
+        <div class="text-gray-600">
+            <span class="font-semibold text-orange-600">Volgende stap:</span> 
+            <span class="ml-2">Kies het bedrijf waarmee je een gesprek wilt</span>
+        </div>
+        <button @click="selectCareerLaunchEvent" 
+                class="px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-2xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+            Deelnemen aan Career Launch
+        </button>
+    </div>
+    </div>
+    
+    <!-- Step 2: Company Selection -->
+    <div v-if="currentStep === 2" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
+    <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Kies je droomwerkgever</h2>
+    
+    <div class="bg-orange-50 border-l-4 border-orange-500 p-6 mb-8 rounded-r-xl">
+        <div class="flex items-center">
+            <svg class="h-6 w-6 text-orange-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div>
+                <p class="font-semibold text-orange-800">Career Launch Event • 15 maart 2025 • Campus Brussel</p>
+                <p class="text-orange-700 text-sm mt-1">Selecteer het bedrijf waarmee je een 15-minuten één-op-één gesprek wilt plannen.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Company Search & Filter -->
+    <div class="mb-8">
+        <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex-1">
+                <input v-model="companySearchTerm" 
+                       type="text" 
+                       placeholder="Zoek bedrijven, specialisaties, technologieën..."
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+            </div>
+            <div>
+                <select v-model="selectedSector" 
+                        class="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                    <option value="">Alle sectoren</option>
+                    <option v-for="sector in availableSectors" :key="sector" :value="sector">{{ sector }}</option>
+                </select>
+            </div>
+            <div>
+                <select v-model="companiesPerPage" 
+                        class="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                    <option :value="9">9 per pagina</option>
+                    <option :value="12">12 per pagina</option>
+                    <option :value="18">18 per pagina</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Results Summary -->
+    <div class="flex justify-between items-center mb-6">
+        <p class="text-gray-600">
+            <span class="font-semibold text-gray-900">{{ filteredCompanies.length }}</span> 
+            {{ filteredCompanies.length === 1 ? 'bedrijf gevonden' : 'bedrijven gevonden' }}
+        </p>
+        <p class="text-sm text-gray-500">
+            Pagina {{ currentCompanyPage }} van {{ totalCompanyPages }}
+        </p>
+    </div>
+    
+    <!-- Companies grid with pagination -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div v-for="company in paginatedCompanies" :key="company.id"
+             @click="selectCompany(company)"
+             :class="selectedCompany?.id === company.id ? 'ring-2 ring-orange-500 bg-orange-50 border-orange-300 scale-105' : 'hover:shadow-xl hover:border-orange-200 hover:scale-102'"
+             class="border border-gray-200 rounded-2xl p-6 cursor-pointer transition-all duration-300 bg-white">
+            <div class="flex items-start space-x-4">
+                <div class="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                    <span class="text-2xl font-bold text-gray-600">{{ company.name?.charAt(0) || '?' }}</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h3 class="font-bold text-gray-900 text-lg mb-2 truncate">{{ company.name || 'Onbekend bedrijf' }}</h3>
+                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ company.specialisatie || 'Geen beschrijving' }}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
+                            {{ company.industry || 'Algemeen' }}
+                        </span>
+                        <div class="text-right">
+                            <div class="text-green-600 font-bold text-sm">{{ company.openPositions || Math.floor(Math.random() * 15) + 3 }} posities</div>
+                            <div class="text-xs text-gray-500">beschikbaar</div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="flex justify-between items-center">
-                    <div class="text-gray-600">
-                        <span class="font-semibold text-orange-600">Volgende stap:</span> 
-                        <span class="ml-2">Kies het bedrijf waarmee je een gesprek wilt</span>
-                    </div>
-                    <button @click="selectCareerLaunchEvent" 
-                            class="px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-2xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                        Deelnemen aan Career Launch
-                    </button>
-                </div>
-                              </div>
-  
-            <!-- Step 2: Company Selection -->
-            <div v-if="currentStep === 2" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
-                <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Kies je droomwerkgever</h2>
-                
-                <div class="bg-orange-50 border-l-4 border-orange-500 p-6 mb-8 rounded-r-xl">
-                    <div class="flex items-center">
-                        <svg class="h-6 w-6 text-orange-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                  </svg>
-                        <div>
-                            <p class="font-semibold text-orange-800">Career Launch Event • 15 maart 2025 • Campus Brussel</p>
-                            <p class="text-orange-700 text-sm mt-1">Selecteer het bedrijf waarmee je een 15-minuten één-op-één gesprek wilt plannen.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Company Search & Filter -->
-                <div class="mb-8">
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <div class="flex-1">
-                            <input v-model="companySearchTerm" 
-                                   type="text" 
-                                   placeholder="Zoek bedrijven..."
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent">
-                        </div>
-                        <div>
-                            <select v-model="selectedSector" 
-                                    class="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent">
-                                <option value="">Alle sectoren</option>
-                                <option value="IT">IT & Technology</option>
-                                <option value="Finance">Finance & Banking</option>
-                                <option value="Consulting">Consulting</option>
-                                <option value="Retail">Retail & E-commerce</option>
-                                <option value="Healthcare">Healthcare</option>
-                            </select>
-                        </div>
-                              </div>
-                          </div>
-                
-                <!-- Companies grid -->
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                    <div v-for="company in filteredCompanies" :key="company.id"
-                         @click="selectCompany(company)"
-                         :class="selectedCompany?.id === company.id ? 'ring-2 ring-orange-500 bg-orange-50 border-orange-300 scale-105' : 'hover:shadow-xl hover:border-orange-200 hover:scale-102'"
-                         class="border border-gray-200 rounded-2xl p-6 cursor-pointer transition-all duration-300 bg-white">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
-                                <span class="text-2xl font-bold text-gray-600">{{ company.name?.charAt(0) || '?' }}</span>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <h3 class="font-bold text-gray-900 text-lg mb-2 truncate">{{ company.name || 'Onbekend bedrijf' }}</h3>
-                                <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ company.description || 'Geen beschrijving' }}</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                        {{ company.sector || 'Algemeen' }}
-                                    </span>
-                          <div class="text-right">
-                                        <div class="text-green-600 font-bold text-sm">{{ company.openPositions || 0 }} posities</div>
-                                        <div class="text-xs text-gray-500">beschikbaar</div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-                        
-                        <!-- Selection indicator -->
-                        <div v-if="selectedCompany?.id === company.id" class="mt-4 flex items-center text-orange-600">
-                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span class="font-semibold text-sm">Geselecteerd</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flex justify-between items-center">
-                    <button @click="prevStep" 
-                            class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300">
-                        ← Vorige stap
-                    </button>
-                  <button @click="nextStep" 
-                            :disabled="!selectedCompany"
-                            :class="selectedCompany ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-lg hover:shadow-xl' : 'bg-gray-300 cursor-not-allowed'"
-                            class="px-8 py-3 text-white rounded-xl font-semibold transition-all duration-300">
-                        Volgende stap →
-                  </button>
-              </div>
-          </div>
-
-            <!-- Step 3: Time Slot Selection -->
-            <div v-if="currentStep === 3" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
-                <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Kies je perfecte tijdslot</h2>
-                
-                <div v-if="selectedEvent && selectedCompany" class="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 p-6 mb-8 rounded-2xl">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mr-4">
-                            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="font-bold text-gray-900 text-lg">{{ selectedCompany.name }} gesprek</p>
-                            <p class="text-gray-600">{{ selectedEvent.date }} • {{ selectedEvent.location }}</p>
-                            <p class="text-orange-600 text-sm mt-1">💬 Gesprek duurt 15 minuten • 5 minuten pauze tussen gesprekken</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Loading state -->
-                <div v-if="loading" class="flex justify-center items-center py-16">
-                    <div class="text-center">
-                        <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-500 mx-auto mb-4"></div>
-                        <span class="text-gray-600 font-medium">Tijdslots laden...</span>
-                    </div>
-                </div>
-                
-                <!-- Timeslots grid -->
-                <div v-else-if="timeSlots.length > 0" class="mb-8">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-xl font-bold text-gray-900">Beschikbare tijdslots</h3>
-                        <div class="text-sm text-gray-600">Kies een tijd die bij jouw schema past</div>
-                    </div>
+            </div>
+            
+            <!-- Selection indicator -->
+            <div v-if="selectedCompany?.id === company.id" class="mt-4 flex items-center text-orange-600">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="font-semibold text-sm">Geselecteerd</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Company Pagination -->
+    <div v-if="totalCompanyPages > 1" class="flex justify-center mb-8">
+        <nav class="flex items-center space-x-1">
+            <button
+                @click="changeCompanyPage(currentCompanyPage - 1)"
+                :disabled="currentCompanyPage === 1"
+                class="px-3 py-2 rounded-lg text-gray-500 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+    
+            <template v-for="page in totalCompanyPages" :key="page">
+                <button
+                    v-if="page === 1 || page === totalCompanyPages || Math.abs(page - currentCompanyPage) <= 2"
+                    @click="changeCompanyPage(page)"
+                    :class="[
+                        'px-4 py-2 rounded-lg font-medium transition-colors',
+                        page === currentCompanyPage
+                            ? 'bg-orange-600 text-white'
+                            : 'text-gray-700 hover:text-orange-600 hover:bg-orange-50'
+                    ]"
+                >
+                    {{ page }}
+                </button>
+                <span v-else-if="Math.abs(page - currentCompanyPage) === 3" class="px-2 text-gray-400">...</span>
+            </template>
+    
+            <button
+                @click="changeCompanyPage(currentCompanyPage + 1)"
+                :disabled="currentCompanyPage === totalCompanyPages"
+                class="px-3 py-2 rounded-lg text-gray-500 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </nav>
+    </div>
+    
+    <div class="flex justify-between items-center">
+        <button @click="prevStep" 
+                class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300">
+            ← Vorige stap
+        </button>
+        <button @click="nextStep" 
+                :disabled="!selectedCompany"
+                :class="selectedCompany ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-lg hover:shadow-xl' : 'bg-gray-300 cursor-not-allowed'"
+                class="px-8 py-3 text-white rounded-xl font-semibold transition-all duration-300">
+            Volgende stap →
+        </button>
+    </div>
+    </div>
+    
+    <!-- Step 3: Time Slot Selection -->
+    <div v-if="currentStep === 3" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
+    <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Kies je perfecte tijdslot</h2>
+    
+    <div v-if="selectedCompany" class="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 p-6 mb-8 rounded-2xl">
+        <div class="flex items-center">
+            <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mr-4">
+                <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <div>
+                <p class="font-bold text-gray-900 text-lg">{{ selectedCompany.name }} gesprek</p>
+                <p class="text-gray-600">15 maart 2025 • Campus Brussel</p>
+                <p class="text-orange-600 text-sm mt-1">💬 Gesprek duurt 15 minuten • 5 minuten pauze tussen gesprekken</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Time periods -->
+    <div class="space-y-8 mb-8">
+        <div v-for="period in timePeriods" :key="period.name">
+            <h3 class="font-semibold text-gray-900 mb-4 text-lg flex items-center">
+                <span class="mr-3">{{ period.emoji }}</span>
+                {{ period.name }}
+            </h3>
+            <div class="grid md:grid-cols-4 lg:grid-cols-6 gap-3">
+                <div v-for="slot in period.slots" :key="slot.id"
+                     @click="selectTimeSlot(slot)"
+                     :class="getTimeSlotClass(slot)"
+                     class="border rounded-xl p-4 cursor-pointer transition-all duration-300 text-center relative overflow-hidden">
                     
-                    <!-- Time periods -->
-                    <div class="space-y-6">
-                        <div v-for="period in timePeriods" :key="period.name">
-                            <h4 class="font-semibold text-gray-900 mb-3 text-lg">{{ period.name }}</h4>
-                            <div class="grid md:grid-cols-4 lg:grid-cols-6 gap-3">
-                                <div v-for="slot in getSlotsByPeriod(period.range)" :key="slot.id"
-                       @click="selectTimeSlot(slot)"
-                                     :class="getTimeSlotClass(slot)"
-                                     class="border rounded-xl p-4 cursor-pointer transition-all duration-300 text-center relative overflow-hidden">
-                                    
-                                    <!-- Selection indicator -->
-                                    <div v-if="selectedTimeSlot?.id === slot.id" 
-                                         class="absolute top-2 right-2">
-                                        <svg class="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    
-                                    <div class="font-bold text-gray-900 text-lg mb-1">{{ slot.time.split(' - ')[0] }}</div>
-                                    <div class="text-sm text-gray-600 mb-2">{{ slot.time.split(' - ')[1] }}</div>
-                                    <div v-if="slot.available" class="text-xs font-semibold text-green-600 bg-green-100 rounded-full px-2 py-1">
-                                        ✓ Beschikbaar
-                                    </div>
-                                    <div v-else class="text-xs font-semibold text-red-500 bg-red-100 rounded-full px-2 py-1">
-                                        ✗ Bezet
-                          </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-                    
-                    <!-- Legend -->
-                    <div class="mt-8 flex items-center justify-center space-x-8 text-sm border-t border-gray-200 pt-6">
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 bg-white border-2 border-gray-300 rounded mr-2"></div>
-                            <span class="text-gray-600">Beschikbaar</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 bg-orange-100 border-2 border-orange-500 rounded mr-2"></div>
-                            <span class="text-gray-600">Geselecteerd</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 bg-gray-100 border-2 border-gray-300 rounded mr-2 opacity-50"></div>
-                            <span class="text-gray-600">Bezet</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- No timeslots fallback -->
-                <div v-else class="text-center py-16">
-                    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    <!-- Selection indicator -->
+                    <div v-if="selectedTimeSlot?.id === slot.id" 
+                         class="absolute top-2 right-2">
+                        <svg class="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Tijdslots laden...</h3>
-                    <p class="text-gray-600 mb-6">Momentje, we laden de beschikbare tijdslots voor {{ selectedCompany?.name }}.</p>
-                    <button @click="loadTimeSlots" 
-                            class="px-6 py-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors font-semibold">
-                        Tijdslots laden
-                    </button>
-                </div>
-                
-                <div class="flex justify-between items-center">
-                    <button @click="prevStep" 
-                            class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300">
-                        ← Vorige stap
-                  </button>
-                  <button @click="nextStep" 
-                            :disabled="!selectedTimeSlot || loading"
-                            :class="selectedTimeSlot && !loading ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-lg hover:shadow-xl' : 'bg-gray-300 cursor-not-allowed'"
-                            class="px-8 py-3 text-white rounded-xl font-semibold transition-all duration-300">
-                        <span v-if="loading">Laden...</span>
-                        <span v-else>Volgende stap →</span>
-                  </button>
-              </div>
-          </div>
-
-            <!-- Step 4: Personal Details -->
-            <div v-if="currentStep === 4" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
-                <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Vertel ons over jezelf</h2>
-                
-                <!-- Booking Summary -->
-                <div class="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-2xl p-6 mb-8">
-                    <h3 class="font-bold text-gray-900 mb-4 text-lg">📋 Jouw Career Launch gesprek:</h3>
-                    <div class="grid md:grid-cols-3 gap-4 text-sm">
-                        <div class="flex items-center">
-                            <span class="font-semibold text-gray-700 mr-2">Bedrijf:</span>
-                            <span class="text-gray-900">{{ selectedCompany?.name }}</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="font-semibold text-gray-700 mr-2">Datum:</span>
-                            <span class="text-gray-900">{{ selectedEvent?.date }}</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="font-semibold text-gray-700 mr-2">Tijd:</span>
-                            <span class="text-gray-900">{{ selectedTimeSlot?.time }}</span>
-                        </div>
+                    
+                    <div class="font-bold text-gray-900 text-lg mb-1">{{ slot.startTime }}</div>
+                    <div class="text-sm text-gray-600 mb-2">{{ slot.endTime }}</div>
+                    <div v-if="slot.available" class="text-xs font-semibold text-green-600 bg-green-100 rounded-full px-2 py-1">
+                        ✓ Beschikbaar
+                    </div>
+                    <div v-else class="text-xs font-semibold text-red-500 bg-red-100 rounded-full px-2 py-1">
+                        ✗ Bezet
                     </div>
                 </div>
-                
-                <!-- Error message -->
-                <div v-if="Object.keys(form.errors).length > 0" class="mb-8 bg-red-50 border-l-4 border-red-500 p-6 rounded-r-xl">
-                    <div class="flex">
-                        <svg class="h-6 w-6 text-red-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z"></path>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Legend -->
+    <div class="flex items-center justify-center space-x-8 text-sm border-t border-gray-200 pt-6 mb-8">
+        <div class="flex items-center">
+            <div class="w-4 h-4 bg-white border-2 border-gray-300 rounded mr-2"></div>
+            <span class="text-gray-600">Beschikbaar</span>
+        </div>
+        <div class="flex items-center">
+            <div class="w-4 h-4 bg-orange-100 border-2 border-orange-500 rounded mr-2"></div>
+            <span class="text-gray-600">Geselecteerd</span>
+        </div>
+        <div class="flex items-center">
+            <div class="w-4 h-4 bg-gray-100 border-2 border-gray-300 rounded mr-2 opacity-50"></div>
+            <span class="text-gray-600">Bezet</span>
+        </div>
+    </div>
+    
+    <div class="flex justify-between items-center">
+        <button @click="prevStep" 
+                class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300">
+            ← Vorige stap
+        </button>
+        <button @click="nextStep" 
+                :disabled="!selectedTimeSlot"
+                :class="selectedTimeSlot ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-lg hover:shadow-xl' : 'bg-gray-300 cursor-not-allowed'"
+                class="px-8 py-3 text-white rounded-xl font-semibold transition-all duration-300">
+            Volgende stap →
+        </button>
+    </div>
+    </div>
+    
+    <!-- Step 4: Personal Details -->
+    <div v-if="currentStep === 4" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
+    <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Vertel ons over jezelf</h2>
+    
+    <!-- Booking Summary -->
+    <div class="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-2xl p-6 mb-8">
+        <h3 class="font-bold text-gray-900 mb-4 text-lg">📋 Jouw Career Launch gesprek:</h3>
+        <div class="grid md:grid-cols-3 gap-4 text-sm">
+            <div class="flex items-center">
+                <span class="font-semibold text-gray-700 mr-2">Bedrijf:</span>
+                <span class="text-gray-900">{{ selectedCompany?.name }}</span>
+            </div>
+            <div class="flex items-center">
+                <span class="font-semibold text-gray-700 mr-2">Datum:</span>
+                <span class="text-gray-900">15 maart 2025</span>
+            </div>
+            <div class="flex items-center">
+                <span class="font-semibold text-gray-700 mr-2">Tijd:</span>
+                <span class="text-gray-900">{{ selectedTimeSlot?.startTime }} - {{ selectedTimeSlot?.endTime }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="grid md:grid-cols-2 gap-8">
+        <div>
+            <label class="block text-sm font-bold text-gray-700 mb-3">Voornaam *</label>
+            <input v-model="form.first_name" 
+                   type="text" 
+                   required
+                   class="w-full px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent text-lg">
+        </div>
+        <div>
+            <label class="block text-sm font-bold text-gray-700 mb-3">Achternaam *</label>
+            <input v-model="form.last_name" 
+                   type="text" 
+                   required
+                   class="w-full px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent text-lg">
+        </div>
+        <div>
+            <label class="block text-sm font-bold text-gray-700 mb-3">E-mailadres *</label>
+            <input v-model="form.email" 
+                   type="email" 
+                   required
+                   class="w-full px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent text-lg">
+        </div>
+        <div>
+            <label class="block text-sm font-bold text-gray-700 mb-3">Telefoonnummer</label>
+            <input v-model="form.phone" 
+                   type="tel" 
+                   class="w-full px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent text-lg">
+        </div>
+        <div class="md:col-span-2">
+            <label class="block text-sm font-bold text-gray-700 mb-3">Studierichting *</label>
+            <select v-model="form.study_program" 
+                    required
+                    class="w-full px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent text-lg">
+                <option value="">Selecteer je studierichting</option>
+                <option value="Toegepaste Informatica">Toegepaste Informatica</option>
+                <option value="Business Management">Business Management</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Accountancy-Fiscaliteit">Accountancy-Fiscaliteit</option>
+                <option value="Communicatiemanagement">Communicatiemanagement</option>
+                <option value="Financie- en Verzekeringswezen">Financie- en Verzekeringswezen</option>
+                <option value="Andere">Andere</option>
+            </select>
+        </div>
+        <div class="md:col-span-2">
+            <label class="block text-sm font-bold text-gray-700 mb-3">Motivatie (optioneel)</label>
+            <textarea v-model="form.motivation" 
+                      rows="4"
+                      placeholder="Waarom wil je bij dit bedrijf werken? Wat zijn je doelen en verwachtingen van dit gesprek?"
+                      class="w-full px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent text-lg"></textarea>
+            <div class="text-sm text-gray-500 mt-2">💡 Dit helpt het bedrijf om zich beter voor te bereiden op jullie gesprek.</div>
+        </div>
+    </div>
+    
+    <div class="flex justify-between items-center mt-10">
+        <button @click="prevStep" 
+                class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300">
+            ← Vorige stap
+        </button>
+        <button @click="bookAppointment" 
+                :disabled="!isFormValid"
+                :class="isFormValid ? 'bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 shadow-lg hover:shadow-xl' : 'bg-gray-300 cursor-not-allowed'"
+                class="px-10 py-4 text-white rounded-xl font-bold transition-all duration-300 text-lg">
+            ✨ Afspraak Bevestigen
+        </button>
+    </div>
+    </div>
+    
+    <!-- Step 5: Confirmation -->
+    <div v-if="currentStep === 5" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
+    <div class="text-center">
+        <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse">
+            <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Gesprek succesvol geboekt! 🎉</h2>
+        <p class="text-gray-600 text-xl mb-8 max-w-2xl mx-auto">
+            Fantastisch! Je gesprek met <span class="font-bold text-orange-600">{{ selectedCompany?.name }}</span> 
+            is bevestigd.
+        </p>
+        
+        <div class="bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 rounded-3xl p-8 mb-8 text-left border border-orange-100">
+            <h3 class="font-bold text-gray-900 mb-6 text-2xl text-center">📅 Jouw Career Launch Details</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div class="flex justify-between py-2 border-b border-gray-200">
+                        <span class="text-gray-600 font-medium">Bedrijf:</span>
+                        <span class="font-bold">{{ selectedCompany?.name }}</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-200">
+                        <span class="text-gray-600 font-medium">Datum:</span>
+                        <span class="font-bold">15 maart 2025</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-200">
+                        <span class="text-gray-600 font-medium">Tijdslot:</span>
+                        <span class="font-bold">{{ selectedTimeSlot?.startTime }} - {{ selectedTimeSlot?.endTime }}</span>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex justify-between py-2 border-b border-gray-200">
+                        <span class="text-gray-600 font-medium">Duur:</span>
+                        <span class="font-bold">15 minuten</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-200">
+                        <span class="text-gray-600 font-medium">Locatie:</span>
+                        <span class="font-bold">Campus Brussel</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-200">
+                        <span class="text-gray-600 font-medium">Deelnemer:</span>
+                        <span class="font-bold">{{ form.first_name }} {{ form.last_name }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button @click="downloadCalendar" 
+                    class="inline-flex items-center px-8 py-4 border-2 border-orange-500 text-orange-600 rounded-2xl font-bold hover:bg-orange-500 hover:text-white transition-all duration-300">
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                📅 Toevoegen aan kalender
+            </button>
+            <a href="/login" 
+               class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl font-bold hover:from-orange-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl">
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                🚀 Bekijk je profiel
+            </a>
+        </div>
+    </div>
+    </div>
+    </div>
+    
+    <!-- Premium Footer -->
+    <footer class="bg-gradient-to-r from-orange-500 to-red-600 text-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-8">
+            <div>
+                <div class="flex items-center space-x-3 mb-4">
+                    <img src="/images/logos/ehb-logo.png" alt="EHB logo" class="w-10 h-10 object-contain" />
+                    <div class="text-white font-bold text-xl">erasmus</div>
+                </div>
+                <p class="text-orange-100 text-sm mb-4">
+                    Hogeschool Brussel<br />
+                    Connecting talent with opportunity
+                </p>
+                <div class="flex space-x-4">
+                    <a href="https://www.linkedin.com/school/erasmus-hogeschool-brussel/" target="_blank" class="text-orange-200 hover:text-white transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                         </svg>
-                        <div>
-                            <h3 class="font-semibold text-red-800">Er zijn fouten in het formulier</h3>
-                            <p class="text-red-700 text-sm mt-1">Controleer de gemarkeerde velden hieronder.</p>
-                        </div>
-                    </div>
+                    </a>
+                    <a href="https://www.instagram.com/erasmushogeschool/" target="_blank" class="text-orange-200 hover:text-white transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987c6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.611-3.197-1.559-.748-.947-1.197-2.25-1.197-3.679 0-1.429.449-2.732 1.197-3.679.749-.948 1.9-1.559 3.197-1.559s2.448.611 3.197 1.559c.748.947 1.197 2.25 1.197 3.679 0 1.429-.449 2.732-1.197 3.679-.749.948-1.9 1.559-3.197 1.559z"/>
+                        </svg>
+                    </a>
                 </div>
-                
-                <div class="grid md:grid-cols-2 gap-8">
-                  <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-3">Voornaam *</label>
-                        <input v-model="form.first_name" 
-                             type="text" 
-                             required
-                               :class="form.errors.first_name ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-orange-500'"
-                               class="w-full px-6 py-4 border rounded-xl focus:ring-2 focus:border-transparent text-lg">
-                        <div v-if="form.errors.first_name" class="text-red-500 text-sm mt-2">{{ form.errors.first_name }}</div>
-                  </div>
-                  <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-3">Achternaam *</label>
-                        <input v-model="form.last_name" 
-                             type="text" 
-                             required
-                               :class="form.errors.last_name ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-orange-500'"
-                               class="w-full px-6 py-4 border rounded-xl focus:ring-2 focus:border-transparent text-lg">
-                        <div v-if="form.errors.last_name" class="text-red-500 text-sm mt-2">{{ form.errors.last_name }}</div>
-                  </div>
-                  <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-3">E-mailadres *</label>
-                        <input v-model="form.email" 
-                             type="email" 
-                             required
-                               :class="form.errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-orange-500'"
-                               class="w-full px-6 py-4 border rounded-xl focus:ring-2 focus:border-transparent text-lg">
-                        <div v-if="form.errors.email" class="text-red-500 text-sm mt-2">{{ form.errors.email }}</div>
-                  </div>
-                  <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-3">Telefoonnummer</label>
-                        <input v-model="form.phone" 
-                             type="tel" 
-                               class="w-full px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent text-lg">
-                  </div>
-                  <div class="md:col-span-2">
-                        <label class="block text-sm font-bold text-gray-700 mb-3">Studierichting *</label>
-                        <select v-model="form.study_program" 
-                              required
-                                :class="form.errors.study_program ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-orange-500'"
-                                class="w-full px-6 py-4 border rounded-xl focus:ring-2 focus:border-transparent text-lg">
-                          <option value="">Selecteer je studierichting</option>
-                          <option value="Toegepaste Informatica">Toegepaste Informatica</option>
-                          <option value="Business Management">Business Management</option>
-                          <option value="Marketing">Marketing</option>
-                          <option value="Accountancy-Fiscaliteit">Accountancy-Fiscaliteit</option>
-                            <option value="Communicatiemanagement">Communicatiemanagement</option>
-                            <option value="Financie- en Verzekeringswezen">Financie- en Verzekeringswezen</option>
-                          <option value="Andere">Andere</option>
-                      </select>
-                        <div v-if="form.errors.study_program" class="text-red-500 text-sm mt-2">{{ form.errors.study_program }}</div>
-                  </div>
-                  <div class="md:col-span-2">
-                        <label class="block text-sm font-bold text-gray-700 mb-3">Motivatie (optioneel)</label>
-                        <textarea v-model="form.motivation" 
-                                rows="4"
-                                  placeholder="Waarom wil je bij dit bedrijf werken? Wat zijn je doelen en verwachtingen van dit gesprek?"
-                                  class="w-full px-6 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent text-lg"></textarea>
-                        <div class="text-sm text-gray-500 mt-2">💡 Dit helpt het bedrijf om zich beter voor te bereiden op jullie gesprek.</div>
-                  </div>
-              </div>
-                
-                <div class="flex justify-between items-center mt-10">
-                    <button @click="prevStep" 
-                            :disabled="form.processing"
-                            class="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 disabled:opacity-50">
-                        ← Vorige stap
-                    </button>
-                    
-                    <div class="flex gap-4">
-                        <!-- Debug knoppen (alleen in development) -->
-                        <button @click="debugState" 
-                                class="px-4 py-3 border border-blue-500 text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors text-sm">
-                            🔍 Debug
-                  </button>
-                        
-                        <button @click="bookAppointment" 
-                                :disabled="!isFormValid || form.processing"
-                                :class="isFormValid && !form.processing ? 'bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 shadow-lg hover:shadow-xl' : 'bg-gray-300 cursor-not-allowed'"
-                                class="px-10 py-4 text-white rounded-xl font-bold transition-all duration-300 flex items-center text-lg">
-                            <svg v-if="form.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            <span v-if="form.processing">Bevestigen...</span>
-                            <span v-else>✨ Afspraak Bevestigen</span>
-                  </button>
-                    </div>
-              </div>
-          </div>
+            </div>
 
-            <!-- Step 5: Confirmation -->
-            <div v-if="currentStep === 5" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
-              <div class="text-center">
-                    <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse">
-                        <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                      </svg>
-                  </div>
-                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Gesprek succesvol geboekt! 🎉</h2>
-                    <p class="text-gray-600 text-xl mb-8 max-w-2xl mx-auto">
-                        Fantastisch! Je gesprek met <span class="font-bold text-orange-600">{{ selectedCompany?.name }}</span> 
-                        is bevestigd. We hebben een bevestigingsmail gestuurd naar <span class="font-semibold">{{ form.email }}</span>.
-                    </p>
-                    
-                    <div class="bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 rounded-3xl p-8 mb-8 text-left border border-orange-100">
-                        <h3 class="font-bold text-gray-900 mb-6 text-2xl text-center">📅 Jouw Career Launch Details</h3>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div class="space-y-4">
-                                <div class="flex justify-between py-2 border-b border-gray-200">
-                                    <span class="text-gray-600 font-medium">Event:</span>
-                                    <span class="font-bold">{{ selectedEvent?.title }}</span>
-                                </div>
-                                <div class="flex justify-between py-2 border-b border-gray-200">
-                                    <span class="text-gray-600 font-medium">Bedrijf:</span>
-                                    <span class="font-bold">{{ selectedCompany?.name }}</span>
-                                </div>
-                                <div class="flex justify-between py-2 border-b border-gray-200">
-                                    <span class="text-gray-600 font-medium">Datum:</span>
-                                    <span class="font-bold">{{ selectedEvent?.date }}</span>
-                                </div>
-                                <div class="flex justify-between py-2 border-b border-gray-200">
-                                    <span class="text-gray-600 font-medium">Tijdslot:</span>
-                                    <span class="font-bold">{{ selectedTimeSlot?.time }}</span>
-                                </div>
-                            </div>
-                            <div class="space-y-4">
-                                <div class="flex justify-between py-2 border-b border-gray-200">
-                                    <span class="text-gray-600 font-medium">Duur:</span>
-                                    <span class="font-bold">15 minuten</span>
-                                </div>
-                                <div class="flex justify-between py-2 border-b border-gray-200">
-                                    <span class="text-gray-600 font-medium">Locatie:</span>
-                                    <span class="font-bold">{{ selectedEvent?.location }}</span>
-                                </div>
-                                <div class="flex justify-between py-2 border-b border-gray-200">
-                                    <span class="text-gray-600 font-medium">Deelnemer:</span>
-                                    <span class="font-bold">{{ form.first_name }} {{ form.last_name }}</span>
-                                </div>
-                                <div class="flex justify-between py-2 border-b border-gray-200">
-                                    <span class="text-gray-600 font-medium">Studierichting:</span>
-                                    <span class="font-bold">{{ form.study_program }}</span>
-                                </div>
-                            </div>
-                          </div>
-                          </div>
-  
-                    <!-- Next Steps -->
-                    <div class="bg-blue-50 rounded-2xl p-6 mb-8 text-left border border-blue-200">
-                        <h4 class="font-bold text-blue-900 mb-4 text-lg">📝 Wat gebeurt er nu?</h4>
-                        <div class="space-y-3 text-sm text-blue-800">
-                            <div class="flex items-start">
-                                <span class="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5">1</span>
-                                <span>Je ontvangt binnen 5 minuten een bevestigingsmail met alle details</span>
-                          </div>
-                            <div class="flex items-start">
-                                <span class="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5">2</span>
-                                <span>24 uur voor het event krijg je een herinneringsmail</span>
-                          </div>
-                            <div class="flex items-start">
-                                <span class="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-3 mt-0.5">3</span>
-                                <span>Bereid je voor: onderzoek het bedrijf en denk na over je vragen</span>
-                          </div>
-                      </div>
-                  </div>
+            <div>
+                <h4 class="font-semibold mb-4">Voor studenten</h4>
+                <ul class="space-y-2 text-orange-100 text-sm">
+                    <li><Link href="/register?type=student" class="hover:text-white transition-colors">Maak je profiel</Link></li>
+                    <li><Link href="/info" class="hover:text-white transition-colors">Career Launch Info</Link></li>
+                    <li><Link href="/bedrijven" class="hover:text-white transition-colors">Ontdek bedrijven</Link></li>
+                </ul>
+            </div>
 
-                  <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button @click="downloadCalendar" 
-                                class="inline-flex items-center px-8 py-4 border-2 border-orange-500 text-orange-600 rounded-2xl font-bold hover:bg-orange-500 hover:text-white transition-all duration-300">
-                            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                          </svg>
-                            📅 Toevoegen aan kalender
-                      </button>
-                        <Link href="/login" 
-                              class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl font-bold hover:from-orange-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl">
-                            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                          </svg>
-                            🚀 Bekijk je profiel
-                      </Link>
-                  </div>
-              </div>
-          </div>
-      </div>
+            <div>
+                <h4 class="font-semibold mb-4">Contact</h4>
+                <ul class="space-y-2 text-orange-100 text-sm">
+                    <li><a href="mailto:gdt.kaai.student@ehb.be" class="hover:text-white transition-colors">gdt.kaai.student@ehb.be</a></li>
+                    <li><a href="tel:+3225233737" class="hover:text-white transition-colors">02 523 37 37</a></li>
+                    <li>Nijverheidskaai 170, 1070 Anderlecht</li>
+                </ul>
+            </div>
 
-        <!-- Premium Footer -->
-        <footer class="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white py-20">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid md:grid-cols-4 gap-12">
-                  <div>
-                        <div class="flex items-center space-x-3 mb-6">
-                            <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
-                                <span class="text-white font-bold text-xl">E</span>
-                          </div>
-                            <div class="text-white font-bold text-2xl">erasmus</div>
-                      </div>
-                        <p class="text-orange-100 mb-6 leading-relaxed">
-                          Hogeschool Brussel<br>
-                            <span class="font-semibold">Connecting talent with opportunity</span>
-                        </p>
-                        <div class="flex space-x-4">
-                            <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer">
-                                <span class="text-sm">📧</span>
-                            </div>
-                            <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer">
-                                <span class="text-sm">📱</span>
-                            </div>
-                        </div>
-                  </div>
-                  
-                  <div>
-                        <h4 class="font-bold mb-6 text-xl">Voor studenten</h4>
-                        <ul class="space-y-3 text-orange-100">
-                            <li><Link href="/register?type=student" class="hover:text-white transition-colors flex items-center">
-                                <span class="mr-2">→</span>Maak je profiel</Link></li>
-                            <li><Link href="/afspraak" class="hover:text-white transition-colors flex items-center">
-                                <span class="mr-2">→</span>Speeddate events</Link></li>
-                            <li><Link href="/jobs" class="hover:text-white transition-colors flex items-center">
-                                <span class="mr-2">→</span>Job board</Link></li>
-                      </ul>
-                  </div>
-                  
-                  <div>
-                        <h4 class="font-bold mb-6 text-xl">Voor bedrijven</h4>
-                        <ul class="space-y-3 text-orange-100">
-                            <li><Link href="/bedrijven" class="hover:text-white transition-colors flex items-center">
-                                <span class="mr-2">→</span>Browse talenten</Link></li>
-                            <li><Link href="/events" class="hover:text-white transition-colors flex items-center">
-                                <span class="mr-2">→</span>Organiseer events</Link></li>
-                      </ul>
-                  </div>
-                  
-                  <div>
-                        <h4 class="font-bold mb-6 text-xl">Support</h4>
-                        <ul class="space-y-3 text-orange-100">
-                            <li><Link href="/contact" class="hover:text-white transition-colors flex items-center">
-                                <span class="mr-2">→</span>Contact</Link></li>
-                            <li><Link href="/faq" class="hover:text-white transition-colors flex items-center">
-                                <span class="mr-2">→</span>FAQ</Link></li>
-                            <li><Link href="/help" class="hover:text-white transition-colors flex items-center">
-                                <span class="mr-2">→</span>Help center</Link></li>
-                      </ul>
-                  </div>
-              </div>
-              
-                <div class="border-t border-orange-400 mt-16 pt-8 text-center text-orange-100">
-                    <p>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden. Made with ❤️ for students.</p>
-              </div>
-          </div>
-      </footer>
-  </div>
-</template>
+            <div>
+                <h4 class="font-semibold mb-4">Over Ons</h4>
+                <ul class="space-y-2 text-orange-100 text-sm">
+                    <li><Link href="/wiezijnwe" class="hover:text-white transition-colors">Wie zijn we?</Link></li>
+                    <li><Link href="/faq" class="hover:text-white transition-colors">FAQ</Link></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Onze opleidingen</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Privacy beleid</a></li>
+                </ul>
+            </div>
+        </div>
 
-<script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import { route as ziggyRoute } from 'ziggy-js';
-
-interface Event {
-  id: number;
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  location: string;
-  companies: number;
-  spotsLeft: number;
-}
-
-interface Company {
-  id: number;
-  name: string;
-  description: string;
-  openPositions: number;
-  sector: string;
-}
-
-interface TimeSlot {
-  id: number;
-  time: string;
-  available: boolean;
-}
-
-interface ApiResponse {
-  timeSlots: TimeSlot[];
-}
-
-interface Props {
-  events?: Event[];
-  companies?: Company[];
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  events: () => [
+        <div class="border-t border-orange-400 mt-12 pt-8 text-center text-orange-100 text-sm">
+            <p>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden.</p>
+        </div>
+    </div>
+    </footer>
+    </div>
+    </template>
+    
+    <script setup>
+    import { Head, useForm } from '@inertiajs/vue3'
+    import { ref, computed, onMounted, watch } from 'vue'
+    import MainNavigation from '@/components/MainNavigation.vue'
+    
+    const props = defineProps({
+    events: {
+    type: Array,
+    default: () => [
     {
       id: 1,
       title: 'Career Launch Event 2025',
@@ -835,214 +715,153 @@ const filteredCompanies = computed(() => {
   if (companySearchTerm.value) {
     const searchTerm = companySearchTerm.value.toLowerCase();
     filtered = filtered.filter(company => 
-      company.name?.toLowerCase().includes(searchTerm) ||
-      company.description?.toLowerCase().includes(searchTerm)
-    );
-  }
-  
-  if (selectedSector.value) {
-    filtered = filtered.filter(company => company.sector === selectedSector.value);
-  }
-  
-  return filtered;
-});
-
-// Step navigation functions
-function selectCareerLaunchEvent() {
-  selectedEvent.value = events.value[0];
-  resetSelections();
-  currentStep.value = 2;
-}
-
-function selectEvent(event: Event) {
-  selectedEvent.value = event;
-  resetSelections();
-}
-
-function selectCompany(company: Company) {
-  selectedCompany.value = company;
-  selectedTimeSlot.value = null;
-  form.clearErrors();
-  
-  // Auto-select event if not selected
-  if (!selectedEvent.value && events.value.length > 0) {
-    selectedEvent.value = events.value[0];
-  }
-  
-  // Load timeslots immediately
-  loadTimeSlots();
-}
-
-function selectTimeSlot(slot: TimeSlot) {
-  if (!slot.available) return;
-  selectedTimeSlot.value = slot;
-  form.clearErrors();
-}
-
-function nextStep() {
-  // Auto-select event if needed
-  if (!selectedEvent.value && events.value.length > 0) {
-    selectedEvent.value = events.value[0];
-  }
-  
-  // Validation for each step
-  if (currentStep.value === 2 && !selectedCompany.value) {
-    alert('Selecteer eerst een bedrijf om door te gaan.');
-    return;
-  }
-  if (currentStep.value === 3 && !selectedTimeSlot.value) {
-    alert('Kies een tijdslot om door te gaan.');
-    return;
-  }
-  if (currentStep.value === 4) {
-    // This step is handled by bookAppointment function
-    return;
-  }
-  
-  // Load timeslots when going to step 3
-  if (currentStep.value === 2 && selectedCompany.value) {
-    loadTimeSlots();
-  }
-  
-  currentStep.value++;
-}
-
-function prevStep() {
-  if (currentStep.value > 1) {
-    currentStep.value--;
-  }
-}
-
-// Timeslot management
-function loadTimeSlots() {
-  const event = selectedEvent.value;
-  const company = selectedCompany.value;
-  
-  if (!event || !company) return;
-  
-  loading.value = true;
-  timeSlots.value = generateFallbackTimeSlots();
-  
-  form.get(ziggyRoute('afspraak.slots', { 
-    eventId: event.id,
-    companyId: company.id 
-  }), {
-    preserveScroll: true,
-    onSuccess: (page) => {
-      const response = page.props as unknown as ApiResponse;
-      if (response.timeSlots) {
-        timeSlots.value = response.timeSlots;
-      }
-      loading.value = false;
-    },
-    onError: () => {
-      loading.value = false;
+    company.name?.toLowerCase().includes(searchTerm) ||
+    company.specialisatie?.toLowerCase().includes(searchTerm) ||
+    company.industry?.toLowerCase().includes(searchTerm)
+    )
     }
-  });
-}
-
-function getSlotsByPeriod(periodRange: string[]): TimeSlot[] {
-  return timeSlots.value.filter(slot => {
-    const hour = slot.time.split(':')[0];
-    return periodRange.includes(hour);
-  });
-}
-
-function getTimeSlotClass(slot: TimeSlot): string {
-  if (selectedTimeSlot.value?.id === slot.id) {
-    return 'ring-2 ring-orange-500 bg-orange-100 border-orange-500 scale-105 shadow-lg';
-  }
-  if (!slot.available) {
-    return 'opacity-50 cursor-not-allowed bg-gray-50';
-  }
-  return 'hover:border-orange-200 hover:shadow-lg hover:scale-102';
-}
-
-function generateFallbackTimeSlots(): TimeSlot[] {
-  const slots: TimeSlot[] = [];
-  const startHour = 9;
-  const endHour = 17;
-  
-  for (let hour = startHour; hour < endHour; hour++) {
-    for (let minute = 0; minute < 60; minute += 15) {
-      const startTime = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-      const endTime = minute === 45 
-        ? `${(hour + 1).toString().padStart(2, '0')}:00`
-        : `${hour.toString().padStart(2, '0')}:${(minute + 15).toString().padStart(2, '0')}`;
-      
-      slots.push({
-        id: slots.length + 1,
-        time: `${startTime} - ${endTime}`,
-        available: Math.random() > 0.3 // 70% kans op beschikbaarheid
-      });
+    
+    if (selectedSector.value) {
+    filtered = filtered.filter(company => company.industry === selectedSector.value)
     }
-  }
-  
-  return slots;
-}
-
-function resetSelections() {
-  selectedCompany.value = null;
-  selectedTimeSlot.value = null;
-  timeSlots.value = [];
-  form.reset();
-}
-
-function bookAppointment() {
-  const event = selectedEvent.value;
-  const company = selectedCompany.value;
-  const timeSlot = selectedTimeSlot.value;
-  
-  if (!event || !company || !timeSlot) {
-    console.error('Missing required data for booking');
-    return;
-  }
-  
-  form.event_id = event.id;
-  form.company_id = company.id;
-  form.time_slot_id = timeSlot.id;
-  
-  form.post(ziggyRoute('afspraak.store'), {
-    onSuccess: () => {
-      currentStep.value = 5;
+    
+    return filtered
+    })
+    
+    const totalCompanyPages = computed(() => {
+    return Math.ceil(filteredCompanies.value.length / companiesPerPage.value)
+    })
+    
+    const paginatedCompanies = computed(() => {
+    const start = (currentCompanyPage.value - 1) * companiesPerPage.value
+    const end = start + companiesPerPage.value
+    return filteredCompanies.value.slice(start, end)
+    })
+    
+    const isFormValid = computed(() => {
+    return (
+    form.first_name?.trim() &&
+    form.last_name?.trim() &&
+    form.email?.trim() &&
+    form.study_program?.trim()
+    )
+    })
+    
+    // Methods
+    function selectCareerLaunchEvent() {
+    selectedEvent.value = events.value[0]
+    currentStep.value = 2
     }
-  });
-}
+    
+    function selectCompany(company) {
+    selectedCompany.value = company
+    selectedTimeSlot.value = null
+    }
+    
+    function selectTimeSlot(slot) {
+    if (!slot.available) return
+    selectedTimeSlot.value = slot
+    }
+    
+    function getTimeSlotClass(slot) {
+    if (selectedTimeSlot.value?.id === slot.id) {
+    return 'ring-2 ring-orange-500 bg-orange-100 border-orange-500 scale-105 shadow-lg'
+    }
+    if (!slot.available) {
+    return 'opacity-50 cursor-not-allowed bg-gray-50 border-gray-200'
+    }
+    return 'hover:shadow-lg hover:border-orange-300 hover:scale-102 bg-white border-gray-200'
+    }
+    
+    function changeCompanyPage(page) {
+    if (page >= 1 && page <= totalCompanyPages.value) {
+    currentCompanyPage.value = page
+    // Scroll to companies section
+    document.querySelector('.grid.md\\:grid-cols-2.lg\\:grid-cols-3')?.scrollIntoView({ 
+    behavior: 'smooth', 
+    block: 'start' 
+    })
+    }
+    }
+    
+    function nextStep() {
+    if (currentStep.value === 2 && !selectedCompany.value) {
+    alert('Selecteer eerst een bedrijf om door te gaan.')
+    return
+    }
+    if (currentStep.value === 3 && !selectedTimeSlot.value) {
+    alert('Kies een tijdslot om door te gaan.')
+    return
+    }
+    
+    currentStep.value++
+    }
+    
+    function prevStep() {
+    if (currentStep.value > 1) {
+    currentStep.value--
+    }
+    }
+    
+    function bookAppointment() {
+    if (!isFormValid.value) {
+    alert('Vul alle verplichte velden in.')
+    return
+    }
+    
+    form.event_id = selectedEvent.value.id
+    form.company_id = selectedCompany.value.id
+    form.time_slot_id = selectedTimeSlot.value.id
+    
+    // Simulate booking with loading state
+    const loadingTimeout = setTimeout(() => {
+    currentStep.value = 5
+    }, 1500)
+    
+    // In real implementation, you would submit the form:
+    // form.post('/api/appointments', {
+    //     onSuccess: () => currentStep.value = 5,
+    //     onError: (errors) => console.error(errors)
+    // })
+    }
+    
+    function downloadCalendar() {
+  if (!selectedEvent.value || !selectedTimeSlot.value || !selectedCompany.value) return;
 
-function downloadCalendar() {
-  if (!selectedEvent.value || !selectedTimeSlot.value) return;
-  
-  const event = selectedEvent.value;
-  const timeSlot = selectedTimeSlot.value;
-  
   try {
-    const startDate = new Date(`${event.date} ${timeSlot.time.split(' - ')[0]}`);
-    const endDate = new Date(`${event.date} ${timeSlot.time.split(' - ')[1]}`);
+    const eventDate = '20250315'; // In juiste formaat
+    const startTime = selectedTimeSlot.value.startTime.replace(':', '') + '00';
+    const endTime = selectedTimeSlot.value.endTime.replace(':', '') + '00';
+
+    const startDateTime = `${eventDate}T${startTime}`;
+    const endDateTime = `${eventDate}T${endTime}`;
 
     const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
-  PRODID:-//Erasmus Hogeschool Brussel//Career Launch//EN
+PRODID:-//Erasmus Hogeschool Brussel//Career Launch//EN
 BEGIN:VEVENT
-  UID:${appointmentId.value}@erasmus.be
+UID:${Date.now()}@erasmus.be
 DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
-DTSTART:${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z
-DTEND:${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z
-  SUMMARY:Career Launch - ${selectedCompany.value.name}
-  DESCRIPTION:Speeddate gesprek met ${selectedCompany.value.name}\\nDeelnemer: ${form.first_name} ${form.last_name}\\nStudierichting: ${form.study_program}
-LOCATION:${event.location}
-  BEGIN:VALARM
-  TRIGGER:-PT30M
-  DESCRIPTION:Career Launch gesprek over 30 minuten
-  END:VALARM
+DTSTART:${startDateTime}Z
+DTEND:${endDateTime}Z
+SUMMARY:Career Launch - ${selectedCompany.value.name}
+DESCRIPTION:Speeddate gesprek met ${selectedCompany.value.name}\\nDeelnemer: ${form.first_name} ${form.last_name}\\nStudierichting: ${form.study_program || 'Niet opgegeven'}
+LOCATION:Campus Brussel - Hoofdgebouw, Zaal A1.01
+BEGIN:VALARM
+TRIGGER:-PT30M
+DESCRIPTION:Career Launch gesprek over 30 minuten
+END:VALARM
 END:VEVENT
-  END:VCALENDAR`;
-    
+END:VCALENDAR`;
+
     const blob = new Blob([icsContent], { type: 'text/calendar' });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
     link.download = `career-launch-${selectedCompany.value.name.toLowerCase().replace(/\s+/g, '-')}.ics`;
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
   } catch (error) {
     console.error('Calendar download error:', error);
@@ -1050,57 +869,138 @@ END:VEVENT
   }
 }
 
-// Debug function
-function debugState() {
-  const debugInfo = `
-🔍 CAREER LAUNCH DEBUG INFO
-==========================================
-
-📍 HUIDIGE STATUS:
-Stap: ${currentStep.value}/5
-
-✅ SELECTIES:
-Event: ${selectedEvent.value ? '✅ ' + selectedEvent.value.title : '❌ Niet geselecteerd'}
-Bedrijf: ${selectedCompany.value ? '✅ ' + selectedCompany.value.name : '❌ Niet geselecteerd'}
-Tijdslot: ${selectedTimeSlot.value ? '✅ ' + selectedTimeSlot.value.time : '❌ Niet geselecteerd'}
-
-👤 FORMULIER:
-Voornaam: ${form.first_name || '(leeg)'}
-Achternaam: ${form.last_name || '(leeg)'}
-Email: ${form.email || '(leeg)'}
-Telefoon: ${form.phone || '(leeg)'}
-Studierichting: ${form.study_program || '(leeg)'}
-Motivatie: ${form.motivation ? '✅ Ingevuld' : '(leeg)'}
-
-📊 BESCHIKBARE DATA:
-Events: ${events.value.length}
-Bedrijven: ${companies.value.length}
-Gefilterde bedrijven: ${filteredCompanies.value.length}
-Tijdslots: ${timeSlots.value.length}
-Beschikbare tijdslots: ${timeSlots.value.filter(slot => slot.available).length}
-
-🔧 TECHNISCHE INFO:
-Form processing: ${form.processing}
-Form valid: ${isFormValid.value}
-Loading: ${loading.value}
-Appointment ID: ${appointmentId.value || 'None'}
-  `;
-  
-  alert(debugInfo);
-}
-
-// Initialize component
-onMounted(() => {
-  // Auto-select event
-  if (!selectedEvent.value && events.value.length > 0) {
-    selectedEvent.value = events.value[0];
-  }
-  
-  // Preload fallback timeslots
-  if (timeSlots.value.length === 0) {
-    timeSlots.value = generateFallbackTimeSlots();
-  }
-  
-  // Component initialized successfully
-});
-</script>
+    
+    // Watch for filter changes to reset pagination
+    watch([companySearchTerm, selectedSector, companiesPerPage], () => {
+    currentCompanyPage.value = 1
+    })
+    
+    // Initialize
+    onMounted(() => {
+    if (!selectedEvent.value && events.value.length > 0) {
+    selectedEvent.value = events.value[0]
+    }
+    })
+    </script>
+    
+    <style scoped>
+    /* Custom styles for enhanced UX */
+    /* We don't need to define line-clamp-2 here as it's built into Tailwind */
+    
+    /* Enhanced hover effects */
+    .hover\:scale-102:hover {
+        transform: scale(1.02);
+    }
+    
+    /* Smooth transitions for all interactive elements */
+    * {
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
+    }
+    
+    /* Custom scrollbar for better UX */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+    
+    /* Enhanced focus states for accessibility */
+    input:focus,
+    select:focus,
+    textarea:focus,
+    button:focus {
+        outline: 2px solid #f97316;
+        outline-offset: 2px;
+    }
+    
+    /* Premium gradient animations */
+    @keyframes gradient-shift {
+        0%, 100% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+    }
+    
+    .bg-gradient-to-r {
+        background-size: 200% 200%;
+        animation: gradient-shift 6s ease infinite;
+    }
+    
+    /* Loading state animations */
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+    
+    .animate-pulse {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    /* Enhanced card hover effects */
+    .group:hover .transform {
+        transform: translateY(-4px);
+    }
+    
+    /* Pro-level visual enhancements */
+    .shadow-xl {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .shadow-2xl {
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    
+    /* Enhanced responsive design */
+    @media (max-width: 768px) {
+        .grid.md\:grid-cols-2.lg\:grid-cols-3 {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .px-8 {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        .text-5xl.lg\:text-6xl {
+            font-size: 2.5rem;
+            line-height: 1.2;
+        }
+    }
+    
+    /* Premium loading spinner */
+    .loading-spinner {
+        border: 3px solid #f3f4f6;
+        border-top: 3px solid #f97316;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    </style>

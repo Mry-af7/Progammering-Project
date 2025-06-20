@@ -16,7 +16,5 @@ withDefaults(defineProps<Props>(), {
     <div class="min-h-screen bg-gray-100">
     <AppLayout :breadcrumbs="breadcrumbs">
         <slot />
-    </AppLayout>
-        <NavFooter />
     </div>
 </template>

@@ -11,6 +11,7 @@ import { LoaderCircle } from 'lucide-vue-next';
 import { Link } from '@inertiajs/vue3';
 import { Search, User } from 'lucide-vue-next';
 import { ref } from 'vue';
+import { route } from '@/lib/ziggy';
 
 const mobileMenuOpen = ref(false);
 const roleType = usePage().url.includes('type=bedrijf') ? 'bedrijf' : 'student';

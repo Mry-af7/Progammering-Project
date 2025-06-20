@@ -1116,7 +1116,7 @@ onMounted(() => {
                     </div>
                     <div class="flex items-center">
                       <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4h3a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9a2 2 0 012-2h3z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4h3a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 00-2-2V9a2 2 0 012-2h3z" />
                       </svg>
                       <span class="text-gray-600">Opgericht in {{ geselecteerdBedrijf.founded }}</span>
                     </div>
@@ -1178,15 +1178,25 @@ onMounted(() => {
         <div class="grid md:grid-cols-4 gap-8">
           <div>
             <div class="flex items-center space-x-3 mb-4">
-              <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                <span class="text-white font-bold text-lg">E</span>
-              </div>
+              <img src="/images/logos/ehb-logo.png" alt="EHB logo" class="w-10 h-10 object-contain" />
               <div class="text-white font-bold text-xl">erasmus</div>
             </div>
             <p class="text-orange-100 text-sm mb-4">
               Hogeschool Brussel<br />
               Connecting talent with opportunity
             </p>
+            <div class="flex space-x-4">
+              <a href="https://www.linkedin.com/school/erasmus-hogeschool-brussel/" target="_blank" class="text-orange-200 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </a>
+              <a href="https://www.instagram.com/erasmushogeschool/" target="_blank" class="text-orange-200 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987c6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.611-3.197-1.559-.748-.947-1.197-2.25-1.197-3.679 0-1.429.449-2.732 1.197-3.679.749-.948 1.9-1.559 3.197-1.559s2.448.611 3.197 1.559c.748.947 1.197 2.25 1.197 3.679 0 1.429-.449 2.732-1.197 3.679-.749.948-1.9 1.559-3.197 1.559z"/>
+                </svg>
+              </a>
+            </div>
           </div>
 
           <div>
@@ -1194,24 +1204,26 @@ onMounted(() => {
             <ul class="space-y-2 text-orange-100 text-sm">
               <li><Link href="/register?type=student" class="hover:text-white transition-colors">Maak je profiel</Link></li>
               <li><Link href="/info" class="hover:text-white transition-colors">Career Launch Info</Link></li>
-              <li><Link href="/afspraak" class="hover:text-white transition-colors">Speeddate plannen</Link></li>
+              <li><Link href="/bedrijven" class="hover:text-white transition-colors">Ontdek bedrijven</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 class="font-semibold mb-4">Voor bedrijven</h4>
+            <h4 class="font-semibold mb-4">Contact</h4>
             <ul class="space-y-2 text-orange-100 text-sm">
-              <li><Link href="/companies" class="hover:text-white transition-colors">Browse studenten</Link></li>
-              <li><Link href="/contact" class="hover:text-white transition-colors">Partnership</Link></li>
+              <li><a href="mailto:gdt.kaai.student@ehb.be" class="hover:text-white transition-colors">gdt.kaai.student@ehb.be</a></li>
+              <li><a href="tel:+3225233737" class="hover:text-white transition-colors">02 523 37 37</a></li>
+              <li>Nijverheidskaai 170, 1070 Anderlecht</li>
             </ul>
           </div>
 
           <div>
-            <h4 class="font-semibold mb-4">Support</h4>
+            <h4 class="font-semibold mb-4">Over Ons</h4>
             <ul class="space-y-2 text-orange-100 text-sm">
-              <li><Link href="/contact" class="hover:text-white transition-colors">Contact</Link></li>
+              <li><Link href="/wiezijnwe" class="hover:text-white transition-colors">Wie zijn we?</Link></li>
               <li><Link href="/faq" class="hover:text-white transition-colors">FAQ</Link></li>
-              <li><Link href="/privacy" class="hover:text-white transition-colors">Privacy beleid</Link></li>
+              <li><a href="#" class="hover:text-white transition-colors">Onze opleidingen</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Privacy beleid</a></li>
             </ul>
           </div>
         </div>
