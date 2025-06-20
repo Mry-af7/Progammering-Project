@@ -73,3 +73,4 @@ class BedrijfDashboardController extends Controller
         return back()->with('studenten', $studenten);
     }
 }
+ 

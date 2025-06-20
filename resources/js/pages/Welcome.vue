@@ -35,7 +35,7 @@ import { route } from 'ziggy-js';
                             Ik ben een student
                         </Link>
                         <Link :href="route('register', { type: 'bedrijf' })" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
-                            Ik ben een bedrijf
+                            Ik ben een bedrijf 
                         </Link>
                     </div>
                     
