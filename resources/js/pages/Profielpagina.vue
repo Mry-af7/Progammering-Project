@@ -76,10 +76,10 @@ defineProps({
 
 
       <div class="p-8">
-        <h1 class="text-2xl font-bold mb-4">Welkom, {{user.firstname }}!</h1>
+        <h1 class="text-2xl font-bold mb-4">Welkom, {{ user.firstname }}!</h1>
 
         <div class="grid gap-4">
-          <p><strong>Achternaam:</strong> {{ user.firstname }}</p>
+          <p><strong>Achternaam:</strong> {{ user.lastname }}</p>
           <p><strong>Email:</strong> {{ user.email }}</p>
           <p><strong>Leeftijd:</strong> {{ user.age }}</p>
           <p><strong>Geslacht:</strong> {{ user.gender }}</p>
@@ -87,56 +87,52 @@ defineProps({
         </div>
       </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-orange-500 text-white py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="font-bold text-lg mb-4">Erasmus</h3>
+            <p class="text-orange-100 text-sm">
+              Hogeschool Brussel<br>
+              Connecting talent with opportunity
+            </p>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-4">Voor studenten</h4>
+            <ul class="space-y-2 text-orange-100 text-sm">
+              <li><a href="#" class="hover:text-white transition-colors">Vind vacatures</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">CV tips</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Interview tips</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-4">Voor bedrijven</h4>
+            <ul class="space-y-2 text-orange-100 text-sm">
+              <li><a href="#" class="hover:text-white transition-colors">Plaats vacature</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Zoek talent</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Prijzen</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-4">Over ons</h4>
+            <ul class="space-y-2 text-orange-100 text-sm">
+              <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Privacy</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Voorwaarden</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="border-t border-orange-400 mt-8 pt-8 text-center text-orange-100 text-sm">
+          <p>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden.</p>
+        </div>
+      </div>
+    </footer>
+
   </div>
-</template>
-
-<br>
-
-<!-- Footer -->
-<footer class="bg-orange-500 text-white py-12">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid md:grid-cols-4 gap-8">
-      <div>
-        <h3 class="font-bold text-lg mb-4">Erasmus</h3>
-        <p class="text-orange-100 text-sm">
-          Hogeschool Brussel<br>
-          Connecting talent with opportunity
-        </p>
-      </div>
-
-      <div>
-        <h4 class="font-semibold mb-4">Voor studenten</h4>
-        <ul class="space-y-2 text-orange-100 text-sm">
-          <li><a href="#" class="hover:text-white transition-colors">Vind vacatures</a></li>
-          <li><a href="#" class="hover:text-white transition-colors">CV tips</a></li>
-          <li><a href="#" class="hover:text-white transition-colors">Interview tips</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h4 class="font-semibold mb-4">Voor bedrijven</h4>
-        <ul class="space-y-2 text-orange-100 text-sm">
-          <li><a href="#" class="hover:text-white transition-colors">Plaats vacature</a></li>
-          <li><a href="#" class="hover:text-white transition-colors">Zoek talent</a></li>
-          <li><a href="#" class="hover:text-white transition-colors">Prijzen</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h4 class="font-semibold mb-4">Over ons</h4>
-        <ul class="space-y-2 text-orange-100 text-sm">
-          <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
-          <li><a href="#" class="hover:text-white transition-colors">Privacy</a></li>
-          <li><a href="#" class="hover:text-white transition-colors">Voorwaarden</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="border-t border-orange-400 mt-8 pt-8 text-center text-orange-100 text-sm">
-      <p>&copy; 2025 Erasmus Hogeschool Brussel. Alle rechten voorbehouden.</p>
-    </div>
-  </div>
-</footer>
-
-</div>
 </template>

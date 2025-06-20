@@ -16,7 +16,12 @@ use App\Http\Controllers\CompanyController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 })->name('home');
 
 Route::get('/home', function () {
@@ -38,58 +43,7 @@ Route::get('/contact', function () {
 */
 
 Route::get('/favorieten', function () {
-    // Mock favorieten data - vervang later met database
-    $favorites = [
-        [
-            'id' => 1,
-            'title' => 'Emma Janssens',
-            'item_type' => 'student',
-            'description' => 'Multimedia & Creatieve Technologie student met focus op UX/UI design en frontend development.',
-            'image_url' => 'https://i.pravatar.cc/150?img=1',
-            'item_id' => 1,
-            'created_at' => now()->subDays(1)->toISOString()
-        ],
-        [
-            'id' => 2,
-            'title' => 'TechStartup Brussels',
-            'item_type' => 'bedrijf',
-            'description' => 'Innovatief fintech bedrijf op zoek naar getalenteerde developers en designers voor ons groeiende team.',
-            'image_url' => 'https://i.pravatar.cc/150?img=2',
-            'item_id' => 2,
-            'created_at' => now()->subDays(3)->toISOString()
-        ],
-        [
-            'id' => 3,
-            'title' => 'Lars Van Der Berg',
-            'item_type' => 'student',
-            'description' => 'Internet of Things student gespecialiseerd in embedded systems en IoT architectuur.',
-            'image_url' => 'https://i.pravatar.cc/150?img=3',
-            'item_id' => 3,
-            'created_at' => now()->subDays(5)->toISOString()
-        ],
-        [
-            'id' => 4,
-            'title' => 'Digital Agency Antwerp',
-            'item_type' => 'bedrijf',
-            'description' => 'Creatief digitaal bureau dat merken helpt groeien door middel van design en technologie.',
-            'image_url' => 'https://i.pravatar.cc/150?img=4',
-            'item_id' => 4,
-            'created_at' => now()->subWeek()->toISOString()
-        ],
-        [
-            'id' => 5,
-            'title' => 'Sofia Rodriguez',
-            'item_type' => 'student',
-            'description' => 'Toegepaste Informatica student met passie voor AI, machine learning en data science.',
-            'image_url' => 'https://i.pravatar.cc/150?img=5',
-            'item_id' => 5,
-            'created_at' => now()->subWeeks(2)->toISOString()
-        ]
-    ];
-    
-    return Inertia::render('Favorieten', [
-        'favorites' => $favorites
-    ]);
+    return Inertia::render('Favorieten');
 })->name('favorieten');
 
 /*
@@ -216,3 +170,62 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+
+// === WEBHOOK ROUTES ===
+Route::post('/webhooks/email-opened/{notification}', function ($notificationId) {
+    // Track email opens
+    DB::table('email_tracking')
+        ->where('notification_id', $notificationId)
+        ->update(['opened_at' => now()]);
+        
+    return response('OK');
+})->name('webhooks.email-opened');
+
+Route::post('/webhooks/email-clicked/{notification}', function ($notificationId) {
+    // Track email clicks
+    DB::table('email_tracking')
+        ->where('notification_id', $notificationId)
+        ->update(['clicked_at' => now()]);
+        
+    return response('OK');
+})->name('webhooks.email-clicked');
+
+// === SYSTEM HEALTH ROUTES ===
+Route::get('/health', function () {
+    return response()->json([
+        'status' => 'healthy',
+        'timestamp' => now()->toISOString(),
+        'services' => [
+            'database' => DB::connection()->getPdo() ? 'healthy' : 'unhealthy',
+            'afspraak_system' => 'healthy'
+        ]
+    ]);
+})->name('health');
+
+// === ERROR PAGES ===
+Route::get('/404', function () {
+    return Inertia::render('Error', ['status' => 404]);
+})->name('404');
+
+Route::get('/500', function () {
+    return Inertia::render('Error', ['status' => 500]);
+})->name('500');
+
+// === SITEMAP ===
+Route::get('/sitemap.xml', function () {
+    $urls = [
+        ['url' => route('home'), 'priority' => '1.0'],
+        ['url' => route('info'), 'priority' => '0.8'],
+        ['url' => route('afspraak'), 'priority' => '0.9'],
+        ['url' => route('contact'), 'priority' => '0.7'],
+        ['url' => route('career-launch.index'), 'priority' => '0.8'],
+    ];
+    
+    return response()->view('sitemap', compact('urls'))
+        ->header('Content-Type', 'text/xml');
+})->name('sitemap');
+
+// === LEGACY REDIRECTS ===
+Route::redirect('/appointment', '/afspraak', 301);
+Route::redirect('/appointments', '/afspraken', 301);
+Route::redirect('/booking', '/afspraak', 301);

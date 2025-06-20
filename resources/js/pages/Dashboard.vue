@@ -586,9 +586,23 @@
                 <button class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center text-2xl">
                     ✨
                 </button>
+                
+                <!-- Quick Menu -->
+          <div v-if="showQuickMenu" 
+               class="absolute bottom-20 right-0 w-56 bg-white rounded-3xl shadow-2xl border-2 border-gray-200 transform transition-all duration-300 animate-in slide-in-from-bottom-2">
+            <div class="p-4">
+              <div class="space-y-2">
+                <button v-for="menuItem in floatingMenuItems" :key="menuItem.title"
+                        class="w-full text-left px-4 py-3 rounded-2xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 text-sm font-semibold text-gray-700 hover:text-orange-600 transition-all duration-300 flex items-center space-x-3">
+                  <span class="text-lg">{{ menuItem.icon }}</span>
+                  <span>{{ menuItem.title }}</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </AppLayout>
+      </div>
+    </div>
 </template>
 
 <script setup lang="ts">

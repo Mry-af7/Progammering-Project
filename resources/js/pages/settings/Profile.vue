@@ -45,13 +45,13 @@ const submit = () => {
         <Head title="Profielinstellingen" />
 
         <SettingsLayout>
-            <div class="bg-orange-50 flex flex-col space-y-6 h-screen">
+            <div class="bg-orange-50 flex flex-col space-y-6 dark:text-orange-500 p-2 dark:bg-neutral-700 dark:rounded-xl">
                 <HeadingSmall title="Profielinformatie" description="Uw naam en e-mailadres bijwerken" />
 
                 <form @submit.prevent="submit" class="space-y-6">
                     <div class="grid gap-2">
                         <Label for="name">Naam</Label>
-                        <Input id="name" class="mt-1 block w-full" v-model="form.name" required autocomplete="name" placeholder="Volledige naam" />
+                        <Input id="name" class="mt-1 block w-full text-neutral-400" v-model="form.name" required autocomplete="name" placeholder="Volledige naam"/>
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
 
@@ -60,7 +60,7 @@ const submit = () => {
                         <Input
                             id="email"
                             type="email"
-                            class="mt-1 block w-full"
+                            class="mt-1 block w-full text-neutral-400"
                             v-model="form.email"
                             required
                             autocomplete="username"

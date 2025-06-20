@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -17,11 +19,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'firstname',
+        'lastname',
         'email',
-        'password',
-        'user_type',
-        'profile_completed'
+        'age',
+        'gender',
+        'field_of_study'
     ];
 
     /**
@@ -45,21 +48,5 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    /**
-     * Check if user is a student
-     */
-    public function isStudent(): bool
-    {
-        return $this->user_type === 'student';
-    }
-
-    /**
-     * Check if user is a company
-     */
-    public function isCompany(): bool
-    {
-        return $this->user_type === 'company';
     }
 }
