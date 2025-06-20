@@ -28,12 +28,8 @@ class RegisteredUserController extends Controller
  
     public function store(Request $request): RedirectResponse
     {
-        // Debug: Let's see what data is being sent
-        \Log::info('Registration data:', $request->all());
-       
-        // FIXED: Use filled() instead of has() to check for actual company name value
-        $isCompany = $request->filled('company_name') || $request->user_type === 'company';
-        \Log::info('Is company registration:', ['isCompany' => $isCompany, 'has_company_name' => $request->has('company_name'), 'filled_company_name' => $request->filled('company_name'), 'role' => $request->role]);
+        // Determine if this is a company registration
+        $isCompany = $request->filled('company_name') || $request->user_type === 'company' || $request->role === 'bedrijf';
        
         // Handle name field based on what's available
         $name = '';
@@ -48,11 +44,7 @@ class RegisteredUserController extends Controller
             $name = explode('@', $request->email)[0];
         }
  
-        \Log::info('Computed name:', ['name' => $name]);
- 
         $request->merge(['name' => $name]);
-       
-        \Log::info('Request after merge:', $request->all());
  
         $validationRules = [
             'name' => 'required|string|max:255',
@@ -64,33 +56,23 @@ class RegisteredUserController extends Controller
         if ($isCompany) {
             $validationRules['company_name'] = 'required|string|max:255';
         } else {
-            // Add student-specific validation (supporting both approaches)
-            if ($request->has('firstname')) {
-                $validationRules['firstname'] = 'required|string|max:255';
-                $validationRules['lastname'] = 'required|string|max:255';
-            }
+            // Add student-specific validation
+            $validationRules['firstname'] = 'required|string|max:255';
+            $validationRules['lastname'] = 'required|string|max:255';
         }
- 
-        \Log::info('Validation rules:', $validationRules);
        
-        try {
-            $request->validate($validationRules);
-            \Log::info('Validation passed');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            \Log::error('Validation failed:', ['errors' => $e->errors()]);
-            throw $e;
-        }
+        $request->validate($validationRules);
  
         $userData = [
-            'name' => $request->name,
+            'firstname' => $isCompany ? null : $request->firstname,
+            'lastname' => $isCompany ? null : $request->lastname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'user_type' => $isCompany ? 'company' : 'student',
+            'role' => $isCompany ? 'company' : 'student',
+            'is_active' => true,
+            'profile_completed' => false,
         ];
- 
-        // Note: firstname/lastname not added since they don't exist in the users table
-       
-        \Log::info('User data to create:', $userData);
  
         $user = User::create($userData);
  
@@ -98,7 +80,7 @@ class RegisteredUserController extends Controller
  
         Auth::login($user);
  
-        // FIXED: Redirect based on user type
+        // Redirect based on user type
         if ($isCompany) {
             return redirect()->route('company.onboarding')->with('success', 'Company registration successful! Please complete your company profile.');
         } else {
@@ -118,25 +100,29 @@ class RegisteredUserController extends Controller
         ]);
  
         $user = User::create([
-            'name' => $request->name,
+            'firstname' => null,
+            'lastname' => null,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'user_type' => 'company',
+            'role' => 'company',
+            'is_active' => true,
+            'profile_completed' => false,
         ]);
  
         // Create company profile
         $user->company()->create([
             'name' => $request->name,
-            'industry' => $request->industry,
+            'industry_id' => null, // Will be set during onboarding
             'description' => $request->description,
-            'location' => $request->location,
+            'headquarters' => $request->location,
+            'onboarding_completed' => false,
         ]);
  
         event(new Registered($user));
  
         Auth::login($user);
  
-        // FIXED: Redirect companies to their onboarding
         return redirect()->route('company.onboarding')->with('success', 'Company registration successful! Please complete your company profile.');
     }
 }

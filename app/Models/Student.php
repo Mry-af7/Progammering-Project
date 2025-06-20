@@ -11,6 +11,7 @@ class Student extends Model
 
     protected $fillable = [
         'user_id',
+        'study_field_id',
         'firstname',
         'lastname',
         'email',
@@ -23,7 +24,6 @@ class Student extends Model
         'custom_link_url',
         'technical_skills',
         'soft_skills',
-        'languages',
         'cv_url',
         'graduation_year',
         'current_education_level',
@@ -38,7 +38,6 @@ class Student extends Model
     protected $casts = [
         'technical_skills' => 'array',
         'soft_skills' => 'array',
-        'languages' => 'array',
         'preferred_job_types' => 'array',
         'preferred_work_location' => 'array',
         'preferred_company_size' => 'array',
@@ -48,6 +47,16 @@ class Student extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function studyField()
+    {
+        return $this->belongsTo(StudyField::class);
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
     }
 
     public function skills()

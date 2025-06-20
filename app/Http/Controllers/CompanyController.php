@@ -10,6 +10,26 @@ use App\Models\Student;
 
 class CompanyController extends Controller
 {
+    public function index()
+    {
+        $companies = Company::with('favorites')
+            ->paginate(10);
+            
+        return Inertia::render('Companies/Index', [
+            'companies' => $companies,
+        ]);
+    }
+
+    public function show(Company $company)
+    {
+        // Eager load relationships if needed
+        $company->load('favorites', 'industry', 'companySize', 'technologies', 'benefits');
+        
+        return Inertia::render('Companies/Show', [
+            'company' => $company
+        ]);
+    }
+
     public function dashboard()
     {
         $user = Auth::user();

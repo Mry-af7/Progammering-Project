@@ -37,9 +37,11 @@
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { router } from '@inertiajs/vue3';
-import Pagination from '@/components/Pagination.vue';
+import Pagination from '@/Components/Pagination.vue';
+
+const page = usePage();
 
 const props = defineProps({
   companies: {
@@ -49,14 +51,27 @@ const props = defineProps({
 });
 
 const isFavorited = (company) => {
-  return company.favorites?.some(favorite => favorite.user_id === $page.props.auth.user?.id);
+  if (!page.props.auth.user) return false;
+  return company.favorites?.some(favorite => favorite.user_id === page.props.auth.user.id);
 };
 
 const toggleFavorite = (company) => {
+  if (!page.props.auth.user) return;
+
   if (isFavorited(company)) {
-    router.delete(route('favorites.destroy', company.id));
+    const favorite = company.favorites.find(f => f.user_id === page.props.auth.user.id);
+    if (favorite) {
+      router.delete(route('favorites.destroy', favorite.id), {
+        preserveScroll: true,
+      });
+    }
   } else {
-    router.post(route('favorites.store', company.id));
+    router.post(route('favorites.store'), {
+      favoritable_id: company.id,
+      favoritable_type: 'App\\Models\\Company'
+    }, {
+      preserveScroll: true,
+    });
   }
 };
 </script> 

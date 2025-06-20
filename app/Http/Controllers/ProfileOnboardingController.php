@@ -20,6 +20,8 @@ class ProfileOnboardingController extends Controller
         
         if (!$student) {
             $student = Student::create([
+                'user_id' => $user->id,
+                'study_field_id' => 1,
                 'firstname' => $user->firstname,
                 'lastname' => $user->lastname,
                 'email' => $user->email,

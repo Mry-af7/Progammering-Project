@@ -74,15 +74,11 @@ Route::get('/faq', function () {
 |--------------------------------------------------------------------------
 */
 
-Route::delete('/favorites/{id}', function ($id) {
-    // Simuleer het verwijderen van een favoriet
-    return response()->json(['message' => 'Favoriet verwijderd'], 200);
-})->name('favorites.destroy');
-
-Route::post('/favorites', function () {
-    // Simuleer het toevoegen van een favoriet
-    return response()->json(['message' => 'Favoriet toegevoegd'], 201);
-})->name('favorites.store');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
+    Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -107,6 +103,9 @@ Route::get('/profielen/{id}', function ($id) {
 | Messaging Routes
 |--------------------------------------------------------------------------
 */
+
+Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
+Route::get('/companies/{company}', [CompanyController::class, 'show'])->name('companies.show');
 
 Route::get('/berichten/nieuw', function () {
     return Inertia::render('NewMessage', [
@@ -164,7 +163,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     
     // Main Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
+    // Career Launch Event Page
+    Route::get('/career-launch', function () {
+        // This can be expanded to its own controller and view later
+        return Inertia::render('CareerLaunch');
+    })->name('career-launch');
     
     // Student Profile Onboarding Routes (Step-by-step completion)
     Route::get('/profile-onboarding', [ProfileOnboardingController::class, 'index'])->name('profile-onboarding');
@@ -215,7 +220,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // Load other route files
 require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
 
 // === WEBHOOK ROUTES ===
 Route::post('/webhooks/email-opened/{notification}', function ($notificationId) {

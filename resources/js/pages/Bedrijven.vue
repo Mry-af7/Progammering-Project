@@ -2,6 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3'
 import { ref, computed, watch, onMounted } from 'vue'
 import MainNavigation from '@/components/MainNavigation.vue'
+import { Inertia } from '@inertiajs/inertia'
 
 const mobileMenuOpen = ref(false)
 const searchQuery = ref('')
@@ -16,10 +17,27 @@ const viewMode = ref('grid') // 'grid' or 'list'
 
 // Add new favorite methods
 const toggleFavorite = (company) => {
-    if (window.addToFavorites) {
-        window.addToFavorites(company)
+    const data = {
+        favoritable_id: company.id,
+        favoritable_type: 'company',
+    };
+
+    if (company.is_favorited) {
+        Inertia.delete(route('favorites.destroy', data), {
+            preserveScroll: true,
+            onSuccess: () => {
+                company.is_favorited = false;
+            }
+        });
+    } else {
+        Inertia.post(route('favorites.store', data), {
+            preserveScroll: true,
+            onSuccess: () => {
+                company.is_favorited = true;
+            }
+        });
     }
-}
+};
 
 const isFavorite = (companyId) => {
     return window.favoritesState?.value.some(fav => fav.id === companyId) || false

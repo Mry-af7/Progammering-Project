@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Company extends Model
 {
@@ -105,9 +106,9 @@ class Company extends Model
         return $this->hasMany(Appointment::class);
     }
 
-    public function favorites(): HasMany
+    public function favorites(): MorphMany
     {
-        return $this->hasMany(Favorite::class);
+        return $this->morphMany(Favorite::class, 'favoritable');
     }
 
     // Your methods

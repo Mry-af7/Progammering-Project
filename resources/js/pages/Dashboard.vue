@@ -1,768 +1,1096 @@
 <template>
-    <Head title="Dashboard" />
-    
-    <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-            <!-- Professional Header with subtle color accents -->
-            <div class="bg-gradient-to-r from-slate-50 via-indigo-50/30 to-purple-50/30 dark:from-gray-800 dark:via-slate-800 dark:to-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                    <!-- Profile Header -->
-                    <div class="flex flex-col lg:flex-row items-center justify-between">
-                        <div class="flex items-center space-x-6 mb-6 lg:mb-0">
-                            <!-- Enhanced Avatar with Status -->
-                            <div class="relative">
-                                <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-600 rounded-xl flex items-center justify-center text-2xl font-bold text-white border-2 border-indigo-100 dark:border-indigo-900/30 shadow-md">
-                                    {{ getInitials() }}
-                                </div>
-                                <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-500 rounded-full border-2 border-white dark:border-gray-800 shadow-md">
-                                    <div class="w-2 h-2 bg-white rounded-full mx-auto mt-1"></div>
-                                </div>
-                            </div>
-                            
-                            <!-- Enhanced Profile Info -->
-                            <div>
-                                <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                                    {{ displayName }}
-                                </h1>
-                                <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-300 mb-3">
-                                    <span v-if="props.student?.major" class="flex items-center gap-2 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 px-3 py-1 rounded-full border border-indigo-200 dark:border-indigo-800">
-                                        <span class="w-2 h-2 bg-indigo-500 rounded-full"></span>
-                                        {{ props.student.major }}
-                                    </span>
-                                    <span v-if="props.student?.year_of_study" class="flex items-center gap-2 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
-                                        <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
-                                        {{ props.student.year_of_study }}
-                                    </span>
-                                    <span v-if="profileCompleteness < 100" class="flex items-center gap-2 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 px-3 py-1 rounded-full border border-amber-200 dark:border-amber-800">
-                                        <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
-                                        {{ profileCompleteness }}% Complete
-                                    </span>
-                                </div>
-                                <!-- Profile completion indicator -->
-                                <div v-if="profileCompleteness < 100" class="flex items-center gap-3">
-                                    <div class="flex-1 max-w-xs">
-                                        <div class="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
-                                            <span>Profile completion</span>
-                                            <span class="font-medium">{{ profileCompleteness }}%</span>
-                                        </div>
-                                        <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                                            <div class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full transition-all duration-500"
-                                                 :style="{ width: profileCompleteness + '%' }"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Modern Stats Cards -->
-                        <div class="grid grid-cols-3 gap-4">
-                            <div class="bg-gradient-to-br from-white to-indigo-50/50 dark:from-gray-800 dark:to-indigo-900/10 rounded-lg p-4 text-center border border-indigo-100 dark:border-indigo-900/30 shadow-sm">
-                                <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ props.student?.skills?.length || 0 }}</div>
-                                <div class="text-sm text-indigo-600 dark:text-indigo-400 font-medium">Skills</div>
-                            </div>
-                            <div class="bg-gradient-to-br from-white to-purple-50/50 dark:from-gray-800 dark:to-purple-900/10 rounded-lg p-4 text-center border border-purple-100 dark:border-purple-900/30 shadow-sm">
-                                <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ props.student?.portfolios?.length || 0 }}</div>
-                                <div class="text-sm text-purple-600 dark:text-purple-400 font-medium">Projects</div>
-                            </div>
-                            <div class="bg-gradient-to-br from-white to-emerald-50/50 dark:from-gray-800 dark:to-emerald-900/10 rounded-lg p-4 text-center border border-emerald-100 dark:border-emerald-900/30 shadow-sm">
-                                <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ props.student?.languages?.length || 0 }}</div>
-                                <div class="text-sm text-emerald-600 dark:text-emerald-400 font-medium">Languages</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
+              <span class="text-white font-bold text-sm">E</span>
             </div>
-
-            <!-- Modern Navigation Tabs -->
-            <div class="sticky top-0 z-20 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <nav class="flex space-x-8">
-                        <button 
-                            v-for="link in navigationLinks" 
-                            :key="link.id"
-                            @click="setActiveSection(link.id)"
-                            :class="[
-                                'py-4 px-2 border-b-2 font-medium text-sm transition-colors duration-200',
-                                activeSection === link.id
-                                    ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
-                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
-                            ]"
-                        >
-                            <span class="mr-2 text-lg">{{ link.icon }}</span>
-                            {{ link.name }}
-                        </button>
-                    </nav>
-                </div>
+            <h1 class="text-xl font-semibold text-gray-900">Erasmus Dashboard</h1>
+          </div>
+          
+          <div class="flex items-center space-x-4">
+            <!-- Real-time Clock -->
+            <div class="hidden md:block text-sm text-gray-500">
+              {{ formatTime(currentTime) }}
             </div>
-
-            <!-- Enhanced Content Area -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <!-- Overview Section -->
-                <div v-if="activeSection === 'overview'">
-                    <!-- Profile Completeness Banner -->
-                    <div v-if="profileCompleteness < 100" class="mb-8">
-                        <div class="bg-gradient-to-r from-amber-50 via-orange-50 to-pink-50 dark:from-amber-900/20 dark:via-orange-900/20 dark:to-pink-900/20 border border-amber-200 dark:border-amber-700 rounded-lg p-4 shadow-sm">
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0">
-                                    <div class="w-8 h-8 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center">
-                                        <svg class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="ml-3 flex-1">
-                                    <h3 class="text-sm font-medium text-amber-800 dark:text-amber-200">🚀 Complete Your Profile</h3>
-                                    <p class="mt-1 text-sm text-amber-700 dark:text-amber-300">Stand out to recruiters with a complete profile!</p>
-                                    <div class="mt-3">
-                                        <span class="text-sm font-medium text-amber-700 dark:text-amber-300">{{ profileCompleteness }}% complete</span>
-                                        <div class="w-24 h-2 bg-amber-200 dark:bg-amber-800 rounded-full mt-1">
-                                            <div class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full transition-all duration-500" 
-                                                 :style="{ width: profileCompleteness + '%' }"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Main Content Grid -->
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-                        <!-- About Me - Enhanced -->
-                        <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
-                            <div class="p-6">
-                                <div class="flex items-center space-x-4 mb-6">
-                                    <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white shadow-sm">
-                                        👤
-                                    </div>
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">About Me</h3>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Tell your story</p>
-                                    </div>
-                                </div>
-                                <div v-if="props.student?.about_me" class="text-gray-600 dark:text-gray-300 leading-relaxed">
-                                    {{ props.student.about_me }}
-                                </div>
-                                <div v-else class="text-center py-8">
-                                    <div class="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                        </svg>
-                                    </div>
-                                    <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Tell your story</h4>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Share your background, interests, and career goals.</p>
-                                    <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all">
-                                        Add Your Story
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Connect Card - Enhanced -->
-                        <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
-                            <div class="p-6">
-                                <div class="flex items-center space-x-4 mb-6">
-                                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center text-white shadow-sm">
-                                        🔗
-                                    </div>
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Connect</h3>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Let's network!</p>
-                                    </div>
-                                </div>
-                                <div class="space-y-4">
-                                    <a v-if="props.student?.linkedin_url" 
-                                       :href="props.student.linkedin_url" 
-                                       target="_blank" 
-                                       class="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg hover:shadow-sm transition-all group border border-blue-200 dark:border-blue-800">
-                                        <div class="flex items-center space-x-3">
-                                            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm">
-                                                💼
-                                            </div>
-                                            <span class="font-medium text-gray-900 dark:text-white">LinkedIn</span>
-                                        </div>
-                                        <span class="text-blue-600 group-hover:translate-x-1 transition-transform duration-300">→</span>
-                                    </a>
-                                    
-                                    <a v-if="props.student?.custom_link_url" 
-                                       :href="props.student.custom_link_url" 
-                                       target="_blank" 
-                                       class="flex items-center justify-between p-3 bg-gradient-to-r from-purple-50 to-purple-100/50 dark:from-purple-900/20 dark:to-purple-800/20 rounded-lg hover:shadow-sm transition-all group border border-purple-200 dark:border-purple-800">
-                                        <div class="flex items-center space-x-3">
-                                            <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center text-white text-sm">
-                                                🌐
-                                            </div>
-                                            <span class="font-medium text-gray-900 dark:text-white">{{ props.student.custom_link_title || 'Website' }}</span>
-                                        </div>
-                                        <span class="text-purple-600 group-hover:translate-x-1 transition-transform duration-300">→</span>
-                                    </a>
-                                    
-                                    <a v-if="props.student?.github_link" 
-                                       :href="props.student.github_link" 
-                                       target="_blank" 
-                                       class="flex items-center justify-between p-3 bg-gradient-to-r from-gray-50 to-slate-100/50 dark:from-gray-700/20 dark:to-slate-800/20 rounded-lg hover:shadow-sm transition-all group border border-gray-200 dark:border-gray-600">
-                                        <div class="flex items-center space-x-3">
-                                            <div class="w-8 h-8 bg-gray-800 dark:bg-gray-200 rounded-lg flex items-center justify-center text-white dark:text-gray-800 text-sm">
-                                                🐙
-                                            </div>
-                                            <span class="font-medium text-gray-900 dark:text-white">GitHub</span>
-                                        </div>
-                                        <span class="text-gray-600 group-hover:translate-x-1 transition-transform duration-300">→</span>
-                                    </a>
-                                    
-                                    <div v-if="!props.student?.linkedin_url && !props.student?.custom_link_url && !props.student?.github_link" class="text-center py-6">
-                                        <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3">
-                                            <svg class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                                            </svg>
-                                        </div>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">No contact links yet</p>
-                                        <button class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-lg text-sm hover:shadow-md transition-all">
-                                            Add Links
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Skills Showcase -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm mb-8">
-                        <div class="p-6">
-                            <div class="flex items-center justify-between mb-6">
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center text-white shadow-sm">
-                                        ⚡
-                                    </div>
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Technical Skills</h3>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">My expertise areas</p>
-                                    </div>
-                                </div>
-                                <button v-if="props.student?.skills && props.student.skills.length > 0" 
-                                        @click="setActiveSection('skills')"
-                                        class="text-sm text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
-                                    View All →
-                                </button>
-                            </div>
-                            
-                            <div v-if="props.student?.skills && props.student.skills.length > 0" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                <div v-for="skill in props.student.skills.slice(0, 8)" 
-                                     :key="skill.name"
-                                     class="bg-gradient-to-br from-slate-50 to-gray-100/50 dark:from-gray-700 dark:to-slate-900/20 rounded-lg p-4 border border-slate-200 dark:border-slate-700/30 hover:shadow-sm transition-all">
-                                    <div class="flex items-center justify-between mb-3">
-                                        <span class="text-2xl">{{ getSkillIcon(skill.name) }}</span>
-                                        <span :class="[
-                                            'px-2 py-1 rounded-lg text-xs font-medium',
-                                            skill.proficiency === 'Expert' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300' :
-                                            skill.proficiency === 'Advanced' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' :
-                                            skill.proficiency === 'Intermediate' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300' :
-                                            'bg-gray-100 text-gray-700 dark:bg-gray-600 dark:text-gray-300'
-                                        ]">
-                                            {{ skill.proficiency }}
-                                        </span>
-                                    </div>
-                                    <h4 class="font-semibold text-gray-900 dark:text-white mb-2">{{ skill.name }}</h4>
-                                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
-                                        <div :class="[
-                                            'h-2 rounded-full transition-all duration-500',
-                                            skill.proficiency === 'Expert' ? 'bg-gradient-to-r from-red-500 to-pink-500' :
-                                            skill.proficiency === 'Advanced' ? 'bg-gradient-to-r from-orange-500 to-yellow-500' :
-                                            skill.proficiency === 'Intermediate' ? 'bg-gradient-to-r from-yellow-500 to-green-500' :
-                                            'bg-gradient-to-r from-gray-400 to-gray-500'
-                                        ]"
-                                             :style="{ 
-                                                 width: skill.proficiency === 'Expert' ? '100%' :
-                                                        skill.proficiency === 'Advanced' ? '80%' :
-                                                        skill.proficiency === 'Intermediate' ? '60%' :
-                                                        '30%'
-                                             }"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div v-else class="text-center py-12">
-                                <div class="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                                    </svg>
-                                </div>
-                                <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No skills added yet</h4>
-                                <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Showcase your technical expertise to stand out</p>
-                                <button class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-3 rounded-lg hover:shadow-md transition-all">
-                                    Add Skills
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Languages & Hobbies Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <!-- Languages Card -->
-                        <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
-                            <div class="p-6">
-                                <div class="flex items-center space-x-4 mb-6">
-                                    <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center text-white shadow-sm">
-                                        🌍
-                                    </div>
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Languages</h3>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Communication skills</p>
-                                    </div>
-                                </div>
-                                
-                                <div v-if="props.student?.languages && props.student.languages.length > 0" class="space-y-4">
-                                    <div v-for="language in props.student.languages" 
-                                         :key="language.name"
-                                         class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-4 border border-green-200 dark:border-green-700">
-                                        <div class="flex items-center justify-between mb-3">
-                                            <div class="flex items-center space-x-3">
-                                                <span class="text-2xl">{{ getLanguageFlag(language.name) }}</span>
-                                                <span class="font-semibold text-gray-900 dark:text-white">{{ language.name }}</span>
-                                            </div>
-                                            <span class="text-sm font-medium text-green-600 dark:text-green-400">{{ language.fluency }}</span>
-                                        </div>
-                                        <div class="w-full bg-green-200 dark:bg-green-700 rounded-full h-2">
-                                            <div class="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full transition-all duration-500"
-                                                 :style="{ width: getLanguageProficiencyWidth(language.fluency) }"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div v-else class="text-center py-8">
-                                    <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3">
-                                        <svg class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
-                                        </svg>
-                                    </div>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">No languages added yet</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Hobbies Card -->
-                        <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
-                            <div class="p-6">
-                                <div class="flex items-center space-x-4 mb-6">
-                                    <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center text-white shadow-sm">
-                                        🎯
-                                    </div>
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Hobbies</h3>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Personal interests</p>
-                                    </div>
-                                </div>
-                                
-                                <div v-if="props.student?.hobbies && props.student.hobbies.length > 0" class="grid grid-cols-1 gap-3">
-                                    <div v-for="hobby in props.student.hobbies" 
-                                         :key="hobby.name"
-                                         class="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-lg p-4 border border-indigo-200 dark:border-indigo-700 hover:scale-105 transition-transform duration-300">
-                                        <div class="flex items-center space-x-3">
-                                            <span class="text-2xl">{{ getHobbyIcon(hobby.name) }}</span>
-                                            <span class="font-semibold text-gray-900 dark:text-white">{{ hobby.name }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div v-else class="text-center py-8">
-                                    <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3">
-                                        <svg class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.01M15 10h1.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </div>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">No hobbies added yet</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            
+            <!-- Notifications -->
+            <div class="relative">
+              <button @click="toggleNotifications" 
+                      class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100 transition-colors relative">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M15 17h5l-5 5v-5zM9 7h6l3 3-3 3H9V7z"></path>
+                </svg>
+                <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
+                  {{ notifications.filter(n => !n.read).length }}
+                </span>
+              </button>
+              
+              <!-- Notifications Dropdown -->
+              <div v-if="showNotifications" 
+                   class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                <div class="p-4 border-b border-gray-200">
+                  <h3 class="font-semibold text-gray-900">Notificaties</h3>
                 </div>
-
-                <!-- Portfolio Section -->
-                <div v-else-if="activeSection === 'portfolio'" class="space-y-8">
-                    <div v-if="props.student?.portfolios && props.student.portfolios.length > 0" 
-                         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div v-for="project in props.student.portfolios" 
-                             :key="project.id"
-                             class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md hover:scale-105 transition-all duration-300 group">
-                            <div class="flex items-start justify-between mb-6">
-                                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center text-white shadow-sm group-hover:scale-110 transition-transform duration-300">
-                                    💼
-                                </div>
-                                <span class="text-xs text-gray-500 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">Project</span>
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-blue-600 transition-colors duration-300">
-                                {{ project.name }}
-                            </h3>
-                            <a :href="project.url" 
-                               target="_blank"
-                               class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300">
-                                View Project
-                                <span class="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div v-else class="text-center py-20">
-                        <div class="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 00-2 2h-4a2 2 0 00-2-2V6m8 0h2a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h2" />
-                            </svg>
-                        </div>
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No projects yet</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Showcase your amazing work to impress recruiters</p>
-                        <button class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-lg font-semibold hover:shadow-xl transition-all duration-300">
-                            Add Your First Project
-                        </button>
-                    </div>
+                <div class="max-h-64 overflow-y-auto">
+                  <div v-for="notification in notifications" :key="notification.id" 
+                       class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer"
+                       :class="{ 'bg-blue-50': !notification.read }"
+                       @click="markAsRead(notification.id)">
+                    <p class="text-sm font-medium text-gray-900">{{ notification.title }}</p>
+                    <p class="text-xs text-gray-500 mt-1">{{ notification.message }}</p>
+                    <p class="text-xs text-gray-400 mt-1">{{ formatTimeAgo(notification.created_at) }}</p>
+                  </div>
                 </div>
-
-                <!-- Skills Section -->
-                <div v-else-if="activeSection === 'skills'" class="space-y-8">
-                    <div v-if="props.student?.skills && props.student.skills.length > 0" 
-                         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div v-for="skill in props.student.skills" 
-                             :key="skill.name"
-                             class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md hover:scale-105 transition-all duration-300">
-                            <div class="flex items-center justify-between mb-6">
-                                <div class="flex items-center space-x-3">
-                                    <span class="text-3xl">{{ getSkillIcon(skill.name) }}</span>
-                                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">{{ skill.name }}</h3>
-                                </div>
-                                <span :class="[
-                                    'px-3 py-1 rounded-xl text-sm font-bold',
-                                    skill.proficiency === 'Expert' ? 'bg-gradient-to-r from-red-500 to-pink-500 text-white' :
-                                    skill.proficiency === 'Advanced' ? 'bg-gradient-to-r from-orange-500 to-yellow-500 text-white' :
-                                    skill.proficiency === 'Intermediate' ? 'bg-gradient-to-r from-yellow-500 to-green-500 text-white' :
-                                    'bg-gradient-to-r from-gray-400 to-gray-500 text-white'
-                                ]">
-                                    {{ skill.proficiency }}
-                                </span>
-                            </div>
-                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-4">
-                                <div :class="[
-                                    'h-3 rounded-full transition-all duration-1000',
-                                    skill.proficiency === 'Expert' ? 'bg-gradient-to-r from-red-500 to-pink-500' :
-                                    skill.proficiency === 'Advanced' ? 'bg-gradient-to-r from-orange-500 to-yellow-500' :
-                                    skill.proficiency === 'Intermediate' ? 'bg-gradient-to-r from-yellow-500 to-green-500' :
-                                    'bg-gradient-to-r from-gray-400 to-gray-500'
-                                ]"
-                                     :style="{ 
-                                         width: skill.proficiency === 'Expert' ? '100%' :
-                                                skill.proficiency === 'Advanced' ? '80%' :
-                                                skill.proficiency === 'Intermediate' ? '60%' :
-                                                '30%'
-                                     }"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div v-else class="text-center py-20">
-                        <div class="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No skills yet</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Add your technical skills to showcase your expertise</p>
-                        <button class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-lg font-semibold hover:shadow-xl transition-all duration-300">
-                            Add Skills
-                        </button>
-                    </div>
+                <div class="p-3 border-t border-gray-200">
+                  <button class="text-sm text-orange-600 hover:text-orange-700 font-medium">
+                    Alle notificaties bekijken
+                  </button>
                 </div>
-
-                <!-- About Section -->
-                <div v-else-if="activeSection === 'about'">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <!-- Personal Information -->
-                        <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
-                            <div class="p-6">
-                                <div class="flex items-center space-x-4 mb-8">
-                                    <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white shadow-sm">
-                                        👤
-                                    </div>
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Personal Information</h3>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Basic details</p>
-                                    </div>
-                                </div>
-                                <div class="space-y-6">
-                                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-700">
-                                        <label class="text-sm font-medium text-purple-600 dark:text-purple-400 mb-2 block">Full Name</label>
-                                        <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ props.student?.name || 'Not provided' }}</p>
-                                    </div>
-                                    <div class="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-700">
-                                        <label class="text-sm font-medium text-blue-600 dark:text-blue-400 mb-2 block">Email</label>
-                                        <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ props.student?.email || props.user?.email || 'Not provided' }}</p>
-                                    </div>
-                                    <div class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-4 border border-green-200 dark:border-green-700">
-                                        <label class="text-sm font-medium text-green-600 dark:text-green-400 mb-2 block">Major</label>
-                                        <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ props.student?.major || 'Not provided' }}</p>
-                                    </div>
-                                    <div class="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-lg p-4 border border-orange-200 dark:border-orange-700">
-                                        <label class="text-sm font-medium text-orange-600 dark:text-orange-400 mb-2 block">Year of Study</label>
-                                        <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ props.student?.year_of_study || 'Not provided' }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- About Me & Professional Links -->
-                        <div class="space-y-8">
-                            <!-- About Me -->
-                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
-                                <div class="p-6">
-                                    <div class="flex items-center space-x-4 mb-6">
-                                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center text-white shadow-sm">
-                                            📝
-                                        </div>
-                                        <div>
-                                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">About Me</h3>
-                                            <p class="text-sm text-gray-500 dark:text-gray-400">My story</p>
-                                        </div>
-                                    </div>
-                                    <div v-if="props.student?.about_me" 
-                                         class="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-700">
-                                        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">{{ props.student.about_me }}</p>
-                                    </div>
-                                    <div v-else class="text-center py-8">
-                                        <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3">
-                                            <svg class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                            </svg>
-                                        </div>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">No bio provided yet</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Professional Links -->
-                            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
-                                <div class="p-6">
-                                    <div class="flex items-center space-x-4 mb-6">
-                                        <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center text-white shadow-sm">
-                                            🔗
-                                        </div>
-                                        <div>
-                                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Professional Links</h3>
-                                            <p class="text-sm text-gray-500 dark:text-gray-400">Connect with me</p>
-                                        </div>
-                                    </div>
-                                    <div class="space-y-4">
-                                        <div v-if="props.student?.linkedin_url" class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-700">
-                                            <label class="text-sm font-medium text-blue-600 dark:text-blue-400 mb-2 block">LinkedIn</label>
-                                            <a :href="props.student.linkedin_url" target="_blank" class="text-lg font-semibold text-blue-600 hover:text-blue-700 transition-colors duration-300">
-                                                View Profile →
-                                            </a>
-                                        </div>
-                                        <div v-if="props.student?.custom_link_url" class="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-700">
-                                            <label class="text-sm font-medium text-purple-600 dark:text-purple-400 mb-2 block">{{ props.student.custom_link_title || 'Website' }}</label>
-                                            <a :href="props.student.custom_link_url" target="_blank" class="text-lg font-semibold text-purple-600 hover:text-purple-700 transition-colors duration-300">
-                                                Visit Site →
-                                            </a>
-                                        </div>
-                                        <div v-if="props.student?.github_link" class="bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-700/20 dark:to-slate-700/20 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
-                                            <label class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2 block">GitHub</label>
-                                            <a :href="props.student.github_link" target="_blank" class="text-lg font-semibold text-gray-700 dark:text-gray-300 hover:text-gray-900 transition-colors duration-300">
-                                                View Code →
-                                            </a>
-                                        </div>
-                                        <div v-if="!props.student?.linkedin_url && !props.student?.custom_link_url && !props.student?.github_link" class="text-center py-6">
-                                            <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3">
-                                                <svg class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                                                </svg>
-                                            </div>
-                                            <p class="text-sm text-gray-500 dark:text-gray-400">No professional links added yet</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-
-            <!-- Floating Action Button -->
-            <div class="fixed bottom-8 right-8 z-30">
-                <button class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center text-2xl">
-                    ✨
-                </button>
-                
-                <!-- Quick Menu -->
-          <div v-if="showQuickMenu" 
-               class="absolute bottom-20 right-0 w-56 bg-white rounded-3xl shadow-2xl border-2 border-gray-200 transform transition-all duration-300 animate-in slide-in-from-bottom-2">
-            <div class="p-4">
-              <div class="space-y-2">
-                <button v-for="menuItem in floatingMenuItems" :key="menuItem.title"
-                        class="w-full text-left px-4 py-3 rounded-2xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 text-sm font-semibold text-gray-700 hover:text-orange-600 transition-all duration-300 flex items-center space-x-3">
-                  <span class="text-lg">{{ menuItem.icon }}</span>
-                  <span>{{ menuItem.title }}</span>
-                        </button>
-                    </div>
+            
+            <!-- Profile Menu -->
+            <div class="relative">
+              <button @click="toggleProfileMenu" 
+                      class="w-8 h-8 bg-gradient-to-r from-orange-400 to-red-500 rounded-full flex items-center justify-center">
+                <span class="text-white font-medium text-sm">{{ getInitials(user.firstname, user.lastname) }}</span>
+              </button>
+              
+              <!-- Profile Dropdown -->
+              <div v-if="showProfileMenu" 
+                   class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                <div class="p-4 border-b border-gray-200">
+                  <p class="font-medium text-gray-900">{{ user.firstname }} {{ user.lastname }}</p>
+                  <p class="text-sm text-gray-500">{{ user.email }}</p>
                 </div>
+                <div class="py-2">
+                  <Link :href="route('profile.edit')" 
+                        class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    Profiel bewerken
+                  </Link>
+                  <Link :href="route('settings')" 
+                        class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    Instellingen
+                  </Link>
+                  <button @click="downloadCV" 
+                          class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                    </svg>
+                    CV Downloaden
+                  </button>
+                  <div class="border-t border-gray-200 my-1"></div>
+                  <Link :href="route('logout')" method="post"
+                        class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    Uitloggen
+                  </Link>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
       </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="bg-white border-b border-gray-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex space-x-8">
+          <button @click="setActiveTab('dashboard')" 
+                  :class="tabClass('dashboard')" 
+                  class="border-b-2 py-4 px-1 text-sm font-medium transition-colors">
+            Dashboard
+          </button>
+          <button @click="setActiveTab('profile')" 
+                  :class="tabClass('profile')" 
+                  class="border-b-2 py-4 px-1 text-sm font-medium transition-colors">
+            Profiel
+          </button>
+          <button @click="setActiveTab('applications')" 
+                  :class="tabClass('applications')" 
+                  class="border-b-2 py-4 px-1 text-sm font-medium transition-colors">
+            Sollicitaties ({{ applications.length }})
+          </button>
+          <button @click="setActiveTab('meetings')" 
+                  :class="tabClass('meetings')" 
+                  class="border-b-2 py-4 px-1 text-sm font-medium transition-colors">
+            Afspraken ({{ upcomingMeetings.length }})
+          </button>
+        </nav>
+      </div>
     </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      
+      <!-- Dashboard Tab -->
+      <div v-if="activeTab === 'dashboard'">
+        <!-- Welcome Section -->
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 mb-2">Welkom terug, {{ user.firstname }}!</h2>
+          <p class="text-gray-600">Hier is je persoonlijke dashboard overzicht</p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300">
+            <div class="flex items-center">
+              <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm font-medium text-gray-600">Huidig Semester</p>
+                <p class="text-2xl font-bold text-gray-900">{{ stats.semester }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300">
+            <div class="flex items-center">
+              <div class="w-12 h-12 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm font-medium text-gray-600">Voltooide Projecten</p>
+                <p class="text-2xl font-bold text-gray-900">{{ stats.completed_projects }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300">
+            <div class="flex items-center">
+              <div class="w-12 h-12 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm font-medium text-gray-600">Beheerste Skills</p>
+                <p class="text-2xl font-bold text-gray-900">{{ stats.skills_mastered }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300">
+            <div class="flex items-center">
+              <div class="w-12 h-12 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2h8z"></path>
+                </svg>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm font-medium text-gray-600">Actieve Sollicitaties</p>
+                <p class="text-2xl font-bold text-gray-900">{{ stats.applications }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- Recent Activities -->
+          <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100">
+            <div class="px-6 py-4 border-b border-gray-100">
+              <h3 class="text-lg font-semibold text-gray-900">Recente Activiteit</h3>
+            </div>
+            <div class="p-6">
+              <div class="space-y-4">
+                <div v-for="activity in recentActivities" :key="activity.id" 
+                     class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center"
+                       :class="getActivityIconClass(activity.type)">
+                    <component :is="getActivityIcon(activity.type)" class="w-4 h-4" />
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-sm text-gray-900">{{ activity.description }}</p>
+                    <p class="text-xs text-gray-500">{{ formatTimeAgo(activity.created_at) }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Career Launch Event -->
+          <div class="bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl p-6 text-white">
+            <div class="flex items-center mb-4">
+              <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="font-semibold">Career Launch 2025</h3>
+                <p class="text-sm opacity-90">15 maart 2025</p>
+              </div>
+            </div>
+            <p class="text-sm opacity-90 mb-4">Het grootste netwerkevent voor design & technologie studenten.</p>
+            <div class="space-y-2 mb-4">
+              <div class="flex items-center text-sm">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                </svg>
+                Campus Kaai - Zaal A101
+              </div>
+              <div class="flex items-center text-sm">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                09:00 - 17:00
+              </div>
+            </div>
+            <Link :href="route('career-launch')" 
+                  class="w-full bg-white text-orange-600 font-medium py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors inline-block text-center">
+              Meer Info & Aanmelden
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Tab -->
+      <div v-if="activeTab === 'profile'">
+        <div class="max-w-4xl">
+          <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-2">Mijn Profiel</h2>
+            <p class="text-gray-600">Beheer je persoonlijke informatie en voorkeuren</p>
+          </div>
+
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+              <h3 class="text-lg font-semibold text-gray-900">Persoonlijke Informatie</h3>
+              <Link :href="route('profile.edit')" 
+                    class="px-4 py-2 text-sm font-medium text-orange-600 hover:text-orange-700 hover:bg-orange-50 rounded-lg transition-colors">
+                Bewerken
+              </Link>
+            </div>
+            
+            <div class="p-6">
+              <div class="flex items-start space-x-6 mb-6">
+                <div class="w-24 h-24 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
+                  <span class="text-white font-bold text-3xl">{{ getInitials(user.firstname, user.lastname) }}</span>
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-2xl font-bold text-gray-900 mb-2">{{ user.firstname }} {{ user.lastname }}</h4>
+                  <p class="text-gray-600 mb-4">{{ user.major }} - {{ user.year }}</p>
+                  <div class="flex items-center space-x-4">
+                    <button class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
+                      CV Bijwerken
+                    </button>
+                    <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                      Portfolio Bekijken
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                  <p class="text-gray-900">{{ user.email }}</p>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Student ID</label>
+                  <p class="text-gray-900">{{ user.studentId }}</p>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Studierichting</label>
+                  <p class="text-gray-900">{{ user.major }}</p>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Studiejaar</label>
+                  <p class="text-gray-900">{{ user.year }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skills Section -->
+          <div class="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100">
+            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+              <h3 class="text-lg font-semibold text-gray-900">Skills & Vaardigheden</h3>
+              <button class="px-4 py-2 text-sm font-medium text-orange-600 hover:text-orange-700 hover:bg-orange-50 rounded-lg transition-colors">
+                Skills Toevoegen
+              </button>
+            </div>
+            <div class="p-6">
+              <div class="space-y-6">
+                <div>
+                  <h4 class="font-medium text-gray-900 mb-4">Programmeertalen</h4>
+                  <div class="flex flex-wrap gap-2">
+                    <span v-for="skill in programmingSkills" :key="skill" 
+                          class="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                      {{ skill }}
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <h4 class="font-medium text-gray-900 mb-4">Frameworks & Tools</h4>
+                  <div class="flex flex-wrap gap-2">
+                    <span v-for="framework in frameworks" :key="framework" 
+                          class="px-3 py-1 bg-orange-100 text-orange-800 text-sm font-medium rounded-full">
+                      {{ framework }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Applications Tab -->
+      <div v-if="activeTab === 'applications'">
+        <div class="mb-8 flex items-center justify-between">
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 mb-2">Mijn Sollicitaties</h2>
+            <p class="text-gray-600">Overzicht van al je sollicitaties en hun status</p>
+          </div>
+          <Link :href="route('companies.index')" 
+                class="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium">
+            + Nieuwe Sollicitatie
+          </Link>
+        </div>
+
+        <!-- Filters -->
+        <div class="mb-6 flex items-center space-x-4">
+          <div class="flex-1 relative">
+            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" v-model="applicationSearch" 
+                   placeholder="Zoek sollicitaties..." 
+                   class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 w-full">
+          </div>
+          <select v-model="applicationFilter" 
+                  class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500">
+            <option value="all">Alle Status</option>
+            <option value="pending">In Behandeling</option>
+            <option value="interview">Interview</option>
+            <option value="accepted">Geaccepteerd</option>
+            <option value="rejected">Afgewezen</option>
+          </select>
+        </div>
+
+        <!-- Applications List -->
+        <div class="space-y-4">
+          <div v-for="application in filteredApplications" :key="application.id" 
+               class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-start justify-between">
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-orange-400 to-red-400 rounded-lg flex items-center justify-center">
+                  <span class="text-white font-bold text-sm">{{ application.company.charAt(0) }}</span>
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-900">{{ application.position }}</h3>
+                  <p class="text-gray-600">{{ application.company }}</p>
+                  <div class="flex items-center space-x-4 mt-2 text-sm text-gray-500">
+                    <span>Ingediend: {{ formatDate(application.applied_at) }}</span>
+                    <span>{{ application.type }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center space-x-3">
+                <span :class="getStatusClass(application.status)" 
+                      class="px-3 py-1 rounded-full text-sm font-medium">
+                  {{ getStatusText(application.status) }}
+                </span>
+                <button class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            
+            <div class="mt-4 pt-4 border-t border-gray-100">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                  <span class="text-sm text-gray-500">
+                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    </svg>
+                    {{ application.location }}
+                  </span>
+                  <span class="text-sm text-gray-500">
+                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                    </svg>
+                    € {{ application.salary || 'Te bespreken' }}
+                  </span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <button v-if="application.status === 'interview'" 
+                          class="px-3 py-1 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
+                    Interview Plannen
+                  </button>
+                  <button class="px-3 py-1 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                    Details
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div v-if="filteredApplications.length === 0" 
+             class="text-center py-12 bg-white rounded-2xl shadow-sm border border-gray-100">
+          <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2h8z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-medium text-gray-900 mb-2">Nog geen sollicitaties</h3>
+          <p class="text-gray-500 mb-6">Begin je carrière door te solliciteren bij interessante bedrijven</p>
+          <Link :href="route('companies.index')" 
+                class="inline-flex items-center px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium">
+            Ontdek Bedrijven
+          </Link>
+        </div>
+      </div>
+
+      <!-- Meetings Tab -->
+      <div v-if="activeTab === 'meetings'">
+        <div class="mb-8 flex items-center justify-between">
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 mb-2">Mijn Afspraken</h2>
+            <p class="text-gray-600">Overzicht van al je geplande gesprekken en meetings</p>
+          </div>
+          <button @click="scheduleNewMeeting" 
+                  class="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium">
+            + Nieuwe Afspraak
+          </button>
+        </div>
+
+        <!-- Calendar View Toggle -->
+        <div class="mb-6 flex items-center space-x-4">
+          <div class="flex bg-gray-100 rounded-lg p-1">
+            <button @click="meetingView = 'list'" 
+                    :class="meetingView === 'list' ? 'bg-white shadow-sm' : ''" 
+                    class="px-4 py-2 text-sm font-medium rounded-md transition-colors">
+              Lijst
+            </button>
+            <button @click="meetingView = 'calendar'" 
+                    :class="meetingView === 'calendar' ? 'bg-white shadow-sm' : ''" 
+                    class="px-4 py-2 text-sm font-medium rounded-md transition-colors">
+              Kalender
+            </button>
+          </div>
+          <div class="flex-1"></div>
+          <select v-model="meetingFilter" 
+                  class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500">
+            <option value="all">Alle Afspraken</option>
+            <option value="today">Vandaag</option>
+            <option value="upcoming">Aankomend</option>
+            <option value="past">Voorbij</option>
+          </select>
+        </div>
+
+        <!-- Meetings List View -->
+        <div v-if="meetingView === 'list'" class="space-y-4">
+          <div v-for="meeting in filteredMeetings" :key="meeting.id" 
+               class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow"
+               :class="getMeetingCardClass(meeting)">
+            <div class="flex items-start justify-between">
+              <div class="flex items-start space-x-4">
+                <div :class="getMeetingIconClass(meeting.type)" 
+                     class="w-12 h-12 rounded-lg flex items-center justify-center">
+                  <component :is="getMeetingIcon(meeting.type)" class="w-6 h-6" />
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-lg font-semibold text-gray-900">{{ meeting.title }}</h3>
+                  <p class="text-gray-600">{{ meeting.company }}</p>
+                  <div class="flex items-center space-x-4 mt-2 text-sm text-gray-500">
+                    <span class="flex items-center">
+                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                      </svg>
+                      {{ formatDateTime(meeting.datetime) }}
+                    </span>
+                    <span class="flex items-center">
+                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                      </svg>
+                      {{ meeting.location }}
+                    </span>
+                    <span v-if="meeting.recruiter" class="flex items-center">
+                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                      </svg>
+                      {{ meeting.recruiter }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span :class="getMeetingStatusClass(meeting)" 
+                      class="px-3 py-1 rounded-full text-sm font-medium">
+                  {{ getMeetingStatusText(meeting) }}
+                </span>
+                <div class="relative">
+                  <button @click="toggleMeetingMenu(meeting.id)" 
+                          class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                    </svg>
+                  </button>
+                  
+                  <!-- Meeting Actions Menu -->
+                  <div v-if="activeMeetingMenu === meeting.id" 
+                       class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                    <div class="py-2">
+                      <button @click="editMeeting(meeting)" 
+                              class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                        Bewerken
+                      </button>
+                      <button v-if="meeting.meeting_link" @click="joinMeeting(meeting.meeting_link)" 
+                              class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        Deelnemen
+                      </button>
+                      <button @click="reschedule(meeting)" 
+                              class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        Verplaatsen
+                      </button>
+                      <div class="border-t border-gray-200 my-1"></div>
+                      <button @click="cancelMeeting(meeting)" 
+                              class="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                        <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1-1H8a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                        Annuleren
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div v-if="meeting.notes" class="mt-4 pt-4 border-t border-gray-100">
+              <p class="text-sm text-gray-600">{{ meeting.notes }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calendar View -->
+        <div v-if="meetingView === 'calendar'" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <div class="mb-6 flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-gray-900">{{ formatMonthYear(currentDate) }}</h3>
+            <div class="flex items-center space-x-2">
+              <button @click="previousMonth" 
+                      class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+              </button>
+              <button @click="nextMonth" 
+                      class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Calendar Grid -->
+          <div class="grid grid-cols-7 gap-1 mb-4">
+            <div v-for="day in ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo']" :key="day" 
+                 class="p-2 text-center text-sm font-medium text-gray-500">
+              {{ day }}
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-7 gap-1">
+            <div v-for="date in calendarDates" :key="date.date" 
+                 class="min-h-24 p-2 border border-gray-100 hover:bg-gray-50"
+                 :class="{ 'bg-gray-50': !date.isCurrentMonth, 'bg-blue-50': date.isToday }">
+              <div class="text-sm font-medium text-gray-900">{{ date.day }}</div>
+              <div class="mt-1 space-y-1">
+                <div v-for="meeting in date.meetings" :key="meeting.id" 
+                     class="text-xs p-1 rounded bg-orange-100 text-orange-800 truncate cursor-pointer"
+                     @click="selectMeeting(meeting)">
+                  {{ meeting.title }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div v-if="filteredMeetings.length === 0" 
+             class="text-center py-12 bg-white rounded-2xl shadow-sm border border-gray-100">
+          <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-medium text-gray-900 mb-2">Geen afspraken gepland</h3>
+          <p class="text-gray-500 mb-6">Plan je eerste gesprek met een potentiële werkgever</p>
+          <button @click="scheduleNewMeeting" 
+                  class="inline-flex items-center px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium">
+            Plan Afspraak
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
 </template>
 
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { Head } from '@inertiajs/vue3'
-import AppLayout from '@/layouts/AppLayout.vue'
-import { type BreadcrumbItem } from '@/types'
+<script setup>
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { Link } from '@inertiajs/vue3'
 
-const props = defineProps<{
-    user: any,
-    student: any,
-    message?: string
-}>()
-
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/dashboard' }
-]
-
-const activeSection = ref('overview')
-
-const navigationLinks = [
-    { id: 'overview', name: 'Overview', icon: '🏠' },
-    { id: 'portfolio', name: 'Portfolio', icon: '💼' },
-    { id: 'skills', name: 'Skills', icon: '⚡' },
-    { id: 'about', name: 'About', icon: '👤' }
-]
-
-const displayName = computed(() => {
-    return props.student?.name || props.user?.name || 'Student'
+// Props
+const props = defineProps({
+  user: {
+    type: Object,
+    default: () => ({
+      firstname: 'Amine',
+      lastname: 'Zerouali',
+      email: 'amine.zerouali@student.ehb.be',
+      studentId: 'EHB2024001',
+      major: 'Computer Science',
+      year: '3de Jaar'
+    })
+  },
+  student: Object,
+  favorites: {
+    type: Array,
+    default: () => []
+  },
+  stats: {
+    type: Object,
+    default: () => ({
+      semester: '3de Jaar',
+      completed_projects: 12,
+      skills_mastered: 8,
+      applications: 5
+    })
+  }
 })
 
-const profileCompleteness = computed(() => {
-    let score = 0
-    const fields = [
-        props.student?.name,
-        props.student?.major,
-        props.student?.year_of_study,
-        props.student?.about_me,
-        props.student?.linkedin_url,
-        props.student?.skills?.length > 0,
-        props.student?.languages?.length > 0,
-        props.student?.portfolios?.length > 0
-    ]
+// Reactive data
+const activeTab = ref('dashboard')
+const showProfileMenu = ref(false)
+const showNotifications = ref(false)
+const currentTime = ref(new Date())
+const applicationSearch = ref('')
+const applicationFilter = ref('all')
+const meetingView = ref('list')
+const meetingFilter = ref('all')
+const activeMeetingMenu = ref(null)
+const currentDate = ref(new Date())
+
+// Mock data
+const notifications = ref([
+  { id: 1, title: 'Nieuw gesprek gepland', message: 'Je hebt een gesprek met Accenture op 22 juni', read: false, created_at: new Date(Date.now() - 3600000) },
+  { id: 2, title: 'Sollicitatie update', message: 'Je sollicitatie bij Amista is in behandeling', read: true, created_at: new Date(Date.now() - 86400000) },
+  { id: 3, title: 'Career Launch reminder', message: 'Vergeet niet je aan te melden voor Career Launch 2025', read: false, created_at: new Date(Date.now() - 172800000) }
+])
+
+const applications = ref([
+  { id: 1, company: 'Accenture', position: 'Junior Developer', status: 'interview', type: 'Stage', location: 'Brussels', salary: '€1200', applied_at: '2025-06-15' },
+  { id: 2, company: 'Amista', position: 'Frontend Developer', status: 'pending', type: 'Stage', location: 'Lier', salary: '€1000', applied_at: '2025-06-10' },
+  { id: 3, company: 'Acolad', position: 'Full Stack Developer', status: 'accepted', type: 'Job', location: 'Brussels', salary: '€2500', applied_at: '2025-06-05' }
+])
+
+const upcomingMeetings = ref([
+  { 
+    id: 1, 
+    title: 'Career Gesprek - Accenture', 
+    company: 'Accenture',
+    datetime: '2025-06-22T14:00:00', 
+    type: 'interview', 
+    location: 'Online - Teams', 
+    recruiter: 'Sarah Van Der Berg',
+    meeting_link: 'https://teams.microsoft.com/...',
+    notes: 'Voorbereiden: portfolio presentatie en vragen over bedrijfscultuur'
+  },
+  { 
+    id: 2, 
+    title: 'Stage Oriëntatie', 
+    company: 'Erasmus Hogeschool',
+    datetime: '2025-06-25T10:00:00', 
+    type: 'orientation', 
+    location: 'Campus Kaai - A101', 
+    recruiter: 'Prof. Dr. Smith'
+  },
+  { 
+    id: 3, 
+    title: 'Follow-up Gesprek', 
+    company: 'Amista',
+    datetime: '2025-06-28T15:30:00', 
+    type: 'followup', 
+    location: 'Amista Kantoor Lier', 
+    recruiter: 'Jan Janssen'
+  }
+])
+
+const recentActivities = ref([
+  { id: 1, type: 'application', description: 'Sollicitatie ingediend bij Accenture', created_at: new Date(Date.now() - 3600000) },
+  { id: 2, type: 'profile', description: 'Profiel bijgewerkt met nieuwe skills', created_at: new Date(Date.now() - 7200000) },
+  { id: 3, type: 'favorite', description: 'Bedrijf toegevoegd aan favorieten', created_at: new Date(Date.now() - 259200000) }
+])
+
+const programmingSkills = ref(['JavaScript', 'PHP', 'Python', 'Java'])
+const frameworks = ref(['Laravel', 'Vue.js', 'React', 'Node.js', 'PostgreSQL'])
+
+// Computed properties
+const filteredApplications = computed(() => {
+  let filtered = applications.value
+  
+  if (applicationSearch.value) {
+    filtered = filtered.filter(app => 
+      app.company.toLowerCase().includes(applicationSearch.value.toLowerCase()) ||
+      app.position.toLowerCase().includes(applicationSearch.value.toLowerCase())
+    )
+  }
+  
+  if (applicationFilter.value !== 'all') {
+    filtered = filtered.filter(app => app.status === applicationFilter.value)
+  }
+  
+  return filtered
+})
+
+const filteredMeetings = computed(() => {
+  let filtered = upcomingMeetings.value
+  const now = new Date()
+  
+  if (meetingFilter.value === 'today') {
+    filtered = filtered.filter(meeting => {
+      const meetingDate = new Date(meeting.datetime)
+      return meetingDate.toDateString() === now.toDateString()
+    })
+  } else if (meetingFilter.value === 'upcoming') {
+    filtered = filtered.filter(meeting => new Date(meeting.datetime) > now)
+  } else if (meetingFilter.value === 'past') {
+    filtered = filtered.filter(meeting => new Date(meeting.datetime) < now)
+  }
+  
+  return filtered
+})
+
+const calendarDates = computed(() => {
+  const year = currentDate.value.getFullYear()
+  const month = currentDate.value.getMonth()
+  
+  const firstDay = new Date(year, month, 1)
+  const lastDay = new Date(year, month + 1, 0)
+  const startDate = new Date(firstDay)
+  startDate.setDate(startDate.getDate() - firstDay.getDay() + 1)
+  
+  const dates = []
+  const currentDateObj = new Date(startDate)
+  
+  for (let i = 0; i < 42; i++) {
+    const isCurrentMonth = currentDateObj.getMonth() === month
+    const isToday = currentDateObj.toDateString() === new Date().toDateString()
     
-    fields.forEach(field => {
-        if (field) score += 12.5
+    const dayMeetings = upcomingMeetings.value.filter(meeting => {
+      const meetingDate = new Date(meeting.datetime)
+      return meetingDate.toDateString() === currentDateObj.toDateString()
     })
     
-    return Math.round(score)
+    dates.push({
+      date: new Date(currentDateObj),
+      day: currentDateObj.getDate(),
+      isCurrentMonth,
+      isToday,
+      meetings: dayMeetings
+    })
+    
+    currentDateObj.setDate(currentDateObj.getDate() + 1)
+  }
+  
+  return dates
 })
 
-const setActiveSection = (section: string) => {
-    activeSection.value = section
+// Methods
+const getInitials = (firstname, lastname) => {
+  if (!firstname || !lastname) return 'N/A'
+  return `${firstname[0]}${lastname[0]}`.toUpperCase()
 }
 
-// Helper functions
-const getInitials = () => {
-    const name = props.student?.name || props.user?.name || 'Student'
-    const words = name.split(' ')
-    if (words.length >= 2) {
-        return (words[0].charAt(0) + words[1].charAt(0)).toUpperCase()
-    }
-    return name.charAt(0).toUpperCase()
+const setActiveTab = (tab) => {
+  activeTab.value = tab
+  // Close any open menus when switching tabs
+  showProfileMenu.value = false
+  showNotifications.value = false
+  activeMeetingMenu.value = null
 }
 
-const getLanguageFlag = (languageName: string) => {
-    const flags: Record<string, string> = {
-        'English': '🇬🇧',
-        'Spanish': '🇪🇸',
-        'French': '🇫🇷',
-        'German': '🇩🇪',
-        'Italian': '🇮🇹',
-        'Portuguese': '🇵🇹',
-        'Chinese (Mandarin)': '🇨🇳',
-        'Japanese': '🇯🇵',
-        'Korean': '🇰🇷',
-        'Arabic': '🇸🇦',
-        'Dutch': '🇳🇱',
-        'Russian': '🇷🇺',
-        'Hindi': '🇮🇳'
-    }
-    return flags[languageName] || '🌍'
+const tabClass = (tab) => {
+  return activeTab.value === tab 
+    ? 'border-orange-500 text-orange-600' 
+    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
 }
 
-const getLanguageProficiencyWidth = (proficiency: string) => {
-    const widths: Record<string, string> = {
-        'Native': '100%',
-        'Fluent': '90%',
-        'Business': '75%',
-        'Conversational': '60%',
-        'Basic': '30%'
-    }
-    return widths[proficiency] || '50%'
+const toggleProfileMenu = () => {
+  showProfileMenu.value = !showProfileMenu.value
+  showNotifications.value = false
 }
 
-const getHobbyIcon = (hobbyName: string) => {
-    const icons: Record<string, string> = {
-        'Photography': '📸',
-        'Reading': '📚',
-        'Gaming': '🎮',
-        'Music': '🎵',
-        'Sports': '⚽',
-        'Cooking': '👨‍🍳',
-        'Travel': '✈️',
-        'Art': '🎨',
-        'Programming': '💻',
-        'Fitness': '💪',
-        'Dancing': '💃',
-        'Writing': '✍️',
-        'Movies': '🎬',
-        'Hiking': '🥾'
-    }
-    return icons[hobbyName] || '🎯'
+const toggleNotifications = () => {
+  showNotifications.value = !showNotifications.value
+  showProfileMenu.value = false
 }
 
-const getSkillIcon = (skillName: string) => {
-    const icons: Record<string, string> = {
-        'JavaScript': '🟨',
-        'Python': '🐍',
-        'Java': '☕',
-        'React': '⚛️',
-        'Vue.js': '💚',
-        'Node.js': '🟢',
-        'PHP': '🐘',
-        'HTML': '🌐',
-        'CSS': '🎨',
-        'TypeScript': '🔷',
-        'C++': '⚙️',
-        'C#': '🔵',
-        'Swift': '🍎',
-        'Kotlin': '🤖',
-        'Go': '🐹',
-        'Rust': '🦀',
-        'SQL': '🗄️',
-        'MongoDB': '🍃',
-        'Docker': '🐳',
-        'Git': '📝',
-        'AWS': '☁️',
-        'Firebase': '🔥'
-    }
-    return icons[skillName] || '💻'
+const toggleMeetingMenu = (meetingId) => {
+  activeMeetingMenu.value = activeMeetingMenu.value === meetingId ? null : meetingId
 }
+
+const formatTime = (date) => {
+  return date.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })
+}
+
+const formatTimeAgo = (date) => {
+  const now = new Date()
+  const diff = now - date
+  const minutes = Math.floor(diff / 60000)
+  const hours = Math.floor(minutes / 60)
+  const days = Math.floor(hours / 24)
+  
+  if (days > 0) return `${days} dag${days > 1 ? 'en' : ''} geleden`
+  if (hours > 0) return `${hours} uur geleden`
+  if (minutes > 0) return `${minutes} minuten geleden`
+  return 'Zojuist'
+}
+
+const formatDate = (dateString) => {
+  return new Date(dateString).toLocaleDateString('nl-NL')
+}
+
+const formatDateTime = (dateString) => {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('nl-NL', { 
+    weekday: 'short', 
+    month: 'short', 
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+}
+
+const formatMonthYear = (date) => {
+  return date.toLocaleDateString('nl-NL', { month: 'long', year: 'numeric' })
+}
+
+const getStatusClass = (status) => {
+  const classes = {
+    pending: 'bg-yellow-100 text-yellow-800',
+    interview: 'bg-blue-100 text-blue-800',
+    accepted: 'bg-green-100 text-green-800',
+    rejected: 'bg-red-100 text-red-800'
+  }
+  return classes[status] || 'bg-gray-100 text-gray-800'
+}
+
+const getStatusText = (status) => {
+  const texts = {
+    pending: 'In Behandeling',
+    interview: 'Interview',
+    accepted: 'Geaccepteerd',
+    rejected: 'Afgewezen'
+  }
+  return texts[status] || status
+}
+
+const getMeetingCardClass = (meeting) => {
+  const now = new Date()
+  const meetingDate = new Date(meeting.datetime)
+  
+  if (meetingDate.toDateString() === now.toDateString()) {
+    return 'border-orange-200 bg-orange-50'
+  }
+  if (meetingDate < now) {
+    return 'opacity-75'
+  }
+  return ''
+}
+
+const getMeetingIconClass = (type) => {
+  const classes = {
+    interview: 'bg-blue-100 text-blue-600',
+    orientation: 'bg-green-100 text-green-600',
+    followup: 'bg-purple-100 text-purple-600',
+    general: 'bg-orange-100 text-orange-600'
+  }
+  return classes[type] || classes.general
+}
+
+const getMeetingIcon = (type) => {
+  // Return the icon component name as string since we can't import lucide-react components
+  const icons = {
+    interview: 'svg', // Would be different icons in real implementation
+    orientation: 'svg',
+    followup: 'svg',
+    general: 'svg'
+  }
+  return icons[type] || 'svg'
+}
+
+const getMeetingStatusClass = (meeting) => {
+  const now = new Date()
+  const meetingDate = new Date(meeting.datetime)
+  
+  if (meetingDate.toDateString() === now.toDateString()) {
+    return 'bg-orange-100 text-orange-800'
+  }
+  if (meetingDate < now) {
+    return 'bg-gray-100 text-gray-800'
+  }
+  return 'bg-blue-100 text-blue-800'
+}
+
+const getMeetingStatusText = (meeting) => {
+  const now = new Date()
+  const meetingDate = new Date(meeting.datetime)
+  
+  if (meetingDate.toDateString() === now.toDateString()) {
+    return 'Vandaag'
+  }
+  if (meetingDate < now) {
+    return 'Voltooid'
+  }
+  return 'Gepland'
+}
+
+const getActivityIconClass = (type) => {
+  const classes = {
+    application: 'bg-blue-100 text-blue-600',
+    profile: 'bg-green-100 text-green-600',
+    favorite: 'bg-purple-100 text-purple-600',
+    meeting: 'bg-orange-100 text-orange-600'
+  }
+  return classes[type] || 'bg-gray-100 text-gray-600'
+}
+
+const getActivityIcon = (type) => {
+  // Would return actual icon components in real implementation
+  return 'svg'
+}
+
+// Action methods
+const markAsRead = (notificationId) => {
+  const notification = notifications.value.find(n => n.id === notificationId)
+  if (notification) {
+    notification.read = true
+  }
+}
+
+const downloadCV = () => {
+  // Implementation for CV download
+  console.log('Downloading CV...')
+}
+
+const scheduleNewMeeting = () => {
+  // Implementation for scheduling new meeting
+  console.log('Opening meeting scheduler...')
+}
+
+const editMeeting = (meeting) => {
+  // Implementation for editing meeting
+  console.log('Editing meeting:', meeting.id)
+  activeMeetingMenu.value = null
+}
+
+const joinMeeting = (link) => {
+  window.open(link, '_blank')
+  activeMeetingMenu.value = null
+}
+
+const reschedule = (meeting) => {
+  // Implementation for rescheduling
+  console.log('Rescheduling meeting:', meeting.id)
+  activeMeetingMenu.value = null
+}
+
+const cancelMeeting = (meeting) => {
+  // Implementation for canceling meeting
+  console.log('Canceling meeting:', meeting.id)
+  activeMeetingMenu.value = null
+}
+
+const selectMeeting = (meeting) => {
+  // Implementation for selecting meeting in calendar
+  console.log('Selected meeting:', meeting.id)
+}
+
+const previousMonth = () => {
+  currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() - 1, 1)
+}
+
+const nextMonth = () => {
+  currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 1)
+}
+
+// Lifecycle hooks
+let timeInterval = null
+
+onMounted(() => {
+  timeInterval = setInterval(() => {
+    currentTime.value = new Date()
+  }, 1000)
+  
+  // Close menus when clicking outside
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('.relative')) {
+      showProfileMenu.value = false
+      showNotifications.value = false
+      activeMeetingMenu.value = null
+    }
+  })
+})
+
+onUnmounted(() => {
+  if (timeInterval) {
+    clearInterval(timeInterval)
+  }
+})
 </script>
 
 <style scoped>
-/* Professional styling with smooth transitions */
-* {
-    transition: all 0.2s ease-in-out;
+/* Custom animations */
+.hover\:-translate-y-1:hover {
+  transform: translateY(-0.25rem);
 }
 
-/* Enhanced focus states for accessibility */
-button:focus,
-a:focus {
-    outline: 2px solid #6366F1;
-    outline-offset: 2px;
-    border-radius: 6px;
-}
-
-/* Professional hover effects */
-.hover\:shadow-md:hover {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+/* Smooth transitions */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
 }
 </style>

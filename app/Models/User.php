@@ -32,6 +32,11 @@ class User extends Authenticatable
         'address',
         'city',
         'postal_code',
+        'is_active',
+        'age',
+        'gender',
+        'profile_image',
+        'last_login_at',
     ];
 
     /**
