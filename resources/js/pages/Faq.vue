@@ -1,6 +1,7 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3'
 import { ref, onMounted, computed } from 'vue'
+import MainNavigation from '@/components/MainNavigation.vue'
 
 const mobileMenuOpen = ref(false)
 const searchQuery = ref('')
@@ -154,49 +155,7 @@ onMounted(() => {
     <Head title="FAQ - Career Launch 2025 Pro" />
     
     <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-md shadow-lg border-b border-gray-100 sticky top-0 z-50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-          <!-- Logo -->
-          <div class="flex items-center space-x-3">
-            <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform">
-              <span class="text-white font-bold text-xl">E</span>
-            </div>
-            <div class="font-bold text-xl text-gray-900">erasmus</div>
-            <div class="hidden sm:block text-sm text-gray-500 font-medium">HOGESCHOOL BRUSSEL</div>
-          </div>
-          
-          <!-- Desktop Navigation -->
-          <div class="hidden md:flex items-center space-x-8">
-            <Link href="/" class="text-gray-700 hover:text-orange-600 font-medium transition-all duration-300 hover:scale-105">Home</Link>
-            <Link href="/info" class="text-gray-700 hover:text-orange-600 font-medium transition-all duration-300 hover:scale-105">Info</Link>
-            <Link href="/favorieten" class="text-orange-600 font-semibold border-b-2 border-orange-600 pb-1">FAQ</Link>
-            <Link href="/contact" class="text-gray-700 hover:text-orange-600 font-medium transition-all duration-300 hover:scale-105">Contact</Link>
-            <Link href="/inloggen" class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2.5 rounded-full font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105">Inloggen</Link>
-          </div>
-          
-          <!-- Mobile menu button -->
-          <div class="md:hidden">
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-700 hover:text-orange-600 focus:outline-none p-2 rounded-lg hover:bg-orange-50 transition-colors">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-        
-        <!-- Mobile Navigation -->
-        <div v-show="mobileMenuOpen" class="md:hidden border-t border-gray-100 py-4 bg-white/95 backdrop-blur-sm">
-          <div class="space-y-2">
-            <Link href="/" class="block text-gray-700 hover:text-orange-600 font-medium py-3 px-4 rounded-lg hover:bg-orange-50 transition-colors">Home</Link>
-            <Link href="/info" class="block text-gray-700 hover:text-orange-600 font-medium py-3 px-4 rounded-lg hover:bg-orange-50 transition-colors">Info</Link>
-            <Link href="/favorieten" class="block text-orange-600 font-semibold py-3 px-4 bg-orange-50 rounded-lg">FAQ</Link>
-            <Link href="/contact" class="block text-gray-700 hover:text-orange-600 font-medium py-3 px-4 rounded-lg hover:bg-orange-50 transition-colors">Contact</Link>
-            <Link href="/inloggen" class="block bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-3 rounded-lg font-semibold text-center mt-4 hover:shadow-lg transition-shadow">Inloggen</Link>
-          </div>
-        </div>
-      </div>
-    </nav>
+    <MainNavigation activePage="faq" />
 
     <!-- Hero Section -->
     <section class="relative py-20 px-4">
@@ -394,11 +353,9 @@ onMounted(() => {
 .gradient-text {
   background: linear-gradient(135deg, #f97316, #ef4444);
   -webkit-background-clip: text;
-  -moz-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;
-  text-fill-color: transparent;
+  color: transparent; /* Fallback for browsers that don't support -webkit-text-fill-color */
 }
 
 .animate-fade-in {
@@ -613,8 +570,10 @@ a:focus {
 @media (prefers-contrast: high) {
   .gradient-text {
     background: #000;
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    color: transparent;
   }
   
   button {
