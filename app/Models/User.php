@@ -21,10 +21,18 @@ class User extends Authenticatable
     protected $fillable = [
         'firstname',
         'lastname',
+        'name',
         'email',
-        'age',
-        'gender',
-        'field_of_study'
+        'password',
+        'role', // student, company, admin (keeping their naming)
+        'user_type', // keeping yours for backward compatibility
+        'profile_completed',
+        'profile_photo_path',
+        'bio',
+        'phone',
+        'address',
+        'city',
+        'postal_code',
     ];
 
     /**
@@ -48,5 +56,85 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the user's activities.
+     */
+    public function activities(): HasMany
+    {
+        return $this->hasMany(UserActivity::class);
+    }
+
+    /**
+     * Get the user's tasks.
+     */
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(UserTask::class);
+    }
+
+    /**
+     * Get the user's favorites.
+     */
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    /**
+     * Get the user's company profile.
+     */
+    public function company(): HasOne
+    {
+        return $this->hasOne(Company::class);
+    }
+
+    /**
+     * Get the user's student profile.
+     */
+    public function studentProfile(): HasOne
+    {
+        return $this->hasOne(StudentProfile::class);
+    }
+
+    /**
+     * Get the user's appointments.
+     */
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+    /**
+     * Get the user's statistics.
+     */
+    public function userStats(): HasOne
+    {
+        return $this->hasOne(UserStats::class);
+    }
+
+    /**
+     * Get the user's unread messages count.
+     */
+    public function unreadMessages(): HasMany
+    {
+        return $this->hasMany(Message::class)->where('read', false);
+    }
+
+    // Role checking methods (supporting both naming conventions)
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isCompany(): bool
+    {
+        return $this->role === 'company' || $this->user_type === 'company';
+    }
+
+    public function isStudent(): bool
+    {
+        return $this->role === 'student' || $this->user_type === 'student';
     }
 }

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,7 +13,6 @@ class Company extends Model
     use HasFactory;
 
     protected $fillable = [
-
         'user_id',
         'name',
         'email',
@@ -36,6 +34,11 @@ class Company extends Model
         'office_photos',
         'onboarding_completed',
         'profile_completed_at',
+        // From their version
+        'logo_path',
+        'is_active',
+        'participating_in_career_launch',
+        'tags'
     ];
 
     protected $casts = [
@@ -43,9 +46,13 @@ class Company extends Model
         'onboarding_completed' => 'boolean',
         'profile_completed_at' => 'datetime',
         'founded_year' => 'integer',
+        // From their version
+        'is_active' => 'boolean',
+        'participating_in_career_launch' => 'boolean',
+        'tags' => 'array'
     ];
 
-    // Relationships
+    // Your relationships
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -81,14 +88,29 @@ class Company extends Model
         return $this->hasMany(Application::class);
     }
 
-    // Add this new relationship for saved students
     public function savedStudents(): BelongsToMany
     {
         return $this->belongsToMany(Student::class, 'company_saved_students')
                     ->withTimestamps();
     }
 
-    // Accessors & Mutators
+    // Their relationships
+    public function timeSlots(): HasMany
+    {
+        return $this->hasMany(TimeSlot::class);
+    }
+
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    // Your methods
     public function getProfileCompletenessAttribute(): int
     {
         $fields = [
@@ -111,11 +133,16 @@ class Company extends Model
 
     public function getIsVerifiedAttribute(): bool
     {
-        // Add verification logic here
         return $this->profile_completeness >= 80 && $this->onboarding_completed;
     }
 
-    // Scopes
+    // Their methods
+    public function isFavoritedBy(User $user): bool
+    {
+        return $this->favorites()->where('user_id', $user->id)->exists();
+    }
+
+    // Your scopes
     public function scopeVerified($query)
     {
         return $query->where('onboarding_completed', true)
@@ -137,39 +164,3 @@ class Company extends Model
         return $query->where('remote_policy', $policy);
     }
 }
-        'name',
-        'description',
-        'website',
-        'email',
-        'logo_path',
-        'is_active',
-        'participating_in_career_launch',
-        'tags'
-    ];
-
-    protected $casts = [
-        'is_active' => 'boolean',
-        'participating_in_career_launch' => 'boolean',
-        'tags' => 'array'
-    ];
-
-    public function timeSlots(): HasMany
-    {
-        return $this->hasMany(TimeSlot::class);
-    }
-
-    public function appointments(): HasMany
-    {
-        return $this->hasMany(Appointment::class);
-    }
-
-    public function favorites(): HasMany
-    {
-        return $this->hasMany(Favorite::class);
-    }
-
-    public function isFavoritedBy(User $user): bool
-    {
-        return $this->favorites()->where('user_id', $user->id)->exists();
-    }
-} 

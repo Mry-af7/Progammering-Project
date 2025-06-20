@@ -7,7 +7,15 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileOnboardingController;
 use App\Http\Controllers\CompanyOnboardingController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\StudentController;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,19 +44,33 @@ Route::get('/contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
 
-/*
-|--------------------------------------------------------------------------
-| Favorites Routes (Mock Data)
-|--------------------------------------------------------------------------
-*/
+Route::get('/bedrijven', function () {
+    return Inertia::render('Bedrijven');
+})->name('bedrijven');
 
 Route::get('/favorieten', function () {
     return Inertia::render('Favorieten');
 })->name('favorieten');
 
+Route::get('/afspraak', function () {
+    return Inertia::render('Afspraak');
+})->name('afspraak');
+
+Route::get('/students', function () {
+    return Inertia::render('Students/Index');
+})->name('students');
+
+Route::get('/wiezijnwe', function () {
+    return Inertia::render('wiezijnwe');
+})->name('wiezijnwe');
+
+Route::get('/faq', function () {
+    return Inertia::render('Faq');
+})->name('faq');
+
 /*
 |--------------------------------------------------------------------------
-| API Routes for Favorites
+| API Routes for Favorites (Mock Data)
 |--------------------------------------------------------------------------
 */
 
@@ -95,18 +117,6 @@ Route::get('/berichten/nieuw', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Registration Routes
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
-
-Route::get('/register-bedrijf', function () {
-    return Inertia::render('auth/Register-bedrijf');
-})->name('register.bedrijf');
-
-/*
-|--------------------------------------------------------------------------
 | Company Routes (Public)
 |--------------------------------------------------------------------------
 */
@@ -117,11 +127,44 @@ Route::get('/bedrijf/profiel', function () {
 
 /*
 |--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('guest')->group(function () {
+    // Student registration
+    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('register', [RegisteredUserController::class, 'store']);
+    
+    // Company registration
+    Route::get('register/bedrijf', [RegisteredUserController::class, 'createBedrijf'])->name('register.bedrijf');
+    Route::get('/register-bedrijf', function () {
+        return Inertia::render('auth/Register-bedrijf');
+    })->name('register.bedrijf');
+    Route::post('register/bedrijf', [RegisteredUserController::class, 'storeBedrijf']);
+    
+    // Login
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update');
+});
+
+/*
+|--------------------------------------------------------------------------
 | Protected Routes (Auth Required)
 |--------------------------------------------------------------------------
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    
+    // Logout
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    
+    // Main Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // Student Profile Onboarding Routes (Step-by-step completion)
     Route::get('/profile-onboarding', [ProfileOnboardingController::class, 'index'])->name('profile-onboarding');
@@ -159,15 +202,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('profile.management');
     });
     
+    // Admin dashboard route
+    Route::get('/admin/dashboard', function () {
+        return Inertia::render('AdminDashboard');
+    })->name('admin.dashboard');
+    
     // Regular Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
-    // Dashboard Route
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
+// Load other route files
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 
@@ -218,7 +264,6 @@ Route::get('/sitemap.xml', function () {
         ['url' => route('info'), 'priority' => '0.8'],
         ['url' => route('afspraak'), 'priority' => '0.9'],
         ['url' => route('contact'), 'priority' => '0.7'],
-        ['url' => route('career-launch.index'), 'priority' => '0.8'],
     ];
     
     return response()->view('sitemap', compact('urls'))

@@ -57,16 +57,18 @@ class RegisteredUserController extends Controller
         $validationRules = [
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
-        $request->validate([
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ];
 
         // Add company-specific validation
         if ($isCompany) {
             $validationRules['company_name'] = 'required|string|max:255';
+        } else {
+            // Add student-specific validation (supporting both approaches)
+            if ($request->has('firstname')) {
+                $validationRules['firstname'] = 'required|string|max:255';
+                $validationRules['lastname'] = 'required|string|max:255';
+            }
         }
 
         \Log::info('Validation rules:', $validationRules);
@@ -83,26 +85,25 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'user_type' => $isCompany ? 'company' : 'student',
+            'user_type' => $isCompany ? 'company' : 'student', // Your field
+            'role' => $isCompany ? 'company' : 'student', // Their field
         ];
+
+        // Add firstname/lastname if available
+        if ($request->has('firstname')) {
+            $userData['firstname'] = $request->firstname;
+            $userData['lastname'] = $request->lastname;
+        }
         
         \Log::info('User data to create:', $userData);
 
         $user = User::create($userData);
-        $user = User::create([
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'student',
-        ]);
 
         event(new Registered($user));
 
         Auth::login($user);
-        // Simple redirect - let's get this working first
+
         return redirect()->route('dashboard')->with('success', 'Registration successful!');
-        return redirect(RouteServiceProvider::HOME);
     }
 
     public function storeBedrijf(Request $request): RedirectResponse
@@ -119,9 +120,11 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'firstname' => $request->name,
             'lastname' => '',
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'company',
+            'user_type' => 'company',
         ]);
 
         // Create company profile
@@ -136,6 +139,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('dashboard')->with('success', 'Company registration successful!');
     }
 }
