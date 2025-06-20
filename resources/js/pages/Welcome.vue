@@ -320,7 +320,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 
                     <div class="flex flex-col items-center space-y-3 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100">
                         <div class="flex items-center justify-center h-16 w-32 bg-white rounded-lg shadow-sm p-4">
-                            <img src="/images/logos/euricom-logo.svg" alt="Safran" class="h-8 w-auto max-w-24">
+                            <img src="/images/logos/Safran-LOGO.svg" alt="Safran" class="h-8 w-auto max-w-24">
                         </div>
                         <span class="text-xs font-medium text-gray-600">Engineering opportunities</span>
                     </div>
