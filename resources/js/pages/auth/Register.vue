@@ -1,22 +1,18 @@
 <script setup lang="ts">
 import { usePage, useForm } from '@inertiajs/vue3';
-import InputError from '@/components/InputError.vue';
-import TextLink from '@/components/TextLink.vue';
+import { Head, Link } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { LoaderCircle, Search, User } from 'lucide-vue-next';
+import { route } from '@/lib/ziggy';
+
+// UI Components
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AuthBase from '@/layouts/AuthLayout.vue';
-import { Head } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
-import { Link } from '@inertiajs/vue3';
-import { Search, User } from 'lucide-vue-next';
-import { ref } from 'vue';
-import { route } from '@/lib/ziggy';
-import InputError from '@/Components/InputError.vue';
-import Label from '@/Components/ui/label/Label.vue';
-import TextLink from '@/Components/TextLink.vue';
-import Button from '@/Components/ui/button/Button.vue';
-import LoaderCircle from '@/Components/LoaderCircle.vue';
+
+// Custom Components
+import InputError from '@/components/InputError.vue';
+import TextLink from '@/components/TextLink.vue';
 
 const mobileMenuOpen = ref(false);
 const roleType = usePage().url.includes('type=bedrijf') ? 'bedrijf' : 'student';
