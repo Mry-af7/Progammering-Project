@@ -129,7 +129,7 @@
                     <div class="relative">
                         <iframe
                             class="w-full h-80 lg:h-96"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2519.039912671353!2d4.322273015745595!3d50.8365139795281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3c37b41d22fd3%3A0xe6b6b5f9b8f7e94!2sErasmushogeschool%20Brussel!5e0!3m2!1snl!2sbe!4v1687361774367!5m2!1snl!2sbe"
+                            src="https://www.google.com/maps?q=50.8422424,4.3202331&hl=en&z=14&output=embed"
                             style="border:0;"
                             loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade"
