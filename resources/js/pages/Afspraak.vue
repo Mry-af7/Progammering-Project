@@ -627,93 +627,145 @@
     type: Array,
     default: () => [
     {
-      id: 1,
-      title: 'Career Launch Event 2025',
-      description: 'Het premium speeddate event van Erasmus Hogeschool Brussel',
-      date: '15 maart 2025',
-      time: '09:00 - 17:00',
-      location: 'Campus Brussel - Hoofdgebouw',
-      companies: 25,
-      spotsLeft: 42
+    id: 1,
+    title: 'Career Launch Event 2025',
+    description: 'Het premium speeddate event van Erasmus Hogeschool Brussel',
+    date: '15 maart 2025',
+    time: '09:00 - 17:00',
+    location: 'Campus Brussel - Hoofdgebouw',
+    companies: 26,
+    spotsLeft: 42
     }
-  ],
-  companies: () => [
-    { id: 1, name: 'Accenture', description: 'Technology & Consulting Leader', openPositions: 12, sector: 'IT' },
-    { id: 2, name: 'Capgemini', description: 'Digital Transformation Partner', openPositions: 8, sector: 'IT' },
-    { id: 3, name: 'Delaware', description: 'Business & Technology Solutions', openPositions: 6, sector: 'IT' },
-    { id: 4, name: 'BNP Paribas Fortis', description: 'Leading Bank & Financial Services', openPositions: 10, sector: 'Finance' },
-    { id: 5, name: 'Colruyt Group', description: 'Retail Innovation & Technology', openPositions: 7, sector: 'Retail' },
-    { id: 6, name: 'Deloitte', description: 'Professional Services & Consulting', openPositions: 9, sector: 'Consulting' },
-    { id: 7, name: 'PwC', description: 'Audit, Tax & Advisory Services', openPositions: 5, sector: 'Consulting' },
-    { id: 8, name: 'Microsoft', description: 'Cloud & AI Technology Solutions', openPositions: 4, sector: 'IT' }
-  ]
-});
-
-// State management
-const currentStep = ref<number>(1);
-const selectedEvent = ref<Event | null>(null);
-const selectedCompany = ref<Company | null>(null);
-const timeSlots = ref<TimeSlot[]>([]);
-const selectedTimeSlot = ref<TimeSlot | null>(null);
-const loading = ref<boolean>(false);
-const appointmentId = ref<number | null>(null);
-
-// Filter states
-const companySearchTerm = ref<string>('');
-const selectedSector = ref<string>('');
-
-// Computed properties
-const events = computed(() => props.events);
-const companies = computed(() => props.companies);
-const availableSpots = computed(() => selectedEvent.value?.spotsLeft || 42);
-const totalSpots = computed(() => 100);
-
-// Progress steps configuration
-const progressSteps = ref([
-  { number: 1, title: 'Event selecteren', subtitle: 'Kies je event' },
-  { number: 2, title: 'Bedrijf kiezen', subtitle: 'Pick your target' },
-  { number: 3, title: 'Tijdslot kiezen', subtitle: 'Perfect timing' },
-  { number: 4, title: 'Gegevens invullen', subtitle: 'Tell your story' },
-  { number: 5, title: 'Bevestiging', subtitle: 'All set!' }
-]);
-
-// Time periods for better organization
-const timePeriods = ref([
-  { name: '🌅 Ochtend (09:00 - 12:00)', range: ['09', '10', '11'] },
-  { name: '🍽️ Middag (13:00 - 15:00)', range: ['13', '14'] },
-  { name: '🌆 Namiddag (15:00 - 17:00)', range: ['15', '16'] }
-]);
-
-// Form management
-const form = useForm({
-  event_id: null as number | null,
-  company_id: null as number | null,
-  time_slot_id: null as number | null,
-  first_name: '',
-  last_name: '',
-  email: '',
-  phone: '',
-  study_program: '',
-  motivation: ''
-});
-
-// Form validation
-const isFormValid = computed(() => {
-  const valid = (
-    form.first_name?.trim() &&
-    form.last_name?.trim() &&
-    form.email?.trim() &&
-    form.study_program?.trim()
-  );
-  return valid;
-});
-
-// Filtered companies based on search and sector
-const filteredCompanies = computed(() => {
-  let filtered = companies.value;
-  
-  if (companySearchTerm.value) {
-    const searchTerm = companySearchTerm.value.toLowerCase();
+    ]
+    },
+    companies: {
+    type: Array,
+    default: () => [
+    { id: 1, name: 'Accenture', specialisatie: 'Consulting, digitale transformatie, technologie en outsourcing', industry: 'Consulting', location: 'Brussel', openPositions: 12 },
+    { id: 2, name: 'Acolad', specialisatie: 'Vertalingen, lokalisatie, content en multimedia‑diensten', industry: 'Translation & Localization', location: 'Brussel', openPositions: 8 },
+    { id: 3, name: 'Amista', specialisatie: 'SAP ERP, integratie & technologie, intelligente documentflows, digital learning', industry: 'SAP & ERP', location: 'Lier', openPositions: 6 },
+    { id: 4, name: 'ARHS GROUP', specialisatie: 'Softwareontwikkeling, data science, infrastructure services, digital trust', industry: 'Software Development', location: 'Zaventem', openPositions: 15 },
+    { id: 5, name: 'Avelon', specialisatie: 'SAP‑workflows, Procure‑to‑Pay, Master‑Data Governance, SIM/VIM', industry: 'SAP & ERP', location: 'Utrecht', openPositions: 7 },
+    { id: 6, name: 'Axxes', specialisatie: 'IT‑consulting, software engineering, data, cloud, devops, QA', industry: 'IT Consulting', location: 'Antwerpen', openPositions: 9 },
+    { id: 7, name: 'Bizztalent', specialisatie: 'IT‑consultancy, tijdelijke IT‑staffing, infrastructuuroplossingen', industry: 'IT Consulting', location: 'Gent', openPositions: 5 },
+    { id: 8, name: 'Blents', specialisatie: 'IT consultancy, software development, digital solutions', industry: 'IT Consulting', location: 'Antwerpen', openPositions: 8 },
+    { id: 9, name: 'BNP Paribas', specialisatie: 'Banking, financial services, digitale banking solutions, fintech', industry: 'Financial Services', location: 'Brussel', openPositions: 10 },
+    { id: 10, name: 'Capgemini', specialisatie: 'Digital transformation, consulting, technology services, engineering', industry: 'Consulting', location: 'Diegem', openPositions: 12 },
+    { id: 11, name: 'Colibri', specialisatie: 'Software development, custom applications, web development', industry: 'Software Development', location: 'Gent', openPositions: 6 },
+    { id: 12, name: 'Colruyt Group', specialisatie: 'Retail technology, e-commerce, supply chain, digital innovation', industry: 'Retail Technology', location: 'Halle', openPositions: 14 },
+    { id: 13, name: 'Delaware', specialisatie: 'IT-consulting, cloud- en ERP-oplossingen, digitale transformatie', industry: 'IT Consulting', location: 'Kortrijk', openPositions: 18 },
+    { id: 14, name: 'Dilaco', specialisatie: 'Digital solutions, web development, e-commerce, mobile applications', industry: 'Digital Agency', location: 'Zaventem', openPositions: 4 },
+    { id: 15, name: 'Eezee', specialisatie: 'User experience, interface design, digital products, frontend development', industry: 'UX/UI Design', location: 'Brussel', openPositions: 5 },
+    { id: 16, name: 'Euricom', specialisatie: 'Software development, training, consultancy, modern web technologies', industry: 'Software Development', location: 'Antwerpen', openPositions: 7 },
+    { id: 17, name: 'Equans', specialisatie: 'Smart building solutions, industrial automation, digitale infrastructuur', industry: 'Industrial Technology', location: 'Auderghem', openPositions: 9 },
+    { id: 18, name: 'Exclusive Networks', specialisatie: 'Cybersecurity, cloud solutions, network infrastructure, technology distribution', industry: 'Cybersecurity', location: 'Diegem', openPositions: 11 },
+    { id: 19, name: 'Flexso', specialisatie: 'SAP solutions, business process optimization, digital transformation', industry: 'SAP & ERP', location: 'Gent', openPositions: 13 },
+    { id: 20, name: 'Gumption', specialisatie: 'Data & AI, cloud platforms, modern application development', industry: 'Data & AI', location: 'Gent', openPositions: 8 },
+    { id: 21, name: 'Nexios IT', specialisatie: 'IT infrastructure, cloud services, managed services, cybersecurity', industry: 'IT Infrastructure', location: 'Mechelen', openPositions: 6 },
+    { id: 22, name: 'Nomios', specialisatie: 'Network infrastructure, cybersecurity, cloud connectivity, data center', industry: 'Network & Security', location: 'Diegem', openPositions: 7 },
+    { id: 23, name: 'Persolis', specialisatie: 'HR technology, payroll solutions, workforce management', industry: 'HR Technology', location: 'Brussel', openPositions: 5 },
+    { id: 24, name: 'Safran', specialisatie: 'Aerospace technology, defense systems, high-tech engineering', industry: 'Aerospace & Defense', location: 'Zaventem', openPositions: 9 },
+    { id: 25, name: 'Simac', specialisatie: 'IT solutions, digital workspace, business applications, managed services', industry: 'IT Services', location: 'Antwerpen', openPositions: 6 },
+    { id: 26, name: 'Sopra Steria', specialisatie: 'Digital transformation, consulting, software development, systems integration', industry: 'Digital Transformation', location: 'Brussel', openPositions: 11 }
+    ]
+    }
+    })
+    
+    // State management
+    const currentStep = ref(1)
+    const selectedEvent = ref(null)
+    const selectedCompany = ref(null)
+    const selectedTimeSlot = ref(null)
+    
+    // Company pagination
+    const currentCompanyPage = ref(1)
+    const companiesPerPage = ref(9)
+    
+    // Filter states
+    const companySearchTerm = ref('')
+    const selectedSector = ref('')
+    
+    // Progress steps
+    const progressSteps = ref([
+    { number: 1, title: 'Event selecteren', subtitle: 'Kies je event' },
+    { number: 2, title: 'Bedrijf kiezen', subtitle: 'Pick your target' },
+    { number: 3, title: 'Tijdslot kiezen', subtitle: 'Perfect timing' },
+    { number: 4, title: 'Gegevens invullen', subtitle: 'Tell your story' },
+    { number: 5, title: 'Bevestiging', subtitle: 'All set!' }
+    ])
+    
+    // Enhanced time periods with extended hours (09:00 - 17:00)
+    const timePeriods = ref([
+    {
+    name: 'Ochtend (09:00 - 12:00)',
+    emoji: '🌅',
+    slots: [
+    { id: 1, startTime: '09:00', endTime: '09:15', available: true },
+    { id: 2, startTime: '09:20', endTime: '09:35', available: true },
+    { id: 3, startTime: '09:40', endTime: '09:55', available: false },
+    { id: 4, startTime: '10:00', endTime: '10:15', available: true },
+    { id: 5, startTime: '10:20', endTime: '10:35', available: true },
+    { id: 6, startTime: '10:40', endTime: '10:55', available: true },
+    { id: 7, startTime: '11:00', endTime: '11:15', available: false },
+    { id: 8, startTime: '11:20', endTime: '11:35', available: true },
+    { id: 9, startTime: '11:40', endTime: '11:55', available: true }
+    ]
+    },
+    {
+    name: 'Middag (13:00 - 15:00)',
+    emoji: '🍽️',
+    slots: [
+    { id: 10, startTime: '13:00', endTime: '13:15', available: true },
+    { id: 11, startTime: '13:20', endTime: '13:35', available: true },
+    { id: 12, startTime: '13:40', endTime: '13:55', available: true },
+    { id: 13, startTime: '14:00', endTime: '14:15', available: false },
+    { id: 14, startTime: '14:20', endTime: '14:35', available: true },
+    { id: 15, startTime: '14:40', endTime: '14:55', available: true }
+    ]
+    },
+    {
+    name: 'Namiddag (15:00 - 17:00)',
+    emoji: '🌆',
+    slots: [
+    { id: 16, startTime: '15:00', endTime: '15:15', available: true },
+    { id: 17, startTime: '15:20', endTime: '15:35', available: true },
+    { id: 18, startTime: '15:40', endTime: '15:55', available: false },
+    { id: 19, startTime: '16:00', endTime: '16:15', available: true },
+    { id: 20, startTime: '16:20', endTime: '16:35', available: true },
+    { id: 21, startTime: '16:40', endTime: '16:55', available: true }
+    ]
+    }
+    ])
+    
+    // Form management
+    const form = useForm({
+    event_id: null,
+    company_id: null,
+    time_slot_id: null,
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',
+    study_program: '',
+    motivation: ''
+    })
+    
+    // Computed properties
+    const events = computed(() => props.events)
+    const companies = computed(() => props.companies)
+    const availableSpots = computed(() => selectedEvent.value?.spotsLeft || 42)
+    const totalSpots = computed(() => 100)
+    
+    const availableSectors = computed(() => {
+    const sectors = [...new Set(companies.value.map(company => company.industry))]
+    return sectors.sort()
+    })
+    
+    const filteredCompanies = computed(() => {
+    let filtered = companies.value
+    
+    if (companySearchTerm.value) {
+    const searchTerm = companySearchTerm.value.toLowerCase()
     filtered = filtered.filter(company => 
     company.name?.toLowerCase().includes(searchTerm) ||
     company.specialisatie?.toLowerCase().includes(searchTerm) ||
