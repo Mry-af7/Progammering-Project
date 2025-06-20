@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
+import { route } from 'ziggy-js';
 </script>
 
 <template>
@@ -29,12 +30,12 @@ import AppLayout from '@/layouts/AppLayout.vue';
                     </p>
                     
                     <!-- CTA Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
-                        <Link href="/register?type=student" class="bg-orange-500 text-white px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-600 hover:shadow-lg transition-all">
+                    <div class="flex flex-col md:flex-row gap-6 mt-8">
+                        <Link :href="route('register', { type: 'student' })" class="bg-orange-500 text-white px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-600 transition-all">
                             Ik ben een student
                         </Link>
-                        <Link href="/register/bedrijf" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
-                            Ik ben een bedrijf 
+                        <Link :href="route('register', { type: 'bedrijf' })" class="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl font-semibold text-center hover:bg-orange-500 hover:text-white transition-all">
+                            Ik ben een bedrijf
                         </Link>
                     </div>
                     

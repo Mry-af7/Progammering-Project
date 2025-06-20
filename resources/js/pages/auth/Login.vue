@@ -9,6 +9,7 @@ import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm, Link, router } from '@inertiajs/vue3';
 import { LoaderCircle, Search, User } from 'lucide-vue-next';
 import { ref } from 'vue';
+import { route } from 'ziggy-js';
 
 const activeTab = ref<'bedrijf' | 'student'>('bedrijf');
 const mobileMenuOpen = ref(false);
@@ -231,15 +232,13 @@ const submit = () => {
                         </Button>
 
                         <!-- Sign Up Link -->
-                        <div class="text-center pt-4 border-t border-gray-100">
-                            <span class="text-sm text-gray-600">Don't have an account? </span>
-                            <Link
-                                :href="activeTab === 'bedrijf' ? '/register/bedrijf' : '/register'"
-                                :tabindex="5"
-                                class="text-orange-600 hover:text-orange-700 font-semibold"
-                            >
-                                Sign up
+                        <div class="mt-6 text-center">
+                          <p class="text-sm text-gray-600">
+                            Nog geen account?
+                            <Link :href="route('register', { type: activeTab })" class="font-semibold text-orange-500 hover:text-orange-600">
+                              Registreer hier
                             </Link>
+                          </p>
                         </div>
                     </form>
                 </div>

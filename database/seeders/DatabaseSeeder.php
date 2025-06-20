@@ -11,6 +11,8 @@ use App\Models\CompanyProfile;
 use App\Models\Job;
 use App\Models\Event;
 use App\Models\Tag;
+use App\Models\Favorite;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -59,49 +61,327 @@ class DatabaseSeeder extends Seeder
         }
 
         // Create admin user
-        User::factory()->create([
-            'firstname' => 'Amine',
-            'lastname' => 'Zerouali',
-            'email' => 'zerouali.amine2005@gmail.com',
-            'password' => Hash::make('Maissae123/'),
-            'role' => 'admin'
+        $admin = User::create([
+            'name' => 'Admin User',
+            'firstname' => 'Admin',
+            'lastname' => 'User',
+            'email' => 'admin@erasmus.be',
+            'password' => Hash::make('password123'),
+            'role' => 'admin',
+            'age' => 30,
+            'gender' => 'anders',
+            'is_active' => true,
+            'email_verified_at' => now(),
         ]);
 
-        // Create test student account
-        User::factory()->create([
-            'firstname' => 'Test',
+        // Create test bedrijf users
+        $bedrijven = [
+            [
+                'name' => 'Microsoft Belgium',
+                'firstname' => 'Jan',
+                'lastname' => 'Janssen',
+                'email' => 'jan@microsoft.be',
+                'company_name' => 'Microsoft Belgium',
+                'age' => 35,
+                'gender' => 'man',
+            ],
+            [
+                'name' => 'Proximus',
+                'firstname' => 'Marie',
+                'lastname' => 'Dubois',
+                'email' => 'marie@proximus.be',
+                'company_name' => 'Proximus',
+                'age' => 28,
+                'gender' => 'vrouw',
+            ],
+            [
+                'name' => 'Deloitte Belgium',
+                'firstname' => 'Peter',
+                'lastname' => 'Van Der Berg',
+                'email' => 'peter@deloitte.be',
+                'company_name' => 'Deloitte Belgium',
+                'age' => 42,
+                'gender' => 'man',
+            ],
+            [
+                'name' => 'KBC Bank',
+                'firstname' => 'Sophie',
+                'lastname' => 'Martens',
+                'email' => 'sophie@kbc.be',
+                'company_name' => 'KBC Bank',
+                'age' => 38,
+                'gender' => 'vrouw',
+            ],
+            [
+                'name' => 'Accenture Belgium',
+                'firstname' => 'David',
+                'lastname' => 'Williams',
+                'email' => 'david@accenture.be',
+                'company_name' => 'Accenture Belgium',
+                'age' => 33,
+                'gender' => 'man',
+            ],
+            [
+                'name' => 'BNP Paribas Fortis',
+                'firstname' => 'Emma',
+                'lastname' => 'Van Hoof',
+                'email' => 'emma@bnpparibasfortis.be',
+                'company_name' => 'BNP Paribas Fortis',
+                'age' => 31,
+                'gender' => 'vrouw',
+            ],
+            [
+                'name' => 'Colruyt Group',
+                'firstname' => 'Thomas',
+                'lastname' => 'Mertens',
+                'email' => 'thomas@colruyt.be',
+                'company_name' => 'Colruyt Group',
+                'age' => 36,
+                'gender' => 'man',
+            ],
+            [
+                'name' => 'Telenet',
+                'firstname' => 'Laura',
+                'lastname' => 'Claes',
+                'email' => 'laura@telenet.be',
+                'company_name' => 'Telenet',
+                'age' => 29,
+                'gender' => 'vrouw',
+            ]
+        ];
+
+        $bedrijfUsers = [];
+        foreach ($bedrijven as $bedrijf) {
+            $bedrijfUsers[] = User::create([
+                'name' => $bedrijf['name'],
+                'firstname' => $bedrijf['firstname'],
+                'lastname' => $bedrijf['lastname'],
+                'email' => $bedrijf['email'],
+                'password' => Hash::make('password123'),
+                'role' => 'bedrijf',
+                'company_name' => $bedrijf['company_name'],
+                'age' => $bedrijf['age'],
+                'gender' => $bedrijf['gender'],
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ]);
+        }
+
+        // Create test student users
+        $students = [
+            [
+                'firstname' => 'Tom',
+                'lastname' => 'Hermans',
+                'email' => 'tom.hermans@student.ehb.be',
+                'field_of_study' => 'Toegepaste Informatica',
+                'age' => 20,
+                'gender' => 'man',
+            ],
+            [
+                'firstname' => 'Lisa',
+                'lastname' => 'Peeters',
+                'email' => 'lisa.peeters@student.ehb.be',
+                'field_of_study' => 'Grafische en Digitale Media',
+                'age' => 19,
+                'gender' => 'vrouw',
+            ],
+            [
+                'firstname' => 'Kevin',
+                'lastname' => 'De Smet',
+                'email' => 'kevin.desmet@student.ehb.be',
+                'field_of_study' => 'Business Management',
+                'age' => 21,
+                'gender' => 'man',
+            ],
+            [
+                'firstname' => 'Sarah',
+                'lastname' => 'Willems',
+                'email' => 'sarah.willems@student.ehb.be',
+                'field_of_study' => 'Marketing',
+                'age' => 20,
+                'gender' => 'vrouw',
+            ],
+            [
+                'firstname' => 'Mohamed',
+                'lastname' => 'El Amrani',
+                'email' => 'mohamed.elamrani@student.ehb.be',
+                'field_of_study' => 'Toegepaste Informatica',
+                'age' => 22,
+                'gender' => 'man',
+            ],
+            [
+                'firstname' => 'Emma',
+                'lastname' => 'Van Hoof',
+                'email' => 'emma.vanhoof@student.ehb.be',
+                'field_of_study' => 'Communicatiewetenschappen',
+                'age' => 19,
+                'gender' => 'vrouw',
+            ],
+            [
+                'firstname' => 'Lucas',
+                'lastname' => 'Janssen',
+                'email' => 'lucas.janssen@student.ehb.be',
+                'field_of_study' => 'Verpleegkunde',
+                'age' => 21,
+                'gender' => 'man',
+            ],
+            [
+                'firstname' => 'Noor',
+                'lastname' => 'Bakker',
+                'email' => 'noor.bakker@student.ehb.be',
+                'field_of_study' => 'Ergotherapie',
+                'age' => 20,
+                'gender' => 'vrouw',
+            ],
+            [
+                'firstname' => 'Maxim',
+                'lastname' => 'Vandenberghe',
+                'email' => 'maxim.vandenberghe@student.ehb.be',
+                'field_of_study' => 'Toegepaste Informatica',
+                'age' => 23,
+                'gender' => 'man',
+            ],
+            [
+                'firstname' => 'Yasmin',
+                'lastname' => 'Hassan',
+                'email' => 'yasmin.hassan@student.ehb.be',
+                'field_of_study' => 'Business Management',
+                'age' => 19,
+                'gender' => 'vrouw',
+            ],
+            [
+                'firstname' => 'Bram',
+                'lastname' => 'Verstraete',
+                'email' => 'bram.verstraete@student.ehb.be',
+                'field_of_study' => 'Grafische en Digitale Media',
+                'age' => 22,
+                'gender' => 'man',
+            ],
+            [
+                'firstname' => 'Ines',
+                'lastname' => 'Rodriguez',
+                'email' => 'ines.rodriguez@student.ehb.be',
+                'field_of_study' => 'Marketing',
+                'age' => 20,
+                'gender' => 'vrouw',
+            ],
+            [
+                'firstname' => 'Jens',
+                'lastname' => 'Maes',
+                'email' => 'jens.maes@student.ehb.be',
+                'field_of_study' => 'Communicatiewetenschappen',
+                'age' => 21,
+                'gender' => 'man',
+            ],
+            [
+                'firstname' => 'Fatima',
+                'lastname' => 'Benali',
+                'email' => 'fatima.benali@student.ehb.be',
+                'field_of_study' => 'Verpleegkunde',
+                'age' => 22,
+                'gender' => 'vrouw',
+            ],
+            [
+                'firstname' => 'Robin',
+                'lastname' => 'De Vries',
+                'email' => 'robin.devries@student.ehb.be',
+                'field_of_study' => 'Bedrijfskunde',
+                'age' => 20,
+                'gender' => 'man',
+            ]
+        ];
+
+        $studentUsers = [];
+        foreach ($students as $student) {
+            $studentUsers[] = User::create([
+                'name' => $student['firstname'] . ' ' . $student['lastname'],
+                'firstname' => $student['firstname'],
+                'lastname' => $student['lastname'],
+                'email' => $student['email'],
+                'password' => Hash::make('password123'),
+                'role' => 'student',
+                'field_of_study' => $student['field_of_study'],
+                'age' => $student['age'],
+                'gender' => $student['gender'],
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ]);
+        }
+
+        // Create some favorites - bedrijven favorieten studenten
+        foreach ($bedrijfUsers as $bedrijf) {
+            // Elke bedrijf favorieteert 3-5 random studenten
+            $randomStudents = collect($studentUsers)->random(rand(3, 5));
+            
+            foreach ($randomStudents as $student) {
+                Favorite::create([
+                    'user_id' => $bedrijf->id,
+                    'favoritable_type' => User::class,
+                    'favoritable_id' => $student->id,
+                    'created_at' => Carbon::now()->subDays(rand(1, 30)),
+                    'updated_at' => Carbon::now()->subDays(rand(1, 30)),
+                ]);
+            }
+        }
+
+        // En studenten favorieteren bedrijven
+        foreach ($studentUsers as $student) {
+            // Elke student favorieteert 1-3 random bedrijven
+            $randomBedrijven = collect($bedrijfUsers)->random(rand(1, 3));
+            
+            foreach ($randomBedrijven as $bedrijf) {
+                Favorite::create([
+                    'user_id' => $student->id,
+                    'favoritable_type' => User::class,
+                    'favoritable_id' => $bedrijf->id,
+                    'created_at' => Carbon::now()->subDays(rand(1, 20)),
+                    'updated_at' => Carbon::now()->subDays(rand(1, 20)),
+                ]);
+            }
+        }
+
+        // Create some inactive users for testing
+        User::create([
+            'name' => 'Inactive Student',
+            'firstname' => 'Inactive',
             'lastname' => 'Student',
-            'email' => 'student@test.com',
-            'password' => Hash::make('student123'),
-            'role' => 'student'
-        ])->studentProfile()->create([
-            'study_field_id' => StudyField::first()->id,
-            'bio' => 'I am a test student account for demonstration purposes.',
-            'technical_skills' => ['JavaScript', 'Python', 'React'],
-            'soft_skills' => ['Communication', 'Teamwork', 'Problem Solving'],
-            'languages' => ['English', 'Dutch', 'French'],
-            'graduation_year' => '2024',
-            'current_education_level' => 'Bachelor',
-            'availability_status' => 'Available'
+            'email' => 'inactive@student.ehb.be',
+            'password' => Hash::make('password123'),
+            'role' => 'student',
+            'field_of_study' => 'Test Studies',
+            'age' => 21,
+            'gender' => 'anders',
+            'is_active' => false,
+            'email_verified_at' => now(),
         ]);
 
-        // Create your requested student account
-        User::factory()->create([
-            'firstname' => 'Amine',
-            'lastname' => 'Zerouali',
-            'email' => 'zerouali.amine1402@gmail.com',
-            'password' => Hash::make('Amine2005'),
-            'role' => 'student'
-        ])->studentProfile()->create([
-            'study_field_id' => StudyField::first()->id,
-            'bio' => 'This is the requested student account.',
-            'technical_skills' => ['PHP', 'Laravel', 'Vue.js'],
-            'soft_skills' => ['Leadership', 'Adaptability'],
-            'languages' => ['English', 'Arabic'],
-            'graduation_year' => '2025',
-            'current_education_level' => 'Master',
-            'availability_status' => 'Available'
+        User::create([
+            'name' => 'Inactive Company',
+            'firstname' => 'Test',
+            'lastname' => 'Company',
+            'email' => 'inactive@company.be',
+            'password' => Hash::make('password123'),
+            'role' => 'bedrijf',
+            'company_name' => 'Inactive Test Company',
+            'age' => 35,
+            'gender' => 'man',
+            'is_active' => false,
+            'email_verified_at' => now(),
         ]);
+
+        $this->command->info('Database seeded successfully!');
+        $this->command->info('');
+        $this->command->info('=== LOGIN CREDENTIALS ===');
+        $this->command->info('Admin: admin@erasmus.be / password123');
+        $this->command->info('Bedrijf: jan@microsoft.be / password123');
+        $this->command->info('Student: tom.hermans@student.ehb.be / password123');
+        $this->command->info('');
+        $this->command->info('=== STATISTICS ===');
+        $this->command->info('Total Users: ' . User::count());
+        $this->command->info('Students: ' . User::where('role', 'student')->count());
+        $this->command->info('Bedrijven: ' . User::where('role', 'bedrijf')->count());
+        $this->command->info('Favorites: ' . Favorite::count());
+        $this->command->info('Active Users: ' . User::where('is_active', true)->count());
 
         // Create sample students
         User::factory(19)

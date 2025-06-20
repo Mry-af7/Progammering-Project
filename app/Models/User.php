@@ -20,18 +20,18 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'firstname',
-        'lastname',
         'name',
+        'firstname', 
+        'lastname',
         'email',
         'password',
-        'role', // student, company, admin
-        'profile_photo_path',
-        'bio',
-        'phone',
-        'address',
-        'city',
-        'postal_code',
+        'role',
+        'age',
+        'gender',
+        'field_of_study',
+        'company_name',
+        'cv_path',
+        'is_active',
     ];
 
     /**
@@ -54,85 +54,72 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
-    }
-
-    /**
-     * Get the user's activities.
-     */
-    public function activities(): HasMany
-    {
-        return $this->hasMany(UserActivity::class);
-    }
-
-    /**
-     * Get the user's tasks.
-     */
-    public function tasks(): HasMany
-    {
-        return $this->hasMany(UserTask::class);
     }
 
     /**
      * Get the user's favorites.
      */
-    public function favorites(): HasMany
+    public function favorites()
     {
         return $this->hasMany(Favorite::class);
     }
 
-    /**
-     * Get the user's company profile.
-     */
-    public function company(): HasOne
+    public function favoriteStudents()
     {
-        return $this->hasOne(Company::class);
+        return $this->belongsToMany(User::class, 'favorites', 'user_id', 'favoritable_id')
+                    ->where('favoritable_type', User::class)
+                    ->where('role', 'student');
     }
 
-    /**
-     * Get the user's student profile.
-     */
-    public function studentProfile(): HasOne
+    public function scopeStudents($query)
     {
-        return $this->hasOne(StudentProfile::class);
+        return $query->where('role', 'student');
     }
 
-    /**
-     * Get the user's appointments.
-     */
-    public function appointments(): HasMany
+    public function scopeBedrijven($query)
     {
-        return $this->hasMany(Appointment::class);
+        return $query->where('role', 'bedrijf');
     }
 
-    /**
-     * Get the user's statistics.
-     */
-    public function userStats(): HasOne
+    public function scopeActive($query)
     {
-        return $this->hasOne(UserStats::class);
+        return $query->where('is_active', true);
     }
 
-    /**
-     * Get the user's unread messages count.
-     */
-    public function unreadMessages(): HasMany
+    public function getFullNameAttribute()
     {
-        return $this->hasMany(Message::class)->where('read', false);
+        return $this->firstname . ' ' . $this->lastname;
     }
 
-    public function isAdmin(): bool
+    public function getIsStudentAttribute()
+    {
+        return $this->role === 'student';
+    }
+
+    public function getIsBedrijfAttribute()
+    {
+        return $this->role === 'bedrijf';
+    }
+
+    public function getIsAdminAttribute()
     {
         return $this->role === 'admin';
     }
 
-    public function isCompany(): bool
+    public function canViewDashboard()
     {
-        return $this->role === 'company';
+        return $this->is_active;
     }
 
-    public function isStudent(): bool
+    public function getDashboardRoute()
     {
-        return $this->role === 'student';
+        return match($this->role) {
+            'admin' => '/admin/dashboard',
+            'bedrijf' => '/bedrijf/dashboard',
+            'student' => '/student/dashboard',
+            default => '/student/dashboard'
+        };
     }
 }

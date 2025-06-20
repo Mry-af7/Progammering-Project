@@ -1,17 +1,13 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BedrijfDashboardController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\StudentDashboardController;
+use App\Http\Middleware\RoleMiddleware;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\FavoriteController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\StudentController;
-use Illuminate\Foundation\Application;
-use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Auth\NewPasswordController;
 
 // Public routes
 Route::get('/', function () {
@@ -23,133 +19,49 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('/info', function () {
-    return Inertia::render('Info');
-})->name('info');
+Route::get('/info', fn() => Inertia::render('Info'))->name('info');
+Route::get('/bedrijven', fn() => Inertia::render('Bedrijven'))->name('bedrijven');
+Route::get('/contact', fn() => Inertia::render('Contact'))->name('contact');
 
-Route::get('/contact', function () {
-    return Inertia::render('Contact');
-})->name('contact');
-
-Route::get('/bedrijven', function () {
-    return Inertia::render('Bedrijven');
-})->name('bedrijven');
-
-Route::get('/favorieten', function () {
-    return Inertia::render('Favorieten');
-})->name('favorieten');
-
-Route::get('/afspraak', function () {
-    return Inertia::render('Afspraak');
-})->name('afspraak');
-
-Route::get('/students', function () {
-    return Inertia::render('Students/Index');
-})->name('students');
-
-Route::get('/wiezijnwe', function () {
-    return Inertia::render('wiezijnwe');
-})->name('wiezijnwe');
-
-Route::get('/faq', function () {
-    return Inertia::render('Faq');
-})->name('faq');
-
-// Auth routes
+// Authentication routes
 Route::middleware('guest')->group(function () {
-    // Student registration
-    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [AuthController::class, 'login']);
     
-    // Company registration
-    Route::get('register/bedrijf', [RegisteredUserController::class, 'createBedrijf'])->name('register.bedrijf');
-    Route::post('register/bedrijf', [RegisteredUserController::class, 'storeBedrijf']);
-    
-    // Login
-    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
-    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
-    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
-    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
-    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update');
+    Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('register', [AuthController::class, 'register']);
 });
 
 Route::middleware('auth')->group(function () {
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     
-    // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Role-specific dashboards
+    Route::get('student/dashboard', [StudentDashboardController::class, 'index'])
+        ->middleware('role:student')->name('student.dashboard');
     
-    // Company dashboard route
-    Route::get('/company/dashboard', function () {
-        return Inertia::render('CompanyDashboard');
-    })->name('company.dashboard');
+    Route::get('bedrijf/dashboard', [BedrijfDashboardController::class, 'index'])
+        ->middleware('role:bedrijf')->name('bedrijf.dashboard');
+
+    Route::get('admin/dashboard', [AdminDashboardController::class, 'index'])
+        ->middleware('role:admin')->name('admin.dashboard');
+
+    // Other authenticated routes
+    Route::post('favorites/toggle', [StudentDashboardController::class, 'toggleFavorite'])
+        ->name('favorites.toggle');
+
+    Route::get('bedrijf/studenten/search', [BedrijfDashboardController::class, 'searchStudents'])
+        ->middleware('role:bedrijf')->name('bedrijf.studenten.search');
+
+    Route::get('admin/users', [AdminDashboardController::class, 'users'])
+        ->middleware('role:admin')->name('admin.users');
+        
+    Route::patch('admin/users/{user}/toggle-status', [AdminDashboardController::class, 'toggleUserStatus'])
+        ->middleware('role:admin')->name('admin.users.toggle-status');
     
-    // Admin dashboard route
-    Route::get('/admin/dashboard', function () {
-        return Inertia::render('AdminDashboard');
-    })->name('admin.dashboard');
+    // Fallback dashboard route
+    Route::get('dashboard', function () {
+        $user = auth()->user();
+        if (!$user) return redirect()->route('login');
+        return redirect($user->getDashboardRoute());
+    })->name('dashboard');
 });
-
-// Load other route files
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
-
-// === WEBHOOK ROUTES ===
-Route::post('/webhooks/email-opened/{notification}', function ($notificationId) {
-    // Track email opens
-    DB::table('email_tracking')
-        ->where('notification_id', $notificationId)
-        ->update(['opened_at' => now()]);
-        
-    return response('OK');
-})->name('webhooks.email-opened');
-
-Route::post('/webhooks/email-clicked/{notification}', function ($notificationId) {
-    // Track email clicks
-    DB::table('email_tracking')
-        ->where('notification_id', $notificationId)
-        ->update(['clicked_at' => now()]);
-        
-    return response('OK');
-})->name('webhooks.email-clicked');
-
-// === SYSTEM HEALTH ROUTES ===
-Route::get('/health', function () {
-    return response()->json([
-        'status' => 'healthy',
-        'timestamp' => now()->toISOString(),
-        'services' => [
-            'database' => DB::connection()->getPdo() ? 'healthy' : 'unhealthy',
-            'afspraak_system' => 'healthy'
-        ]
-    ]);
-})->name('health');
-
-// === ERROR PAGES ===
-Route::get('/404', function () {
-    return Inertia::render('Error', ['status' => 404]);
-})->name('404');
-
-Route::get('/500', function () {
-    return Inertia::render('Error', ['status' => 500]);
-})->name('500');
-
-// === SITEMAP ===
-Route::get('/sitemap.xml', function () {
-    $urls = [
-        ['url' => route('home'), 'priority' => '1.0'],
-        ['url' => route('info'), 'priority' => '0.8'],
-        ['url' => route('afspraak'), 'priority' => '0.9'],
-        ['url' => route('contact'), 'priority' => '0.7'],
-        ['url' => route('career-launch.index'), 'priority' => '0.8'],
-    ];
-    
-    return response()->view('sitemap', compact('urls'))
-        ->header('Content-Type', 'text/xml');
-})->name('sitemap');
-
-// === LEGACY REDIRECTS ===
-Route::redirect('/appointment', '/afspraak', 301);
-Route::redirect('/appointments', '/afspraken', 301);
-Route::redirect('/booking', '/afspraak', 301);

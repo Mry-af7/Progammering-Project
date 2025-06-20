@@ -12,16 +12,17 @@ class Favorite extends Model
 
     protected $fillable = [
         'user_id',
-        'company_id',
+        'favoritable_type',
+        'favoritable_id',
     ];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class)->withDefault();
+        return $this->belongsTo(User::class);
     }
 
-    public function company(): BelongsTo
+    public function favoritable()
     {
-        return $this->belongsTo(Company::class);
+        return $this->morphTo();
     }
 } 
