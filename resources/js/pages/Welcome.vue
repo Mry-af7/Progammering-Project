@@ -337,7 +337,6 @@ import AppLayout from '@/layouts/AppLayout.vue';
         </section>
 
         <!-- Stats Section -->
-        <!-- VERWIJDERD: <section class="bg-white py-20"> ... </section> -->
         <!-- Footer -->
         <footer class="bg-gradient-to-r from-orange-500 to-red-600 text-white py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
