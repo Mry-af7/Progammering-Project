@@ -1,31 +1,59 @@
-<script setup>
+<script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3'
 import { ref, computed, watch, onMounted } from 'vue'
-import MainNavigation from '@/components/MainNavigation.vue'
+import { route as ziggyRoute } from 'ziggy-js'
 
-const mobileMenuOpen = ref(false)
-const searchQuery = ref('')
-const selectedIndustry = ref('alle')
-const selectedLocation = ref('alle')
-const sortBy = ref('naam')
-const showFilters = ref(false)
-const currentPage = ref(1)
+interface Company {
+  id: number;
+  name: string;
+  src: string;
+  favoriet: boolean;
+  website: string;
+  specialisatie: string;
+  beschrijving: string;
+  adres: string;
+  telefoon: string;
+  email: string;
+  industry: string;
+  location: string;
+  employees: string;
+  founded: string;
+  tags: string[];
+}
+
+const mobileMenuOpen = ref<boolean>(false)
+const searchQuery = ref<string>('')
+const selectedIndustry = ref<string>('alle')
+const selectedLocation = ref<string>('alle')
+const sortBy = ref<string>('naam')
+const showFilters = ref<boolean>(false)
+const currentPage = ref<number>(1)
 const itemsPerPage = 12
-const isLoading = ref(false)
-const viewMode = ref('grid') // 'grid' or 'list'
+const isLoading = ref<boolean>(false)
+const viewMode = ref<'grid' | 'list'>('grid')
+
+// Extend Window interface
+declare global {
+  interface Window {
+    addToFavorites?: (company: Company) => void;
+    favoritesState?: {
+      value: Company[];
+    };
+  }
+}
 
 // Add new favorite methods
-const toggleFavorite = (company) => {
+const toggleFavorite = (company: Company) => {
     if (window.addToFavorites) {
         window.addToFavorites(company)
     }
 }
 
-const isFavorite = (companyId) => {
-    return window.favoritesState?.value.some(fav => fav.id === companyId) || false
+const isFavorite = (companyId: number) => {
+    return window.favoritesState?.value.some((fav: Company) => fav.id === companyId) || false
 }
 
-const bedrijven = ref([
+const bedrijven = ref<Company[]>([
   {
     id: 1,
     name: 'Accenture',
@@ -485,61 +513,43 @@ const locations = computed(() => {
 })
 
 const filteredBedrijven = computed(() => {
-  let result = bedrijven.value
-
-  // Filter by search query
+  let filtered = bedrijven.value;
+  
   if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase()
-    result = result.filter(bedrijf => 
+    const query = searchQuery.value.toLowerCase();
+    filtered = filtered.filter((bedrijf: Company) => 
       bedrijf.name.toLowerCase().includes(query) ||
-      bedrijf.specialisatie.toLowerCase().includes(query) ||
       bedrijf.beschrijving.toLowerCase().includes(query) ||
-      bedrijf.tags.some(tag => tag.toLowerCase().includes(query))
-    )
+      bedrijf.specialisatie.toLowerCase().includes(query)
+    );
   }
-
-  // Filter by industry
+  
   if (selectedIndustry.value !== 'alle') {
-    result = result.filter(bedrijf => bedrijf.industry === selectedIndustry.value)
+    filtered = filtered.filter((bedrijf: Company) => bedrijf.industry === selectedIndustry.value);
   }
-
-  // Filter by location
+  
   if (selectedLocation.value !== 'alle') {
-    result = result.filter(bedrijf => bedrijf.location === selectedLocation.value)
+    filtered = filtered.filter((bedrijf: Company) => bedrijf.location === selectedLocation.value);
   }
-
-  // Sort results
-  result.sort((a, b) => {
-    switch (sortBy.value) {
-      case 'naam':
-        return a.name.localeCompare(b.name)
-      case 'industrie':
-        return a.industry.localeCompare(b.industry)
-      case 'locatie':
-        return a.location.localeCompare(b.location)
-      case 'grootte':
-        return parseInt(b.employees.replace(/\D/g, '')) - parseInt(a.employees.replace(/\D/g, ''))
-      default:
-        return 0
-    }
-  })
-
-  return result
-})
+  
+  return filtered;
+});
 
 const paginatedBedrijven = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage
-  const end = start + itemsPerPage
-  return filteredBedrijven.value.slice(start, end)
-})
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return filteredBedrijven.value.slice(start, end);
+});
 
-const totalPages = computed(() => {
-  return Math.ceil(filteredBedrijven.value.length / itemsPerPage)
-})
+const totalPages = computed(() => Math.ceil(filteredBedrijven.value.length / itemsPerPage));
 
 const favorieten = computed(() => {
   return bedrijven.value.filter(b => b.favoriet)
 })
+
+const goToPage = (page: number) => {
+  currentPage.value = page;
+};
 
 // Methods
 function openModal(bedrijf) {
@@ -595,7 +605,60 @@ onMounted(() => {
 <template>
   <div class="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-50">
     <!-- Navigation -->
-    <MainNavigation activePage="bedrijven" :favoritenCount="favorieten.length" />
+    <nav class="bg-white/80 backdrop-blur-lg shadow-lg sticky top-0 z-40 border-b border-orange-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Logo -->
+          <Link href="/" class="flex items-center space-x-3 group">
+            <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+              <span class="text-white font-bold text-lg">E</span>
+            </div>
+            <div>
+              <div class="text-gray-900 font-bold text-xl">erasmus</div>
+              <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
+            </div>
+          </Link>
+
+          <!-- Mobile menu button -->
+          <div class="md:hidden">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg text-gray-700 hover:bg-orange-100 transition-colors">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center space-x-1">
+            <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Home</Link>
+            <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Info</Link>
+            <Link href="/bedrijven" class="px-4 py-2 text-orange-600 bg-orange-100 rounded-lg font-medium">Bedrijven</Link>
+            <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50 relative">
+              Favorieten
+              <span v-if="favorieten.length > 0" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                {{ favorieten.length }}
+              </span>
+            </Link>
+            <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-colors rounded-lg hover:bg-orange-50">Contact</Link>
+            <div class="flex items-center ml-6">
+              <Link href="/login" class="px-6 py-2 text-orange-600 hover:text-orange-700 font-medium transition-colors">Inloggen</Link>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div v-show="mobileMenuOpen" class="md:hidden mt-4 pb-4 border-t border-orange-200">
+          <div class="flex flex-col space-y-2 pt-4">
+            <Link href="/" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium rounded-lg">Home</Link>
+            <Link href="/info" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium rounded-lg">Info</Link>
+            <Link href="/bedrijven" class="px-4 py-2 text-orange-600 bg-orange-100 font-medium rounded-lg">Bedrijven</Link>
+            <Link href="/favorieten" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium rounded-lg">Favorieten</Link>
+            <Link href="/contact" class="px-4 py-2 text-gray-700 hover:text-orange-600 font-medium rounded-lg">Contact</Link>
+            <Link href="/login" class="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium rounded-lg">Inloggen</Link>
+          </div>
+        </div>
+      </div>
+    </nav>
 
     <Head title="Alle Bedrijven - Pro" />
 

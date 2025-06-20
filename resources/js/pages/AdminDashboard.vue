@@ -655,8 +655,133 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
+
+interface NavigationTab {
+  id: string;
+  label: string;
+  icon: string;
+  badge: string | number | null;
+}
+
+interface LiveMetric {
+  label: string;
+  value: string;
+  trend: string;
+  subtitle: string;
+  icon: string;
+  trendColor: string;
+}
+
+interface QuickAction {
+  title: string;
+  icon: string;
+  style: string;
+}
+
+interface OverviewStat {
+  label: string;
+  value: number | string;
+  change: string;
+  subtitle: string;
+  icon: string;
+  iconBg: string;
+  iconColor: string;
+  changeBg: string;
+  changeColor: string;
+  gradient: string;
+  trendPercentage: number;
+  trendBarColor: string;
+}
+
+interface Activity {
+  id: number;
+  type: string;
+  message: string;
+  details: string;
+  time: string;
+  status: 'info' | 'success' | 'warning' | 'error';
+  icon: string;
+  actionable: boolean;
+}
+
+interface PendingUser {
+  id: number;
+  name: string;
+  email: string;
+  type: 'Student' | 'Company';
+  registrationDate: string;
+  status: string;
+  priority: 'high' | 'medium' | 'low';
+}
+
+interface SystemHealth {
+  component: string;
+  status: 'healthy' | 'warning' | 'error';
+  uptime: string;
+  lastCheck: string;
+  responseTime: string;
+}
+
+interface QuickManagementTool {
+  title: string;
+  description: string;
+  icon: string;
+  hoverColor: string;
+}
+
+interface PerformanceMetric {
+  name: string;
+  value: string;
+  percentage: number;
+  barColor: string;
+  color: string;
+}
+
+interface UserStats {
+  totalStudents: number;
+  totalCompanies: number;
+  pendingApprovals: number;
+}
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  type: 'Student' | 'Company';
+  status: 'verified' | 'pending';
+  joinDate: string;
+}
+
+interface Company {
+  id: number;
+  name: string;
+  industry: string;
+  employees: string;
+  location: string;
+  status: 'verified' | 'pending';
+  applications: number;
+  events: number;
+  lastActive: string;
+}
+
+interface Event {
+  id: number;
+  title: string;
+  date: string;
+  location: string;
+  companies: number;
+  students: number;
+  status: 'active' | 'planning';
+  organizer: string;
+}
+
+interface AdminQuickAction {
+  title: string;
+  icon: string;
+  style: string;
+}
 
 // Reactive state
 const activeTab = ref('overview');
@@ -675,7 +800,7 @@ const adminData = ref({
 });
 
 // Navigation tabs
-const navigationTabs = ref([
+const navigationTabs = ref<NavigationTab[]>([
   { 
     id: 'overview', 
     label: 'Overview', 
@@ -715,7 +840,7 @@ const navigationTabs = ref([
 ]);
 
 // Live metrics for hero section
-const liveMetrics = ref([
+const liveMetrics = ref<LiveMetric[]>([
   {
     label: "Total Users",
     value: "1,247",
@@ -751,7 +876,7 @@ const liveMetrics = ref([
 ]);
 
 // Quick admin actions
-const quickAdminActions = ref([
+const quickAdminActions = ref<QuickAction[]>([
   {
     title: "Emergency Broadcast",
     icon: "📢",
@@ -775,7 +900,7 @@ const quickAdminActions = ref([
 ]);
 
 // Overview statistics
-const overviewStats = ref([
+const overviewStats = ref<OverviewStat[]>([
   { 
     label: "Total Students", 
     value: 892, 
@@ -835,7 +960,7 @@ const overviewStats = ref([
 ]);
 
 // Recent activities
-const recentActivities = ref([
+const recentActivities = ref<Activity[]>([
   {
     id: 1,
     type: "user_registration",
@@ -889,7 +1014,7 @@ const recentActivities = ref([
 ]);
 
 // Pending users
-const pendingUsers = ref([
+const pendingUsers = ref<PendingUser[]>([
   {
     id: 1,
     name: "Sarah De Vries",
@@ -920,7 +1045,7 @@ const pendingUsers = ref([
 ]);
 
 // System health
-const systemHealth = ref([
+const systemHealth = ref<SystemHealth[]>([
   { 
     component: "Database", 
     status: "healthy", 
@@ -952,7 +1077,7 @@ const systemHealth = ref([
 ]);
 
 // Quick management tools
-const quickManagementTools = ref([
+const quickManagementTools = ref<QuickManagementTool[]>([
   {
     title: "User Backup",
     description: "Export data",
@@ -980,7 +1105,7 @@ const quickManagementTools = ref([
 ]);
 
 // Performance metrics
-const performanceMetrics = ref([
+const performanceMetrics = ref<PerformanceMetric[]>([
   {
     name: "Server Response",
     value: "45ms",
@@ -1012,14 +1137,14 @@ const performanceMetrics = ref([
 ]);
 
 // User stats
-const userStats = ref({
+const userStats = ref<UserStats>({
   totalStudents: 892,
   totalCompanies: 45,
   pendingApprovals: 3
 });
 
 // All users (for user management)
-const allUsers = ref([
+const allUsers = ref<User[]>([
   {
     id: 1,
     name: "Maryam Afallah",
@@ -1047,7 +1172,7 @@ const allUsers = ref([
 ]);
 
 // Companies
-const companies = ref([
+const companies = ref<Company[]>([
   {
     id: 1,
     name: "Accenture",
@@ -1084,7 +1209,7 @@ const companies = ref([
 ]);
 
 // Upcoming events
-const upcomingEvents = ref([
+const upcomingEvents = ref<Event[]>([
   {
     id: 1,
     title: "Career Launch 2025",
@@ -1108,7 +1233,7 @@ const upcomingEvents = ref([
 ]);
 
 // Admin quick actions
-const adminQuickActions = ref([
+const adminQuickActions = ref<AdminQuickAction[]>([
   {
     title: "Create Event",
     icon: "📅",
@@ -1140,34 +1265,39 @@ const filteredUsers = computed(() => {
   return allUsers.value;
 });
 
-// Helper functions
-const getStatusColor = (status) => {
-  const colors = {
-    'verified': 'bg-green-100 text-green-800 border-green-200',
-    'pending': 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    'rejected': 'bg-red-100 text-red-800 border-red-200',
-    'active': 'bg-blue-100 text-blue-800 border-blue-200',
-    'planning': 'bg-purple-100 text-purple-800 border-purple-200',
-    'draft': 'bg-gray-100 text-gray-800 border-gray-200',
-    'healthy': 'bg-green-100 text-green-800 border-green-200',
-    'warning': 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    'error': 'bg-red-100 text-red-800 border-red-200'
-  };
-  return colors[status] || 'bg-gray-100 text-gray-800 border-gray-200';
-};
+// Status color mappings
+const statusColors = {
+  verified: 'text-green-600 bg-green-100',
+  pending: 'text-yellow-600 bg-yellow-100',
+  rejected: 'text-red-600 bg-red-100',
+  active: 'text-green-600 bg-green-100',
+  planning: 'text-blue-600 bg-blue-100',
+  draft: 'text-gray-600 bg-gray-100',
+  healthy: 'text-green-600 bg-green-100',
+  warning: 'text-yellow-600 bg-yellow-100',
+  error: 'text-red-600 bg-red-100'
+} as const;
 
-const getActivityStatusColor = (status) => {
-  const colors = {
-    'info': 'bg-blue-50 text-blue-700 border-l-blue-500 border border-blue-100',
-    'success': 'bg-green-50 text-green-700 border-l-green-500 border border-green-100',
-    'warning': 'bg-yellow-50 text-yellow-700 border-l-yellow-500 border border-yellow-100',
-    'error': 'bg-red-50 text-red-700 border-l-red-500 border border-red-100'
-  };
-  return colors[status] || 'bg-gray-50 text-gray-700 border-l-gray-500 border border-gray-100';
-};
+const activityStatusColors = {
+  info: 'text-blue-600 bg-blue-100',
+  success: 'text-green-600 bg-green-100',
+  warning: 'text-yellow-600 bg-yellow-100',
+  error: 'text-red-600 bg-red-100'
+} as const;
+
+type StatusType = keyof typeof statusColors;
+type ActivityStatusType = keyof typeof activityStatusColors;
+
+function getStatusColor(status: StatusType): string {
+  return statusColors[status];
+}
+
+function getActivityStatusColor(status: ActivityStatusType): string {
+  return activityStatusColors[status];
+}
 
 // Action functions
-const approveUser = (userId) => {
+const approveUser = (userId: number): void => {
   const userIndex = pendingUsers.value.findIndex(user => user.id === userId);
   if (userIndex > -1) {
     pendingUsers.value.splice(userIndex, 1);
@@ -1175,7 +1305,7 @@ const approveUser = (userId) => {
   console.log(`Approved user ${userId}`);
 };
 
-const rejectUser = (userId) => {
+const rejectUser = (userId: number): void => {
   const userIndex = pendingUsers.value.findIndex(user => user.id === userId);
   if (userIndex > -1) {
     pendingUsers.value.splice(userIndex, 1);
@@ -1183,7 +1313,7 @@ const rejectUser = (userId) => {
   console.log(`Rejected user ${userId}`);
 };
 
-const verifyCompany = (companyId) => {
+const verifyCompany = (companyId: number): void => {
   const companyIndex = companies.value.findIndex(company => company.id === companyId);
   if (companyIndex > -1) {
     companies.value[companyIndex].status = 'verified';

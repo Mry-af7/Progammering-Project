@@ -7,6 +7,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from 'ziggy-js';
 import { useFavorites } from './composables/useFavorites';
 import { initializeTheme } from './composables/useAppearance';
+import { route } from 'ziggy-js';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -20,6 +21,15 @@ declare module 'vite/client' {
         readonly glob: <T>(pattern: string) => Record<string, () => Promise<T>>;
     }
 }
+
+// Make route function globally available
+declare global {
+    interface Window {
+        route: typeof route;
+    }
+}
+
+window.route = route;
 
 // Initialize favorites
 useFavorites();
