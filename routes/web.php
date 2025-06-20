@@ -136,11 +136,8 @@ Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
     
-    // Company registration
+    // Company registration - FIXED: Removed duplicate routes
     Route::get('register/bedrijf', [RegisteredUserController::class, 'createBedrijf'])->name('register.bedrijf');
-    Route::get('/register-bedrijf', function () {
-        return Inertia::render('auth/Register-bedrijf');
-    })->name('register.bedrijf');
     Route::post('register/bedrijf', [RegisteredUserController::class, 'storeBedrijf']);
     
     // Login
@@ -163,8 +160,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Logout
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     
-    // Main Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Main Dashboard - ADDED: Smart redirect based on user type
+    Route::get('/dashboard', function () {
+        $user = auth()->user();
+        
+        // If user hasn't completed onboarding, redirect to appropriate onboarding
+        if ($user->user_type === 'company' || $user->role === 'company') {
+            // Check if company profile is complete, if not redirect to onboarding
+            if (!$user->company || !$user->company->is_complete) {
+                return redirect()->route('company.onboarding');
+            }
+            return redirect()->route('company.dashboard');
+        } else {
+            // Check if student profile is complete, if not redirect to onboarding
+            if (!$user->profile_completed) {
+                return redirect()->route('profile-onboarding');
+            }
+            return app(DashboardController::class)->index();
+        }
+    })->name('dashboard');
     
     // Student Profile Onboarding Routes (Step-by-step completion)
     Route::get('/profile-onboarding', [ProfileOnboardingController::class, 'index'])->name('profile-onboarding');

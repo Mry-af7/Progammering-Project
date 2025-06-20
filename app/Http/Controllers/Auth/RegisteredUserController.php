@@ -31,9 +31,9 @@ class RegisteredUserController extends Controller
         // Debug: Let's see what data is being sent
         \Log::info('Registration data:', $request->all());
         
-        // Determine if this is a company registration
-        $isCompany = $request->has('company_name') || $request->role === 'bedrijf';
-        \Log::info('Is company registration:', ['isCompany' => $isCompany, 'has_company_name' => $request->has('company_name'), 'role' => $request->role]);
+        // FIXED: Use filled() instead of has() to check for actual company name value
+        $isCompany = $request->filled('company_name') || $request->user_type === 'company';
+        \Log::info('Is company registration:', ['isCompany' => $isCompany, 'has_company_name' => $request->has('company_name'), 'filled_company_name' => $request->filled('company_name'), 'role' => $request->role]);
         
         // Handle name field based on what's available
         $name = '';
@@ -85,15 +85,10 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'user_type' => $isCompany ? 'company' : 'student', // Your field
-            'role' => $isCompany ? 'company' : 'student', // Their field
+            'user_type' => $isCompany ? 'company' : 'student',
         ];
 
-        // Add firstname/lastname if available
-        if ($request->has('firstname')) {
-            $userData['firstname'] = $request->firstname;
-            $userData['lastname'] = $request->lastname;
-        }
+        // Note: firstname/lastname not added since they don't exist in the users table
         
         \Log::info('User data to create:', $userData);
 
@@ -103,7 +98,12 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('dashboard')->with('success', 'Registration successful!');
+        // FIXED: Redirect based on user type
+        if ($isCompany) {
+            return redirect()->route('company.onboarding')->with('success', 'Company registration successful! Please complete your company profile.');
+        } else {
+            return redirect()->route('profile-onboarding')->with('success', 'Registration successful! Please complete your profile.');
+        }
     }
 
     public function storeBedrijf(Request $request): RedirectResponse
@@ -118,12 +118,9 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
-            'firstname' => $request->name,
-            'lastname' => '',
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'company',
             'user_type' => 'company',
         ]);
 
@@ -139,6 +136,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('dashboard')->with('success', 'Company registration successful!');
+        // FIXED: Redirect companies to their onboarding
+        return redirect()->route('company.onboarding')->with('success', 'Company registration successful! Please complete your company profile.');
     }
 }

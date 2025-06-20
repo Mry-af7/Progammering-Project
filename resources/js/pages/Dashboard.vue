@@ -602,7 +602,7 @@
             </div>
         </div>
       </div>
-    </div>
+    </AppLayout>
 </template>
 
 <script setup lang="ts">
