@@ -171,9 +171,10 @@ const submit = () => {
                                     id="firstname" 
                                     type="text" 
                                     required 
-                                    :tabindex="1" 
+                                    tabindex="1" 
                                     v-model="form.firstname" 
                                     placeholder="Voornaam"
+                                    autocomplete="given-name"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                                 />
                                 <InputError :message="form.errors.firstname" class="mt-2" />
@@ -187,9 +188,10 @@ const submit = () => {
                                     id="lastname" 
                                     type="text" 
                                     required 
-                                    :tabindex="2" 
+                                    tabindex="2" 
                                     v-model="form.lastname" 
                                     placeholder="Achternaam"
+                                    autocomplete="family-name"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                                 />
                                 <InputError :message="form.errors.lastname" class="mt-2" />
@@ -205,17 +207,17 @@ const submit = () => {
                                 id="email" 
                                 type="email" 
                                 required 
-                                :tabindex="3" 
-                                autocomplete="email" 
+                                tabindex="3" 
                                 v-model="form.email" 
-                                placeholder="email@example.com"
+                                placeholder="Email address"
+                                autocomplete="email"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                             />
                             <InputError :message="form.errors.email" class="mt-2" />
                         </div>
 
-                        <!-- Age and Gender Fields -->
-                        <div class="grid md:grid-cols-2 gap-4">
+                        <!-- Age and Gender (Student only) -->
+                        <div v-if="roleType === 'student'" class="grid md:grid-cols-2 gap-4">
                             <div>
                                 <Label for="age" class="block text-sm font-semibold text-gray-700 mb-2">
                                     Leeftijd
@@ -223,69 +225,59 @@ const submit = () => {
                                 <Input 
                                     id="age" 
                                     type="number" 
-                                    min="0" 
-                                    required 
-                                    :tabindex="4" 
                                     v-model="form.age" 
                                     placeholder="Leeftijd"
+                                    autocomplete="off"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                                 />
                                 <InputError :message="form.errors.age" class="mt-2" />
                             </div>
-
                             <div>
                                 <Label for="gender" class="block text-sm font-semibold text-gray-700 mb-2">
                                     Geslacht
                                 </Label>
-                                <select
-                                    id="gender"
+                                <select 
+                                    id="gender" 
                                     v-model="form.gender"
-                                    required
-                                    :tabindex="5"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all bg-white"
+                                    autocomplete="sex"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                                 >
-                                    <option value="" disabled selected>Kies geslacht</option>
-                                    <option value="man">Man</option>
-                                    <option value="vrouw">Vrouw</option>
-                                    <option value="anders">Anders</option>
+                                    <option value="" disabled>Selecteer geslacht</option>
+                                    <option value="male">Man</option>
+                                    <option value="female">Vrouw</option>
+                                    <option value="other">Anders</option>
                                 </select>
                                 <InputError :message="form.errors.gender" class="mt-2" />
                             </div>
                         </div>
 
-                        <!-- Study Field -->
-                        <div>
+                        <!-- Field of Study and CV (Student only) -->
+                        <div v-if="roleType === 'student'">
                             <Label for="field_of_study" class="block text-sm font-semibold text-gray-700 mb-2">
                                 Studierichting
                             </Label>
-                            <Input
-                                id="field_of_study"
-                                type="text"
-                                required
-                                :tabindex="6"
-                                v-model="form.field_of_study"
-                                placeholder="Bijv. Toegepaste informatica"
+                            <Input 
+                                id="field_of_study" 
+                                type="text" 
+                                v-model="form.field_of_study" 
+                                placeholder="bv. IT, Marketing, etc."
+                                autocomplete="off"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                             />
                             <InputError :message="form.errors.field_of_study" class="mt-2" />
                         </div>
 
-                        <!-- CV Upload -->
-                        <div>
+                        <div v-if="roleType === 'student'">
                             <Label for="cv" class="block text-sm font-semibold text-gray-700 mb-2">
                                 Upload je CV
                             </Label>
-                            <div class="relative">
-                                <input
-                                    id="cv"
-                                    type="file"
-                                    accept=".pdf,.doc,.docx"
-                                    @change="handleFileChange"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all bg-white file:bg-orange-100 file:border-none file:px-4 file:py-2 file:mr-4 file:rounded-lg file:text-orange-700 file:font-medium hover:file:bg-orange-200"
-                                    :tabindex="7"
-                                />
-                            </div>
-                            <p class="text-xs text-gray-500 mt-1">Ondersteunde formaten: PDF, DOC, DOCX</p>
+                            <Input 
+                                id="cv" 
+                                type="file" 
+                                @change="handleFileChange"
+                                class="w-full file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200 transition-colors"
+                            />
+                            <p class="text-xs text-gray-500 mt-2">Ondersteunde formaten: PDF, DOC, DOCX</p>
                             <InputError :message="form.errors.cv" class="mt-2" />
                         </div>
 
@@ -315,10 +307,9 @@ const submit = () => {
                                     id="password"
                                     type="password"
                                     required
-                                    :tabindex="9"
-                                    autocomplete="new-password"
                                     v-model="form.password"
                                     placeholder="Password"
+                                    autocomplete="new-password"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                                 />
                                 <InputError :message="form.errors.password" class="mt-2" />
@@ -332,10 +323,9 @@ const submit = () => {
                                     id="password_confirmation"
                                     type="password"
                                     required
-                                    :tabindex="10"
-                                    autocomplete="new-password"
                                     v-model="form.password_confirmation"
                                     placeholder="Confirm password"
+                                    autocomplete="new-password"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                                 />
                                 <InputError :message="form.errors.password_confirmation" class="mt-2" />

@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('name')->nullable();
             $table->string('email');
             $table->foreignId('industry_id')->nullable()->constrained();
@@ -27,11 +27,15 @@ return new class extends Migration
             $table->string('twitter_url')->nullable();
             $table->string('glassdoor_url')->nullable();
             $table->string('logo_url')->nullable();
+            $table->string('logo_path')->nullable();
             $table->string('cover_image_url')->nullable();
             $table->string('video_url')->nullable();
             $table->json('office_photos')->nullable();
             $table->boolean('onboarding_completed')->default(false);
             $table->timestamp('profile_completed_at')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->boolean('participating_in_career_launch')->default(true);
+            $table->json('tags')->nullable();
             $table->timestamps();
         });
     }

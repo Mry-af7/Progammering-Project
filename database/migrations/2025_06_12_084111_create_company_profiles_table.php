@@ -12,6 +12,17 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // HR representative
             $table->foreignId('company_id')->constrained()->onDelete('cascade');
+            $table->string('company_name')->nullable();
+            $table->text('description')->nullable();
+            $table->string('website')->nullable();
+            $table->string('industry')->nullable();
+            $table->string('company_size')->nullable();
+            $table->integer('founded_year')->nullable();
+            $table->string('headquarters')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('banner_image')->nullable();
+            $table->string('company_type')->nullable();
+            $table->json('specializations')->nullable();
             
             // HR Representative details
             $table->string('position_title'); // "HR Manager", "Talent Acquisition"

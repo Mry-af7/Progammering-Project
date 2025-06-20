@@ -8,11 +8,16 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('skills', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('skills')) {
+            Schema::create('skills', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+                $table->string('name');
+                $table->integer('level')->nullable();
+                $table->string('category')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     public function down()

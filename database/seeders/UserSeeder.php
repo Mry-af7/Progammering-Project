@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\StudentProfile;
+use App\Models\Student;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -24,32 +24,32 @@ class UserSeeder extends Seeder
         ]);
 
         // Create her student profile
-        StudentProfile::create([
+        Student::create([
             'user_id' => $maryam->id,
             'study_field_id' => 1, // Toegepaste Informatica
             'bio' => 'Ambitieuze student Toegepaste Informatica met passie voor web development en AI. Op zoek naar uitdagende stage- en werkervaringen om mijn vaardigheden verder te ontwikkelen.',
-            'technical_skills' => [
+            'technical_skills' => json_encode([
                 'PHP', 'Laravel', 'Vue.js', 'JavaScript', 'HTML/CSS',
                 'MySQL', 'Git', 'Docker', 'RESTful APIs', 'Agile Methodologies'
-            ],
-            'soft_skills' => [
+            ]),
+            'soft_skills' => json_encode([
                 'Teamwork', 'Problem Solving', 'Communication',
                 'Time Management', 'Adaptability'
-            ],
-            'languages' => [
+            ]),
+            'languages' => json_encode([
                 ['name' => 'Nederlands', 'level' => 'Moedertaal'],
                 ['name' => 'Engels', 'level' => 'Vloeiend'],
                 ['name' => 'Frans', 'level' => 'Gemiddeld']
-            ],
+            ]),
             'linkedin_url' => 'https://www.linkedin.com/in/maryam-affalah',
             'github_url' => 'https://github.com/maryamaffalah',
             'cv_url' => '/storage/cvs/maryam-affalah-cv.pdf',
             'graduation_year' => 2025,
             'current_education_level' => 'Bachelor',
-            'preferred_job_types' => ['Stage', 'Vast', 'Freelance'],
-            'preferred_work_location' => ['Antwerpen', 'Brussel', 'Gent'],
-            'preferred_company_size' => ['Midden', 'Groot'],
-            'preferred_industries' => ['IT', 'Fintech', 'E-commerce'],
+            'preferred_job_types' => json_encode(['Stage', 'Vast', 'Freelance']),
+            'preferred_work_location' => json_encode(['Antwerpen', 'Brussel', 'Gent']),
+            'preferred_company_size' => json_encode(['Midden', 'Groot']),
+            'preferred_industries' => json_encode(['IT', 'Fintech', 'E-commerce']),
             'availability_status' => 'Beschikbaar voor stage'
         ]);
 

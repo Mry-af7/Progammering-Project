@@ -21,7 +21,6 @@ class User extends Authenticatable
     protected $fillable = [
         'firstname',
         'lastname',
-        'name',
         'email',
         'password',
         'role', // student, company, admin (keeping their naming)
@@ -120,6 +119,14 @@ class User extends Authenticatable
     public function unreadMessages(): HasMany
     {
         return $this->hasMany(Message::class)->where('read', false);
+    }
+
+    /**
+     * Get the user's company profile.
+     */
+    public function companyProfile(): HasOne
+    {
+        return $this->hasOne(\App\Models\CompanyProfile::class);
     }
 
     // Role checking methods (supporting both naming conventions)

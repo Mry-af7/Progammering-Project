@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique(); // "JavaScript", "Remote Work", "Startup"
-            $table->string('slug')->unique(); // "javascript", "remote-work", "startup"
+            $table->string('slug')->unique()->nullable(); // "javascript", "remote-work", "startup"
             $table->enum('type', ['skill', 'technology', 'industry', 'culture', 'benefit'])->default('skill');
             $table->string('color')->default('#3B82F6'); // Hex color voor display
             $table->text('description')->nullable();

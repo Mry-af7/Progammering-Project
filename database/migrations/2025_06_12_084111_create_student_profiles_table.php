@@ -6,11 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::create('student_profiles', function (Blueprint $table) {
+        Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('firstname');
+            $table->string('lastname');
+            $table->string('email')->unique();
+            $table->string('major')->nullable();
             $table->foreignId('study_field_id')->constrained()->onDelete('cascade');
             
             // Profile information
@@ -49,6 +56,14 @@ return new class extends Migration
             $table->integer('profile_completion_percentage')->default(0);
             $table->timestamp('last_updated_at')->nullable();
             
+            // New columns
+            $table->string('year_of_study')->nullable();
+            $table->text('about_me')->nullable();
+            $table->string('github_link')->nullable();
+            $table->string('custom_link_title')->nullable();
+            $table->string('custom_link_url')->nullable();
+            $table->boolean('profile_completed')->default(false);
+            
             $table->timestamps();
             
             $table->index(['study_field_id', 'study_year']);
@@ -57,8 +72,11 @@ return new class extends Migration
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('student_profiles');
+        Schema::dropIfExists('students');
     }
 };

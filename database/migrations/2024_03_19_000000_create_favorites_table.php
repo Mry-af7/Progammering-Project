@@ -14,6 +14,8 @@ return new class extends Migration
                 ->constrained()
                 ->onDelete('cascade');
             $table->morphs('favoritable');
+            $table->string('notes')->nullable();
+            $table->json('tags')->nullable();
             $table->timestamps();
 
             // Voorkom dubbele favorieten

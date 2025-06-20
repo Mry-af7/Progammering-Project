@@ -3,21 +3,46 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Student extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
-        'name',
-        'email', 
+        'firstname',
+        'lastname',
+        'email',
         'major',
-        'github_link',
         'year_of_study',
-        'linkedin_url',
-        'custom_link_url',
-        'custom_link_title',
         'about_me',
+        'linkedin_url',
+        'github_link',
+        'custom_link_title',
+        'custom_link_url',
+        'technical_skills',
+        'soft_skills',
+        'languages',
+        'cv_url',
+        'graduation_year',
+        'current_education_level',
+        'preferred_job_types',
+        'preferred_work_location',
+        'preferred_company_size',
+        'preferred_industries',
+        'availability_status',
         'profile_completed'
+    ];
+
+    protected $casts = [
+        'technical_skills' => 'array',
+        'soft_skills' => 'array',
+        'languages' => 'array',
+        'preferred_job_types' => 'array',
+        'preferred_work_location' => 'array',
+        'preferred_company_size' => 'array',
+        'preferred_industries' => 'array',
     ];
 
     public function user()

@@ -32,8 +32,8 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'role' => 'student',
             'user_type' => 'student',
-            'is_active' => true,
-            'profile_completed' => false
+            'is_active' => 1,
+            'profile_completed' => 0
         ];
     }
 

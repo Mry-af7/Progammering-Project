@@ -18,10 +18,23 @@ class DashboardTest extends TestCase
 
     public function test_authenticated_users_can_visit_the_dashboard()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'profile_completed' => true,
+        ]);
         $this->actingAs($user);
 
         $response = $this->get('/dashboard');
         $response->assertStatus(200);
+    }
+
+    public function test_users_with_incomplete_profile_are_redirected_to_onboarding()
+    {
+        $user = User::factory()->create([
+            'profile_completed' => false,
+        ]);
+        $this->actingAs($user);
+
+        $response = $this->get('/dashboard');
+        $response->assertRedirect('/profile-onboarding');
     }
 }

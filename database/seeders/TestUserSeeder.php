@@ -10,17 +10,10 @@ class TestUserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create a test student
-        User::create([
-            'name' => 'Test Student',
-            'email' => 'student@test.com',
-            'password' => Hash::make('password'),
-            'role' => 'student',
-        ]);
-
         // Create a test company
         User::create([
-            'name' => 'Test Company',
+            'firstname' => 'Test',
+            'lastname' => 'Company',
             'email' => 'company@test.com',
             'password' => Hash::make('password'),
             'role' => 'company',
@@ -28,7 +21,8 @@ class TestUserSeeder extends Seeder
 
         // Create a test admin
         User::create([
-            'name' => 'Test Admin',
+            'firstname' => 'Test',
+            'lastname' => 'Admin',
             'email' => 'admin@test.com',
             'password' => Hash::make('password'),
             'role' => 'admin',

@@ -20,10 +20,11 @@ class DatabaseSeeder extends Seeder
             // Your seeders
             SkillsTableSeeder::class,
             LanguagesTableSeeder::class,
+            // Study fields must be created before users
+            StudyFieldSeeder::class,
             // Their seeders
             UserSeeder::class,
             CompanySeeder::class,
-            StudyFieldSeeder::class,
             AdminSeeder::class,
             DashboardDataSeeder::class,
             TestUserSeeder::class,
