@@ -602,7 +602,7 @@
             </div>
         </div>
       </div>
-    </div>
+    </AppLayout>
 </template>
 
 <script setup lang="ts">
@@ -620,6 +620,14 @@ const props = defineProps<{
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: '/dashboard' }
 ]
+
+const showQuickMenu = ref(false);
+
+const floatingMenuItems = [
+    { title: 'Edit Profile', icon: '📝' },
+    { title: 'View Applications', icon: '📄' },
+    { title: 'Settings', icon: '⚙️' },
+];
 
 const activeSection = ref('overview')
 
