@@ -49,6 +49,18 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Additional check for admin accounts
+        $user = Auth::user();
+        if ($user && $user->isAdmin()) {
+            // Check if admin account is active
+            if (!$user->is_active) {
+                Auth::logout();
+                throw ValidationException::withMessages([
+                    'email' => 'Admin account is deactivated. Please contact system administrator.',
+                ]);
+            }
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 
@@ -59,7 +71,11 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        // Different rate limits for admin vs regular users
+        $maxAttempts = $this->isAdminLoginAttempt() ? 3 : 5;
+        $decayMinutes = $this->isAdminLoginAttempt() ? 15 : 1;
+
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), $maxAttempts)) {
             return;
         }
 
@@ -81,5 +97,15 @@ class LoginRequest extends FormRequest
     public function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+    }
+
+    /**
+     * Check if this is an admin login attempt
+     */
+    private function isAdminLoginAttempt(): bool
+    {
+        // Check if the email might be an admin email
+        $adminEmails = ['admin@example.com', 'zerouali.amine2005@gmail.com'];
+        return in_array($this->email, $adminEmails);
     }
 }

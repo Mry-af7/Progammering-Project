@@ -31,23 +31,7 @@ class RegisteredUserController extends Controller
         // Determine if this is a company registration
         $isCompany = $request->filled('company_name') || $request->user_type === 'company' || $request->role === 'bedrijf';
        
-        // Handle name field based on what's available
-        $name = '';
-        if ($isCompany && $request->company_name) {
-            $name = $request->company_name;
-        } elseif ($request->firstname && $request->lastname) {
-            $name = $request->firstname . ' ' . $request->lastname;
-        } elseif ($request->name) {
-            $name = $request->name;
-        } else {
-            // Fallback: use email prefix if no name fields found
-            $name = explode('@', $request->email)[0];
-        }
- 
-        $request->merge(['name' => $name]);
- 
         $validationRules = [
-            'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ];

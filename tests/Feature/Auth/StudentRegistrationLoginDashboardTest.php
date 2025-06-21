@@ -24,7 +24,7 @@ class StudentRegistrationLoginDashboardTest extends TestCase
         // Test registratie
         $response = $this->post('/register', $studentData);
 
-        $response->assertRedirect('/dashboard');
+        $response->assertRedirect('/profile-onboarding');
         $this->assertAuthenticated();
 
         // Controleer of de gebruiker correct is aangemaakt
@@ -39,7 +39,7 @@ class StudentRegistrationLoginDashboardTest extends TestCase
         $this->post('/logout');
         $this->assertGuest();
 
-        // Test login
+        // Test login - voor bestaande gebruikers redirect naar dashboard
         $loginResponse = $this->post('/login', [
             'email' => $studentData['email'],
             'password' => $studentData['password'],
@@ -48,9 +48,9 @@ class StudentRegistrationLoginDashboardTest extends TestCase
         $loginResponse->assertRedirect('/dashboard');
         $this->assertAuthenticated();
 
-        // Test dashboard toegang
+        // Test dashboard toegang (moet redirecten naar onboarding omdat profile_completed = false)
         $dashboardResponse = $this->get('/dashboard');
-        $dashboardResponse->assertStatus(200);
+        $dashboardResponse->assertRedirect('/profile-onboarding');
     }
 
     public function test_student_registration_form_can_be_rendered()

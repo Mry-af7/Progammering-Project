@@ -22,10 +22,13 @@ class DatabaseSeeder extends Seeder
             LanguagesTableSeeder::class,
             // Study fields must be created before users
             StudyFieldSeeder::class,
-            // Their seeders
+            // Admin seeder first (simple user creation)
+            AdminSeeder::class,
+            // Admin settings seeder
+            AdminSettingsSeeder::class,
+            // Their seeders (after all tables are created)
             UserSeeder::class,
             CompanySeeder::class,
-            AdminSeeder::class,
             DashboardDataSeeder::class,
             TestUserSeeder::class,
         ]);

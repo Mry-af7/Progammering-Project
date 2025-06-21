@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\AdminLog;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -35,9 +36,23 @@ class AuthenticatedSessionController extends Controller
 
         $user = auth()->user();
         
+        // Log successful login
+        if ($user->isAdmin()) {
+            AdminLog::create([
+                'admin_id' => $user->id,
+                'action' => 'admin_login',
+                'details' => json_encode([
+                    'login_time' => now()->toISOString(),
+                    'ip' => $request->ip(),
+                    'user_agent' => $request->userAgent()
+                ]),
+                'ip' => $request->ip()
+            ]);
+        }
+        
         // Role-based redirection
-        if ($user->role === 'admin') {
-            return redirect()->route('admin.dashboard');
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard')->with('success', 'Welcome back, Admin!');
         } elseif ($user->isCompany()) {
             return redirect()->route('company.dashboard');
         } else {
@@ -50,6 +65,21 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        $user = auth()->user();
+        
+        // Log logout
+        if ($user && $user->isAdmin()) {
+            AdminLog::create([
+                'admin_id' => $user->id,
+                'action' => 'admin_logout',
+                'details' => json_encode([
+                    'logout_time' => now()->toISOString(),
+                    'ip' => $request->ip()
+                ]),
+                'ip' => $request->ip()
+            ]);
+        }
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

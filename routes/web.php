@@ -195,7 +195,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/company/onboarding/complete', [CompanyOnboardingController::class, 'complete'])->name('company.onboarding.complete');
 
     // Company Dashboard & Management
-    Route::prefix('company')->name('company.')->group(function () {
+    Route::prefix('company')->name('company.')->middleware('company')->group(function () {
         Route::get('/dashboard', [CompanyController::class, 'dashboard'])->name('dashboard');
         
         // Add these new routes for saving students
@@ -208,9 +208,44 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
     
     // Admin dashboard route
-    Route::get('/admin/dashboard', function () {
-        return Inertia::render('AdminDashboard');
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])
+        ->name('admin.dashboard')->middleware('admin');
+    
+    // Admin management routes
+    Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
+        // Users management
+        Route::get('/users', [App\Http\Controllers\AdminController::class, 'users'])->name('users.index');
+        
+        // Companies management
+        Route::get('/companies', [App\Http\Controllers\AdminController::class, 'companies'])->name('companies.index');
+        
+        // Events management
+        Route::get('/events', [App\Http\Controllers\AdminController::class, 'events'])->name('events.index');
+        
+        // Applications management
+        Route::get('/applications', [App\Http\Controllers\AdminController::class, 'applications'])->name('applications.index');
+        
+        // Settings
+        Route::get('/settings', [App\Http\Controllers\AdminController::class, 'settings'])->name('settings');
+        Route::post('/settings', [App\Http\Controllers\AdminController::class, 'updateSettings'])->name('settings.update');
+        
+        // Profile
+        Route::get('/profile', [App\Http\Controllers\AdminController::class, 'profile'])->name('profile');
+        
+        // Products management (for the inventory table)
+        Route::get('/products/{product}', function ($product) {
+            return Inertia::render('Admin/Products/Show', ['product' => $product]);
+        })->name('products.show');
+        
+        Route::get('/products/{product}/edit', function ($product) {
+            return Inertia::render('Admin/Products/Edit', ['product' => $product]);
+        })->name('products.edit');
+        
+        Route::delete('/products/{product}', function ($product) {
+            // Handle product deletion
+            return redirect()->back()->with('success', 'Product deleted successfully');
+        })->name('products.destroy');
+    });
     
     // Regular Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -219,6 +254,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 // Load other route files
+require __DIR__.'/auth.php';
 require __DIR__.'/settings.php';
 
 // === WEBHOOK ROUTES ===

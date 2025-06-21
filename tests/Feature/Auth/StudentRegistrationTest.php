@@ -24,7 +24,7 @@ class StudentRegistrationTest extends TestCase
 
         $response = $this->post('/register', $studentData);
 
-        $response->assertRedirect('/dashboard');
+        $response->assertRedirect('/profile-onboarding');
         $this->assertAuthenticated();
 
         // Controleer of de gebruiker correct is aangemaakt in de database
@@ -215,7 +215,7 @@ class StudentRegistrationTest extends TestCase
 
         $response = $this->post('/register', $studentData);
 
-        $response->assertRedirect('/dashboard');
+        $response->assertRedirect('/profile-onboarding');
         $this->assertAuthenticated();
 
         $user = User::where('email', $studentData['email'])->first();
@@ -227,8 +227,8 @@ class StudentRegistrationTest extends TestCase
     public function student_registration_handles_long_names()
     {
         $studentData = [
-            'firstname' => str_repeat('A', 255), // Maximum lengte
-            'lastname' => str_repeat('B', 255), // Maximum lengte
+            'firstname' => str_repeat('A', 255),
+            'lastname' => str_repeat('B', 255),
             'email' => 'longname@student.test',
             'password' => 'password123',
             'password_confirmation' => 'password123',
@@ -236,7 +236,7 @@ class StudentRegistrationTest extends TestCase
 
         $response = $this->post('/register', $studentData);
 
-        $response->assertRedirect('/dashboard');
+        $response->assertRedirect('/profile-onboarding');
         $this->assertAuthenticated();
 
         $user = User::where('email', $studentData['email'])->first();
@@ -250,14 +250,14 @@ class StudentRegistrationTest extends TestCase
         $studentData = [
             'firstname' => 'Jan',
             'lastname' => 'Teststudent',
-            'email' => 'jan.test@student.test', // Lowercase email
+            'email' => 'jan.test@student.test',
             'password' => 'password123',
             'password_confirmation' => 'password123',
         ];
 
         $response = $this->post('/register', $studentData);
 
-        $response->assertRedirect('/dashboard');
+        $response->assertRedirect('/profile-onboarding');
         $this->assertAuthenticated();
 
         $user = User::where('email', 'jan.test@student.test')->first();

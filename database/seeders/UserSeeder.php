@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Student;
+use App\Models\StudentProfile;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
         ]);
 
         // Create her student profile
-        Student::create([
+        StudentProfile::create([
             'user_id' => $maryam->id,
             'study_field_id' => 1, // Toegepaste Informatica
             'bio' => 'Ambitieuze student Toegepaste Informatica met passie voor web development en AI. Op zoek naar uitdagende stage- en werkervaringen om mijn vaardigheden verder te ontwikkelen.',
