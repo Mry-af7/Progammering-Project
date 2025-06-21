@@ -2,7 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3'
 import { ref, computed, watch, onMounted } from 'vue'
 import MainNavigation from '@/components/MainNavigation.vue'
-import { Inertia } from '@inertiajs/inertia'
+import { router } from '@inertiajs/vue3'
 
 const mobileMenuOpen = ref(false)
 const searchQuery = ref('')
@@ -23,14 +23,14 @@ const toggleFavorite = (company) => {
     };
 
     if (company.is_favorited) {
-        Inertia.delete(route('favorites.destroy', data), {
+        router.delete(route('favorites.destroy', data), {
             preserveScroll: true,
             onSuccess: () => {
                 company.is_favorited = false;
             }
         });
     } else {
-        Inertia.post(route('favorites.store', data), {
+        router.post(route('favorites.store', data), {
             preserveScroll: true,
             onSuccess: () => {
                 company.is_favorited = true;
@@ -607,6 +607,14 @@ onMounted(() => {
       closeModal()
     }
   })
+})
+
+function visitCompany(id) {
+  router.get(`/bedrijven/${id}`)
+}
+
+onMounted(() => {
+  // ... existing code ...
 })
 </script>
 

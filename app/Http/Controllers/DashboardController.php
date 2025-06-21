@@ -26,6 +26,7 @@ class DashboardController extends Controller
                 : to_route('profile-onboarding');
         }
 
+        $student = null;
         $studentData = null;
         if ($user->role === 'student') {
             $student = Student::where('user_id', $user->id)
@@ -46,12 +47,8 @@ class DashboardController extends Controller
         $viewUser = array_merge($user->toArray(), [
             'major' => $studentData['major'] ?? 'Computer Science',
             'year' => $studentData['year_of_study'] ?? '3de Jaar',
-            'studentId' => $student->student_id ?? null,
+            'studentId' => $student?->student_id,
         ]);
-
-        if ($student) {
-            $viewUser['studentId'] = $student->student_id;
-        }
 
         $favorites = Favorite::where('user_id', $user->id)
             ->with('favoritable')

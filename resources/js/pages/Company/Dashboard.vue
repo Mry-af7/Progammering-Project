@@ -327,8 +327,8 @@
                     </div>
 
                     <!-- Saved Students Grid -->
-                    <div v-if="getSavedStudents.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div v-for="student in getSavedStudents" 
+                    <div v-if="savedStudents && savedStudents.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div v-for="student in savedStudents" 
                              :key="student.id"
                              class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all p-6 group relative">
                             
@@ -344,7 +344,7 @@
                             
                             <!-- Student Header -->
                             <div class="flex items-center space-x-4 mb-4 pr-16">
-                                <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                                <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-600 rounded-xl flex items-center justify-center text-xl font-bold text-white">
                                     {{ getStudentInitials(student.name) }}
                                 </div>
                                 <div class="flex-1 min-w-0">
@@ -864,30 +864,10 @@
                                                     <span class="text-xl">{{ getSkillIcon(skill.name) }}</span>
                                                     <span class="font-medium text-gray-900 dark:text-white">{{ skill.name }}</span>
                                                 </div>
-                                                <span :class="[
-                                                    'px-2 py-1 rounded-lg text-xs font-medium',
-                                                    skill.pivot?.proficiency_level === 'Expert' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300' :
-                                                    skill.pivot?.proficiency_level === 'Advanced' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' :
-                                                    skill.pivot?.proficiency_level === 'Intermediate' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300' :
-                                                    'bg-gray-100 text-gray-700 dark:bg-gray-600 dark:text-gray-300'
-                                                ]">
-                                                    {{ skill.pivot?.proficiency_level || 'Beginner' }}
-                                                </span>
                                             </div>
                                             <div class="w-full bg-gray-200 dark:bg-gray-500 rounded-full h-2">
-                                                <div :class="[
-                                                    'h-2 rounded-full transition-all duration-500',
-                                                    skill.pivot?.proficiency_level === 'Expert' ? 'bg-gradient-to-r from-red-500 to-pink-500' :
-                                                    skill.pivot?.proficiency_level === 'Advanced' ? 'bg-gradient-to-r from-orange-500 to-yellow-500' :
-                                                    skill.pivot?.proficiency_level === 'Intermediate' ? 'bg-gradient-to-r from-yellow-500 to-green-500' :
-                                                    'bg-gradient-to-r from-gray-400 to-gray-500'
-                                                ]"
-                                                     :style="{ 
-                                                         width: skill.pivot?.proficiency_level === 'Expert' ? '100%' :
-                                                                skill.pivot?.proficiency_level === 'Advanced' ? '80%' :
-                                                                skill.pivot?.proficiency_level === 'Intermediate' ? '60%' :
-                                                                '30%'
-                                                     }"></div>
+                                                <div class="h-2 rounded-full bg-gradient-to-r from-blue-400 to-blue-500"
+                                                     style="width: 80%"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -1077,11 +1057,38 @@ import { Head, Link, router } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import { type BreadcrumbItem } from '@/types'
 
+// Define interfaces for better type safety
+interface Student {
+  id: number;
+  name: string;
+  major: string;
+  year_of_study: string;
+  about_me: string;
+  skills: { id: number; name: string; icon?: string; }[];
+  languages: { id: number; name: string; pivot?: { fluency_level: string; } }[];
+  hobbies: { id: number; name: string; }[];
+  portfolios: { id: number; title: string; }[];
+  pivot?: { created_at: string; };
+}
+
+interface Company {
+    name: string;
+    logo_url: string;
+    industry: { name: string; };
+    company_size: { label: string; };
+    headquarters: string;
+    description: string;
+    remote_policy: string;
+    website: string;
+    technologies: { id: number; name: string; icon: string; }[];
+    benefits: any[];
+}
+
 const props = defineProps<{
     user: any,
-    company: any,
-    students?: any[],
-    savedStudents?: any[], // Add saved students prop
+    company: Company,
+    students?: Student[],
+    savedStudents?: Student[],
     message?: string
 }>()
 
@@ -1089,9 +1096,9 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Company Dashboard', href: '/company/dashboard' }
 ]
 
-const activeSection = ref('overview')
+const activeSection = ref('students')
 const searchQuery = ref('')
-const selectedStudent = ref(null)
+const selectedStudent = ref<Student | null>(null)
 const showStudentModal = ref(false)
 const savedStudentIds = ref(new Set(props.savedStudents?.map(s => s.id) || []))
 const selectedFilters = ref({
@@ -1151,8 +1158,8 @@ const profileCompleteness = computed(() => {
     let score = 0
     const fields = [
         props.company?.name,
-        props.company?.industry_id,
-        props.company?.company_size_id,
+        props.company?.industry,
+        props.company?.company_size,
         props.company?.description,
         props.company?.remote_policy,
         props.company?.technologies?.length > 0,
@@ -1253,13 +1260,8 @@ const getSavedStudents = computed(() => {
     return props.savedStudents || []
 })
 
-const getStudentInitials = (name: string) => {
-    if (!name) return 'ST'
-    const words = name.split(' ')
-    if (words.length >= 2) {
-        return (words[0].charAt(0) + words[1].charAt(0)).toUpperCase()
-    }
-    return name.charAt(0).toUpperCase()
+const getInitials = () => {
+    return props.company?.name?.slice(0, 2).toUpperCase() || 'CO'
 }
 
 const getLanguageFlag = (languageName: string) => {
@@ -1357,6 +1359,20 @@ const getRemotePolicyLabel = (policy: string) => {
         'office_only': 'On-site Only'
     }
     return labels[policy] || policy
+}
+
+const getStudentInitials = (name: string) => {
+    if (!name) return 'ST'
+    const words = name.split(' ')
+    if (words.length >= 2) {
+        return (words[0].charAt(0) + words[1].charAt(0)).toUpperCase()
+    }
+    return name.charAt(0).toUpperCase()
+}
+
+const getSkillProficiencyWidth = (skill: any) => {
+    // This is a placeholder. You might not have this data.
+    return '80%'
 }
 </script>
 
