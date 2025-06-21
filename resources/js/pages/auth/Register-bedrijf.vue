@@ -11,35 +11,22 @@ import { LoaderCircle } from 'lucide-vue-next';
 import { Link } from '@inertiajs/vue3';
 import { Search, User } from 'lucide-vue-next';
 import { ref } from 'vue';
-import { route } from '@/lib/ziggy';
 
 const mobileMenuOpen = ref(false);
 
-// FIXED: Only one form declaration
 const form = useForm({
-  name: '', // Company name
+  name: '',
   email: '',
   password: '',
   password_confirmation: '',
-  user_type: 'company', // Hidden field to identify as company registration
+  industry: '',
+  description: '',
+  location: '',
 });
 
 const submitCompany = () => {
-  console.log('Company form submitting to /register (same as students)');
-  console.log('Form data:', form.data());
-  
-  // Post to the same route as students
-  form.post('/register', {
-    onFinish: () => {
-      console.log('Form submission finished');
-      form.reset('password', 'password_confirmation');
-    },
-    onError: (errors) => {
-      console.log('Form submission errors:', errors);
-    },
-    onSuccess: () => {
-      console.log('Form submitted successfully');
-    }
+  form.post(route('register.bedrijf'), {
+    onFinish: () => form.reset('password', 'password_confirmation'),
   });
 };
 </script>

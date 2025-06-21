@@ -38,19 +38,7 @@ class Company extends Model
         'logo_path',
         'is_active',
         'participating_in_career_launch',
-        'tags',
-        // NEW: Admin approval system
-        'status',
-        'approved_at',
-        'rejected_at',
-        'approved_by',
-        'rejected_by',
-        'admin_notes',
-        'is_complete',
-        // NEW: Additional tracking
-        'location',
-        'size',
-        'phone',
+        'tags'
     ];
 
     protected $casts = [
@@ -61,21 +49,10 @@ class Company extends Model
         // From their version
         'is_active' => 'boolean',
         'participating_in_career_launch' => 'boolean',
-        'tags' => 'array',
-        // NEW: Admin approval system
-        'approved_at' => 'datetime',
-        'rejected_at' => 'datetime',
-        'is_complete' => 'boolean',
+        'tags' => 'array'
     ];
 
-    // Default values
-    protected $attributes = [
-        'status' => 'pending',
-        'is_active' => true,
-        'is_complete' => false,
-    ];
-
-    // Your existing relationships
+    // Your relationships
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -117,7 +94,7 @@ class Company extends Model
                     ->withTimestamps();
     }
 
-    // Their existing relationships
+    // Their relationships
     public function timeSlots(): HasMany
     {
         return $this->hasMany(TimeSlot::class);
@@ -133,24 +110,7 @@ class Company extends Model
         return $this->hasMany(Favorite::class);
     }
 
-    // NEW: Admin approval relationships
-    public function approvedBy(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'approved_by');
-    }
-
-    public function rejectedBy(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'rejected_by');
-    }
-
-    // NEW: Job applications through jobs
-    public function jobApplications(): HasMany
-    {
-        return $this->hasMany(JobApplication::class)->through('jobs');
-    }
-
-    // Your existing methods
+    // Your methods
     public function getProfileCompletenessAttribute(): int
     {
         $fields = [
@@ -176,88 +136,13 @@ class Company extends Model
         return $this->profile_completeness >= 80 && $this->onboarding_completed;
     }
 
-    // Their existing methods
+    // Their methods
     public function isFavoritedBy(User $user): bool
     {
         return $this->favorites()->where('user_id', $user->id)->exists();
     }
 
-    // NEW: Admin approval methods
-    public function approve(User $admin): bool
-    {
-        return $this->update([
-            'status' => 'approved',
-            'approved_at' => now(),
-            'approved_by' => $admin->id,
-            'rejected_at' => null,
-            'rejected_by' => null,
-        ]);
-    }
-
-    public function reject(User $admin, ?string $notes = null): bool
-    {
-        return $this->update([
-            'status' => 'rejected',
-            'rejected_at' => now(),
-            'rejected_by' => $admin->id,
-            'approved_at' => null,
-            'approved_by' => null,
-            'admin_notes' => $notes,
-        ]);
-    }
-
-    public function markAsComplete(): bool
-    {
-        return $this->update([
-            'is_complete' => true,
-            'onboarding_completed' => true,
-            'profile_completed_at' => now(),
-        ]);
-    }
-
-    // NEW: Status checking methods
-    public function isPending(): bool
-    {
-        return $this->status === 'pending';
-    }
-
-    public function isApproved(): bool
-    {
-        return $this->status === 'approved';
-    }
-
-    public function isRejected(): bool
-    {
-        return $this->status === 'rejected';
-    }
-
-    // NEW: Admin dashboard attributes
-    public function getStatusBadgeColorAttribute(): string
-    {
-        return match($this->status) {
-            'approved' => 'green',
-            'rejected' => 'red',
-            'pending' => 'yellow',
-            default => 'gray'
-        };
-    }
-
-    public function getDisplayNameAttribute(): string
-    {
-        return $this->name ?: 'Unnamed Company';
-    }
-
-    public function getActiveJobsCountAttribute(): int
-    {
-        return $this->jobs()->where('status', 'active')->count();
-    }
-
-    public function getTotalApplicationsCountAttribute(): int
-    {
-        return $this->jobApplications()->count();
-    }
-
-    // Your existing scopes
+    // Your scopes
     public function scopeVerified($query)
     {
         return $query->where('onboarding_completed', true)
@@ -277,111 +162,5 @@ class Company extends Model
     public function scopeWithRemotePolicy($query, $policy)
     {
         return $query->where('remote_policy', $policy);
-    }
-
-    // NEW: Admin scopes
-    public function scopePending($query)
-    {
-        return $query->where('status', 'pending');
-    }
-
-    public function scopeApproved($query)
-    {
-        return $query->where('status', 'approved');
-    }
-
-    public function scopeRejected($query)
-    {
-        return $query->where('status', 'rejected');
-    }
-
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', true);
-    }
-
-    public function scopeInactive($query)
-    {
-        return $query->where('is_active', false);
-    }
-
-    public function scopeRecent($query, $days = 30)
-    {
-        return $query->where('created_at', '>=', now()->subDays($days));
-    }
-
-    public function scopeCompleted($query)
-    {
-        return $query->where('is_complete', true);
-    }
-
-    public function scopeIncomplete($query)
-    {
-        return $query->where('is_complete', false);
-    }
-
-    public function scopeWithActiveJobs($query)
-    {
-        return $query->whereHas('jobs', function($q) {
-            $q->where('status', 'active');
-        });
-    }
-
-    public function scopeByIndustryName($query, $industryName)
-    {
-        return $query->whereHas('industry', function($q) use ($industryName) {
-            $q->where('name', 'like', "%{$industryName}%");
-        });
-    }
-
-    // NEW: Search scope for admin dashboard
-    public function scopeSearch($query, $search)
-    {
-        return $query->where(function($q) use ($search) {
-            $q->where('name', 'like', "%{$search}%")
-              ->orWhere('email', 'like', "%{$search}%")
-              ->orWhere('description', 'like', "%{$search}%")
-              ->orWhere('website', 'like', "%{$search}%")
-              ->orWhereHas('user', function($userQuery) use ($search) {
-                  $userQuery->where('name', 'like', "%{$search}%")
-                           ->orWhere('email', 'like', "%{$search}%");
-              });
-        });
-    }
-
-    // NEW: Analytics methods for admin dashboard
-    public function getRegistrationDaysAgoAttribute(): int
-    {
-        return $this->created_at->diffInDays(now());
-    }
-
-    public function getLastActivityAttribute(): ?string
-    {
-        $lastJob = $this->jobs()->latest()->first();
-        $lastLogin = $this->user->last_login_at;
-        
-        if ($lastJob && $lastLogin) {
-            return $lastJob->created_at->gt($lastLogin) 
-                ? "Posted job {$lastJob->created_at->diffForHumans()}"
-                : "Logged in {$lastLogin->diffForHumans()}";
-        } elseif ($lastJob) {
-            return "Posted job {$lastJob->created_at->diffForHumans()}";
-        } elseif ($lastLogin) {
-            return "Logged in {$lastLogin->diffForHumans()}";
-        }
-        
-        return 'No recent activity';
-    }
-
-    // NEW: Boot method to set default status
-    protected static function boot()
-    {
-        parent::boot();
-        
-        static::creating(function ($company) {
-            if (empty($company->status)) {
-                $company->status = 'pending';
-            }
-        });
     }
 }
