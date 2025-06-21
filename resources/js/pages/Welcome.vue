@@ -398,5 +398,30 @@ import AppLayout from '@/layouts/AppLayout.vue';
                 </div>
             </div>
         </footer>
+
+        <!-- Knop die naar boven gaat -->
+        <a href="#" class="boven">↑</a>
     </AppLayout>
 </template>
+
+<style scoped>
+/** Knop die naar boven gaat */
+.boven{
+position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  background-color: #007BFF;
+  color: white;
+  text-decoration: none;
+  border-radius: 40px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  transition: 0.3s ease;
+}
+
+.boven:hover{
+    background-color: #0166d3;
+}
+</style>
