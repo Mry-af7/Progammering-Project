@@ -12,6 +12,11 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Admin\JobManagementController;
+use App\Http\Controllers\Admin\ContentManagementController;
+use App\Http\Controllers\Admin\SystemSettingsController;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -136,9 +141,9 @@ Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
     
-    // Company registration - FIXED: Removed duplicate routes
+    // Company registration - SIMPLIFIED: Use same form route, just different display
     Route::get('register/bedrijf', [RegisteredUserController::class, 'createBedrijf'])->name('register.bedrijf');
-    Route::post('register/bedrijf', [RegisteredUserController::class, 'storeBedrijf']);
+    // Company registration now uses the SAME POST route as students: /register
     
     // Login
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
@@ -160,19 +165,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Logout
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     
-    // Main Dashboard - ADDED: Smart redirect based on user type
+    // Main Dashboard - FIXED: Handle admins first, then user types
     Route::get('/dashboard', function () {
         $user = auth()->user();
         
-        // If user hasn't completed onboarding, redirect to appropriate onboarding
-        if ($user->user_type === 'company' || $user->role === 'company') {
+        // ADMINS bypass all onboarding and go straight to admin dashboard
+        if ($user->is_admin) {
+            return redirect()->route('admin.dashboard');
+        }
+        
+        // Regular users: check onboarding completion
+        if ($user->user_type === 'company') {
             // Check if company profile is complete, if not redirect to onboarding
             if (!$user->company || !$user->company->is_complete) {
                 return redirect()->route('company.onboarding');
             }
             return redirect()->route('company.dashboard');
         } else {
-            // Check if student profile is complete, if not redirect to onboarding
+            // Student users
             if (!$user->profile_completed) {
                 return redirect()->route('profile-onboarding');
             }
@@ -216,15 +226,76 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('profile.management');
     });
     
-    // Admin dashboard route
-    Route::get('/admin/dashboard', function () {
-        return Inertia::render('AdminDashboard');
-    })->name('admin.dashboard');
-    
     // Regular Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes (Protected) - UPDATED
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'verified', App\Http\Middleware\AdminMiddleware::class])->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
+        // Main admin dashboard - UPDATED to use controller
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        
+        // Company approval routes - NEW
+        Route::post('/companies/{company}/approve', [AdminDashboardController::class, 'approveCompany'])->name('companies.approve');
+        Route::post('/companies/{company}/reject', [AdminDashboardController::class, 'rejectCompany'])->name('companies.reject');
+        
+        // User management routes - NEW
+        Route::get('/users/{user}/edit', [UserManagementController::class, 'edit'])->name('users.edit');
+        Route::put('/users/{user}', [UserManagementController::class, 'update'])->name('users.update');
+        Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy');
+        
+        // Job management routes - NEW
+        Route::get('/jobs', [JobManagementController::class, 'index'])->name('jobs.index');
+        Route::get('/jobs/{job}', [JobManagementController::class, 'show'])->name('jobs.show');
+        Route::put('/jobs/{job}', [JobManagementController::class, 'update'])->name('jobs.update');
+        Route::delete('/jobs/{job}', [JobManagementController::class, 'destroy'])->name('jobs.destroy');
+        
+        // Content management routes - NEW
+        Route::get('/content', [ContentManagementController::class, 'index'])->name('content.index');
+        Route::put('/content', [ContentManagementController::class, 'update'])->name('content.update');
+        
+        // System settings routes - NEW
+        Route::get('/settings', [SystemSettingsController::class, 'index'])->name('settings.index');
+        Route::put('/settings', [SystemSettingsController::class, 'update'])->name('settings.update');
+        
+        // Existing admin routes (kept as they were)
+        Route::get('/users', function () {
+            return Inertia::render('Admin/Users');
+        })->name('users');
+        
+        Route::get('/analytics', function () {
+            return Inertia::render('Admin/Analytics');
+        })->name('analytics');
+        
+        Route::get('/companies', function () {
+            return Inertia::render('Admin/Companies');
+        })->name('companies');
+        
+        Route::get('/appointments', function () {
+            return Inertia::render('Admin/Appointments');
+        })->name('appointments');
+        
+        // API routes for admin actions (kept as they were)
+        Route::post('/users/{user}/promote', function ($userId) {
+            $user = \App\Models\User::findOrFail($userId);
+            $user->promoteToAdmin(auth()->user());
+            return response()->json(['message' => 'User promoted to admin successfully']);
+        })->name('users.promote');
+        
+        Route::delete('/users/{user}/revoke-admin', function ($userId) {
+            $user = \App\Models\User::findOrFail($userId);
+            $user->revokeAdmin();
+            return response()->json(['message' => 'Admin access revoked successfully']);
+        })->name('users.revoke-admin');
+    });
 });
 
 // Load other route files
