@@ -347,6 +347,9 @@ onMounted(() => {
       </div>
     </footer>
   </div>
+
+  <!-- Knop die naar boven gaat -->
+  <a href="#" class="boven">↑</a>
 </template>
 
 <style scoped>
@@ -709,5 +712,25 @@ input[type="checkbox"]:checked {
 
 .tooltip:hover::before {
   opacity: 1;
+}
+
+/** Knop die naar boven gaat */
+.boven{
+position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  background-color: #007BFF;
+  color: white;
+  text-decoration: none;
+  border-radius: 40px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  transition: 0.3s ease;
+}
+
+.boven:hover{
+    background-color: #0166d3;
 }
 </style>
