@@ -37,14 +37,12 @@ const mobileMenuOpen = ref(false)
 <template>
     <div class="min-h-screen bg-orange-50">
         <!-- Navigation -->
-        <nav class="bg-orange-50/90 backdrop-blur-sm shadow-sm sticky top-0 z-50">
+        <nav class="bg-white backdrop-blur-sm shadow-lg sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <!-- Logo -->
                     <Link href="/" class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-lg">
-                        <span class="text-white font-bold text-lg">E</span>
-                    </div>
+                        <img src="/images/logos/ehb-logo.png" alt="EHB logo" class="w-10 h-10 object-contain" />
                     <div>
                         <div class="text-gray-900 font-bold text-xl">erasmus</div>
                         <div class="text-xs text-gray-600 -mt-1">HOGESCHOOL BRUSSEL</div>
